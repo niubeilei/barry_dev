@@ -1,0 +1,35 @@
+
+obj-$(CONFIG_AOS_QOS) += aosqos.o
+#aosqos-y 	:= qos_traffic_cli.o \
+			   qos_traffic.o     \
+			   qos_traffic_channel_record.o \
+               qos_traffic_rule.o \
+			   qos_module.o \
+			   qos_global.o \
+			   qos_rule_cli.o \
+			   qos_rule.o  \
+			   hashtab.o
+#aosqos-y 	:= qos_traffic_cli.o \
+			   qos_traffic.o     \
+			   qos_traffic_channel_record.o \
+               qos_traffic_rule.o \
+			   qos_test.o \
+			   qos_global.o \
+			   qos_rule_cli.o \
+			   qos_rule.o  \
+			   hashtab.o
+aosqos-y 	:= qos_traffic.o     \
+			   qos_traffic_cli.o \
+			   qos_main.o 		\
+			   qos_global.o 	\
+			   qos_rule_cli.o 	\
+			   qos_rule.o  		\
+			   hashtab.o  		\
+			   qos_nf.o 		\
+			   qos_bw_man.o		\
+			   qos_shaper.o		\
+			   qos_config.o		\
+			   qos_proc.o		\
+			   qos_cli_check_parms.o \
+			   qos_logstat.o
+

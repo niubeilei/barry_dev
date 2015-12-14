@@ -1,0 +1,266 @@
+////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) 2005
+// Packet Engineering, Inc. All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification is not permitted unless authorized in writing by a duly
+// appointed officer of Packet Engineering, Inc. or its derivatives
+//
+// Description:
+//   
+//
+// Modification History:
+// 06/12/2012 Created by Xu Lei
+////////////////////////////////////////////////////////////////////////////
+#include "DataCollector/Testers/procToIIL.h"
+
+#include "API/AosApi.h"
+#include "DataAssembler/Ptrs.h"
+#include "alarm_c/alarm.h"
+#include "Alarm/Alarm.h"
+#include "Debug/Debug.h"
+#include "SEUtil/DocTags.h"
+#include "SEInterfaces/Ptrs.h"
+#include "SEInterfaces/TaskObj.h"
+#include "Tester/Test.h"
+#include "Thread/Sem.h"
+#include "Tester/TestMgr.h"
+#include "IILMgr/IILMgr.h"
+#include "IILMerger/IILMergerHandlerStrIncreaseBatch.h"
+#include "IILMerger/IILMergerHandlerStrAddAttrBatch.h"
+#include "Random/RandomUtil.h"
+#include "Rundata/Rundata.h"
+#include "Util/BuffArray.h"
+#include "Util/File.h"
+#include "Util/OmnNew.h"
+#include "Util1/Time.h"
+#include "XmlUtil/XmlTag.h"
+#include "XmlUtil/SeXmlParser.h"
+#include "Porting/Sleep.h"
+
+#include <dirent.h>
+
+//extern bool needStop;
+//extern bool AosExitSearchEngine();
+
+int sgNumThread = 4;
+vector<OmnString> sgFiles[100];
+OmnString sgDirname;
+OmnSem sgSem(sgNumThread);
+
+AosDataCheckTester::AosDataCheckTester()
+:mRundata(OmnNew AosRundata(AosMemoryCheckerArgsBegin))
+{
+
+}
+
+AosDataCheckTester::~AosDataCheckTester()
+{
+}
+
+
+
+bool 
+AosDataCheckTester::start()
+{
+	AosXmlTagPtr app_conf1 = OmnApp::getAppConfig();
+	AosXmlTagPtr app_conf = app_conf1->getFirstChild("procToIIL");
+	aos_assert_r(app_conf, false);
+
+	AosXmlTagPtr iil_conf = app_conf->getFirstChild();
+	while(iil_conf)
+	{
+		for (int i=0;i<sgNumThread; i++)
+		{
+			sgSem.wait();
+		}
+		mThreads.clear();
+		mActions.clear();
+		for(int i=0; i<sgNumThread; i++)
+		{
+			sgFiles[i].clear();
+		}
+		createThread(iil_conf);
+		iil_conf = app_conf->getNextChild();
+	}
+	return true;
+}
+
+bool
+AosDataCheckTester::createThread(const AosXmlTagPtr &conf)
+{
+	aos_assert_r(config(conf), false);
+
+	mRundata->setSiteid(100);
+	OmnThreadedObjPtr thisPtr(this, false);
+
+	DIR *dir = opendir(sgDirname.data());
+	aos_assert_r(dir != NULL, false);
+
+	struct dirent *file;
+	int i = 0;
+	OmnString prestr = "mg_";
+	prestr << mDataColid;
+	while((file = readdir(dir)) != NULL)
+	{
+		if (strcmp(file->d_name, "..")==0 || strcmp(file->d_name, ".")==0)
+		{
+			continue;
+		}
+		if (strncmp(file->d_name, prestr.data(), prestr.length()) != 0)
+		{
+			continue;
+		}
+		OmnString filename = sgDirname;
+		filename << "/" << file->d_name;
+		OmnScreen << "read file: " << filename << endl;
+		sgFiles[i%sgNumThread].push_back(filename);
+		i++;
+	}
+	closedir(dir);
+
+	for (int i=0; i<sgNumThread; i++)
+	{
+		
+		OmnThreadPtr thread  = OmnNew OmnThread(thisPtr, "Thrd", i, true, true, __FILE__, __LINE__);
+		mThreads.push_back(thread);
+		thread->start();
+	}
+	OmnScreen << "Starting ..." << endl;
+	/*while(1)
+	{
+		if (needStop)
+		{
+			AosExitSearchEngine();
+			return true;
+		}
+		OmnSleep(1);
+	}
+	*/
+	return true;
+}
+
+bool
+AosDataCheckTester::threadFunc(OmnThrdStatus::E &state, const OmnThreadPtr &thread)
+{
+	checkEachFile(thread->getLogicId());
+	state = OmnThrdStatus::eStop;
+	sgSem.post();
+	return true;
+}
+
+
+bool
+AosDataCheckTester::config(const AosXmlTagPtr &app_conf)
+{
+	//AosXmlTagPtr app_conf1 = OmnApp::getAppConfig();
+	//AosXmlTagPtr app_conf = app_conf1->getFirstChild("iilmergertest");
+	aos_assert_r(app_conf, false);
+
+	sgDirname = app_conf->getAttrStr("dirname");
+	aos_assert_r(sgDirname != "", false);
+	
+	mDataColid = app_conf->getAttrStr(AOSTAG_DATACOLLECTOR_ID);
+	aos_assert_r(mDataColid != "", false);
+
+	mIILName = app_conf->getAttrStr(AOSTAG_IILNAME);
+	aos_assert_r(mIILName != "", false);
+	
+	//compare function
+	AosXmlTagPtr conf = app_conf->getFirstChild("CompareFun");
+	aos_assert_r(conf, false);
+	
+	mComp = AosCompareFun::getCompareFunc(conf);
+	aos_assert_r(mComp, false);
+	
+	mStable = conf->getAttrBool("stable", false);
+
+	//Actions
+	AosXmlTagPtr actions = app_conf->getFirstChild(AOSTAG_ACTIONS);
+	aos_assert_r(actions, false);
+	AosXmlTagPtr act = actions->getFirstChild();
+	while(act)
+	{
+		try
+		{
+			AosActionObjPtr actobj = AosActionObj::createAction(act, mRundata);
+			aos_assert_rr(actobj, mRundata, false);
+			mActions.push_back(actobj);
+		}
+		catch(...)
+		{
+			OmnAlarm << "failed to create action:" << act->toString() << enderr;
+			return false;
+		}
+		act = actions->getNextChild();
+	}
+	aos_assert_r(mActions.size() > 0, false);
+
+	mRundata->setSiteid(100);
+	u64 iilid = AosIILMgr::getSelf()->getIILID(mIILName, false, mRundata);
+
+	AosIILType iiltype;
+	AosIILPtr iil = AosIILMgr::getSelf()->loadIILByIDPublic(
+		iilid, mRundata->getSiteid(), iiltype, false, false, mRundata);
+
+	bool need_delete = app_conf->getAttrBool("zky_deleteiil", true);
+	bool rslt = true;
+	if (iil)
+	{
+	 	if(need_delete)
+		{
+//			rslt = AosIILMgr::getSelf()->deleteIILSafe(iilid, iil, mRundata);
+//	 		aos_assert_r(rslt, false);
+		}
+		rslt = AosIILMgr::getSelf()->returnIILPublic(iil, mRundata);
+		aos_assert_r(rslt, false);
+	}
+	else
+	{
+		if(iilid == 0)
+		{
+			iilid = AosIILMgr::getSelf()->getIILID(mIILName, true, mRundata);
+		}
+		rslt = AosIILMgr::getSelf()->createIILPublic1(
+					iilid, 100, eAosIILType_Str, false, false, mRundata);
+		aos_assert_r(rslt, false);
+		aos_assert_r(iilid, false);
+	}
+
+	return true;
+}
+
+bool
+AosDataCheckTester::checkEachFile(int id)
+{
+	if (mActions.size() == 0) return false;
+
+	for(size_t i=0; i<sgFiles[id].size(); i++) 
+	{
+	OmnScreen << i+1 << "/" << sgFiles[id].size() << "(proc/total) files" << endl;
+		OmnString filename = sgFiles[id][i];
+		OmnFilePtr tmpFile = OmnNew OmnFile(filename, OmnFile::eReadOnly AosMemoryCheckerArgs);
+		if (!tmpFile->isGood()) continue;
+		
+		u64 tmpFileSize = tmpFile->getLength();
+		if (tmpFileSize <= 0) continue;
+
+		AosBuffPtr tmpFileBuff = OmnNew AosBuff(tmpFileSize, 0 AosMemoryCheckerArgs);
+		tmpFile->readToBuff(0, tmpFileSize, tmpFileBuff->data());
+		tmpFileBuff->setDataLen(tmpFileSize);
+
+		AosBuffArray array(tmpFileBuff, mComp, mStable);
+		OmnScreen << "Sorting: " << array.getNumEntries() << endl;
+		array.sort();
+		OmnScreen << "Sorted" << endl;
+
+		for (u32 i=0; i<mActions.size(); i++)
+		{
+			aos_assert_r(mActions[i]->run(tmpFileBuff, mRundata), false);
+		}
+	}
+	OmnScreen << "Processed" << endl;
+	
+	return true;
+}

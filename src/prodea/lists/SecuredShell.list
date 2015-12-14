@@ -1,0 +1,10 @@
+src/SecuredShell/*.h 
+src/SecuredShell/*.cpp 
+src/SecuredShell/Makefile
+src/Base64/Base64.h
+src/Base64/Makefile
+src/Base64/Base64.cpp
+src/keyman/keyman.h
+src/keyman/Makefile
+src/keyman/keyman.cpp
+src/keyman/Base64.cpp

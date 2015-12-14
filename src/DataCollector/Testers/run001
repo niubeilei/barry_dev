@@ -1,0 +1,1 @@
+nohup ./test.exe -config config_001.txt -rdcout &

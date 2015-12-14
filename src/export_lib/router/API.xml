@@ -1,0 +1,151 @@
+<apis>
+	<module>router</module>
+	<api>
+		<api_name>aos_router_add_router</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>alias</var>
+			</param>
+			<param>
+				<type>char*</type>
+				<var>netaddr</var>
+			</param>
+			<param>
+				<type>char*</type>
+				<var>mask</var>
+			</param>
+			<param>
+				<type>char*</type>
+				<var>gateway</var>
+			</param>
+			<param>
+				<type>char*</type>
+				<var>interface</var>
+			</param>
+		</protype>
+		<prefix>router add entry</prefix>
+		<description>add router for a interface</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+				<param>"route1"</param>
+				<param>"192.168.0.1"</param>
+				<param>"255.255.0.0"</param>
+				<param>"172.22.0.1"</param>
+				<param>"incard"</param>
+			</testcase>
+			<testcase>
+				<testcaseid>2</testcaseid>
+				<expected>0</expected>
+				<param>"route2"</param>
+				<param>"192.168.0.1"</param>
+				<param>"255.255.0.0"</param>
+				<param>"172.22.0.1"</param>
+				<param>"outcard"</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_router_del_entry</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>alias</var>
+			</param>
+		</protype>
+		<prefix>router del entry</prefix>
+		<description> removes a route entry to the system</description>
+		<testcases>
+			<testcase>
+				<testcaseid>3</testcaseid>
+				<expected>0</expected>
+				<param>"route1"</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_router_retrieve_config</api_name>
+		<protype>
+			<param>
+				<type>outdata</type>
+				<var>str1</var>
+			</param>
+		</protype>
+		<prefix>router show config</prefix>
+		<description>retrieves the system router configuration</description>
+		<testcases>
+			<testcase>
+				<testcaseid>4</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_router_clear_config</api_name>
+		<protype>
+		</protype>
+		<prefix>router clear config</prefix>
+		<description> clears the current Router configuration.</description>
+		<testcases>
+			<testcase>
+				<testcaseid>5</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_router_save_config</api_name>
+		<protype>
+			<!--<param>
+				<type>char*</type>
+				<var>str1</var>
+			</param>-->
+		</protype>
+		<prefix>router save config</prefix>
+		<description>save current Router configuration </description>
+		<testcases>
+			<testcase>
+				<testcaseid>6</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_router_load_config</api_name>
+		<protype>
+			<!--<param>
+				<type>char*</type>
+				<var>str1</var>
+			</param>-->
+		</protype>
+		<prefix>router load config</prefix>
+		<description>reload Router configuration </description>
+		<testcases>
+			<testcase>
+				<testcaseid>7</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_router_set_status</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>status</var>
+			</param>
+		</protype>
+		<prefix>router set status</prefix>
+		<description>set Router status</description>
+		<testcases>
+			<testcase>
+				<testcaseid>8</testcaseid>
+				<expected>0</expected>
+				<param>off</param>
+			</testcase>
+		</testcases>
+	</api>
+
+</apis>

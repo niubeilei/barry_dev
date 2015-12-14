@@ -1,0 +1,1 @@
+./admin.exe -config config_norm.txt -s -checkpctr 100 300000

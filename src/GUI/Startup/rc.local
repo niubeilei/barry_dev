@@ -1,0 +1,18 @@
+#! /bin/sh
+# Author:       Tao Yang <yangt@ipacketengine.com>
+
+
+# jia mi ka driver, should be start first
+rm -f /usr/local/AOS/Data/ca
+mknod /dev/j9054 c 65 0
+RET=1
+while [ $RET -ne 0 ]
+do
+	sleep 10
+	echo "Please insert IC Card"
+	/usr/local/AOS/Bin/init_jmk_daemon
+	RET=$?
+done
+
+/usr/local/AOS/Bin/aos restart
+

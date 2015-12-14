@@ -1,0 +1,61 @@
+
+config AOS_QOS
+	tristate "qos support"
+	depends on AOS_CORE
+	help
+	  QoS support in aos.
+
+config AOS_PROXY
+	tristate "New aos proxy core"
+	depends on AOS_CORE
+	help
+	  New aos proxy core. If not sure, select Y.
+	  
+config AOS_PROXY_DUMMY
+	tristate "dummy module for proxy"
+	depends on AOS_PROXY
+	help
+	  dummy module
+  
+config AOS_PROXY_PLAIN_SW
+	tristate "plain sock wrapper"
+	depends on AOS_PROXY
+	help
+	  plain sock wrapper
+
+config AOS_PROXY_SSL_SW
+	tristate "ssl sock wrapper"
+	depends on AOS_PROXY
+	help
+	  ssl sock wrapper
+
+config AOS_PROXY_HTTP
+	tristate "http module for proxy"
+	depends on AOS_PROXY
+	help
+	  http module
+
+config AOS_PROXY_FTP
+	tristate "ftp module for proxy"
+	depends on AOS_PROXY
+	help
+	  ftp module
+		
+config AOS_PROXY_SCHEDULER_RR
+	tristate "round robin scheduler"
+	depends on AOS_PROXY
+	help
+	  the round robin scheduler
+
+config AOS_PROXY_SCHEDULER_WRR
+	tristate "weight round robin scheduler"
+	depends on AOS_PROXY
+	help
+	  the weight round robin scheduler
+	  
+config AOS_PROXY_SCHEDULER_IP
+	tristate "source ip scheduler"
+	depends on AOS_PROXY
+	help
+	  the source ip scheduler
+

@@ -1,0 +1,3 @@
+rm -rf /home1/linda/Data/*
+rm -rf  /home/linda/AOS/output/Dfm_Tester_Data
+rm -rf /home/linda/AOS/output/output*

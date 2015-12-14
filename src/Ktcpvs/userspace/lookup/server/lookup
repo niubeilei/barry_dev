@@ -1,0 +1,37 @@
+#!/bin/bash
+#
+# Init file for OpenSSH server daemon
+#
+# chkconfig: 2345 55 25
+# description: OpenSSH server daemon
+#
+# processname: sshd
+# config: /etc/ssh/ssh_host_key
+# config: /etc/ssh/ssh_host_key.pub
+# config: /etc/ssh/ssh_random_seed
+# config: /etc/ssh/sshd_config
+# pidfile: /var/run/sshd.pid
+
+# source function library
+
+# pull in sysconfig settings
+
+
+# Some functions to make the below more readable
+
+LOOKUP_bin=/usr/local/AOS/Bin/dnslookup
+
+start()
+{
+	echo -n $"Starting dnslookup"
+	initlog -c "$LOOKUP_bin" 
+	echo
+}
+
+
+case "$1" in
+	start)
+		start
+	;;
+esac
+exit $RETVAL

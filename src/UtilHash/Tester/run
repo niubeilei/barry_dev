@@ -1,0 +1,1 @@
+./utilhash_tester.exe -s -config config_norm.txt -reset -n 100

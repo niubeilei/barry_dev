@@ -1,0 +1,2 @@
+rm Tester.exe
+make

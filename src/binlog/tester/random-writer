@@ -1,0 +1,14 @@
+#!/bin/bash
+
+random=$RANDOM
+echo random=$random
+
+
+while [ true ]
+do
+	./writer $RANDOM
+	sleep 1
+done
+
+
+

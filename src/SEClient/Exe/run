@@ -1,0 +1,1 @@
+./seclient.exe -s -passwd chen0318 -dbport 3306 -siteid 1 -appname app1 -uname chen

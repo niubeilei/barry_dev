@@ -1,0 +1,28 @@
+#
+# Makefile for the Linux KTCPVS
+#
+
+obj-$(CONFIG_AOS_TCPVS) += aostcpvs.o
+aostcpvs-y	:= \
+			aosProxyConn.o \
+			aosTcpVsCntl.o \
+			aosKernelFile.o \
+			aosLogFunc.o \
+			misc.o \
+			tcp_vs.o \
+			tcp_vs_ctl.o \
+			tcp_vs_jns.o \
+			tcp_vs_sched.o \
+			tcp_vs_timer.o \
+			AppProxy.o \
+			interface.o \
+			DenyPage.o \
+			aosMemCheck.o
+
+obj-$(CONFIG_AOS_TCPVS_TCP) += tcp_vs_tcp.o			
+obj-$(CONFIG_AOS_TCPVS_FTP) += tcp_vs_ftp.o
+obj-$(CONFIG_AOS_TCPVS_SSH) += tcp_vs_ssh.o
+obj-$(CONFIG_AOS_TCPVS_TELNET) += tcp_vs_telnet.o
+obj-$(CONFIG_AOS_APP_HTTP) += aoshttp.o
+aoshttp-y := tcp_vs_http.o \
+			 tcp_vs_http_parser.o

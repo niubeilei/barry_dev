@@ -1,0 +1,1 @@
+TcpLoop.exe -remoteaddr 10.50.1.63 -remotemask 255.255.255.255 -localaddr 10.50.1.63 -localmask 255.255.255.255 -blocksize 20000 -sendwait 0.01 -conns 10

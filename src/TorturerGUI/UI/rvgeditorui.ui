@@ -1,0 +1,521 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>RVGEditorUI</class>
+<widget class="QMainWindow">
+    <property name="name">
+        <cstring>RVGEditorUI</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>600</width>
+            <height>600</height>
+        </rect>
+    </property>
+    <property name="minimumSize">
+        <size>
+            <width>600</width>
+            <height>600</height>
+        </size>
+    </property>
+    <property name="caption">
+        <string>RVG Editor</string>
+    </property>
+    <widget class="QGroupBox">
+        <property name="name">
+            <cstring>mCommonGroupBox</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>10</y>
+                <width>500</width>
+                <height>110</height>
+            </rect>
+        </property>
+        <property name="title">
+            <string>Common</string>
+        </property>
+        <widget class="QLabel">
+            <property name="name">
+                <cstring>mNameLabel</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>20</x>
+                    <y>30</y>
+                    <width>66</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Name</string>
+            </property>
+        </widget>
+        <widget class="QLabel">
+            <property name="name">
+                <cstring>mWeightLabel</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>20</x>
+                    <y>70</y>
+                    <width>50</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Weight</string>
+            </property>
+        </widget>
+        <widget class="QLabel">
+            <property name="name">
+                <cstring>mValueTypeLabel</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>280</x>
+                    <y>30</y>
+                    <width>70</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>ValueType</string>
+            </property>
+        </widget>
+        <widget class="QLabel">
+            <property name="name">
+                <cstring>mRVGTypeLabel</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>280</x>
+                    <y>70</y>
+                    <width>60</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>RVGType</string>
+            </property>
+        </widget>
+        <widget class="QLineEdit">
+            <property name="name">
+                <cstring>mNamelineEdit</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>90</x>
+                    <y>30</y>
+                    <width>123</width>
+                    <height>22</height>
+                </rect>
+            </property>
+        </widget>
+        <widget class="QLineEdit">
+            <property name="name">
+                <cstring>mWeightlineEdit</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>90</x>
+                    <y>70</y>
+                    <width>123</width>
+                    <height>22</height>
+                </rect>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>7</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+        </widget>
+        <widget class="QLineEdit">
+            <property name="name">
+                <cstring>mTypeLineEdit</cstring>
+            </property>
+            <property name="enabled">
+                <bool>true</bool>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>350</x>
+                    <y>30</y>
+                    <width>123</width>
+                    <height>22</height>
+                </rect>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>7</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="readOnly">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="QLineEdit">
+            <property name="name">
+                <cstring>mRVGTypeLineEdit</cstring>
+            </property>
+            <property name="enabled">
+                <bool>true</bool>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>350</x>
+                    <y>70</y>
+                    <width>123</width>
+                    <height>22</height>
+                </rect>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>7</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="readOnly">
+                <bool>true</bool>
+            </property>
+        </widget>
+    </widget>
+    <widget class="QGroupBox">
+        <property name="name">
+            <cstring>mValuesGroupBox</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>130</y>
+                <width>500</width>
+                <height>210</height>
+            </rect>
+        </property>
+        <property name="minimumSize">
+            <size>
+                <width>0</width>
+                <height>0</height>
+            </size>
+        </property>
+        <property name="title">
+            <string>ValueSelector</string>
+        </property>
+        <widget class="QTable">
+            <property name="name">
+                <cstring>mValuesTable</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>10</x>
+                    <y>20</y>
+                    <width>335</width>
+                    <height>170</height>
+                </rect>
+            </property>
+            <property name="numRows">
+                <number>0</number>
+            </property>
+            <property name="numCols">
+                <number>3</number>
+            </property>
+        </widget>
+        <widget class="QPushButton">
+            <property name="name">
+                <cstring>mAddValueBtn</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>360</x>
+                    <y>30</y>
+                    <width>110</width>
+                    <height>24</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Add</string>
+            </property>
+        </widget>
+        <widget class="QPushButton">
+            <property name="name">
+                <cstring>mDelValueBtn</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>360</x>
+                    <y>70</y>
+                    <width>110</width>
+                    <height>24</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Delete</string>
+            </property>
+        </widget>
+        <widget class="QPushButton">
+            <property name="name">
+                <cstring>mValueEditBtn</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>360</x>
+                    <y>110</y>
+                    <width>110</width>
+                    <height>24</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Edit</string>
+            </property>
+        </widget>
+    </widget>
+    <widget class="QGroupBox">
+        <property name="name">
+            <cstring>mOtherGroupBox</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>350</y>
+                <width>500</width>
+                <height>110</height>
+            </rect>
+        </property>
+        <property name="title">
+            <string>Additional</string>
+        </property>
+        <widget class="QLabel">
+            <property name="name">
+                <cstring>mMinLabel</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>20</x>
+                    <y>30</y>
+                    <width>66</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>MinNum</string>
+            </property>
+        </widget>
+        <widget class="QLabel">
+            <property name="name">
+                <cstring>mMaxLabel</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>20</x>
+                    <y>70</y>
+                    <width>66</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>MaxNum</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>mUniqueCheckBox</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>250</x>
+                    <y>30</y>
+                    <width>230</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Uniquely select from ValueSelecor</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>mOrderedCheckBox</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>250</x>
+                    <y>70</y>
+                    <width>220</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Keep in order as ValueSelector</string>
+            </property>
+        </widget>
+        <widget class="QLineEdit">
+            <property name="name">
+                <cstring>mMinLineEdit</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>90</x>
+                    <y>30</y>
+                    <width>123</width>
+                    <height>22</height>
+                </rect>
+            </property>
+        </widget>
+        <widget class="QLineEdit">
+            <property name="name">
+                <cstring>mMaxLineEdit</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>90</x>
+                    <y>70</y>
+                    <width>123</width>
+                    <height>22</height>
+                </rect>
+            </property>
+        </widget>
+    </widget>
+    <widget class="QGroupBox">
+        <property name="name">
+            <cstring>mSpecialGroupBox</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>470</y>
+                <width>500</width>
+                <height>70</height>
+            </rect>
+        </property>
+        <property name="title">
+            <string>Special</string>
+        </property>
+        <widget class="QLabel">
+            <property name="name">
+                <cstring>mSeperatorLabel</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>20</x>
+                    <y>30</y>
+                    <width>66</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Seperator</string>
+            </property>
+        </widget>
+        <widget class="QComboBox">
+            <property name="name">
+                <cstring>mSeperatorComboBox</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>90</x>
+                    <y>30</y>
+                    <width>120</width>
+                    <height>22</height>
+                </rect>
+            </property>
+        </widget>
+    </widget>
+</widget>
+<toolbars>
+</toolbars>
+<connections>
+    <connection>
+        <sender>RVGEditorUI</sender>
+        <signal>usesTextLabelChanged(bool)</signal>
+        <receiver>RVGEditorUI</receiver>
+        <slot>RVGEditorUI_usesTextLabelChanged(bool)</slot>
+    </connection>
+    <connection>
+        <sender>mAddValueBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>RVGEditorUI</receiver>
+        <slot>AddValueBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>mDelValueBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>RVGEditorUI</receiver>
+        <slot>DelValueBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>mValueEditBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>RVGEditorUI</receiver>
+        <slot>ValueEditBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>mNamelineEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>RVGEditorUI</receiver>
+        <slot>NamelineEdit_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>mWeightlineEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>RVGEditorUI</receiver>
+        <slot>WeightlineEdit_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>mTypeLineEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>RVGEditorUI</receiver>
+        <slot>TypeLineEdit_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>mRVGTypeLineEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>RVGEditorUI</receiver>
+        <slot>RVGTypeLineEdit_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>mMinLineEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>RVGEditorUI</receiver>
+        <slot>MinLineEdit_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>mSeperatorComboBox</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>RVGEditorUI</receiver>
+        <slot>SeperatorComboBox_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>mMaxLineEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>RVGEditorUI</receiver>
+        <slot>MaxLineEdit_textChanged(const QString&amp;)</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in implementation">rvgeditorui.ui.h</include>
+</includes>
+<slots>
+    <slot>RVGEditorUI_usesTextLabelChanged( bool )</slot>
+    <slot>AddValueBtn_clicked()</slot>
+    <slot>DelValueBtn_clicked()</slot>
+    <slot>ValueEditBtn_clicked()</slot>
+    <slot>NamelineEdit_textChanged( const QString &amp; )</slot>
+    <slot>WeightlineEdit_textChanged( const QString &amp; )</slot>
+    <slot>TypeLineEdit_textChanged( const QString &amp; )</slot>
+    <slot>RVGTypeLineEdit_textChanged( const QString &amp; )</slot>
+    <slot>MinLineEdit_textChanged( const QString &amp; )</slot>
+    <slot>SeperatorComboBox_textChanged( const QString &amp; )</slot>
+    <slot>MaxLineEdit_textChanged( const QString &amp; )</slot>
+</slots>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

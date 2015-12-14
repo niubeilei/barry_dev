@@ -1,0 +1,20 @@
+<dataset jimo_objid="dataset_bydatascanner_jimodoc_v0" zky_name="example1_task001_dataset">
+  <datascanner jimo_objid="datascanner_cube_jimodoc_v0" zky_name="example1_task001_scanner">
+    <dataconnector jimo_objid="dataconnector_file_jimodoc_v0" physical_id="0" file_name="/home/linda/unicomdata/a.txt" zky_character="UTF-8" zky_name="example1_task001_file">
+      <split jimo_objid="dataspliter_file_jimodoc_v0" block_size="1000000000"/>
+    </dataconnector>
+  </datascanner>
+  <dataschema zky_name="example1_task001_schema" jimo_objid="dataschema_unilength_jimodoc_v0">
+    <datarecord zky_name="example1_task001_rcd_input" type="fixbin" zky_length="134">
+      <datafields>
+        <datafield zky_name="f11" type="str" zky_length="20" zky_offset="0"/>
+        <datafield zky_name="f21" type="str" zky_length="20" zky_offset="20"/>
+        <datafield zky_name="f22" type="str" zky_length="20" zky_offset="40"/>
+        <datafield zky_name="f31" type="str" zky_length="20" zky_offset="60"/>
+        <datafield zky_name="f32" type="str" zky_length="20" zky_offset="80"/>
+        <datafield zky_name="f33" type="str" zky_length="20" zky_offset="100"/>
+        <datafield type="str" zky_length="1" zky_datatooshortplc="cstr" zky_offset="133" zky_name="LF"/>
+      </datafields>
+    </datarecord>
+  </dataschema>
+</dataset>

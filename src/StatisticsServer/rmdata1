@@ -1,0 +1,11 @@
+rm -fr /home/AOSLYNCH/counter1/*
+mkdir -p /home/AOSLYNCH/counter1/TransServer
+mkdir -p /home/AOSLYNCH/counter1/TransServer/Data
+mkdir -p /home/AOSLYNCH/counter1/TransClient
+mkdir -p /home/AOSLYNCH/counter1/TransClient/Data
+mkdir -p /home/AOSLYNCH/counter1/TransClient_0
+mkdir -p /home/AOSLYNCH/counter1/TransClient_0/Data
+mkdir -p /home/AOSLYNCH/counter1/RecordFileSystem
+mkdir -p /home/AOSLYNCH/counter1/Data
+mkdir -p /home/AOSLYNCH/counter1/WorkBackup
+

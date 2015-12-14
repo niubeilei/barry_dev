@@ -1,0 +1,5 @@
+<jimodoc zky_objid="dataprocselectinto_jimodoc_v0" zky_pctrs="dataproc_doc" zky_public_doc="true" zky_public_ctnr="true" jimo_name="jimo_dataprocselectinto" jimo_type="jimo_dataproc" current_version="0" zky_classname="AosDataProcSelectInto">
+<versions>
+	<ver_0>libJimoDataProc.so</ver_0>
+</versions>
+</jimodoc>

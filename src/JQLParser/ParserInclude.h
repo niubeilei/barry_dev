@@ -1,0 +1,127 @@
+////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) 2005
+// Packet Engineering, Inc. All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification is not permitted unless authorized in writing by a duly
+// appointed officer of Packet Engineering, Inc. or its derivatives
+//	
+// Description:
+//
+// Modification History:
+// 2013/09/24 Created by Chen Ding
+////////////////////////////////////////////////////////////////////////////
+#ifndef AOS_JQLPARSER_PARSERINCLUDE_H
+#define AOS_JQLPARSER_PARSERINCLUDE_H
+
+#include "SEServer/SeReqProc.h"
+#include "SeReqProc/SeRequestProc.h"
+#include "JQLParser/JQLParser.h"
+#include "Rundata/Rundata.h"
+#include "Util/DataTypes.h"
+#include "UtilTime/TimeUtil.h"
+
+//expression header files
+#include "SEInterfaces/ExprObj.h"
+#include "SEInterfaces/GenericValueObj.h"
+#include "SEInterfaces/ExprType.h"
+#include "SEInterfaces/GenericValueObj.h"
+#include "Util/ValueRslt.h"
+#include "JQLExpr/ExprAtomic.h"
+#include "JQLExpr/ExprArith.h"
+#include "JQLExpr/ExprBitArith.h"
+#include "JQLExpr/ExprContain.h"
+#include "JQLExpr/ExprNumber.h"
+#include "JQLExpr/ExprMemberOpt.h"
+#include "JQLExpr/ExprArith.h"
+#include "JQLExpr/ExprBitArith.h"
+#include "JQLExpr/ExprLogic.h"
+#include "JQLExpr/ExprLike.h"
+#include "JQLExpr/ExprIn.h"
+#include "JQLExpr/ExprNotIn.h"
+#include "JQLExpr/Expr.h"
+#include "JQLExpr/ExprFieldName.h"
+#include "JQLExpr/ExprString.h"
+#include "JQLExpr/ExprComparison.h"
+#include "JQLExpr/ExprDouble.h"
+#include "JQLExpr/ExprGenFunc.h"
+#include "JQLExpr/ExprNameValue.h"
+#include "JQLExpr/ExprLogic.h"
+#include "JQLExpr/ExprBrackets.h"
+#include "JQLExpr/ExprCase.h"
+#include "JQLExpr/ExprSearchCase.h"
+#include "JQLExpr/ExprSimpleCase.h"
+#include "JQLExpr/Ptrs.h"
+#include "JQLExpr/ExprIsNotNull.h"
+#include "JQLExpr/ExprIsNull.h"
+#include "JQLExpr/ExprNull.h"
+#include "JQLExpr/ExprUserVar.h"
+
+//statement header files
+#include "JQLStatement/JQLCommon.h"
+#include "JQLStatement/JqlStatement.h"
+#include "JQLStatement/StmtJoin.h"
+#include "JQLStatement/JqlStmtJoinSyncher.h"
+#include "JQLStatement/JqlStmtQuery.h"
+#include "JQLStatement/JqlStmtSequence.h"
+#include "JQLStatement/JqlStmtAssignment.h"
+#include "JQLStatement/JqlStmtInsertItem.h"
+#include "JQLStatement/JqlStmtUpdateItem.h"
+#include "JQLStatement/JqlStmtDeleteItem.h"
+#include "JQLStatement/JqlStmtTable.h"
+#include "JQLStatement/JqlStmtSyncer.h"
+#include "JQLStatement/JqlStmtIndex.h"
+#include "JQLStatement/JqlStmtDataset.h"
+#include "JQLStatement/JqlStmtDatascanner.h"
+#include "JQLStatement/JqlStmtDebug.h"
+#include "JQLStatement/JqlStmtDataset.h"
+#include "JQLStatement/JqlStmtSchema.h"
+#include "JQLStatement/JqlStmtSchedule.h" 
+#include "JQLStatement/JqlStmtJob.h" 
+#include "JQLStatement/JqlStmtMap.h" 
+#include "JQLStatement/JqlStmtDictionary.h" 
+#include "JQLStatement/JqlStmtDistributionMap.h" 
+#include "JQLStatement/JqlStmtDoc.h" 
+#include "JQLStatement/JqlStmtTask.h" 
+#include "JQLStatement/JqlStmtDataRecord.h" 
+#include "JQLStatement/JqlStmtDataField.h" 
+#include "JQLStatement/JqlStmtVirtualField.h" 
+#include "JQLStatement/JqlStmtNickField.h" 
+#include "JQLStatement/JqlStmtJimoLogic.h" 
+#include "JQLStatement/JqlStmtDataProc.h" 
+#include "JQLStatement/JqlStmtDataConnector.h" 
+#include "JQLStatement/JqlStmtLoadData.h"
+#include "JQLStatement/JqlStmtUserMgr.h"
+#include "JQLStatement/JqlStmtRunScriptFile.h"
+#include "JQLStatement/JqlStmtDatabase.h"
+#include "JQLStatement/JqlStmtStatistics.h"
+#include "JQLStatement/JqlStmtCompleteIIL.h"
+#include "JQLStatement/JqlStmtStat.h"
+#include "JQLStatement/JqlStmtHBase.h"
+#include "JQLStatement/JqlStmtGenericobj.h"
+#include "JQLStatement/JqlStmtGenJQL.h"
+
+#include "JQLStatement/JqlStmtFieldExpr.h"
+#include "JQLStatement/JqlGroupBy.h"
+#include "JQLStatement/JqlHaving.h"
+#include "JQLStatement/JqlJoinTable.h"
+#include "JQLStatement/JqlLimit.h"
+#include "JQLStatement/JqlOrderBy.h"
+#include "JQLStatement/JqlSelect.h"
+#include "JQLStatement/JqlSelectField.h"
+#include "JQLStatement/JqlSelectTable.h"
+#include "JQLStatement/JqlSingleTable.h"
+#include "JQLStatement/JqlStmtConfig.h"
+#include "JQLStatement/JqlSubQueryTable.h"
+#include "JQLStatement/JqlTableFactor.h"
+#include "JQLStatement/JqlTableReference.h"
+#include "JQLStatement/JqlWhere.h"
+#include "JQLStatement/JqlStmtService.h"
+#include "JQLStatement/JqlStmtUnion.h"
+#include "JQLStatement/JqlStmtQueryUnion.h"
+#include "JQLStatement/JqlStmtActor.h"
+#include "JQLStatement/JqlStmtSelectInto.h"
+#include "JQLStatement/JqlStmtIF.h"
+
+#endif

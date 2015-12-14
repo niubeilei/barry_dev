@@ -1,0 +1,68 @@
+#----------------------------------------------------------------------------
+#	Makefile for SPNR
+#----------------------------------------------------------------------------
+
+#----------------------------------------------------------------------------
+#	Local macros
+#----------------------------------------------------------------------------
+DIRS  = statemachine \
+		alarm_c \
+		Alarm \
+		aos \
+		aos_util \
+		aosUtil \
+		action \
+		AppMgr \
+		Book \
+		conditions \
+		condition \
+		Config \
+		Database \
+		DataService \
+		DataMgr \
+		DataStore \
+		Debug \
+		event \
+		KernelUtil \
+		MySQL \
+		net \
+		parser \
+		porting_c \
+		Porting \
+		Proggie/ReqDistr \
+		Proggie/ProggieUtil \
+		Obj \
+		rule \
+		rvg_c \
+		Random \
+		random_c \
+		semanobj \
+		semantics \
+		semanopr \
+		SingletonClass \
+		Tester \
+		thread_c \
+		Thread \
+		TinyXml \
+		TorturerWrappers \
+		Tracer \
+		util_c \
+		util2 \
+		Util \
+		Util1 \
+		UtilComm \
+		VpdParser \
+		XmlInterface \
+		XmlParser \
+
+#----------------------------------------------------------------------------
+#	Include macros and targets
+#----------------------------------------------------------------------------
+
+include	../makeinclude/wrapper_macros.GNU
+include	../makeinclude/macros.GNU
+include	../makeinclude/rules.common.GNU
+include	../makeinclude/rules.nested.GNU
+include	../makeinclude/rules.nolocal.GNU
+
+

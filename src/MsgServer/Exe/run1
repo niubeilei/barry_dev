@@ -1,0 +1,1 @@
+nohup ./msgserver.exe -config config_norm1.txt -s -log 2 &

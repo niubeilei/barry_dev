@@ -1,0 +1,133 @@
+<apis>
+	<module>mac</module>
+	<api>
+		<api_name>aos_mac_set</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>interface</var>
+			</param>
+			<param>
+				<type>char*</type>
+				<var>mac</var>
+			</param>
+		</protype>
+		<prefix>mac set</prefix>
+		<description>clone device mac</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+				<param>"outcard"</param>
+				<param>"00:13:43:12:45:21"</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_mac_restore</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>interface</var>
+			</param>
+		</protype>
+		<prefix>mac back set</prefix>
+		<description> restores an interface's MAC address.</description>
+		<testcases>
+			<testcase>
+				<testcaseid>2</testcaseid>
+				<expected>0</expected>
+				<param>"outcard"</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_mac_get</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>interface</var>
+			</param>
+		</protype>
+		<prefix>mac get</prefix>
+		<description> get an interface's MAC address.</description>
+		<testcases>
+			<testcase>
+				<testcaseid>3</testcaseid>
+				<expected>0</expected>
+				<param>"outcard"</param>
+			</testcase>
+			<testcase>
+				<testcaseid>4</testcaseid>
+				<expected>0</expected>
+				<param>"incard"</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_mac_clone_save_config</api_name>
+		<protype>
+			<!--<param>
+				<type>char*</type>
+				<var>fname</var>
+			</param>-->
+		</protype>
+		<prefix>mac save config</prefix>
+		<description>save current mac config</description>
+		<testcases>
+			<testcase>
+				<testcaseid>5</testcaseid>
+				<expected>0</expected>
+			<!--<param>"config"</param>-->
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_mac_clone_load_config</api_name>
+		<protype>
+			<!--<param>
+				<type>char*</type>
+				<var>fname</var>
+			</param>-->
+		</protype>
+		<prefix>mac load config</prefix>
+		<description>load current mac config</description>
+		<testcases>
+			<testcase>
+				<testcaseid>6</testcaseid>
+				<expected>0</expected>
+				<!--<param>"macconfig"</param>-->
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_mac_clone_retrieve_config</api_name>
+		<protype>
+			<param>
+				<type>outdata</type>
+				<var>str1</var>
+			</param>
+		</protype>
+		<prefix>mac show config</prefix>
+		<description>show mac  config</description>
+		<testcases>
+			<testcase>
+				<testcaseid>7</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_mac_clone_clear_config</api_name>
+		<protype>
+		</protype>
+		<prefix>mac clear config</prefix>
+		<description>clear current mac config</description>
+		<testcases>
+			<testcase>
+				<testcaseid>8</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+</apis>

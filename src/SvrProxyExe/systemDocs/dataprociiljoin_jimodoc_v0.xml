@@ -1,0 +1,5 @@
+<jimodoc zky_objid="dataprociiljoin_jimodoc_v0" zky_pctrs="dataproc" zky_public_doc="true" zky_public_ctnr="true" jimo_name="jimo_dataprociiljoin" jimo_type="jimo_dataproc" current_version="0" zky_classname="AosDataProcIILJoin">
+<versions>
+	<ver_0>libJimoDataProc.so</ver_0>
+</versions>
+</jimodoc>

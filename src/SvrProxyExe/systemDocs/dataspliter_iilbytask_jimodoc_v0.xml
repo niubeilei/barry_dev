@@ -1,0 +1,5 @@
+<jimodoc   zky_pctrs="jimo_doc" zky_public_doc="true" zky_public_ctnr="true" zky_objid="dataspliter_iilbytask_jimodoc_v0"   jimo_name="jimo_datasplitter" jimo_type="jimo_datasplitter" current_version="0" zky_classname="AosIILSplitByTask">
+<versions>
+<ver_0>libDataSplitter.so</ver_0>
+</versions>
+</jimodoc>

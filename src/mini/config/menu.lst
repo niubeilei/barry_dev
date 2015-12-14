@@ -1,0 +1,11 @@
+default		0
+timeout		5
+color cyan/blue white/blue
+
+title		aos
+root		(hd0,0)
+kernel		/boot/vmlinuz-sslproxy root=/dev/hdc1 ro 
+initrd		/boot/initrd.img-sslproxy
+savedefault
+boot
+

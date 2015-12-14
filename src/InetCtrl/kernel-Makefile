@@ -1,0 +1,8 @@
+obj-$(CONFIG_AOS_INETCTRL) += inetctrl.o
+inetctrl-y := inet_ctrl.o \
+			  inet_ctrl_cli.o \
+			  inet_ctrl_hash.o \
+			  inet_ctrl_printf.o \
+			  inet_ctrl_timer.o \
+			  inet_ctrl_file.o \
+			  inet_ctrl_core.o

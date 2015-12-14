@@ -1,0 +1,9 @@
+1. This application is used to dump tables in database to CSV files
+2. It needs JDK environment
+3. Package:  DumpData.jar
+4. This command needs a JSON configuration file to configure different dumping parameters
+5. Command syntax:
+	>java -cp <classpath> DumpData.class -f <"config filepath">
+6. Sample configuration files:
+   a. DumpConfigMysql.txt
+   b. DumpConfigOracle.txt

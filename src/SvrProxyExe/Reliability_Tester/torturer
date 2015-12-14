@@ -1,0 +1,262 @@
+#!/bin/bash
+######################################################################
+# *sudo no password
+# vi /etc/sudoers
+# add [jozhi   ALL=(ALL:ALL) NOPASSWD: NOPASSWD: ALL]
+#
+# *query job
+# select zky_status, zky_docid, zky_objid from jobctnr where zky_job_name = "test_1";
+#
+# *query all task
+# select zky_logic_id, zky_taskid, zky_tasktype, zky_docid, zky_progress, zky_status from zkyctnr_userjob_307 where zky_jobdocid=5101
+#
+######################################################################
+#set -e
+simulate_time=0
+time_array=(60 70 80 90 100 110)
+print(){
+	echo "\033[31m""<"`date "+%Y-%m-%d %H:%M:%S"`" ${0} : ${1}>""\033[0m" "\033[32m"${2}"\033[0m"
+}
+echo -e `print ${LINENO} "torturer started"`
+user=`whoami`
+local_ip=`ifconfig -a|grep inet|grep -v 127.0.0.1|grep -v inet6|awk '{print $2}'|tr -d "addr:"|tr -d "地址:" |head -n 1`
+num_time=${#time_array[@]}
+rand_time_idx=$(($RANDOM%$num_time))
+sleep_time=${time_array[rand_time_idx]}
+crt_dir=`pwd`
+load_data_source="${crt_dir}/load.conf"
+query_job_source="${crt_dir}/query_job.txt"
+run_source="run"
+
+OLD_IFS="$IFS"
+IFS=","
+servers_work_home=(`cat workhome`)
+IFS="$OLD_IFS"
+num_servers=${#servers_work_home[@]}
+master_work_home=(${servers_work_home[0]})
+master_ip=${master_work_home[0]}
+master_dir=${master_work_home[1]}
+jql_path=${master_dir}"/JQLClient.exe"
+config_access=""
+if [ "${local_ip}" != "${master_ip}" ]
+then
+	config_access=`ssh ${user}@${master_ip} cat ${master_dir}/config_access.txt`
+else
+	config_access=`cat ${master_dir}/config_access.txt`
+fi
+
+sep="local_port"
+tmp=${config_access#*${sep}}
+sep="-"
+tmp=${tmp%%${sep}*}
+sep="\""
+access_port=${tmp#*${sep}}
+
+load_data()
+{
+	echo "${jql_path} -p ${access_port} -f \"xml\" -h ${master_ip} -t \"source \\\"${load_data_source}\\\";\""
+	result=`${jql_path} -p ${access_port} -f "xml" -h ${master_ip} -t "source \"${load_data_source}\";"`
+}
+
+query_job() {
+	result=`${jql_path} -p ${access_port} -f "xml" -h ${master_ip} -t "source \"${query_job_source}\";"`
+	echo ${result}
+}
+
+get_job_status(){
+	contents=`query_job`
+	sep="<zky_status><![CDATA["
+	tmp=${contents#*${sep}}
+	if [ ${#contents} == ${#tmp} ]
+	then  
+		echo "stop"
+	else
+		tmp=${contents#*${sep}}
+		sep="]]></zky_status>"
+		str=${tmp%%${sep}*}
+		echo ${str}
+	fi  
+}
+
+kill_proc(){
+	proc_path="${master_dir}/${1}"
+	process=""
+	if [[ "${local_ip}" != "${master_ip}" ]]
+	then
+		process=`ssh ${user}@${master_ip} pgrep -u ${user} ${1} | awk '{print $1}'`
+	else
+		process=`pgrep -u ${user} ${1} | awk '{print $1}'`
+	fi
+	for q in ${process}
+	do
+		tmp_path=""
+		if [[ "${local_ip}" != "${master_ip}" ]]
+		then
+			tmp_path=`ssh ${user}@${master_ip} ls -l /proc/${q}/exe | awk '{print $11}'`
+		else
+			tmp_path=`ls -l /proc/${q}/exe | awk '{print $11}'`
+		fi
+		if [ "${tmp_path}" == "${proc_path}" ]
+		then
+			if [[ "${local_ip}" != "${master_ip}" ]]
+			then
+				echo `ssh ${user}@${master_ip} kill -9 ${q}`
+			else
+				echo -e `print ${LINENO} "kill -9 ${q} {${proc_path}}"`
+				echo `kill -9 ${q}`
+			fi	
+			break;
+		fi
+	done
+}
+
+
+killSvrProxy()
+{
+	work_home=(${servers_work_home[3]})
+	ip=${work_home[0]}
+	dir=${work_home[1]}
+	proc_name="SvrProxy.exe"
+	proc_path="${dir}/${proc_name}"
+	process=`ssh ${user}@${ip} pgrep -u ${user} ${proc_name} | awk '{print $1}'`
+	for q in ${process}
+	do
+		tmp_path=`ssh ${user}@${ip} ls -l /proc/${q}/exe | awk '{print $11}'`
+		if test ${tmp_path} = ${proc_path}
+		then
+			echo -e `print ${LINENO} "kill -9 ${q} {${proc_path}}"`
+			ssh ${user}@${ip} kill -9 ${q}
+			break;
+		fi
+	done
+	simulate_time=0
+}
+
+randKillProc() {
+	rand_server_id=$(($RANDOM%$num_servers))
+	work_home=(${servers_work_home[$rand_server_id]})
+	ip=${work_home[0]}
+	dir=${work_home[1]}
+	proc_name_array=(task.exe frontend.exe cube.exe)
+	proc_num=${#proc_name_array[@]}
+	rand_id=$(($RANDOM%$proc_num))
+	proc_name=${proc_name_array[$rand_id]}
+	proc_path="${dir}/${proc_name}"
+	process=`ssh ${user}@${ip} pgrep -u ${user} ${proc_name} | awk '{print $1}'`
+	for q in ${process}
+	do
+		tmp_path=`ssh ${user}@${ip} ls -l /proc/${q}/exe | awk '{print $11}'`
+		if test ${tmp_path} = ${proc_path}
+		then
+			echo -e `print ${LINENO} "kill -9 ${q} {${proc_path}}"`
+			ssh ${user}@${ip} kill -9 ${q}
+			break;
+		fi
+	done
+}
+
+randDiskFail() {
+	rand_server_id=$(($RANDOM%$num_servers))
+	work_home=${servers_work_home[$rand_server_id]}
+	echo `ssh ${user}@${work_home}/diskfail`
+}
+
+
+randNetFail() {
+	rand_server_id=$(($RANDOM%$num_servers))
+	work_home=${servers_work_home[$rand_server_id]}
+	echo `ssh ${user}@${work_home}/netfail`
+}
+
+randRebootMachine() {
+	rand_server_id=$(($RANDOM%$num_servers))
+	work_home=${servers_work_home[$rand_server_id]}
+	echo `ssh ${user}@${work_home}/rebootmachine`
+}
+
+${master_dir}/jimodb "stop"
+${master_dir}/jimodb "clean"
+${master_dir}/jimodb "start" 
+echo -e `print ${LINENO} "to run loadata : "`
+run_load_data=`load_data`
+echo -e `print ${LINENO} "${run_load_data}"`
+
+exit
+
+status_str=""
+job_status_start="start"
+while true
+do
+	status_str=`get_job_status`
+	echo -e `print ${LINENO} ${status_str}`
+	if [ ${status_str} == ${job_status_start} ]
+	then
+		break
+	fi
+	sleep 1s
+done
+
+time_spacing="simulate time spacing : [${sleep_time}], and simulate_times : [${simulate_time}]"
+echo -e `print ${LINENO} "${time_spacing}"`
+
+while((${simulate_time} > 0))
+do
+	sleep ${sleep_time}s
+	id=$(($RANDOM%2))
+	case $id in
+		0)
+			randKillProc;;
+		1)
+			killSvrProxy;;
+		2)
+			randDiskFail;;
+		3)
+			randNetFail;;
+		4)
+			randRebootMachine;;
+		*) 
+		exit 1
+	esac
+	let "simulate_time--"
+done
+
+sleep ${sleep_time}s
+${master_dir}/jimodb "restart_access"
+echo -e `print ${LINENO} "start to check job finish"`
+job_status_finish="finish"
+job_status_fail="fail"
+job_status_stop="stop"
+while true
+do
+	status_str=`get_job_status`
+	crt_status="job current status: "${status_str}
+	echo -e `print ${LINENO} "${crt_status}"`
+	if [ ${status_str} == ${job_status_finish} ]
+	then
+		break
+	elif [ ${status_str} == ${job_status_fail} ]
+	then
+		break
+	elif [ ${status_str} == ${job_status_stop} ]
+	then
+		proc_path="${master_dir}/frontend.exe"
+		process=`pgrep -u ${user} frontend.exe | awk '{print $1}'`
+		for q in ${process}
+		do
+			tmp_path=`ls -l /proc/${q}/exe | awk '{print $11}'`
+			if [ "${tmp_path}" == "${proc_path}" ]
+			then
+				echo -e `print ${LINENO} "kill -14 ${q} {${proc_path}}"`
+				echo `kill -14 ${q}`
+				break
+			fi
+		done
+		sleep 70s
+		${master_dir}/jimodb "restart_access"
+	else
+		sleep 10s
+	fi
+done
+echo -e `print ${LINENO} "torturer finished"`
+
+sleep 10s

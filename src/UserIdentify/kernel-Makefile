@@ -1,0 +1,6 @@
+
+obj-$(CONFIG_AOS_USER_IDENTIFY) += aosUserIdentify.o
+aosUserIdentify-y 	:= 	user_identify.o	\
+			   			user_identify_cli.o	\
+						user_identify_module.o	
+

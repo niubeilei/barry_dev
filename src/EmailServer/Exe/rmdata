@@ -1,0 +1,2 @@
+rm -rf ../../../check/Trans/*
+rm -rf Data/*

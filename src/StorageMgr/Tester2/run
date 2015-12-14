@@ -1,0 +1,1 @@
+./transserver.exe -config config_norm.txt -s 

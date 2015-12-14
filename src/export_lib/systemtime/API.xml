@@ -1,0 +1,98 @@
+<apis>
+	<module>SystemTime</module>
+	<api>
+		<api_name>aos_api_system_time_set</api_name>
+		<protype>
+			<param>
+				<type>int</type>
+				<var>int1</var>
+			</param>
+			<param>
+				<type>int</type>
+				<var>int2</var>
+			</param>
+			<param>
+				<type>int</type>
+				<var>int3</var>
+			</param>
+		</protype>
+		<prefix>system time set</prefix>
+		<description>set system time</description>
+		<testcases>
+		       <testcase>i
+		              <testcaseid>1</testcaseid>
+			      <expected>0</expected>
+			      <param>12 </param>
+			      <param>12</param>
+			      <param>12</param>
+                      </testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_api_system_time_log_show</api_name>
+		<protype>
+		</protype>
+		<prefix>system time log show</prefix>
+		<description>show the system time change history log</description>
+		<testcases>
+		       <testcase>
+		              <testcaseid>2</testcaseid>
+			      <expected>0</expected>
+                      </testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_api_system_timezone_set</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>str1</var>
+			</param>
+		</protype>
+		<prefix>system timezone set</prefix>
+		<description>set system time zone</description>
+		<testcases>
+		       <testcase>
+		              <testcaseid>3</testcaseid>
+			      <expected>0</expected>
+			      <param>" sd"</param>
+                      </testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_api_system_time_fast_set</api_name>
+		<protype>
+			<param>
+				<type>int</type>
+				<var>int1</var>
+			</param>
+		</protype>
+		<prefix>system time fast set</prefix>
+		<description>set system time fast  </description>
+		<testcases>
+		       <testcase>
+		              <testcaseid>4</testcaseid>
+			      <expected>0</expected>
+			      <param>3600</param>
+                      </testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_api_system_time_slow_set</api_name>
+		<protype>
+			<param>
+				<type>int</type>
+				<var>int1</var>
+			</param>
+		</protype>
+		<prefix>system time slow set</prefix>
+		<description>set ssytem time slow</description>
+		<testcases>
+		       <testcase>
+		              <testcaseid>5</testcaseid>
+			      <expected>0</expected>
+			      <param>3600</param>
+                      </testcase>
+		</testcases>
+	</api>
+</apis>

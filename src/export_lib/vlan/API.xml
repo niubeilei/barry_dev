@@ -1,0 +1,265 @@
+<apis>
+	<module>vlan</module>
+	<api>
+		<api_name>aos_vlan_add</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>device</var>
+			</param>
+			<param>
+				<type>int</type>
+				<var>vlan_tag</var>
+			</param>
+		</protype>
+		<prefix>vlan device add</prefix>
+		<description>add vlan</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+				<param>"outcard"</param>
+				<param>3</param>
+			</testcase>
+			<testcase>
+				<testcaseid>2</testcaseid>
+				<expected>0</expected>
+				<param>"incard"</param>
+				<param>3</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_vlan_del</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>device</var>
+			</param>
+			<param>
+				<type>int</type>
+				<var>vlan_tag</var>
+			</param>
+		</protype>
+		<prefix>vlan device del</prefix>
+		<description>remove a vlan tag from interface</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+				<param>"incard"</param>
+				<param>3</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_vlan_retrieve_config</api_name>
+		<protype>
+			<param>
+				<type>outdata</type>
+				<var>str1</var>
+			</param>
+		</protype>
+		<prefix>vlan show config</prefix>
+		<description>show vlan config</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_vlan_save_config</api_name>
+		<protype>
+			<!--<param>
+				<type>char*</type>
+				<var>fname</var>
+			</param>-->
+		</protype>
+		<prefix>vlan save config</prefix>
+		<description>save vlan config</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_router_load_config</api_name>
+		<protype>
+			<!--<param>
+				<type>char*</type>
+				<var>fname</var>
+			</param>-->
+		</protype>
+		<prefix>vlan load config</prefix>
+		<description>load current vlan config</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_vlan_clear_config</api_name>
+		<protype>
+		</protype>
+		<prefix>vlan clear config</prefix>
+		<description>clear vlan config</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_vlan_add_addr</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>device</var>
+			</param>
+			<param>
+				<type>int</type>
+				<var>vlan_tag</var>
+			</param>
+			<param>
+				<type>char*</type>
+				<var>addr</var>
+			</param>
+		</protype>
+		<prefix>vlan set ip</prefix>
+		<description>set a vlan tag ip</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+				<param>"incard"</param>
+				<param>3</param>
+				<param>"192.168.0.1"</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_vlan_del_addr</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>device</var>
+			</param>
+			<param>
+				<type>int</type>
+				<var>vlan_tag</var>
+			</param>
+		</protype>
+		<prefix>vlan rmove ip</prefix>
+		<description>remove a vlan tag ip</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+				<param>"incard"</param>
+				<param>3</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_vlan_del_all</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>device</var>
+			</param>
+		</protype>
+		<prefix>vlan rmove all </prefix>
+		<description>remove all vlan of a interface</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+				<param>"incard"</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_vlan_del_addr_all</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>device</var>
+			</param>
+		</protype>
+		<prefix>vlan rmove all ip</prefix>
+		<description>remove all vlan ip of a interface</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+				<param>"incard"</param>
+			</testcase>
+			<testcase>
+				<testcaseid>2</testcaseid>
+				<expected>0</expected>
+				<param>"outcard"</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_vlan_switch_set_status</api_name>
+		<protype>
+			<param>
+				<type>int</type>
+				<var>status</var>
+			</param>
+		</protype>
+		<prefix>vlan switch status</prefix>
+		<description> turn on/off the VLAN feature on the attached switch</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+				<param>0</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_vlan_switch_add_vlan</api_name>
+		<protype>
+			<param>
+				<type>int</type>
+				<var>vlan_tag</var>
+			</param>
+			<param>
+				<type>int</type>
+				<var>port</var>
+			</param>
+		</protype>
+		<prefix>vlan switch set</prefix>
+		<description>add a VLAN tag to a specific port on that switch</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+				<param>3</param>
+				<param>12</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_vlan_switch_reset</api_name>
+		<protype>
+		</protype>
+		<prefix>vlan switch reset</prefix>
+		<description> set the factory default</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+</apis>

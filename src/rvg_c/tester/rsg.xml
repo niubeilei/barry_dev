@@ -1,0 +1,22 @@
+		<TreeNode isopen="false" name="RSG-0001" isleaf="true" min="10">
+			<Type>RsgCharset</Type>
+			<Description>This String Random Generator generates random strings that contains any printable characters. It can be used as a generic random string generator</Description>
+			<Keyword>Generic</Keyword>
+			<MinLength value="10"/>
+			<MaxLength value="100"/>
+			<Charset>
+				<Ranges>
+					<Range start="10" end="12" weight="10"/>
+					<Range start="55" end="66" weight="20"/>
+				</Ranges>
+			</Charset>
+			<WhiteWordList weight="20">
+				<WordList weight="20" name="common">Building Window House Bird Street</WordList>
+				<WordList weight="10" name="names">John Michael Jim Jerry Jenny Kevin</WordList>
+			</WhiteWordList>
+			<BlackWordList>
+				<WordList weight="20" name="Common Incorrect">Nhon Leahcim Mij Yrrej Ynnej Nivek</WordList>
+				<WordList weight="10" name="Incorrect Names">DDD BBB CCC kkk www</WordList>
+			</BlackWordList>
+		</TreeNode>
+

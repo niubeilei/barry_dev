@@ -1,0 +1,4 @@
+NETWORKING=yes
+HOSTNAME=localhost.localdomain
+GATEWAY=192.168.0.1
+GATEWAYDEV=eth0

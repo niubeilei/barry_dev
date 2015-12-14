@@ -1,0 +1,48 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SSL", "..\SSL\SSL.vcproj", "{215B9D90-45D4-4A8C-8354-2D21FB2F855D}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SSLProxyApp", "..\SSLProxyApp\SSLProxyApp.vcproj", "{6EE3F8E9-B4B0-41B8-80F8-5A34B8D58A46}"
+	ProjectSection(ProjectDependencies) = postProject
+		{215B9D90-45D4-4A8C-8354-2D21FB2F855D} = {215B9D90-45D4-4A8C-8354-2D21FB2F855D}
+		{A8F18AE7-389C-4C89-89A7-D01CFC36970E} = {A8F18AE7-389C-4C89-89A7-D01CFC36970E}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SSLClientTest", "..\SSLClientTest\SSLClientTest.vcproj", "{C2FD6F20-CF04-4A97-8A29-65DE52E9190F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{215B9D90-45D4-4A8C-8354-2D21FB2F855D} = {215B9D90-45D4-4A8C-8354-2D21FB2F855D}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Util", "..\Util\Util.vcproj", "{A8F18AE7-389C-4C89-89A7-D01CFC36970E}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{215B9D90-45D4-4A8C-8354-2D21FB2F855D}.Debug.ActiveCfg = Debug|Win32
+		{215B9D90-45D4-4A8C-8354-2D21FB2F855D}.Debug.Build.0 = Debug|Win32
+		{215B9D90-45D4-4A8C-8354-2D21FB2F855D}.Release.ActiveCfg = Release|Win32
+		{215B9D90-45D4-4A8C-8354-2D21FB2F855D}.Release.Build.0 = Release|Win32
+		{6EE3F8E9-B4B0-41B8-80F8-5A34B8D58A46}.Debug.ActiveCfg = Debug|Win32
+		{6EE3F8E9-B4B0-41B8-80F8-5A34B8D58A46}.Debug.Build.0 = Debug|Win32
+		{6EE3F8E9-B4B0-41B8-80F8-5A34B8D58A46}.Release.ActiveCfg = Release|Win32
+		{6EE3F8E9-B4B0-41B8-80F8-5A34B8D58A46}.Release.Build.0 = Release|Win32
+		{C2FD6F20-CF04-4A97-8A29-65DE52E9190F}.Debug.ActiveCfg = Debug|Win32
+		{C2FD6F20-CF04-4A97-8A29-65DE52E9190F}.Debug.Build.0 = Debug|Win32
+		{C2FD6F20-CF04-4A97-8A29-65DE52E9190F}.Release.ActiveCfg = Release|Win32
+		{C2FD6F20-CF04-4A97-8A29-65DE52E9190F}.Release.Build.0 = Release|Win32
+		{A8F18AE7-389C-4C89-89A7-D01CFC36970E}.Debug.ActiveCfg = Debug|Win32
+		{A8F18AE7-389C-4C89-89A7-D01CFC36970E}.Debug.Build.0 = Debug|Win32
+		{A8F18AE7-389C-4C89-89A7-D01CFC36970E}.Release.ActiveCfg = Release|Win32
+		{A8F18AE7-389C-4C89-89A7-D01CFC36970E}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

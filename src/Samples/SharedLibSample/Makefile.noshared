@@ -1,0 +1,46 @@
+# File: makefile
+#
+# This is a makefile for use with g++
+#
+LIBNAME = SharedLibSample
+
+CC = g++
+
+.SUFFIXES: .cpp .h
+
+FLAGS = -g -Wall -DOMN_PLATFORM_UNIX $(Optimize) -DAOS_USERLAND
+
+INCDIRS = -I$(AOS_HOME)/src
+
+OBJDIR = $(AOS_HOME)/obj/$(LIBNAME)
+
+CREATEDIR = $(shell if [ -d $(OBJDIR) ]; then echo ""; else mkdir $(OBJDIR); fi)
+
+OUTPUTDIR = $(AOS_HOME)/lib
+
+LIBS = -lnsl 
+
+#
+# objects and targets
+#
+OBJECTS = $(patsubst %.cpp,$(OBJDIR)/%.o,$(wildcard *.cpp))
+
+TARGETLIB0 = lib$(LIBNAME).a
+TARGETLIB1 = lib$(LIBNAME).so.1
+TARGETLIB2 = lib$(LIBNAME).so.1.0
+
+#
+# Rules for normal comile and link 
+#
+all:: lib
+
+lib: $(OBJECTS)
+	ar rvu $(TARGETLIB0) $^
+	mv $(TARGETLIB0) $(OUTPUTDIR)/$(TARGETLIB0)
+
+$(OBJECTS): $(OBJDIR)/%.o: %.cpp
+	$(CREATEDIR)
+	$(CC) -c $(FLAGS) $< $(INCDIRS) -o $@
+
+clean:
+	rm -rf $(OBJECTS) $(OUTPUTDIR)/$(TARGETLIB) 

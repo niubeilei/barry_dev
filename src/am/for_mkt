@@ -1,0 +1,2 @@
+.separator ' '
+select appname,apptype,port,flag,rs_addr,rs_port,status from service;

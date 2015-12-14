@@ -1,0 +1,5 @@
+<jimodoc   zky_pctrs="jimo_doc" zky_public_doc="true" zky_public_ctnr="true" zky_objid="dataset_matrix_jimodoc_v0"   jimo_name="jimo_dataset" jimo_type="jimo_dataset" current_version="0" zky_classname="AosDatasetMatrix">
+<versions>
+<ver_0>libDatasetJimos.so</ver_0>
+</versions>
+</jimodoc>

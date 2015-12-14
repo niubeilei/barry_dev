@@ -1,0 +1,259 @@
+<config>
+	<seserver
+		local_addr="0.0.0.0"
+		local_port="2000-2000"
+		service_name="SEServer"
+		req_delinerator="first_four_high"
+		max_proc_time="10000"
+		max_conns="10000"/>
+	<procToIIL 
+		zky_proc = "true"
+		zky_fileid = "fileids_bb_59642224">
+		<files>
+			<file 
+				file_name="/mnt/h1/CleanData/Data/vir_0_orig/site_100/mergeFile_bb__126"/>
+		</files>
+		<CompareFun
+			cmpfun_type="stru642"
+			cmpfun_size="30"/>
+		<action
+			zky_type="mergefile"
+			zky_level="0">
+			<data_collector
+				zky_datacolid="bb">
+				<CompareFun
+					cmpfun_type="stru642"
+					cmpfun_size="30"/>
+			</data_collector>
+			<files>
+				<file zky_storage_fileid="9223372036854775910" zky_physicalid="0" zky_level="0" />
+				<file zky_storage_fileid="9223372036854775912" zky_physicalid="0" zky_level="0" />
+				<file zky_storage_fileid="9223372036854775914" zky_physicalid="0" zky_level="0" />
+				<file zky_storage_fileid="9223372036854775916" zky_physicalid="0" zky_level="0" />
+				<file zky_storage_fileid="9223372036854775918" zky_physicalid="0" zky_level="0" />
+				<file zky_storage_fileid="9223372036854775920" zky_physicalid="0" zky_level="0" />
+				<file zky_storage_fileid="9223372036854775922" zky_physicalid="0" zky_level="0" />
+				<file zky_storage_fileid="9223372036854775924" zky_physicalid="0" zky_level="0" />
+				<file zky_storage_fileid="9223372036854775926" zky_physicalid="0" zky_level="0" />
+				<file zky_storage_fileid="9223372036854775928" zky_physicalid="0" zky_level="0" />
+				<file zky_storage_fileid="9223372036854775930" zky_physicalid="0" zky_level="0" />
+				<file zky_storage_fileid="9223372036854775932" zky_physicalid="0" zky_level="0" />
+			</files>
+		</action>
+	</procToIIL>
+	<transserver showlog="false" trans_max_cachesize="500" />
+	<sizeid initSizeid="10" incSizeid="10" initDocids="10" incDocids="1000000" />
+	<DocProc
+		num_threads="1"
+		showlog="false"
+		ignored_hashname="ignoredWords"
+		wordnorm_hashname="wordNorm"/>
+	<docclient>
+		<defs>
+			<docid crtid = "5000"/>
+		</defs>
+		<distributor type="idrobin"/>
+	</docclient>
+	<docserver is_cache="false" is_fixeddocs_compress="true">
+	</docserver>
+	<storageengine
+		max_file_size="4000000"
+		num_threads = "4"
+		fixed_length_comp = "true"
+		remove_cache_file="true"/>
+	<image imagedir="images" imgback_dir="Backup/images" />
+	<sitemgr>
+	    <sites>
+			<site zky_siteid="100" zky_dftsite="true" create="true" />
+		</sites>
+	</sitemgr>
+	<security_mgr>
+		<dft_access_record
+			read="public"
+			delmem="private"
+			addmem="private"
+			delete="private"
+			copy="private"
+			create="private"
+			write="private">
+		</dft_access_record>
+	</security_mgr>
+	<session_mgr timed_unit="60"/>
+	<storage_mgr>
+		<storage_device>
+			<storage_partition device_id="0"
+					devname="dev/sda1"
+					mountdir="/"
+					userdir="Data"
+					totalsize="1000">
+				<storage_policy />
+			</storage_partition>
+		</storage_device>
+		<storage_space_alloc />
+	</storage_mgr>
+    <iil_client  showlog="false" /> 
+	<wordmgr wordid_hashname="wordid"   
+	         wordid_tablesize="1000000"/>
+	<iilmgr
+		showlog="false"
+		max_iils="500"
+		max_iilsize="5000"         
+		max_norm_iilsize="5000"
+		max_big_iilsize="50000"
+		min_iilsize="500"
+		max_subiilsize="5000"
+		min_subiilsize="500"
+		iilmgr_sanitycheck="false" >
+		<iil_map showlog="false"
+				 single_size="100"
+				 queue_size="2500"
+				 max_trans="200000"
+				 batch_size="0"
+				 proc_queue_size="500"
+				 proc_trans_size="2000"
+				 post_proc="true" />
+		<IdGens>
+			<defs>
+				<iilid crtid="5000" blocksize="1" maxid="1000000" />
+			</defs>
+		</IdGens>
+	</iilmgr>
+	<IdGens>                                  
+	    <defs>
+			<cloudid init_value="100000"/>
+			<compid init_value="1000000"/>
+			<ssid init_value="1000000"/>
+		</defs>
+	</IdGens>
+	<SeLogClt />
+	<SeLogSvr ischecking="true" /> 
+	<CounterClt />
+	<CounterSvr showlog="false" />
+	<timermgr timer_fname="timer"/>
+	<frontendserver server_id="2">
+	    <record server_id="0" ip="0.0.0.0" port="5555"/>
+	</frontendserver>
+	<datacollectorMgr 
+		perBktMem    = "1000000" 
+		perMaxBktMem = "50000000" 
+		maxMemory    = "4000000000" 
+		maxBuffMem2  = "2000000000"
+		maxBuffMem   = "8000000000">
+	</datacollectorMgr>
+	<data_assembler zky_maxbuffsize="10000000"/>
+	<SysMonitor />
+	<IpcClt />
+	<testers record_type="fixbin" 
+			 error_weight = "100"
+			 filter_type = "ac"
+			 num_records="10000" 
+			 pattern="\n\r" 
+			 file_name="/home/felicia/TestData/dataset_file.txt">
+			<dataset type="data_scanner" 
+				zky_objid="jimo_dataset" 
+				zky_otype="zkyotp_jimo"
+				jimo_name="jimo_dataset"
+				jimo_type="jimo_dataset"
+				current_version="1.0"
+				zky_classname="AosDatasetByDataScanner">
+				<versions>
+					<ver_0>libDatasetJimos.so</ver_0>
+				</versions>
+				<recordset recordset_size="10"/>
+				<schema last_entry_with_nopattern="true"
+						pattern="\n\r" 
+						max_record_length="100"
+						skip_invalid_records="true" 
+						zky_objid="jimo_schema" 
+						zky_otype="zkyotp_jimo"
+						jimo_name="jimo_schema"
+						jimo_type="jimo_schema"
+						current_version="1.0"
+						zky_classname="AosSchemaFixedLen">
+						<versions>
+							<ver_0>libSchemaJimos.so</ver_0>
+							<ver_1_1>libSchemaJimos1.1.so</ver_1_1>
+						</versions>
+						<zky_filter zky_type="expr"><![CDATA[unicom_type != "ac"]]></zky_filter>
+						<records>
+							<record record_len="24" zky_key="ac"
+								zky_name="doc" type="fixbin">
+								<element type="str" zky_name="unicom_type"
+									zky_offset="0" zky_length="2"/>
+								<element type="str" zky_name="field1"
+									zky_offset="2" zky_length="4"/>
+								<element type="str" zky_name="field2"
+									zky_offset="6" zky_length="4"/>
+								<element type="str" zky_name="field3"
+									zky_offset="10" zky_length="10"/>
+								<element type="str" zky_name="pattern"
+									zky_offset="20" zky_length="4"/>
+							</record>
+							<record record_len="29" zky_key="vc"
+								zky_name="doc" type="fixbin">
+								<element type="str" zky_name="unicom_type"
+									zky_offset="0" zky_length="2"/>
+								<element type="str" zky_name="field1"
+									zky_offset="2" zky_length="4"/>
+								<element type="str" zky_name="field2"
+									zky_offset="6" zky_length="4"/>
+								<element type="str" zky_name="field3"
+									zky_offset="10" zky_length="15"/>
+								<element type="str" zky_name="pattern"
+									zky_offset="25" zky_length="4"/>
+							</record>
+							<record record_len="24" zky_key="sg" 
+								zky_name="doc" type="fixbin">
+								<element type="str" zky_name="unicom_type"
+									zky_offset="0" zky_length="2"/>
+								<element type="str" zky_name="field1"
+									zky_offset="2" zky_length="4"/>
+								<element type="str" zky_name="field2"
+									zky_offset="6" zky_length="4"/>
+								<element type="str" zky_name="field3"
+									zky_offset="10" zky_length="10"/>
+								<element type="str" zky_name="pattern"
+									zky_offset="20" zky_length="4"/>
+							</record>
+						</records>
+						<schema_picker start_pos="0" 
+							length="2" 
+							zky_objid="jimo_schema_picker"
+							zky_otype="zkyotp_jimo"
+							jimo_name="jimo_schema_picker"
+							jimo_type="jimo_schema_picker"
+							current_version="1.0"
+							zky_classname="AosSchemaPickFixBin">
+							<versions>
+								<ver_0>libSchemaPickerJimos.so</ver_0>
+							</versions>
+						</schema_picker>
+				</schema>
+				<data_scanner              
+						zky_objid="jimo_data_scanner"
+						zky_otype="zkyotp_jimo"
+						jimo_name="jimo_data_scanner"
+						jimo_type="jimo_data_scanner"
+						current_version="1.0"
+						zky_classname="AosDataScannerCube">
+						<versions>
+							<ver_0>libScannerJimos.so</ver_0>
+						</versions>
+					    <metadata physical_id="0"	
+								read_block_size="1000"
+								file_name="/home/felicia/TestData/dataset_file.txt"
+								zky_objid="jimo_datacube"
+								zky_otype="zkyotp_jimo"
+								jimo_name="jimo_datacube"
+								jimo_type="jimo_datacube"
+								current_version="1.0"
+								zky_classname="AosDataCubeFile">
+								<versions>
+									<ver_0>libDataCubicJimos.so</ver_0>
+								</versions>
+						</metadata>
+				</data_scanner>
+				<zky_docassembler type="docvar"/>
+			</dataset>
+	</testers>
+</config>

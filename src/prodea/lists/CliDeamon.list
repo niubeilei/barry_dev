@@ -1,0 +1,4 @@
+src/CliDeamon/*.h
+src/CliDeamon/*.cpp
+src/CliDeamon/Makefile
+src/CliDeamon/cmd.txt

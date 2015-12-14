@@ -1,0 +1,36 @@
+#!/sbin/runscript
+#script for SystemCli
+# Alex gong 26/01/2007
+SYSTEMCLI_CONF="/usr/local/rhc/bin/cmd.txt"
+
+checkconfig() {
+	if [ ! -f $SYSTEMCLI_CONF ]; then
+		eerror "Please check ${SYSTEMCLI_CONF} before starting KernelConfMgr"
+		return 1
+	fi
+	}
+	
+start () {
+	checkconfig || return 1
+	ebegin "Starting rhc Cli"
+	
+  	start-stop-daemon --start -d /usr/local/rhc/bin/ --exec /usr/local/rhc/bin/KernelConfMgr \
+      --quiet
+      /usr/local/rhc/bin/Cli.exe -cmd "firewall init"
+      /usr/local/rhc/bin/Cli.exe -cmd "firewall masq outcard 192.168.0.0 255.255.255.0"
+	    eend $?
+	}
+
+stop () {
+	
+	ebegin "Stopping rhc Cli"
+ 	 start-stop-daemon --stop --exec  /usr/local/rhc/bin/KernelConfMgr \
+     --quiet
+	   eend $?
+	}
+
+restart() {
+	svc_stop
+        sleep 2    # Wait 3 seconds before starting again
+    	svc_start
+}

@@ -1,0 +1,90 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: sshx - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\POWNAL~1.ZHA\LOCALS~1\Temp\RSP25F.tmp" with contents
+[
+/nologo /ML /W3 /GX /O2 /I "source\./" /I "source\charset/" /I "source\windows/" /I "source\unix/" /I "source\mac/" /I "source\macosx/" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "NO_IPV6" /Fp"Release/SSHX.pch" /YX /Fo"Release/" /Fd"Release/" /FD /c 
+"E:\我的工作\HAC\SSH\SSHX\source\cmdline.c"
+]
+Creating command line "cl.exe @C:\DOCUME~1\POWNAL~1.ZHA\LOCALS~1\Temp\RSP25F.tmp" 
+Creating temporary file "C:\DOCUME~1\POWNAL~1.ZHA\LOCALS~1\Temp\RSP260.tmp" with contents
+[
+advapi32.lib comctl32.lib comdlg32.lib gdi32.lib imm32.lib shell32.lib user32.lib winmm.lib winspool.lib ws2_32.lib /nologo /subsystem:windows /incremental:no /pdb:"Release/sshX.pdb" /machine:I386 /out:"sshX.exe" 
+".\Release\be_all.obj"
+".\Release\cmdline.obj"
+".\Release\config.obj"
+".\Release\cproxy.obj"
+".\Release\dialog.obj"
+".\Release\ldisc.obj"
+".\Release\ldiscucs.obj"
+".\Release\minibidi.obj"
+".\Release\misc.obj"
+".\Release\pinger.obj"
+".\Release\portfwd.obj"
+".\Release\pproxy.obj"
+".\Release\proxy.obj"
+".\Release\raw.obj"
+".\Release\rlogin.obj"
+".\Release\settings.obj"
+".\Release\sizetip.obj"
+".\Release\ssh.obj"
+".\Release\sshaes.obj"
+".\Release\sshblowf.obj"
+".\Release\sshbn.obj"
+".\Release\sshcrc.obj"
+".\Release\sshcrcda.obj"
+".\Release\sshdes.obj"
+".\Release\sshdh.obj"
+".\Release\sshdss.obj"
+".\Release\sshmd5.obj"
+".\Release\sshpubk.obj"
+".\Release\sshrand.obj"
+".\Release\sshrsa.obj"
+".\Release\sshsh512.obj"
+".\Release\sshsha.obj"
+".\Release\sshzlib.obj"
+".\Release\telnet.obj"
+".\Release\terminal.obj"
+".\Release\timing.obj"
+".\Release\tree234.obj"
+".\Release\version.obj"
+".\Release\wcwidth.obj"
+".\Release\wildcard.obj"
+".\Release\wincfg.obj"
+".\Release\winctrls.obj"
+".\Release\windefs.obj"
+".\Release\windlg.obj"
+".\Release\window.obj"
+".\Release\winmisc.obj"
+".\Release\winnet.obj"
+".\Release\winnoise.obj"
+".\Release\winpgntc.obj"
+".\Release\winprint.obj"
+".\Release\winstore.obj"
+".\Release\wintime.obj"
+".\Release\winucs.obj"
+".\Release\winutils.obj"
+".\Release\x11fwd.obj"
+".\Release\aos_auth.obj"
+".\Release\logging.obj"
+".\Release\win_res.res"
+".\Release\aosWinLogFunc.obj"
+]
+Creating command line "link.exe @C:\DOCUME~1\POWNAL~1.ZHA\LOCALS~1\Temp\RSP260.tmp"
+<h3>Output Window</h3>
+Compiling...
+cmdline.c
+Linking...
+
+
+
+<h3>Results</h3>
+sshX.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

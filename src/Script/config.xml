@@ -1,0 +1,16 @@
+<data>
+    <items>
+    	<item name="auto">false</item>
+    	<item name="server_ip">192.168.99.171</item>
+    	<item name="server_port">5555</item>
+    	<item name="loginname">root</item>
+    	<item name="loginpasswd">12345</item>
+		<item name="deal_dir_name">20131106</item>
+		<item name="source_dir_name">/home1/ftpuser/</item>
+		<item name="dest_dir_name">/home/prod/RawData</item>
+    	<item name="copydata">false</item>
+    	<item name="sendlog">true</item>
+    	<item name="zky_sdoc_objid">job_all_auto_run_add</item>
+    	<item name="zky_jobname">importdata</item>
+    </items>
+</data>

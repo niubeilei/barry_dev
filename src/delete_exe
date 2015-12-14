@@ -1,0 +1,4 @@
+find . -name "*.exe" -delete
+rm src/JimoAgentClient/SCP/jscp
+rm src/JimoAgentClient/SSH/jssh
+

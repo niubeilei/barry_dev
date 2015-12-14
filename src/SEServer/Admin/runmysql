@@ -1,0 +1,1 @@
+./localserver.exe -config config_norm.txt -s -log 2 -dbuname root -dbpasswd 123 -dbname zykie_backup 

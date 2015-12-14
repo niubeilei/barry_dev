@@ -1,0 +1,1 @@
+valgrind --leak-check=full ./seutil_torturer.exe -s

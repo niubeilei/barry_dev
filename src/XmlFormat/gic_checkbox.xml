@@ -1,0 +1,18 @@
+<valueset name="checkbox">
+	<required>
+		<attrs>
+			<attr name="gic_type"><![CDATA[[gic_checkbox]]]></attr>
+			<attr name="gic_width"><![CDATA[(0#100)]]></attr>
+			<attr name="gic_height"><![CDATA[(0#100)]]></attr>
+			<attr name="gic_x"><![CDATA[(0#1000)]]></attr>
+			<attr name="gic_y"><![CDATA[(0#1000)]]></attr>
+		</attrs>
+	</required>
+	<optional>
+		<attrs>
+			<attr name="ptg_layout"><![CDATA[[hori#vertical]]]></attr>
+			<attr name="ptg_spacing"><![CDATA[[8#10#12#16#20#36#48]]]></attr>
+		</attrs>
+	</optional>
+</valueset>
+

@@ -1,0 +1,23 @@
+#
+# Makefile for the Linux X.25 Packet layer.
+#
+
+obj-$(CONFIG_AOS_PROXY) += Proxy/
+obj-$(CONFIG_AOS_BINLOG) += binlog/
+obj-$(CONFIG_AOS_STARVATION) += starvation/
+obj-$(CONFIG_AOS_PANICNOTIFIER) += PanicNotifier/
+obj-$(CONFIG_AOS_WEB_WALL) += WebWall/
+obj-$(CONFIG_AOS_QOS) += QoS/
+obj-$(CONFIG_AOS_SECURE) += aos_secure/
+obj-$(CONFIG_AOS_TRAFFIC) += aos_traffic/
+obj-$(CONFIG_AOS_USER_IDENTIFY) += UserIdentify/
+obj-$(CONFIG_AOS_CORE)		+= AosCore/
+obj-$(CONFIG_AOS_TCPVS)		+= AosTcpvs/
+obj-$(CONFIG_CERT_VERIFY) 	+= CertVerify/
+obj-$(CONFIG_AOS_SSL) 		+= AosSsl/
+#obj-$(CONFIG_AOS_APP_HTTP)	+= AppProc/
+obj-$(CONFIG_AOS_TEST)	    += AosTest/
+obj-$(CONFIG_AOS_INETCTRL) += inet_ctrl/
+obj-$(CONFIG_AOS_ROS_OS) += RosOS/
+
+

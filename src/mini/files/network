@@ -1,0 +1,16 @@
+/bin/run-parts
+/sbin/ifup
+/sbin/ifdown
+/sbin/ifconfig
+/sbin/route
+/etc/network/options
+/etc/network/interfaces
+/etc/defaults/ifupdown
+/etc/rcS.d/S18ifupdown-clean
+/etc/rc0.d/S36ifupdown
+/etc/rc6.d/S36ifupdown
+/etc/rcS.d/S36ifupdown
+
+/sbin/dhclient
+/etc/dhclient.conf
+/etc/dhclient-script

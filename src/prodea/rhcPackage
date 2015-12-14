@@ -1,0 +1,41 @@
+make -C $HOME/tmp/prodea/src/
+make -C $HOME/tmp/prodea/src/am/
+make -C  $HOME/tmp/prodea/src/KernelInterface/
+make -C  $HOME/tmp/prodea/src/KernelInterface_exe/
+make -C  $HOME/tmp/prodea/src/CliUtil/
+make -C  $HOME/tmp/prodea/src/KernelAPI/
+make -C  $HOME/tmp/prodea/src/CommandMan/
+make -C  $HOME/tmp/prodea/src/ParentCtrl/
+make -C  $HOME/tmp/prodea/src/rhcUtil/
+make -C  $HOME/tmp/prodea/src/CpuMgr
+make -C  $HOME/tmp/prodea/src/MemMgr
+make -C  $HOME/tmp/prodea/src/SystemCli
+make -C  $HOME/tmp/prodea/src/rhcAPI
+rm -rf /usr/local/rhc/;
+mkdir -p /usr/local/rhc/bin;
+mkdir -p /usr/local/rhc/lib;
+mkdir -p /usr/local/rhc/boot;
+mkdir -p /usr/local/rhc/include;
+mkdir -p /usr/local/rhc/rhcConf;
+mkdir -p /usr/local/rhc/apiTester;
+mkdir -p /usr/local/rhc/aos_secure;
+cp $HOME/tmp/prodea/src/KernelInterface_exe/Cli.exe /usr/local/rhc/bin
+cp $HOME/tmp/prodea/src/SystemCli/SystemCli /usr/local/rhc/bin
+cp $HOME/tmp/prodea/src/SystemCli/config.txt /usr/local/rhc/bin
+cp $HOME/tmp/prodea/src/CpuMgr/CpuMgr /usr/local/rhc/bin
+cp $HOME/tmp/prodea/src/MemMgr/MemMgr /usr/local/rhc/bin
+cp $HOME/tmp/prodea/src/am/am.conf /usr/local/rhc/bin
+cp $HOME/tmp/prodea/src/am/am /usr/local/rhc/bin
+cp $HOME/tmp/prodea/Data/cmd.txt /usr/local/rhc/bin
+ln -s /usr/local/rhc/bin/cmd.txt ../apiTester/cmd.txt
+
+cp -a  $HOME/tmp/prodea/src/rhcLib/* /usr/local/rhc/lib/
+cp -a  $HOME/tmp/prodea/src/rhcConf/*.template /usr/local/rhc/rhcConf/
+cp -a  $HOME/tmp/prodea/src/rhcAPI/Tester/*.c /usr/local/rhc/apiTester/
+cp -a  $HOME/tmp/prodea/src/rhcAPI/Tester/Makefile /usr/local/rhc/apiTester/
+cp -a  $HOME/tmp/prodea/src/rhcAPI/*.h /usr/local/rhc/include/
+cp -a  $HOME/tmp/prodea/src/aos_secure/securecmd.db /usr/local/rhc/aos_secure/
+cp -a  $HOME/tmp/prodea/lib/librhcApi.a /usr/local/rhc/lib/
+cd /usr/local/rhc/boot/; wget ftp://172.22.0.1/incoming/rhcDemo/rhcImage;
+cd $HOME;
+tar czfP rhcDemo.tgz /usr/local/rhc

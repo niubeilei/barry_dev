@@ -1,0 +1,3 @@
+<config base_dir="./" trans_dir="./">	
+	<jimocall_server id="1" name="doc_engine_manual" addr="192.168.99.215" port="21501" conn_type="tcp"/>
+</config>

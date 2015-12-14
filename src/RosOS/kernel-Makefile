@@ -1,0 +1,1 @@
+obj-y := ros_os_cli.o

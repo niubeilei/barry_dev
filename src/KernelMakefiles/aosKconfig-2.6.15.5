@@ -1,0 +1,145 @@
+
+menu "AOS SSL PROXY"
+
+config AOS_CORE
+    tristate "AOS Core"
+    ---help---
+    The AOS Core files
+
+config CERT_VERIFY
+    tristate "AOS Cert Verify"
+	depends on AOS_CORE
+    ---help--- 
+    This module includes OCSP and CRL
+
+config AOS_SSL
+    tristate "AOS SSL"
+	depends on CERT_VERIFY
+    ---help---
+    The aos ssl is kernel ssl process.
+   
+config AOS_TEST
+	tristate "AOS Test"
+	depends on AOS_CORE
+	---help---
+	The AOS Test Module
+
+config AOS_INMEMORY_LOG
+	tristate "AOS In-Memory Log"
+	depends on AOS_CORE
+	---help---
+	Keep logs in memory
+
+config AOS_MEMORY_CATCHER
+	tristate "AOS Memory Catcher"
+	depends on AOS_CORE
+	---help---
+	This facility is used to catch kernel memory leaks. If not sure, select no. 
+
+config AOS_TCPVS
+    tristate "AOS TCPVS"
+    depends on AOS_CORE
+    ---help---
+    The AOS TCPVS module
+
+config AOS_APP_HTTP
+    tristate "AOS APP HTTP For TCPVS Proxy"
+    depends on AOS_TCPVS
+    ---help---
+    This module includes http application processing
+
+config AOS_WEB_WALL
+    tristate "AOS WEB WALL"
+    depends on AOS_APP_HTTP
+    ---help---
+    This module includes web wall url filter feature
+    
+config AOS_TCPVS_TCP
+    tristate "general TCP For TCPVS Proxy"
+    depends on AOS_TCPVS
+    ---help---
+    This module includes general TCP application processing
+    	
+config AOS_TCPVS_TCP_LOG
+    tristate "general TCP log support"
+    depends on AOS_TCPVS_TCP
+    ---help---
+	support general TCP log 
+	
+config AOS_TCPVS_FTP
+    tristate "FTP For TCPVS Proxy"
+    depends on AOS_TCPVS
+    ---help---
+    This module includes ftp application processing
+
+config AOS_TCPVS_FTP_AUTH
+    tristate "FTP auth support"
+    depends on AOS_TCPVS_FTP
+    ---help---
+	support ftp auth
+
+config AOS_TCPVS_FTP_LOG
+    tristate "FTP log support"
+    depends on AOS_TCPVS_FTP
+    ---help---
+	support ftp log
+
+config AOS_TCPVS_TELNET
+    tristate "TELNET For TCPVS Proxy"
+    depends on AOS_TCPVS
+    ---help---
+    This module includes telnet application processing
+
+config AOS_TCPVS_TELNET_AUTH
+    tristate "Telnet auth support"
+    depends on AOS_TCPVS_TELNET
+    ---help---
+	support telnet auth
+
+config AOS_TCPVS_TELNET_LOG
+    tristate "TELNET log support"
+    depends on AOS_TCPVS_TELNET
+    ---help---
+	support telnet log
+
+config AOS_TCPVS_SSH
+    tristate "SSH For TCPVS Proxy"
+    depends on AOS_TCPVS
+    ---help---
+    This module includes SSH application processing
+
+config AOS_TCPVS_SSH_AUTH
+    tristate "SSH auth support"
+    depends on AOS_TCPVS_SSH
+    ---help---
+	support SSH auth
+
+config AOS_TCPVS_SSH_LOG
+    tristate "SSH log support"
+    depends on AOS_TCPVS_SSH
+    ---help---
+	support SSH log
+
+config AOS_TCPVS_WT
+    tristate "Window Terminal For TCPVS Proxy"
+    depends on AOS_TCPVS
+    ---help---
+    This module includes Window Terminal application processing
+    
+config AOS_TCPVS_WT_AUTH
+    tristate "Window Terminal auth support"
+    depends on AOS_TCPVS_WT
+    ---help---
+	support Window Terminal auth
+
+config AOS_TCPVS_WT_LOG
+    tristate "Window Terminal log support"
+    depends on AOS_TCPVS_WT
+    ---help---
+	support Window Terminal log 
+	
+source "net/aos/Kconfig"
+
+endmenu
+
+

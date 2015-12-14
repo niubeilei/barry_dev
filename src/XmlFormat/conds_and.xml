@@ -1,0 +1,7 @@
+<valueset name='condition'>
+	<required>                                               
+		<attrs>
+			<attr name="zky_docselector_type"><![CDATA[[001]]]></attr>
+		</attrs>
+	</required>
+</valueset>

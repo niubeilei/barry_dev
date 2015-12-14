@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes" ?>
+<player admin="12">
+    <pos x="2" />
+    <mediaPlayer />
+    <realPlayer />
+    <PowerPlayer />Text
+</player>

@@ -1,0 +1,46 @@
+#!/bin/bash
+
+CLI=Cli.exe
+LOCAL_ADDR=192.168.10.96
+SERVER_ADDR=192.168.10.99
+
+
+$CLI -cmd "log set filter all debug"
+
+APP=dummy
+NAME=echo
+$CLI -cmd "proxy add $NAME $APP $LOCAL_ADDR 9007 plain"
+$CLI -cmd "proxy rs add $NAME $SERVER_ADDR 7 plain"
+$CLI -cmd "proxy set status $NAME on"
+
+NAME=time
+$CLI -cmd "proxy add $NAME $APP $LOCAL_ADDR 9013 plain"
+$CLI -cmd "proxy rs add $NAME $SERVER_ADDR 13 plain"
+$CLI -cmd "proxy set status $NAME on"
+
+
+NAME=discard
+$CLI -cmd "proxy add $NAME $APP $LOCAL_ADDR 9009 plain"
+$CLI -cmd "proxy rs add $NAME $SERVER_ADDR 9 plain"
+$CLI -cmd "proxy set status $NAME on"
+
+NAME=apache
+$CLI -cmd "proxy add $NAME $APP $LOCAL_ADDR 9080 plain"
+$CLI -cmd "proxy rs add $NAME $SERVER_ADDR 80 plain"
+$CLI -cmd "proxy set status $NAME on"
+
+NAME=bouncer
+$CLI -cmd "proxy add $NAME $APP $LOCAL_ADDR 9999 plain"
+$CLI -cmd "proxy rs add $NAME $SERVER_ADDR 8888 plain"
+$CLI -cmd "proxy set status $NAME on"
+
+
+NAME=myftp
+APP=ftp
+$CLI -cmd "proxy add $NAME $APP $LOCAL_ADDR 9021 plain"
+$CLI -cmd "proxy rs add $NAME $SERVER_ADDR 21 plain"
+$CLI -cmd "proxy set status $NAME on"
+
+
+cat /proc/proxy/po
+

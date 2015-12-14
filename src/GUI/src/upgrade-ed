@@ -1,0 +1,75 @@
+#!/bin/bash
+
+set -e
+
+function have_no_file()
+{
+	tar tzf $1 $2 >/dev/null 2>&1
+
+	if [ $? -eq 0 ]
+	then
+		return 1
+	else
+		return 0
+	fi
+}
+
+
+
+DEVICE=/dev/sda2
+
+if [ $# -lt 1 ]
+then
+	echo "parameter error"
+	exit 1
+fi
+
+if [ -f /etc/dom_partition ]
+then
+	. /etc/dom_partition
+fi
+
+if ! [ -b $DEVICE ]
+then
+	echo "$DEVICE is an invalid block device"
+	exit 1
+fi
+
+filename=$1
+
+if ! [ -f $filename ]
+then
+	echo "$filename is an invalid file"
+	exit 1
+fi
+
+if 	have_no_file $filename  aos.tgz \
+	|| have_no_file $filename boot/vmlinuz-sslproxy \
+	|| have_no_file $filename boot/initrd.img-sslproxy 
+then
+	echo "$filename is an invalid upgrade file"
+	exit 1
+fi
+
+echo "mount /mnt"
+mount $DEVICE /mnt
+echo "delete old"
+rm -rf /mnt/old
+echo "mkdir old/boot"
+mkdir -p /mnt/old/boot
+echo "1"
+cp -a /mnt/linux-config /mnt/old
+echo "2"
+cp -a /mnt/aos.tgz /mnt/old
+echo "3"
+cp -a /mnt/boot/vmlinuz* /mnt/old/boot
+echo "4"
+cp -a /mnt/boot/initrd* /mnt/old/boot
+echo "5"
+tar zxf $filename -C /mnt/
+echo "umount /mnt"
+umount /mnt
+
+echo "success"
+exit 0
+

@@ -1,0 +1,4 @@
+# Sample resolv.conf configuration file. 
+
+#nameserver
+nameserver 172.22.0.1

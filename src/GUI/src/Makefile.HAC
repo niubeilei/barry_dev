@@ -1,0 +1,18 @@
+
+all:
+	gcc -Wall -g -o mysudo mysudo.c
+	gcc -Wall -g -o setxmlconfig setxmlconfig.HAC.c
+	gcc -Wall -g -o netconfig netconfig.c
+	
+clean:
+	rm -f *.o
+	rm -f mysudo setxmlconfig
+
+install:
+	cp -f mysudo /usr/local/AOS/Bin
+	cp -f setxmlconfig /usr/local/AOS/Bin
+
+uninstall:
+	rm -f mysudo /usr/local/AOS/Bin
+	rm -f setxmlconfig /usr/local/AOS/Bin
+

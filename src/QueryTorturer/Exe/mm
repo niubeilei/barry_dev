@@ -1,0 +1,6 @@
+cd ..
+make
+read
+cd -
+rm querytester.exe
+make

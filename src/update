@@ -1,0 +1,5 @@
+#/bin/bash
+
+cvs update -dP 2>/dev/null
+cvs update -dP ../shared_libs/ 2>/dev/null
+

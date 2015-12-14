@@ -1,0 +1,2 @@
+sudo killall -9 am
+sudo ./am  -m file -a /home/zzh/trunk-aos/src/am/user.conf -f /usr/local/keyou/Log/proxyuserauth.log

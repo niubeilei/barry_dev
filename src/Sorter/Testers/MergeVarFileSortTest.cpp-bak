@@ -1,0 +1,126 @@
+////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) 2005
+// Packet Engineering, Inc. All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification is not permitted unless authorized in writing by a duly
+// appointed officer of Packet Engineering, Inc. or its derivatives
+//
+// Description:
+//   
+//
+// Modification History:
+// 2013/02/12	Created by Chen Ding
+////////////////////////////////////////////////////////////////////////////
+#include "Sorter/Testers/MergeVarFileSortTest.h"
+
+#include "Actions/ActMergeFile.h"
+#include "Debug/Debug.h"
+#include "Porting/TimeOfDay.h"
+#include "Rundata/Rundata.h"
+#include "DataSort/DataSort.h"
+#include "DataSort/Ptrs.h"
+#include "NetFile/NetFile.h"
+#include "Sorter/MergeFileSorter.h"
+#include "Sorter/MultiFileSorter.h"
+#include "SEInterfaces/NetFileCltObj.h"
+#include "DataTypes/DataColOpr.h"
+#include "Tester/Test.h"
+#include "Tester/TestMgr.h"
+#include "Util/OmnNew.h"
+#include "Util/Buff.h"
+#include "Util/File.h"
+#include "Util/BuffArray.h"
+#include "Util/CompareFun.h"
+#include "Util/DirDesc.h"
+#include <limits.h>
+#include <string.h>
+#include <stdlib.h>
+#include <arpa/inet.h>
+#include <set>
+#include <vector>
+using namespace std;
+
+AosMergeVarFileSortTest::AosMergeVarFileSortTest()
+{
+}
+
+
+bool AosMergeVarFileSortTest::start()
+{
+	testInsert();
+	return true;
+}
+
+
+bool
+AosMergeVarFileSortTest::testInsert()
+{
+	AosRundataPtr rdata = OmnApp::getRundata();
+	rdata->setSiteid(100);
+	createCmpFunc(rdata);
+	bool rslt = createVirFiles(rdata);
+	aos_assert_r(rslt, false);
+
+	AosMergeFileSorter *merge_sort = OmnNew AosMergeFileSorter(10000, mCmpFun.getPtr(), mVirFiles, rdata);
+	merge_sort->sort();
+OmnScreen << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << endl;
+	exit(0);
+	return true;
+}
+
+
+bool
+AosMergeVarFileSortTest::createVirFiles(const AosRundataPtr &rdata)
+{
+	u64 file_id;
+	OmnString file_name;
+	AosNetFileObjPtr file;
+	OmnDirDesc dir("/home/andy/LoadData/SortFile");
+	bool rslt = dir.getFirstFile(file_name);
+	OmnString net_file_name = "test_file";
+	int vv = 0;
+	while (file_name != "")
+	{
+		OmnString tmp_file_name;
+		tmp_file_name << net_file_name << "_" << vv;
+		OmnFilePtr sourcefile = OmnNew OmnFile(file_name, OmnFile::eReadOnly AosMemoryCheckerArgs);
+		aos_assert_r(sourcefile->isGood(), false);
+
+		AosBuffPtr buff = OmnNew AosBuff(sourcefile->getLength()+10  AosMemoryCheckerArgs);
+		sourcefile->readToBuff(buff, sourcefile->getLength() + 100);
+
+		OmnLocalFilePtr tmp_file = AosNetFileCltObj::createRaidFileStatic(
+				rdata.getPtr(), file_id, tmp_file_name, 0, false);
+		aos_assert_r(tmp_file && tmp_file->isGood(), false);
+
+		bool rslt = tmp_file->append(buff->data(), buff->dataLen(), true); 
+		aos_assert_r(rslt, false);
+		file = OmnNew AosIdNetFile(0, file_id);
+		mVirFiles.push_back(file);
+		dir.getNextFile(file_name);
+		vv++;
+	}
+	dir.close();	
+	return true;
+}
+
+
+void
+AosMergeVarFileSortTest::createCmpFunc(const AosRundataPtr &rdata)
+{
+	OmnString str="";
+	str <<"<CompareFun record_type=\"buff\" cmpfun_reserve=\"false\" cmpfun_size=\"-1\" cmpfun_type=\"custom\">"
+		<<	"<datafields>"
+		<< 		"<field type=\"str\"/>"
+		<< 		"<field type=\"bin_u64\"/>"
+		<< 	"</datafields>"
+		<< 	"<cmp_fields>"
+		<< 		"<field cmp_size=\"-1\" cmp_datatype=\"record\" field_type=\"buffstr\" cmp_pos=\"0\" cmp_reserve=\"false\"/>"
+		<< 	"</cmp_fields>"
+		<< "</CompareFun>";
+
+	AosXmlTagPtr cmp_tag =  AosXmlParser::parse(str AosMemoryCheckerArgs);
+	mCmpFun = AosCompareFun::getCompareFunc(cmp_tag);
+}

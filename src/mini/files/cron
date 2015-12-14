@@ -1,0 +1,12 @@
+/etc/init.d/cron
+/etc/rc0.d/K11cron
+/etc/rc1.d/K11cron
+/etc/rc2.d/S89cron
+/etc/rc3.d/S89cron
+/etc/rc4.d/S89cron
+/etc/rc5.d/S89cron
+/etc/rc6.d/K11cron
+
+/usr/sbin/cron
+/usr/bin/crontab
+

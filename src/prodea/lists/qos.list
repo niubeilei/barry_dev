@@ -1,0 +1,3 @@
+src/QoS/*.[ch]
+src/QoS/Makefile
+src/QoS/kernel-Makefile

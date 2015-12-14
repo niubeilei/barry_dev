@@ -1,0 +1,113 @@
+#       FileName: runTestcase14Bou
+#       Created by Hugo 11/10/2005
+#       Modified by
+#       Comments: this script file is for bouncer
+#
+
+#Testcase 15
+#Virtual Services:100
+
+#
+# Conns.5   Repeat.100  Length.1000
+./TcpBouncer.exe -a 192.168.2.190 -p 8001&
+./TcpBouncer.exe -a 192.168.2.190 -p 8002&
+./TcpBouncer.exe -a 192.168.2.190 -p 8003&
+./TcpBouncer.exe -a 192.168.2.190 -p 8004&
+./TcpBouncer.exe -a 192.168.2.190 -p 8005&
+./TcpBouncer.exe -a 192.168.2.190 -p 8006&
+./TcpBouncer.exe -a 192.168.2.190 -p 8007&
+./TcpBouncer.exe -a 192.168.2.190 -p 8008&
+./TcpBouncer.exe -a 192.168.2.190 -p 8009&
+./TcpBouncer.exe -a 192.168.2.190 -p 8010&
+./TcpBouncer.exe -a 192.168.2.190 -p 8011&
+./TcpBouncer.exe -a 192.168.2.190 -p 8012&
+./TcpBouncer.exe -a 192.168.2.190 -p 8013&
+./TcpBouncer.exe -a 192.168.2.190 -p 8014&
+./TcpBouncer.exe -a 192.168.2.190 -p 8015&
+./TcpBouncer.exe -a 192.168.2.190 -p 8016&
+./TcpBouncer.exe -a 192.168.2.190 -p 8017&
+./TcpBouncer.exe -a 192.168.2.190 -p 8018&
+./TcpBouncer.exe -a 192.168.2.190 -p 8019&
+./TcpBouncer.exe -a 192.168.2.190 -p 8020&
+./TcpBouncer.exe -a 192.168.2.190 -p 8021&
+./TcpBouncer.exe -a 192.168.2.190 -p 8022&
+./TcpBouncer.exe -a 192.168.2.190 -p 8023&
+./TcpBouncer.exe -a 192.168.2.190 -p 8024&
+./TcpBouncer.exe -a 192.168.2.190 -p 8025&
+./TcpBouncer.exe -a 192.168.2.190 -p 8026&
+./TcpBouncer.exe -a 192.168.2.190 -p 8027&
+./TcpBouncer.exe -a 192.168.2.190 -p 8028&
+./TcpBouncer.exe -a 192.168.2.190 -p 8029&
+./TcpBouncer.exe -a 192.168.2.190 -p 8030&
+./TcpBouncer.exe -a 192.168.2.190 -p 8031&
+./TcpBouncer.exe -a 192.168.2.190 -p 8032&
+./TcpBouncer.exe -a 192.168.2.190 -p 8033&
+./TcpBouncer.exe -a 192.168.2.190 -p 8034&
+./TcpBouncer.exe -a 192.168.2.190 -p 8035&
+./TcpBouncer.exe -a 192.168.2.190 -p 8036&
+./TcpBouncer.exe -a 192.168.2.190 -p 8037&
+./TcpBouncer.exe -a 192.168.2.190 -p 8038&
+./TcpBouncer.exe -a 192.168.2.190 -p 8039&
+./TcpBouncer.exe -a 192.168.2.190 -p 8040&
+./TcpBouncer.exe -a 192.168.2.190 -p 8041&
+./TcpBouncer.exe -a 192.168.2.190 -p 8042&
+./TcpBouncer.exe -a 192.168.2.190 -p 8043&
+./TcpBouncer.exe -a 192.168.2.190 -p 8044&
+./TcpBouncer.exe -a 192.168.2.190 -p 8045&
+./TcpBouncer.exe -a 192.168.2.190 -p 8046&
+./TcpBouncer.exe -a 192.168.2.190 -p 8047&
+./TcpBouncer.exe -a 192.168.2.190 -p 8048&
+./TcpBouncer.exe -a 192.168.2.190 -p 8049&
+./TcpBouncer.exe -a 192.168.2.190 -p 8050&
+./TcpBouncer.exe -a 192.168.2.190 -p 8051&
+./TcpBouncer.exe -a 192.168.2.190 -p 8052&
+./TcpBouncer.exe -a 192.168.2.190 -p 8053&
+./TcpBouncer.exe -a 192.168.2.190 -p 8054&
+./TcpBouncer.exe -a 192.168.2.190 -p 8055&
+./TcpBouncer.exe -a 192.168.2.190 -p 8056&
+./TcpBouncer.exe -a 192.168.2.190 -p 8057&
+./TcpBouncer.exe -a 192.168.2.190 -p 8058&
+./TcpBouncer.exe -a 192.168.2.190 -p 8059&
+./TcpBouncer.exe -a 192.168.2.190 -p 8060&
+./TcpBouncer.exe -a 192.168.2.190 -p 8061&
+./TcpBouncer.exe -a 192.168.2.190 -p 8062&
+./TcpBouncer.exe -a 192.168.2.190 -p 8063&
+./TcpBouncer.exe -a 192.168.2.190 -p 8064&
+./TcpBouncer.exe -a 192.168.2.190 -p 8065&
+./TcpBouncer.exe -a 192.168.2.190 -p 8066&
+./TcpBouncer.exe -a 192.168.2.190 -p 8067&
+./TcpBouncer.exe -a 192.168.2.190 -p 8068&
+./TcpBouncer.exe -a 192.168.2.190 -p 8069&
+./TcpBouncer.exe -a 192.168.2.190 -p 8070&
+./TcpBouncer.exe -a 192.168.2.190 -p 8071&
+./TcpBouncer.exe -a 192.168.2.190 -p 8072&
+./TcpBouncer.exe -a 192.168.2.190 -p 8073&
+./TcpBouncer.exe -a 192.168.2.190 -p 8074&
+./TcpBouncer.exe -a 192.168.2.190 -p 8075&
+./TcpBouncer.exe -a 192.168.2.190 -p 8076&
+./TcpBouncer.exe -a 192.168.2.190 -p 8077&
+./TcpBouncer.exe -a 192.168.2.190 -p 8078&
+./TcpBouncer.exe -a 192.168.2.190 -p 8079&
+./TcpBouncer.exe -a 192.168.2.190 -p 8080&
+./TcpBouncer.exe -a 192.168.2.190 -p 8081&
+./TcpBouncer.exe -a 192.168.2.190 -p 8082&
+./TcpBouncer.exe -a 192.168.2.190 -p 8083&
+./TcpBouncer.exe -a 192.168.2.190 -p 8084&
+./TcpBouncer.exe -a 192.168.2.190 -p 8085&
+./TcpBouncer.exe -a 192.168.2.190 -p 8086&
+./TcpBouncer.exe -a 192.168.2.190 -p 8087&
+./TcpBouncer.exe -a 192.168.2.190 -p 8088&
+./TcpBouncer.exe -a 192.168.2.190 -p 8089&
+./TcpBouncer.exe -a 192.168.2.190 -p 8090&
+./TcpBouncer.exe -a 192.168.2.190 -p 8091&
+./TcpBouncer.exe -a 192.168.2.190 -p 8092&
+./TcpBouncer.exe -a 192.168.2.190 -p 8093&
+./TcpBouncer.exe -a 192.168.2.190 -p 8094&
+./TcpBouncer.exe -a 192.168.2.190 -p 8095&
+./TcpBouncer.exe -a 192.168.2.190 -p 8096&
+./TcpBouncer.exe -a 192.168.2.190 -p 8097&
+./TcpBouncer.exe -a 192.168.2.190 -p 8098&
+./TcpBouncer.exe -a 192.168.2.190 -p 8099&
+./TcpBouncer.exe -a 192.168.2.190 -p 8100&
+
+

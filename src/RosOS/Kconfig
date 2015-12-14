@@ -1,0 +1,7 @@
+
+config AOS_ROS_OS
+	tristate "ros os system limit"
+	depends on AOS_CORE
+	help
+		ros os system limit	
+

@@ -1,0 +1,188 @@
+////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) 2005
+// Packet Engineering, Inc. All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification is not permitted unless authorized in writing by a duly
+// appointed officer of Packet Engineering, Inc. or its derivatives
+//
+//
+// Modification History:
+// 05/10/2012 Created by Chen Ding
+////////////////////////////////////////////////////////////////////////////
+#ifndef Aos_IILUtil_IILScanner_h
+#define Aos_IILUtil_IILScanner_h
+
+#include "IILUtil/IILEntrySelType.h"
+#include "IILUtil/IILValueType.h"
+#include "IILUtil/IILMatchType.h"
+#include "IILUtil/IILIdx.h"
+#include "IILUtil/Ptrs.h"
+#include "QueryUtil/QueryContext.h"
+#include "Rundata/Ptrs.h"
+#include "SEInterfaces/IILScannerObj.h"
+#include "SEInterfaces/DataProcStatus.h"
+#include "SEInterfaces/QueryContextObj.h"
+#include "Thread/ThreadedObj.h"
+#include "Util/Opr.h"
+#include "Util/RCObject.h"
+#include "Util/RCObjImp.h"
+#include "Util/String.h"
+#include "Util/Ptrs.h"
+#include "ValueSel/ValueRslt.h"
+#include "XmlUtil/Ptrs.h"
+#include <vector>
+using namespace std;
+
+class AosIILScanner : virtual public OmnThreadedObj,
+					  virtual public AosIILScannerObj
+{
+	OmnDefineRCObject;
+
+private:
+	enum
+	{
+		eMaxComposorStrLen = 10000,
+		eDftPagesize = 10000
+	};
+
+	struct ValueCond
+	{
+		OmnString	mValueType;
+		OmnString	mValue1;
+		OmnString	mValue2;
+		AosOpr		mOpr;
+		
+		bool		mIsGroup;
+		AosQueryContext::QueryKeyGroupingType	mKeyGroupType;
+		AosQueryContext::QueryValueGroupingType	mValueGroupType;
+
+		bool		mNeedFilter;
+		AosQueryContextObj::FilterType	mFilterType;
+		OmnString	mFilterValueType;
+		OmnString	mFilterValue;
+		AosOpr		mFilterOpr;
+
+		ValueCond()
+		{
+			mValueType = "str";
+			mValue1 = "";
+			mValue2 = "";
+			mOpr = eAosOpr_an;
+			mIsGroup = false;
+			mNeedFilter = false;
+		}
+	};
+
+	OmnMutexPtr					mLock;
+	OmnCondVarPtr				mCondVar;
+	OmnThreadPtr				mThread;
+	AosRundataPtr				mRundata;
+	AosIILScannerListenerPtr	mCaller;
+	AosDataProcStatus::E 		mStatus;
+	bool						mIsGood;
+	bool						mNoMoreData;
+	u32							mSiteid;
+	OmnString					mIILName;				
+	AosIILMatchType::E			mMatchType;			
+	int							mMatchedFieldIdx;
+	OmnString					mFieldSeparator;				
+	bool						mIgnoreMatchError;				
+	ValueCond					mValueCond;				
+	int							mPagesize;				
+	int							mSeqno;
+	bool						mCouldSetQueryContext;
+	AosQueryContextObjPtr		mQueryContext;
+	int							mProgress;
+	u64							mTotalRecordNum;
+	u64							mProcRecordNum;
+	AosQueryRsltPtr				mCrtData;
+	AosQueryRsltPtr				mNextData;
+	int							mNumDocs;
+	int							mCrtIdx;
+	AosBuffPtr					mCrtKeys;
+	u64 *						mCrtValues;
+	const char *				mCrtKeyStr;
+	int							mCrtKeyLen;
+	OmnString					mCrtValueStr;
+	int							mStartPos;
+	int							mEndPos;
+	
+public:
+	AosIILScanner();
+	AosIILScanner(
+			const AosIILScannerListenerPtr &caller, 
+			const int seqno,
+			const AosXmlTagPtr &def, 
+			const AosRundataPtr &rdata);
+	AosIILScanner(
+			const int seqno,
+			const AosXmlTagPtr &def, 
+			const AosRundataPtr &rdata);
+	~AosIILScanner();
+
+	// OmnThreadedObj interface
+	virtual bool	threadFunc(OmnThrdStatus::E &state, const OmnThreadPtr &thread);
+	virtual bool	signal(const int threadLogicId);
+    virtual bool    checkThread(OmnString &err, const int thrdLogicId) const;
+
+	OmnString		toString() const;
+	int				getSeqno() const {return mSeqno;}
+	virtual bool	start(const AosRundataPtr &rdata);
+	bool			isFinished() const;
+	bool			serializeTo(const AosBuffPtr &buff);
+	bool			serializeFrom(const AosBuffPtr &buff);
+	AosIILMatchType::E getMatchType() const {return mMatchType;}
+
+	AosDataProcStatus::E setupNewData(const AosRundataPtr &rdata);
+	virtual AosDataProcStatus::E	moveNext(
+						const char *&value, 
+						int &len,
+						const int total_matched,
+						const AosRundataPtr &rdata);
+	virtual AosDataProcStatus::E	setMatchedValue(
+						const AosDataRecordObjPtr &record, 
+						const AosRundataPtr &rdata);
+	virtual AosDataProcStatus::E	setNotMatchedValue(
+						const AosDataRecordObjPtr &record,
+						const AosRundataPtr &rdata);
+
+	virtual AosIILScannerObjPtr createIILScanner(
+						const AosIILScannerListenerPtr &caller,
+						const int seqno,
+						const AosXmlTagPtr &def, 
+						const AosRundataPtr &rdata);
+	
+	virtual AosQueryContextObjPtr	getQueryContext() const;
+	virtual bool					setQueryContext(
+										const AosQueryContextObjPtr &context,
+										const AosRundataPtr &rdata);
+	virtual AosIILScannerObjPtr clone() const;
+	virtual bool setCondition(
+						const OmnString &key1,
+						const u64 &docid1, 
+						const OmnString &key2,
+						const u64 &docid2, 
+						const AosRundataPtr &rdata);
+	virtual bool setCondition(
+						const OmnString &key,
+						const u64 &docid, 
+						const AosRundataPtr &rdata);
+
+	virtual bool		setListener(const AosIILScannerListenerPtr &listener);
+	virtual OmnString	getIILName(){return mIILName;}
+	virtual int			getProgress();
+	virtual u64			getCrtValue() const;
+
+private:
+	bool			config(
+						const AosXmlTagPtr &def,
+						const AosRundataPtr &rdata);
+	bool			parseValCond(
+						const AosXmlTagPtr &val_cond,
+						const AosRundataPtr &rdata);
+	bool			retrieveData();
+
+};
+#endif

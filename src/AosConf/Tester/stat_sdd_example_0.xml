@@ -1,0 +1,20 @@
+<sdd zky_objid="stat_sdd_example" zky_public_doc="true" zky_public_ctnr="true" time_unit="_day">
+	<vector2d root_stat_doc_size="11500" index_size="3000" time_bucket_weight="1000" start_time_slot="14610" extension_doc_size="8000"/>
+	<internal_statistics>
+		<statistic internal_id="0">
+        	<key_fields>
+            	 <field field_name="f11"/>
+            	 <field field_name="f21"/>
+            	 <field field_name="f22"/>
+            	 <field field_name="f31"/>
+            	 <field field_name="f32"/>
+            	 <field field_name="f33"/>
+			 </key_fields>
+         	<measure>
+				<measure_field field_name="sales"/>
+				<agr_type type="sum"/>
+				<vector2d_control root_control_objid ="stat_root_example1" extension_control_objid="stat_ext_example1" zky_data_type="int64"/>
+			</measure>
+     	</statistic>
+	</internal_statistics> 
+</sdd>

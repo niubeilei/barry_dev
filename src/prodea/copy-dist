@@ -1,0 +1,41 @@
+#!/usr/bin/env python
+
+import os
+import sys
+import glob
+from distutils import file_util
+from distutils import dir_util
+
+def copy_one_file( from_file, to_dir ):
+	print "Copy file:", from_file, "to", to_dir
+	dir_util.mkpath( to_dir )
+	if os.path.isfile( from_file ):
+		file_util.copy_file( from_file, to_dir )
+
+def copy_list_file( from_place, list_file, to_place ):
+	print "\nProcess list file", list_file
+	for line in open( list_file ):
+		#print line
+		line = line.strip( ' \n' )
+		if not line: continue
+		relative = os.path.dirname( line )
+		files = glob.glob( from_place+'/'+line )
+		for f in files:
+			copy_one_file( f, to_place+'/'+relative )
+
+def copy_files( from_place, to_place ):
+	print "Begin copy files ..."
+	for list_file in glob.glob( from_place+"/src/prodea/lists/*.list" ):
+		copy_list_file( from_place, list_file, to_place )
+
+source = os.environ['PWD'] + "/../.."
+target = os.environ['HOME'] + "/tmp/prodea"
+
+print "Target dir is", target
+os.system( "rm -rf " + target )
+copy_files( source, target )
+
+print "\n\n========================"
+print "Copy from", source, "to", target, "completed."
+print "Please go to $HOME/tmp/prodea and try to compile programs"
+

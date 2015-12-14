@@ -1,0 +1,16 @@
+		$(LIBDIR)/libstatemachine.a \
+		$(LIBDIR)/librules.a \
+		$(LIBDIR)/libevent.a \
+		$(LIBDIR)/libaos_net.a \
+		$(LIBDIR)/libactions.a \
+		$(LIBDIR)/libomni_parser.a \
+		$(LIBDIR)/libsemanobj.a \
+		$(LIBDIR)/libsemantics.a \
+		$(LIBDIR)/libsemanoprs.a \
+		$(LIBDIR)/librvg.a \
+		$(LIBDIR)/libaos_random.a \
+		$(LIBDIR)/libconditions.a \
+		$(LIBDIR)/libaos_alarms.a \
+		$(LIBDIR)/libaos_util.a \
+		$(LIBDIR)/libaos_thread.a \
+		$(LIBDIR)/libporting.a \

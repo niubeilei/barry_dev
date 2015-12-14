@@ -1,0 +1,9 @@
+<config
+	base_dir="./"
+	trans_dir="./"
+	replic_dir = "./">
+	<endpoints>
+		<endpoint id="1" addr="192.168.99.206" port="10001"/>
+		<endpoint id="2" addr="192.168.99.206" port="10002"/>
+	</endpoints>
+</config>

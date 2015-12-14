@@ -1,0 +1,83 @@
+######################################################
+################# clitest.exe help file  #############
+################# initiate by Ricky Chen #############
+################# initiate date:2007.4.2 #############
+######################################################
+
+#######################
+# ONE [INTRODUCTION] ##
+#######################
+this fuction read clis(actually include all linux shell commands) from a file and them execute it,the returns will be printed on the screen,so it need a file which contend clis to run this application,it also can control it's run times
+
+#################
+## TWO [USAGE] ##
+#################
+Usage format: 
+-----------------------------------------------------------------------------
+./runcli.exe [-f [filename]] [-m [module]] [-t [maxruncount]] [-i [interval]] 
+  
+(NOTES: all the parameter is  optional,the following is the paramrter's explation)
+-----------------------------------------------------------------------------
+
+Parameter Explations 
+--------------------------------------------------------------------------------------------------------
+-f :   special the cli file. by default ,it will use the cli.txt file which under the current directory
+-t :   control this application total run count. by default, it's value is 1
+-i :   control the intelval between run 2 cli. by default, it's value is 0(no interval)
+-m :   Special which module's clis will run. if unset it ,it will run all module's clis
+---------------------------------------------------------------------------------------------------------
+
+Get Help: 
+--------------------
+./runcli.exe -h
+----------------------
+
+Examples:
+-----------------------------------------------------------------------------------------------
+./runcli.exe                                     (all moudule's clis in cli.txt  will run 1 time) 
+./runcli.exe  -f filename2 -t 10                 (all moudule's clis in filename2 will run 10 time) 
+./runcli.exe  -f filename2 -m mac                (all mac's clis in filename2 will run 1 time) 
+./runcli.exe  -f filename2 -m dnsmasq -t 10      (all dnsmasq's clis in filename2 will run 10 time) 
+./runcli.exe  -f filename2 -m dnsmasq -t 10 -i 1 (all dnsmasq's clis in filename2 will run 10 time,every 1 second run                                                  a cli) 
+=================================================================================================
+
+
+#############################
+# THREE [CLIS file format] ##
+#############################
+--------------------------------------------------
+[module_name1]
+## add comments
+./Cli.exe -cmd "...."
+....
+....
+./Cli.exe -cmd "...."
+....
+...
+[module_name2]
+./Cli.exe -cmd "...."
+....
+....
+[module_name3]
+./Cli.exe -cmd "...."
+....
+....
+[module_name4]
+./Cli.exe -cmd "...."
+....
+....
+
+------------------------------------------------------
+
+NOTES:
+1: make sure there is no black charactor in the first and last position of the [moude_name] string.
+   eg: the '[ module1]' and '[module1 ]' is not permit, or it will run error.
+
+2: you can use any valid character except "." to add comments in this cli file, and the charactor "#" or "//"
+   is strongly supported to be used for comments begain charactor
+
+
+
+
+
+

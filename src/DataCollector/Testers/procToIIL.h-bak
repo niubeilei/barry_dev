@@ -1,0 +1,62 @@
+////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) 2005
+// Packet Engineering, Inc. All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification is not permitted unless authorized in writing by a duly
+// appointed officer of Packet Engineering, Inc. or its derivatives
+//
+// Description:
+//   
+//
+// Modification History:
+// 06/12/2012 Created by Xu Lei
+////////////////////////////////////////////////////////////////////////////
+#ifndef Aos_DataCollector_Testers_DataCheckTester_h
+#define Aos_DataCollector_Testers_DataCheckTester_h
+
+//#include "IILUtil/IILMatchType.h"
+//#include "IILUtil/IILEntrySelType.h"
+//#include "IILUtil/IILValueType.h"
+#include "IILMerger/Ptrs.h"
+#include "Rundata/Ptrs.h"
+#include "Rundata/Rundata.h"
+#include "SEInterfaces/ActionObj.h"
+#include "Tester/TestPkg.h"
+#include "Thread/Ptrs.h"
+#include "Util/Opr.h"
+#include "Util/String.h"
+#include "Util/StrU64Array.h"
+#include "Util/Ptrs.h"
+#include "XmlUtil/XmlTag.h"
+#include <vector>
+using namespace std;
+
+class AosDataCheckTester : virtual public OmnTestPkg, virtual public OmnThreadedObj
+{
+private:
+	AosRundataPtr               mRundata;
+	AosCompareFunPtr			mComp;
+	bool						mStable;
+	AosIILMergerHandlerPtr      mHandler;
+	vector<OmnThreadPtr>        mThreads;
+	OmnString					mIILName;
+	OmnString					mDataColid;
+	vector<AosActionObjPtr>		mActions;
+
+public:
+	AosDataCheckTester();
+	~AosDataCheckTester();
+	virtual bool    threadFunc(OmnThrdStatus::E &state, const OmnThreadPtr &thread);
+	virtual bool    signal(const int threadLogicId){return true;}
+	virtual bool    checkThread(OmnString &err, const int thrdLogicId) const{return false;}
+
+	virtual bool start();
+
+private:
+	bool config(const AosXmlTagPtr &app_conf);
+	bool checkEachFile(const int id);
+	bool createThread(const AosXmlTagPtr &conf);
+};
+#endif

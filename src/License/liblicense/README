@@ -1,0 +1,10 @@
+HowTo:
+	To compile the test program, use "make"
+	To compile the lib of verify_license, use "make lib"
+	To modify license file position or filename, modify marco "LICENSE_PATH" in file "verify.h" and "verify_license.h" file.
+
+	Use verify_license function.
+	Step1:
+		In Makefile file, add "-lverify_license".
+	Step2:
+		In C source file, add "#include "verify_license.h"".

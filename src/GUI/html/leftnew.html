@@ -1,0 +1,206 @@
+<html>
+
+<head>
+<title>新建网页 1</title>
+<base target="main">
+</head>
+
+<body background="image/backleft.gif">
+
+
+<script language="JavaScript1.2">
+//菜单1的内容
+var menu1=new Array()
+menu1[0]='<a href=pmi.php><center>规则管理</center></a>'
+menu1[1]='<a href=user.php><center>用户注册</center></a>'
+menu1[2]='<a href=group.php><center>组注册</center></a>'
+
+var menu2=new Array()
+menu2[0]='<a href=appmanage.php?numb=1><center>应用信息</center></a>'
+menu2[1]='<a href=usermess.php?numb=1><center>用户信息</center></a>'
+menu2[2]='<a href=groupmess.php?numb=1><center>组信息</center></a>'
+
+</script>
+
+<style>
+<!--
+.iewrap1{
+position:relative;
+height:40px;
+; font-family: "宋体"; font-size: 12pt}
+.iewrap2{
+position:absolute;
+; font-family: "宋体"; font-size: 12pt}
+#dropmenu0, #dropmenu1{
+visibility:hide;
+z-index:100;
+}
+#dropmenu0 { font-family: "华文彩云" ; font-size: 12pt}#dropmenu1 { font-family: "华文彩云" ; font-size: 12pt}-->
+</style>
+
+<table border="0" cellspacing="0" width="19%" id="AutoNumber3" height="400" cellpadding="0">
+     <tr>
+     <td>
+     <center><IMG height=30 
+            src="image/version.gif" width=110></center>
+     </td>
+     </tr>
+     <tr>
+        <td width="100%" height="35">
+        <a href="manager.php">
+        <IMG height=35 
+            src="image/manreg.gif" width=128></a>　</td>
+      </tr>
+       <tr>
+        <td width="100%" height="35">
+        <a href="parameter.php">
+        <IMG height=35 
+            src="image/parameter.gif" width=128></a>　</td>
+      </tr>
+      <tr>
+        <td width="100%" height="35">
+        <a href="server.php?numb=1">
+        <IMG height=35 
+            src="image/server.gif" width=128></a>　
+        </td>
+      </tr>
+      <tr>
+        <td width="100%" height="35">
+   
+   
+  
+<ilayer height=35px>
+<layer visibility=show>
+<span class=iewrap1>
+<span class=iewrap2 onClick="dropit2(dropmenu0);event.cancelBubble=true;return false"><a href="#" onClick="if(document.layers) return dropit(event, 'document.dropmenu0')">
+<IMG height=35 src="image/pmi.gif" width=128></a>
+</span>
+</span>
+</layer>
+</ilayer>          
+ <div id=dropmenu0 style="position:absolute;left:0;top:0;layer-background-color:#eef4f4;background-color:#eef4f4;width:100;visibility:hidden;border:1px solid black;padding:0px">
+<script language="JavaScript1.2">
+if (document.all)
+dropmenu0.style.padding="4px"
+for (i=0;i<menu1.length;i++)
+document.write(menu1[i])
+</script>
+</div>
+<script language="JavaScript1.2">
+if (document.layers){
+document.dropmenu0.captureEvents(Event.CLICK)
+document.dropmenu0.onclick=hidemenu2
+}
+</script>
+           
+            
+            
+        </td>
+      </tr>
+      <tr>
+        <td width="100%" height="35">
+<ilayer height=35px>
+<layer visibility=show>
+<span class=iewrap1>
+<span class=iewrap2 onClick="dropit2(dropmenu1);event.cancelBubble=true;return false"><a href="#" onClick="if(document.layers) return dropit(event, 'document.dropmenu1')">
+<IMG height=35 src="image/messlook.gif" width=128></a>
+</span>
+</span>
+</layer>
+</ilayer><br>
+<div id=dropmenu1 style="position:absolute;left:0;top:0;layer-background-color:#eef4f4;background-color:#eef4f4;width:100;visibility:hidden;border:1px solid black;padding:0px">
+<script language="JavaScript1.2">
+if (document.all)
+dropmenu1.style.padding="4px"
+for (i=0;i<menu2.length;i++)
+document.write(menu2[i])
+</script>
+</div>
+<script language="JavaScript1.2">
+if (document.layers){
+document.dropmenu1.captureEvents(Event.CLICK)
+document.dropmenu1.onclick=hidemenu2
+}
+</script>
+
+        </td>
+      </tr>
+      <tr>
+        <td width="100%" height="35">
+                <a href="confile.php">
+        <IMG height=35 
+            src="image/confile.gif" width=128></a>　
+        </td>
+      </tr>
+   
+      <tr>
+        <td width="100%" height="35">
+                <a href="shutdown.php">
+        <IMG height=35 
+            src="image/reboot.gif" width=128></a>　
+        </td>
+      </tr>
+      <tr>
+        <td width="100%" height="35">
+                <a href="settime.php">
+        <IMG height=35 
+            src="image/shut.gif" width=128></a>　
+        </td>
+      </tr>
+      <tr>
+        <td width="100%" height="35">
+                <a href="logout.php">
+        <IMG height=35 
+            src="image/reload.gif" width=128></a>　
+        </td>
+      </tr>      
+     </table></body>
+<script language="JavaScript1.2">
+//以下不要改
+var zindex=100
+function dropit2(whichone){
+if (window.themenu&&themenu.id!=whichone.id)
+themenu.style.visibility="hidden"
+themenu=whichone
+if (document.all){
+themenu.style.left=document.body.scrollLeft+event.clientX-event.offsetX
+themenu.style.top=document.body.scrollTop+event.clientY-event.offsetY+18
+if (themenu.style.visibility=="hidden"){
+themenu.style.visibility="visible"
+themenu.style.zIndex=zindex++
+}
+else{
+hidemenu()
+}
+}
+}
+
+function dropit(e,whichone){
+if (window.themenu&&themenu.id!=eval(whichone).id)
+themenu.visibility="hide"
+themenu=eval(whichone)
+if (themenu.visibility=="hide")
+themenu.visibility="show"
+else
+themenu.visibility="hide"
+themenu.zIndex++
+themenu.left=e.pageX-e.layerX
+themenu.top=e.pageY-e.layerY+19
+return false
+}
+
+function hidemenu(whichone){
+if (window.themenu)
+themenu.style.visibility="hidden"
+}
+
+function hidemenu2(){
+themenu.visibility="hide"
+}
+
+if (document.all)
+document.body.onclick=hidemenu
+
+//以上不要改
+</script>
+</html>

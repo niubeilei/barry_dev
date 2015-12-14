@@ -1,0 +1,2 @@
+./admin.exe -config config_norm.txt -s -scandocs 300 400000 100
+

@@ -1,0 +1,659 @@
+////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) 2005
+// Packet Engineering, Inc. All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification is not permitted unless authorized in writing by a duly
+// appointed officer of Packet Engineering, Inc. or its derivatives
+//
+// Modification History:
+// 2015/03/11 Created by liuwei	
+////////////////////////////////////////////////////////////////////////////
+#include "MultiCondQuery/SmartQueryTester.h"
+
+#include "AppMgr/App.h"
+#include "QueryRslt/QueryRslt.h"
+#include "IILClient/IILClient.h"
+#include "IILUtil/IILUtil.h"
+#include "BitmapTrans/Ptrs.h"
+#include "BitmapTrans/TransBitmapQuery.h"
+#include "Porting/Sleep.h"
+#include "Rundata/Rundata.h"
+#include "Rundata/Ptrs.h"
+#include "Util/UtUtil.h"
+#include "Util/Opr.h"
+#include "MultiCondQuery/MCField.h"
+#include "SEInterfaces/BitmapObj.h"
+#include "SEInterfaces/QueryContextObj.h"
+#include "Util/File.h"
+#include "NativeAPINew/zykie.h"
+
+
+extern int sgMCQStep;
+AosSmartQueryTester::AosSmartQueryTester()
+{
+	mNumRecords = 10;
+	mTableName = "TEMP_ZW_0818_GJZ_4G1";
+	mZeroStr = "00000000000000000000";
+	mOptHostName = "192.168.2.235";
+	mUserName = "root";
+	mRemotePort = 11502;
+	mPassWd = "12345";
+	config();
+}
+
+
+AosSmartQueryTester::~AosSmartQueryTester()
+{
+}
+
+bool      	
+AosSmartQueryTester::start()
+{	
+	OmnScreen << " SmartQuery Test start ..." << endl;
+	switch(sgMCQStep)
+	{
+		case 1:
+			OmnScreen << "Step 1:  Create Data." << endl;
+			createFields();
+			break;
+		case 2:
+			OmnScreen << "Step 2:  Load Data." << endl;
+			loadData();
+		case 3:
+			OmnScreen << "Step 3:  Query." << endl;
+			for(int i=0; i<100; i++)
+			{
+				OmnScreen << "===========query: " << i << endl;	
+				query();
+			}
+			break;
+		default:
+			break;
+	}
+	return true;
+}
+
+bool
+AosSmartQueryTester::config()
+{
+	//init config_xml for fields
+	AosXmlTagPtr config_xml;
+	mNumFields = 0;
+	OmnString str;
+	str << "<Fields>" 
+				"<Field>"
+					"<action type=\"eSwitch\" pos1=\"8\" pos2=\"0\"/>"
+					"<action type=\"eRotate\" pos1=\"2\"/>"
+					"<action type=\"eAdd\" delta=\"431\"/>"
+				"</Field>"
+				"<Field>"
+					"<action type=\"eSwitch\" pos1=\"9\" pos2=\"1\"/>"
+					"<action type=\"eRotate\" pos1=\"4\"/>"
+					"<action type=\"eAdd\" delta=\"2148\"/>"
+				"</Field>"
+				"<Field>"
+					"<action type=\"eSwitch\" pos1=\"9\" pos2=\"0\"/>"
+					"<action type=\"eRotate\" pos1=\"3\"/>"
+					"<action type=\"eAdd\" delta=\"1363\"/>"
+				"</Field>"
+				"<Field>"
+					"<action type=\"eSwitch\" pos1=\"10\" pos2=\"1\"/>"
+					"<action type=\"eRotate\" pos1=\"3\"/>"
+					"<action type=\"eAdd\" delta=\"1875\"/>"
+				"</Field>"
+				"<Field>"
+					"<action type=\"eSwitch\" pos1=\"5\" pos2=\"0\"/>"
+					"<action type=\"eRotate\" pos1=\"2\"/>"
+					"<action type=\"eAdd\" delta=\"3126\"/>"
+				"</Field>"
+			"</Fields>";
+	config_xml = AosXmlParser::parse(str AosMemoryCheckerArgs);
+	//create fields
+	AosXmlTagPtr field = config_xml->getFirstChild("Field");
+	while(field)
+	{
+		mNumFields++;
+		//OmnNew AosMCField();
+//		AosMCFieldPtr cur = OmnNew AosMCField();
+		AosMCFieldPtr cur = OmnNew AosMCField(field);
+		mMCFields.push_back(cur);
+		field = config_xml->getNextChild("Field");
+	}
+}
+
+bool
+AosSmartQueryTester::createFields()
+{
+	u64 tid = 0;
+
+//	system("md /home/liuwei/Jimo_Servers0/source");
+	OmnFile file1("/home/liuwei/Jimo_Servers0/source/MCFields.txt", OmnFile::eAppend AosMemoryCheckerArgs);
+if(file1.isGood())
+{
+	file1.deleteFile();
+}
+	OmnFile file("/home/liuwei/Jimo_Servers0/source/MCFields.txt", OmnFile::eCreate AosMemoryCheckerArgs);
+	if (!file.isGood())
+	{
+		OmnAlarm << "Failed to open the file: MCFields.txt" << enderr;
+		return false;
+	}
+	int num_fields =  mMCFields.size();
+	int j = 0;
+	u64 rslt;
+	for(int i=0; i<mNumRecords; i++)
+	{
+		j=0;
+		for(; j<mMCFields.size()-1; j++)
+		{
+			rslt = mMCFields[j]->getValueByTID(tid);
+//			file.append(OmnStrUtil::ulltoa(rslt), false);
+			file.append(toString(rslt), false);
+			file.append(OmnString(","), false);
+		}
+		rslt = mMCFields[j]->getValueByTID(tid);
+//		file.append(OmnStrUtil::ulltoa(rslt), false);
+		file.append(toString(rslt), false);
+		file.append(OmnString("\n"), false);
+
+		tid++;
+	}
+
+	mMaxTid = tid-1;
+	
+	file.closeFile();
+
+//create directory   sourceData
+//	sourceData/data.txt
+}
+
+
+bool
+AosSmartQueryTester::loadData()
+{
+//	system call :   ./jimodb restart;
+//  native api or system call :   ./jimodb jql -l source "script.txt"
+
+	//source file
+	if((mConn = zykie_init(NULL))== NULL)
+	{
+		OmnScreen << "zykie init failed." << endl;
+	}
+	if(zykie_connect(mConn, mOptHostName.data(), mRemotePort, mUserName.data(), mPassWd.data()))
+	{
+		OmnScreen << "zykie_connect success." << endl;
+	}
+	else
+	{
+		OmnScreen << "zykie_connect failed." << endl;
+		zykie_close(mConn);
+	}
+/*
+	if(zykie_query(mConn, "source /home/liuwei/Jimo_Servers0/script.txt"))
+	{
+		OmnScreen << "source file success." << endl;
+	}
+*/
+	OmnFile file1("/home/liuwei/Jimo_Servers0/scripts.txt", OmnFile::eReadOnly AosMemoryCheckerArgs);
+	if(!file1.isGood())
+	{
+		OmnAlarm << "open script file failed" << enderr;
+	}
+	OmnString contents;
+	bool rslt = file1.readAll(contents);
+	aos_assert_r(rslt,false);
+
+	
+	if(zykie_query(mConn, contents.data()))
+	{
+		OmnScreen << "create database success." << endl;
+	}
+	else
+	{
+		OmnScreen << "source file failed." << endl;
+	}
+}
+
+
+
+bool
+AosSmartQueryTester::query()
+{
+	//1.set query conditions
+	//2.decide rever or nor
+	//3.choose sort field
+	//4.decide query to the end or not
+	//		if not,how many records we need to query
+	//5.moveto
+	//		do we need to moveto
+	//		do we check moveto range
+	//6.set query conditions into sql
+	//7.query loop
+	//8.check rslt
+	//
+	//rand select fields
+	bool* query_flag = OmnNew bool[mNumFields];//表示是否添加query条件
+	memset(query_flag, 0, mNumFields);
+	u64 pos;
+	for(int i=0; i<mNumFields; i++)
+	{
+		pos = rand()%(mNumFields-1);
+		query_flag[pos] = true;
+	}
+
+	//getQueryOpr
+	//getQueryValue
+	//
+	for(int i=0; i<mNumFields; i++)
+	{
+		if(query_flag[i])
+		{
+			mMCFields[i]->setQueryConds();
+		}
+	}
+	// decide reverse or not
+	bool reverse = rand()%2;
+
+	// choose a field as sorting field
+	u64 sort_field = rand()%mNumFields;	//表示排序的域的序号
+	// make desicion whether we query till the end or not
+	// if not , how many records(roughly) we need to query
+	bool query_toend = percent(5); //表示是否 query to end
+	u64 query_count = randQueryCount();
+	// do we need to moveto?
+	bool moveto = percent(20);
+	u64 moveto_step = randMoveToStep();
+
+	// do we check moveto range?
+	bool moveto_check = percent(20);
+	
+	//set query conditions into a sql
+	//
+	OmnString* field_name = OmnNew OmnString[mNumFields];
+	for(int i=0;i<mNumFields;i++)
+	{
+		field_name[i] << "field" << i;
+	}
+	OmnString sql_str;
+	sql_str << "select ";
+	for(int i=0; i<mNumFields-1; i++)
+	{
+		sql_str << field_name[i] << ",";
+	}
+	sql_str << field_name[mNumFields-1] << " from " << mTableName << " where ";
+
+	bool first_time_flag = true;//表示是否第一次拼接条件字符串，若是第一次，则不加and
+	for(int i=0; i<mNumFields; i++)
+	{
+		if(query_flag[i])
+		{
+			if(first_time_flag)
+			{
+				first_time_flag = false;
+			}
+			else
+			{
+				sql_str << " and ";
+			}
+			sql_str << mMCFields[i]->getWhereStr(field_name[i]); 
+		}
+	}
+
+	sql_str << " order by " << field_name[sort_field];
+	u64 limit_start = 0;
+	if(moveto)
+	{
+		limit_start = moveto_step;
+	}
+
+	u64 max_rslt = 5000;
+	u64 page_size;
+	bool finished = false;
+	bool rslt;
+	u64* field_rslt = OmnNew u64[mNumFields];
+	u64 sort_field_rslt;//排序的域的值
+	u64	sort_field_start;
+	u64 sort_field_end;
+	u64 tid;
+	u64 tmp_tid;
+	u64 num_check;
+		
+	if((mConn = zykie_init(NULL))== NULL)
+	{
+		OmnScreen << "zykie init failed." << endl;
+	}
+	if(zykie_connect(mConn, mOptHostName.data(),mRemotePort, mUserName.data(), mPassWd.data()))
+	{
+		OmnScreen << "zykie_connect success." << endl;
+	}
+	else
+	{
+		OmnScreen << "zykie_connect failed." << endl;
+		zykie_close(mConn);
+	}
+	
+	zykie_query(mConn, "use db;");
+
+	mBitmap = OmnNew AosBitmap(); 
+	while(!finished)
+	{
+		//random pageSize
+		//
+		// some chance to set pagesize to 0, if so , we know that we query until the end
+		//
+
+		OmnString tmp_str=""; 
+		tmp_str = sql_str;
+
+		page_size = randPageSize();
+		if(!page_size)
+		{
+			query_toend = true;
+			tmp_str << " limit " << mNumRecords;
+		}
+		else
+		{
+			// set pagesize, start pos into sql
+			tmp_str << " limit " <<" "<< limit_start <<", "<< page_size;
+		}
+		//
+		//query
+		//
+		//jimo_real_connect();
+		//jimo_init();
+		//jimo_query(sql_str);
+		//jimo_store_result();
+		//
+
+		tmp_str<<";";
+		cout << tmp_str << endl;
+
+		if(zykie_query(mConn, tmp_str.data()))
+		{
+			mRes_set = zykie_store_result(mConn);
+			if(mRes_set == NULL)
+			{	
+				OmnAlarm << "zykie_store_result failed." << enderr;
+			}
+		}
+
+		//rslt_size = jimo_num_rows();
+		//
+		//get fields value from rslt
+		//check sorting field order ??
+		//get tid by revAction
+		//check tid in range
+		//put tid into bitmap
+		//check other field match tid
+		//check all the fields are in the range or not
+		bool first_row_flag = true;
+		u64 rslt_size=0;
+
+		while((mRow = zykie_fetch_row(mRes_set)) != NULL)
+		{
+		//	get field rslt from rslt, put into field_rslt[];
+			if(first_row_flag)
+			{
+				sort_field_rslt = charToU64(mRow[sort_field]);
+				sort_field_start = charToU64(mRow[sort_field]);
+				first_row_flag = false;
+			}
+
+			if(sort_field_rslt<=charToU64(mRow[sort_field]))
+			{
+				sort_field_rslt = charToU64(mRow[sort_field]);
+				sort_field_end = charToU64(mRow[sort_field]);
+			}
+			else
+			{
+				OmnAlarm << "sort error" << enderr;
+			}
+		
+			tid = mMCFields[0]->getTIDByValue(charToU64(mRow[0]));
+			if(!inRange(tid))
+			{
+				OmnAlarm << "tid not in range" << enderr;
+			}
+			else
+			{
+				mBitmap->appendDocid(tid);
+			}
+
+			for(int j=0; j<mNumFields; j++)
+			{
+				if(query_flag[j])
+				{
+					tmp_tid = mMCFields[j]->getTIDByValue(charToU64(mRow[j]));
+					aos_assert_r(tid == tmp_tid,false);
+					aos_assert_r(mMCFields[j]->matchCond(charToU64(mRow[j])),false);
+				}
+			}
+			rslt_size++;
+		}
+
+		//judge whether we need finish
+		if(first_row_flag)
+		{
+			query_toend = true;
+			finished = true;
+		}
+
+		aos_assert_r(rslt_size<=page_size,false);
+		if(rslt_size<page_size)
+		{
+			query_toend = true;
+			finished = true;
+		}
+				
+		limit_start += rslt_size;
+		if(limit_start > max_rslt)
+		{
+			finished = true;
+		}
+
+		if(query_toend)
+		{
+			//1. check all
+			//2. check some
+			// in tid range pick one
+			// if tid in bitmap, ignore
+			// if not, judge if it match conds
+			// not match, do nothing
+			// match , alarm
+
+			if(percent(20))
+			{
+				for(int i=0;i<mMaxTid;i++)
+				{
+					if(!mBitmap->checkDoc(i))
+					{
+						rslt = matchFieldConds(i);
+						if(rslt)
+						{
+							aos_assert_r(moveto, false);
+							u64 sort_field_value = mMCFields[sort_field]->getValueByTID(i);
+							aos_assert_r(sort_field_value<=sort_field_start,false);
+						}
+					}
+				}
+			}
+			else
+			{
+				num_check = randCheckNum();
+				for(int i=0;i<num_check;i++)
+				{
+					tmp_tid = rand()%mMaxTid;
+					if(!mBitmap->checkDoc(i))
+					{
+						rslt = matchFieldConds(tmp_tid);
+						if(rslt)
+						{
+							aos_assert_r(moveto, false);
+							u64 sort_field_value = mMCFields[sort_field]->getValueByTID(i);
+							aos_assert_r(sort_field_value<sort_field_start,false);
+						}
+					}
+				}
+			}
+
+		}
+		else// not all queried
+		{
+			// in tid range pick one
+			// if tid in bitmap, ignore
+			// if not, judge if it match conds
+			// not match, do nothing
+			// match , if sorting field in querystart-queryend, alarm
+			// > queryend, do nothing
+			// < querystart     if moveto, ok
+			// if not moveto , alarm
+			//
+
+			num_check = randCheckNum();
+			for(int i=0;i<num_check;i++)
+			{
+				tmp_tid = rand()%mMaxTid;
+				if(!mBitmap->checkDoc(tmp_tid));
+				{
+					rslt = matchFieldConds(tmp_tid);
+					if(rslt)
+					{
+						u64 sort_field_value = mMCFields[sort_field]->getValueByTID(tmp_tid);
+						if(sort_field_start<=sort_field_value&&sort_field_value<=sort_field_end)
+						{
+							OmnAlarm << "there is record match cond but not queried" << enderr;
+						}
+						if(sort_field_value<sort_field_start || sort_field_value>sort_field_end)
+						{
+							if(!moveto)
+							{
+								OmnAlarm << "there is record match cond but not queried" << enderr;
+							}
+						}
+					}
+				}
+			}
+		}
+
+	}
+	
+	
+//?	moveto check:
+	// find all matched records witch not in bitmap, smaller than start, count, compare with moveto num
+	bool match_cond;
+	if(moveto_check)
+	{
+		u64 num_before_start = 0;
+		for(int i=0; i<mMaxTid; i++)
+		{
+			match_cond = matchFieldConds(i);
+			if(!mBitmap->checkDoc(i) && match_cond && mMCFields[sort_field]->getValueByTID(i)<=sort_field_start)
+			{
+				num_before_start++;
+			}
+		}
+		if(num_before_start>moveto_step)
+		{
+			OmnAlarm << "move to error" << enderr;
+		}
+	}
+}
+
+
+u64
+AosSmartQueryTester::getValue()
+{
+	d64 aa;
+	aa = ((((u64)rand())<<33) |(((u64)rand()) << 2) | (((u64)rand()) >> 29));
+	return aa;
+}
+
+OmnString
+AosSmartQueryTester::toString(u64 orig_val)
+{
+	OmnString orig_str;
+	orig_str << orig_val;
+	OmnString rslt_str;
+	rslt_str.setLength(20);
+	u64 n = orig_str.length();
+	rslt_str.replace(0, 20, mZeroStr);
+	rslt_str.replace(20-n, n, orig_str);
+
+	//strcpy(rslt_str, mZeroStr);
+	//strcpy(rslt_str+(20-n), orig_str);
+	
+	return rslt_str;
+}
+
+u64
+AosSmartQueryTester::randPageSize()
+{
+	u64 s = rand()%100;
+	if(s>=90) return 0;
+	if(s>=80) return mNumRecords/10;
+	if(s>=75) return mNumRecords+rand()%mNumRecords; 
+	return rand()%mNumRecords;
+}
+
+bool
+AosSmartQueryTester::percent(const u64 percent)
+{
+	u64 i = rand()%100;
+	return i < percent;
+}
+
+u64
+AosSmartQueryTester::randQueryCount()
+{
+	u64 rslt;
+	if(percent(80))
+		rslt = rand()%(mNumRecords/100+1);
+	else
+		rslt = mNumRecords/2 + rand()%(mNumRecords/2);
+}	
+
+u64 
+AosSmartQueryTester::randMoveToStep()
+{
+	u64 rslt;
+	if(percent(80))
+		rslt = rand()%(mNumRecords/3);
+	else
+		rslt = mNumRecords/3 + rand()%(2*mNumRecords/3);
+}
+
+bool
+AosSmartQueryTester::matchFieldConds(const u64 tid)
+{
+	bool rslt = true;
+	for(int i=0;i<mNumFields;i++)
+	{
+		rslt &= mMCFields[i]->matchCond(tid);
+	}
+	return rslt;
+}
+
+u64
+AosSmartQueryTester::randCheckNum()
+{
+	u64 rslt;
+	if(percent(80))
+		rslt = rand()%(mNumRecords/10);
+	else
+		rslt = mNumRecords/10 + rand()%(1*mNumRecords/10);
+	return rslt;
+}
+
+bool
+AosSmartQueryTester::inRange(const u64 tid)
+{
+	return tid>=0&&tid<=mMaxTid;
+}
+
+u64
+AosSmartQueryTester::charToU64(char * c)
+{
+	return OmnString(c).toU64(0);
+}

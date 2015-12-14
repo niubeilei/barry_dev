@@ -1,0 +1,1 @@
+./importdata.exe -config config_create.txt -s -log 2 -createfile

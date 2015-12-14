@@ -1,0 +1,1912 @@
+////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) 2005
+// Packet Engineering, Inc. All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification is not permitted unless authorized in writing by a duly
+// appointed officer of Packet Engineering, Inc. or its derivatives
+//
+// This type of IIL maintains a list of (string, docid) and is sorted
+// based on the string value. 
+//
+// Modification History:
+// 	Created: 2013/03/14 by Ken Lee
+////////////////////////////////////////////////////////////////////////////
+#ifndef AOS_IILMgr_IILBigHit_h
+#define AOS_IILMgr_IILBigHit_h
+
+#include "API/AosApi.h"
+#include "BatchQuery/Ptrs.h"
+#include "IILMgr/IIL.h"
+#include "IILMgr/IILThrdShellProc.h"
+#include "IILUtil/IILUtil.h"
+#include "SearchEngine/SeCommon.h"
+#include "SEInterfaces/Ptrs.h"
+#include "SEInterfaces/BitmapTreeObj.h"
+#include "SEInterfaces/QueryContextObj.h"
+#include "SEUtil/IILIdx.h"
+#include "Util1/MemMgr.h"
+#include "Util/U64U64Array.h"
+
+#include <string.h>
+#include <vector>
+
+using namespace std;
+
+
+#define AosIILBigHitSanityCheck(x) true
+// #define AosIILBigHitSanityCheck(x) (x)->listSanityCheck()
+
+class AosIILBigHit : public AosIIL
+{
+
+public:
+	enum
+	{
+		eNumDocsToDistr = 1000000000,
+		eMaxLevel = 4,
+		eMaxBitmapRebuildNum = 5000,
+		eMaxNumOprIn = 10000
+	};
+
+	enum DistrType
+	{
+		eNoDistr = 0,
+		eDistrType1 = 1
+	};
+
+	enum DistrStatus
+	{
+		eDistr_Local = 0,
+		eDistr1_Root = 1,
+		eDistr1_Branch = 2
+	};
+
+
+private:
+	AosBitmapObjPtr		mDocBitmap;
+	u64 *				mMinDocids;
+	u64 *				mMaxDocids;
+	AosIILBigHitPtr *	mSubiils;
+	
+	int					mLevel;
+	AosIILBigHitPtr		mParentIIL;
+
+	DistrType			mDistrType;
+	DistrStatus			mDistrStatus;
+	bool				mHasBitmap;
+	AosBitmapTreeObjPtr	mBitmapTree;
+
+	OmnMutexPtr			mUpdateLock;	// Ken Lee,2013/06/20
+
+public:
+	AosIILBigHit();
+	AosIILBigHit(
+			const u64 &wordid, 
+			const u64 &iilid,
+			const bool isPersis,
+			const OmnString &iilname, 
+			const AosRundataPtr &rdata);
+	AosIILBigHit(
+			const u64 &iilid, 
+			const u32 siteid, 
+			const AosDfmDocIILPtr &doc,
+			const AosRundataPtr &rdata);
+	~AosIILBigHit();
+
+	static bool		staticInit(const AosXmlTagPtr &config);
+				
+	virtual bool 	isRootIIL()const{return !mParentIIL;}
+	virtual bool	isParentIIL()const{return mLevel > 0;}
+	virtual bool	isSingleIIL()const{return (mLevel == 0 && !mParentIIL);}
+	virtual bool	isLeafIIL()const{return mLevel == 0;}
+	virtual bool 	isChildIIL()const{return mParentIIL;}
+	virtual bool	isBranchIIL()const{return (mLevel > 0 && mParentIIL);}
+	virtual int 	getLevel() const {return mLevel;}
+
+	virtual AosIILObjPtr getRootIIL()	
+	{		
+		AosIILBigHitPtr root = mParentIIL;		
+		if (!mParentIIL)		
+		{
+			AosIILBigHitPtr thisptr(this, false);			
+			root = thisptr;		
+		}
+		else		
+		{			
+			while(!root->isRootIIL())			
+			{				
+				root = root->getParentIIL();			
+			}		
+		}		
+		return root;	
+	}
+
+	AosIILBigHitPtr getParentIIL() const {return mParentIIL;}
+
+	virtual bool	saveSanityCheckProtected(const AosRundataPtr &rdata);
+
+	virtual AosBuffPtr	getBodyBuffProtected() const;
+	virtual bool 		setContentsProtected(AosBuffPtr &buff, const AosRundataPtr &rdata);
+	virtual bool 		prepareMemoryForReloading();
+
+	virtual u64		getMinDocid() const;
+	virtual u64		getMaxDocid() const;
+	
+	//liuwei_hit
+	bool 	addDocSafe(
+				//const u64 &value, 
+				const u64 &docid, 
+				//const bool value_unique, 
+				//const bool docid_unique, 
+				const AosRundataPtr &rdata)
+	{
+		AOSLOCK(mLock);
+		//bool rslt = addDocPriv(value, docid, value_unique, docid_unique, rdata);
+		bool rslt = addDocPriv(docid, rdata);
+		aos_assert_rb(AosIILBigHitSanityCheck(this), mLock, false);
+		AOSUNLOCK(mLock);
+		return rslt;
+	}
+	
+	//liuwei_hit
+	bool 	addDocRecSafe(
+				//const u64 &value, 
+				const u64 &docid, 
+				//const bool value_unique, 
+				//const bool docid_unique, 
+				const AosRundataPtr &rdata)
+	{
+		AOSLOCK(mLock);
+		//bool rslt = addDocRecPriv(value, docid, value_unique, docid_unique, rdata);
+		bool rslt = addDocRecPriv(docid, rdata);
+		aos_assert_rb(AosIILBigHitSanityCheck(this), mLock, false);
+		AOSUNLOCK(mLock);
+		return rslt;
+	}
+	
+	//liuwei_hit
+	bool	removeDocSafe(
+				//const u64 &value,
+				const u64 &docid,
+				const AosRundataPtr &rdata)
+	{
+		AOSLOCK(mLock);
+		//bool rslt = removeDocPriv(value, docid, rdata);
+		bool rslt = removeDocPriv(docid, rdata);
+		aos_assert_rb(AosIILBigHitSanityCheck(this), mLock, false);
+		AOSUNLOCK(mLock);
+		return rslt;
+	}
+
+	//liuwei_hit
+	bool	removeDocRecSafe(
+				//const u64 &value,
+				const u64 &docid,
+				const AosRundataPtr &rdata)
+	{
+		AOSLOCK(mLock);
+		//bool rslt = removeDocRecPriv(value, docid, rdata);
+		bool rslt = removeDocRecPriv(docid, rdata);
+		aos_assert_rb(AosIILBigHitSanityCheck(this), mLock, false);
+		AOSUNLOCK(mLock);
+		return rslt;
+	}
+
+	//liuwei_hit
+/*
+	bool 	modifyDocSafe(
+				const u64 &oldvalue, 
+				const u64 &newvalue, 
+				const u64 &docid, 
+				const bool value_unique,
+				const bool docid_unique,
+				const AosRundataPtr &rdata);
+*/
+	//liuwei_hit
+	// shell function
+	bool	nextDocidSafe(
+				AosIILIdx the_idx,
+				i64 &idx,
+				i64 &iilidx,
+				const bool reverse,
+				u64 &docid,
+				u64 &cur_docid, 
+				bool &include_self,
+				const AosRundataPtr &rdata)
+	{
+		//return nextDocidSafeFind(the_idx, value, opr, docid, isunique, reverse, rdata); 
+		return nextDocidSafeFind(the_idx, docid, cur_docid, reverse, include_self, rdata); 
+	}
+
+	//liuwei_hit
+	bool	nextDocidSafeFind(
+				AosIILIdx &idx, 
+				u64 &docid, 
+				u64 &cur_docid,
+				const bool reverse,
+				bool &include_self, 
+				const AosRundataPtr &rdata) 
+	{
+		AOSLOCK(mLock);
+		//bool rslt = nextDocidPrivFind(idx, value, opr, docid, isunique, reverse, rdata);
+		bool rslt = nextDocidPrivFind(idx, docid, cur_docid, reverse, include_self, rdata);
+		AOSUNLOCK(mLock);
+		return rslt;
+	}
+
+	//liuwei_hit
+/*
+	inline u64 incrementDocidSafe(
+				const u64 &key,
+				const u64 &dft,
+				const AosRundataPtr &rdata)
+	{
+		u64 docid;
+		bool rslt = incrementDocidSafe(key, docid, 1, dft, true, rdata);
+		if (!rslt) return dft;
+		return docid;
+	}
+
+	bool incrementDocidSafe(
+				const u64 &key,
+				u64 &value,
+				const u64 &inc_value,
+				const u64 &init_value,
+				const bool add_flag,
+				const AosRundataPtr &rdata)
+	{
+		AOSLOCK(mLock);
+		bool rslt = incrementDocidPriv(key, value, inc_value, init_value, add_flag, rdata);
+		aos_assert_rb(AosIILBigHitSanityCheck(this), mLock, false);
+		AOSUNLOCK(mLock);
+		return rslt;
+	}
+*/
+
+	//liuwei_hit
+	virtual i64 getTotalSafe(
+				//const u64 &value, 
+				//const AosOpr opr, 
+				const AosRundataPtr &rdata)
+	{
+		AOSLOCK(mLock);
+		//i64 total = getTotalPriv(value, opr, rdata);
+		i64 total = getTotalPriv(rdata);
+		AOSUNLOCK(mLock);
+		return total;
+	}
+
+	//liuwei_hit
+
+	virtual bool	querySafe(
+						const AosQueryRsltObjPtr &query_rslt,
+						const AosBitmapObjPtr &query_bitmap,
+						const AosQueryContextObjPtr &query_context,
+						const AosRundataPtr &rdata)
+	{
+		AOSLOCK(mLock);
+		bool rslt = queryPriv(query_rslt, query_bitmap, query_context, rdata);
+		AOSUNLOCK(mLock);
+		return rslt;
+	}
+/*
+	virtual bool	queryRangeSafe(
+						const AosQueryRsltObjPtr &query_rslt,
+						const AosBitmapObjPtr &query_bitmap,
+						const AosQueryContextObjPtr &query_context,
+						const AosRundataPtr &rdata)
+	{
+		AOSLOCK(mLock);
+		bool rslt = queryRangePriv(query_rslt, query_bitmap, query_context, rdata);
+		AOSUNLOCK(mLock);
+		return rslt;
+	}
+*/
+
+	virtual bool	preQuerySafe(
+						const AosQueryContextObjPtr &query_context,
+						const AosRundataPtr &rdata)
+	{
+		AOSLOCK(mLock);
+		bool rslt = preQueryPriv(query_context, rdata);
+		AOSUNLOCK(mLock);
+		return rslt;
+	}
+
+	virtual bool	queryNewSafe(
+						const AosQueryRsltObjPtr &query_rslt,
+						const AosBitmapObjPtr &query_bitmap, 
+						const AosQueryContextObjPtr &query_context,
+						const AosRundataPtr &rdata)
+	{
+		AOSLOCK(mLock);
+		bool rslt = queryNewPriv(query_rslt, query_bitmap, query_context, rdata);
+		AOSUNLOCK(mLock);
+		return rslt; 
+	}
+
+	virtual bool	bitmapQueryNewSafe(
+						const AosQueryRsltObjPtr &query_rslt,
+						const AosBitmapObjPtr &query_bitmap, 
+						const AosQueryContextObjPtr &query_context,
+						const AosRundataPtr &rdata)
+	{
+		// Test if there is bitmap tree there. If not exist, rebuild it
+		bool rslt = true;
+		if(mLevel > 0)
+		{
+			AosBitmapTreeObjPtr tree = getBitmapTree(rdata);
+			if(!tree)
+			{
+				// tree not exist, rebuild all the bitmaps with trees
+//				rslt = rebuildBitmapSafe(rdata);
+				OmnAlarm << "The bitmaps are not exist, rebuild it now. IILID:" << mIILID << enderr;
+				aos_assert_r(rslt, false);
+				return false;
+			}			
+		}
+
+		AOSLOCK(mLock);
+		rslt = bitmapQueryNewPriv(query_rslt, query_bitmap, query_context, rdata);
+		AOSUNLOCK(mLock);
+		return rslt; 
+	}
+
+	virtual bool	bitmapRsltQueryNewSafe(
+						const AosQueryRsltObjPtr &query_rslt,
+						const AosBitmapObjPtr &query_bitmap, 
+						const AosQueryContextObjPtr &query_context,
+						const AosRundataPtr &rdata)
+	{
+		AOSLOCK(mLock);
+		bool rslt = bitmapRsltQueryNewPriv(query_rslt, query_bitmap, query_context, rdata);
+		AOSUNLOCK(mLock);
+		return rslt;
+	}
+
+	virtual bool	queryNewSafe(
+						const AosQueryRsltObjPtr &query_rslt,
+						const AosBitmapObjPtr &query_bitmap, 
+						const AosRundataPtr &rdata)
+	{
+		AOSLOCK(mLock);
+		bool rslt = queryNewPriv(query_rslt, query_bitmap, rdata);
+		AOSUNLOCK(mLock);
+		return rslt; 
+	}
+
+	//liuwei_hit
+	bool	removeFirstValueDocSafe(
+				//const u64 &value,
+				u64 &docid,
+				const bool reverse,
+				const AosRundataPtr &rdata)
+	{
+		AOSLOCK(mLock);
+		AosIILIdx idx;
+		u64 cur_docid;
+		//bool rslt = nextDocidPrivFind(idx, value, eAosOpr_eq, docid, isunique, reverse, rdata);
+		bool include_self = true;
+		bool rslt = nextDocidPrivFind(idx, docid, cur_docid, reverse, include_self, rdata);
+		if (rslt)
+		{
+			//rslt = removeDocPriv(value, docid, rdata);
+			rslt = removeDocPriv(cur_docid, rdata);
+			aos_assert_rl(rslt, mLock, false);
+		}
+		AOSUNLOCK(mLock);
+		return rslt;
+	}
+	
+	bool 	updateIndexData(
+				const i64 &idx,
+				const bool changeMax,
+				const bool changeMin,
+				const AosRundataPtr &rdata);
+	
+	//liuwei_hit
+/*
+	bool	setValueDocUniqueSafe(
+				const u64 &key, 
+				const u64 &docid, 
+				const bool must_same, 
+				const AosRundataPtr &rdata)
+	{
+		AOSLOCK(mLock);
+		bool rslt = setValueDocUniquePriv(key, docid, must_same, rdata);
+		AOSUNLOCK(mLock);
+		return rslt;
+	}
+*/
+	virtual bool	saveSubIILToLocalFileSafe(const AosRundataPtr &rdata);
+
+private:
+	bool	sanityTestForSubiils();
+	bool	splitSanityCheck();
+	
+/*
+	bool 	insertDocSinglePriv(
+				i64 &idx, 
+				//const u64 &value, 
+				const u64 &docid, 
+				//const bool value_unique,
+				//const bool docid_unique,
+				const AosRundataPtr &rdata);
+
+	bool	insertBefore(
+				const i64 &idx, 
+				const u64 &docid, 
+				const u64 &value);
+
+	bool 	insertAfter(
+				const i64 &idx, 
+				const u64 &docid, 
+				const u64 &value);
+*/
+
+	//liuwei_hit
+	bool 	addDocPriv(
+				//const u64 &value, 
+				const u64 &docid, 
+				//const bool value_unique, 
+				//const bool docid_unique, 
+				const AosRundataPtr &rdata);
+	
+	//liuwei_hit
+	bool 	addDocRecPriv(
+				//const u64 &value, 
+				const u64 &docid, 
+				//const bool value_unique, 
+				//const bool docid_unique, 
+				const AosRundataPtr &rdata);
+	
+	//liuwei_hit
+	bool 	addDocSinglePriv(
+				//const u64 &value, 
+				const u64 &docid, 
+				//const bool value_unique, 
+				//const bool docid_unique, 
+				const AosRundataPtr &rdata);
+	
+	//liuwei_hit
+	bool	removeDocPriv(
+				//const u64 &value,
+				const u64 &docid,
+				const AosRundataPtr &rdata);
+	
+	//liuwei_hit
+	bool	removeDocRecPriv(
+				//const u64 &value,
+				const u64 &docid,
+				const AosRundataPtr &rdata);
+	
+	//liuwei_hit
+	bool 	removeDocSinglePriv(
+				//const u64 &value, 
+				const u64 &docid,
+				const AosRundataPtr &rdata); 
+
+	//liuwei_hit			
+/*
+	bool	nextDocidAN(
+				i64 &idx, 
+				const bool reverse, 
+				const u64 &value,
+				u64 &docid);
+	bool	nextDocidLT(
+				i64 &idx, 
+				const bool reverse, 
+				const u64 &value,
+				u64 &docid,
+				const AosRundataPtr &rdata);
+	bool	nextDocidLE(
+				i64 &idx, 
+				const bool reverse, 
+				const u64 &value,
+				u64 &docid,
+				const AosRundataPtr &rdata);
+	bool	nextDocidGT(
+				i64 &idx, 
+				const bool reverse, 
+				const u64 &value,
+				u64 &docid,
+				const AosRundataPtr &rdata);
+	bool	nextDocidGE(
+				i64 &idx, 
+				const bool reverse, 
+				const u64 &value,
+				u64 &docid,
+				const AosRundataPtr &rdata);
+	bool	nextDocidEQ(
+				i64 &idx, 
+				const bool reverse, 
+				const u64 &value,
+				u64 &docid,
+				const AosRundataPtr &rdata);
+	bool	nextDocidNE(
+				i64 &idx, 
+				const bool reverse, 
+				const u64 &value,
+				u64 &docid,
+				const AosRundataPtr &rdata);
+	
+	i64 firstEQ(const i64 &idx, const u64 &value, const AosRundataPtr &rdata);
+	i64 firstEQRev(const i64 &idx, const u64 &value, const AosRundataPtr &rdata);
+	i64 firstNE(const i64 &idx, const u64 &value, const AosRundataPtr &rdata);
+	i64 firstNERev(const i64 &idx, const u64 &value, const AosRundataPtr &rdata);
+	i64 firstLE(const i64 &idx, const u64 &value, const AosRundataPtr &rdata);
+	i64 firstLERev(const i64 &idx, const u64 &value, const AosRundataPtr &rdata);
+	i64 firstLT(const i64 &idx, const u64 &value, const AosRundataPtr &rdata);
+	i64 firstLTRev(const i64 &idx, const u64 &value, const AosRundataPtr &rdata);
+	i64 firstGE(const i64 &idx, const u64 &value, const AosRundataPtr &rdata);
+	i64 firstGERev(const i64 &idx, const u64 &value, const AosRundataPtr &rdata);
+	i64 firstGT(const i64 &idx, const u64 &value, const AosRundataPtr &rdata);
+	i64 firstGTRev(const i64 &idx, const u64 &value, const AosRundataPtr &rdata);
+	i64 lastLT(const u64 &value, const AosRundataPtr &rdata);
+	i64 lastLE(const u64 &value, const AosRundataPtr &rdata);
+	i64 lastEQ(const i64 &idx, const u64 &value, const AosRundataPtr &rdata);
+	i64 firstLE(const u64 &value, const AosRundataPtr &rdata);
+	i64 firstLT(const u64 &value, const AosRundataPtr &rdata);
+	
+	i64 firstLE(const i64 &idx, const u64 &value, const u64 &docid, const AosRundataPtr &rdata);
+	i64 firstLERev(const i64 &idx, const u64 &value, const u64 &docid, const AosRundataPtr &rdata);
+	i64 firstLT(const i64 &idx, const u64 &value, const u64 &docid, const AosRundataPtr &rdata);
+	i64 firstLTRev(const i64 &idx, const u64 &value, const u64 &docid, const AosRundataPtr &rdata);
+	i64 firstGE(const i64 &idx, const u64 &value, const u64 &docid, const AosRundataPtr &rdata);
+	i64 firstGERev(const i64 &idx, const u64 &value, const u64 &docid, const AosRundataPtr &rdata);
+	i64 firstGT(const i64 &idx, const u64 &value, const u64 &docid, const AosRundataPtr &rdata);
+	i64 firstGTRev(const i64 &idx, const u64 &value, const u64 &docid, const AosRundataPtr &rdata);
+*/
+
+	//liuwei_hit
+	bool	nextDocidPrivFind(
+				AosIILIdx &idx,
+				u64 &docid,
+				u64	&cur_docid,
+				const bool reverse, 
+				bool  &include_self,
+				const AosRundataPtr &rdata);
+	
+	//liuwei_hit
+	bool	nextDocidSinglePriv(
+				i64 &idx, 
+				const bool reverse, 
+				u64 &docid, 
+				u64 &cur_docid, 
+				bool &include_self,
+				const AosRundataPtr &rdata);
+	
+	//liuwei_hit
+	i64	getTotalPriv(
+				//const u64 &value,
+				//const AosOpr opr,
+				const AosRundataPtr &rdata);
+	
+	//liuwei_hit
+	i64	getTotalSinglePriv(
+				//const u64 &value,
+				//const AosOpr opr,
+				const AosRundataPtr &rdata);
+	
+	virtual bool	returnSubIILsPriv(const AosRundataPtr &rdata)
+	{
+		bool returned;
+		return returnSubIILsPriv(returned, false, rdata);
+	}
+	virtual bool	returnSubIILsPriv(
+						bool &returned,
+						const bool returnHeader,
+						const AosRundataPtr &rdata);
+	
+	bool	queryPriv(
+				const AosQueryRsltObjPtr &query_rslt,
+				const AosBitmapObjPtr &query_bitmap,
+				const AosQueryContextObjPtr &query_context,
+				const AosRundataPtr &rdata);
+	
+	//liuwei_hit
+/*
+	bool	incrementDocidPriv(
+				const u64 &key,
+				u64 &value,
+				const u64 &incvalue,
+				const u64 &init_value,
+				const bool add_flag,
+				const AosRundataPtr &rdata);
+
+	
+	bool	queryRangePriv(
+				const AosQueryRsltObjPtr &query_rslt,
+				const AosBitmapObjPtr &query_bitmap,
+				const AosQueryContextObjPtr &query_context,
+				const AosRundataPtr &rdata);
+*/	
+	bool	queryNewPriv(
+				const AosQueryRsltObjPtr &query_rslt,
+				const AosBitmapObjPtr &query_bitmap, 
+				const AosRundataPtr &rdata);
+
+
+	bool	expandMemoryPriv();
+	bool	checkMemory() const;
+	virtual bool	resetSubIILInfo(const AosRundataPtr &rdata);
+	virtual bool	resetSpec();
+
+//liuwei_hit???
+	//ken 2012/09/04
+	bool	clearIILPriv(const AosRundataPtr &rdata);
+
+	bool 	createSubiilIndex();
+	
+	bool 	splitListPriv(
+				AosIILObjPtr &subiil,
+				const AosRundataPtr &rdata);
+
+	bool	mergeSubiilPriv(
+				const i64 &iilidx,
+				const AosRundataPtr &rdata);
+	
+	bool 	initSubiil(
+				u64 *docids, 
+				u64 *values, 
+				const i64 &numDocs,
+				const i64 &subiilidx, 
+				const AosIILBigHitPtr &rootiil);
+
+	bool 	addSubiil(
+				const AosIILBigHitPtr &crtsubiil,
+				const AosIILBigHitPtr &nextsubiil,
+				const AosRundataPtr &rdata);
+
+	//liuwei_hit
+/*	
+	bool	checkDocidUnique(
+				const bool rslt, 
+				const i64 &idx, 
+				u64 &docid,
+				bool &isunique,
+				const AosRundataPtr &rdata);
+
+	bool	setValueDocUniquePriv(
+				const u64 &key, 
+				const u64 &docid, 
+				const bool must_same, 
+				const AosRundataPtr &rdata);
+
+	bool	setValueDocUniqueSinglePriv(
+				const u64 &key, 
+				const u64 &docid, 
+				const bool must_same, 
+				const AosRundataPtr &rdata);
+
+// ken not implimented
+public:
+	bool	getValueByIdxSafe(
+				AosIILIdx &idx, 
+				u64 &value,
+				u64 &docid,
+				const AosRundataPtr &rdata);
+	bool	getValueByIdxRecSafe(
+				AosIILIdx &idx, 
+				u64 &value,
+				u64 &docid,
+				const AosRundataPtr &rdata);
+
+// ken not implimented finish
+
+	i64 getTotalNEPriv(const u64 &value, const AosRundataPtr &rdata);
+
+	bool	incrementDocidSingleSafe(
+				const u64 &key,
+				u64 &value,
+				const u64 &inc_value,
+				const u64 &init_value,
+				const bool add_flag,
+				const AosRundataPtr &rdata)
+	{
+		AOSLOCK(mLock);
+		bool rslt = incrementDocidSinglePriv(key, value, 
+				inc_value, init_value, add_flag, rdata);
+		AOSUNLOCK(mLock);
+		return rslt;
+	}
+
+	bool	incrementDocidSinglePriv(
+				const u64 &key,
+				u64 &value,
+				const u64 &inc_value,
+				const u64 &init_value,
+				const bool add_flag,
+				const AosRundataPtr &rdata);
+*/
+private:
+	// find a value and docid by a real idx;
+	bool	getDocidByIdxRecPriv(
+				AosIILIdx &idx, 
+				u64 &docid,
+				const AosRundataPtr &rdata);
+	bool	getDocidByIdxSinglePriv(
+				AosIILIdx &idx, 
+				u64 &docid,
+				const AosRundataPtr &rdata);
+
+/////////////////////////////////////////////////////////////
+// shawn functions not orignized
+public:
+	bool			batchAddSafe(
+						char * &entries,
+						const i64 &size,
+						const i64 &num,
+						const AosIILExecutorObjPtr &executor,
+						const AosRundataPtr &rdata);
+	
+	bool			batchAddRecSafe(
+						AosBitmapObjPtr bitmap,
+						const i64 &size,
+						i64 &num,
+						i64 &subChanged,
+						const bool isTail,
+						const AosRundataPtr &rdata);
+
+	bool			batchAddParentThrdSafe(
+						const u64 &iilid,
+						const i64 &iil_idx,
+						AosBitmapObjPtr bitmap,
+						const i64 &size,
+						i64 &num,
+						const AosRundataPtr &rdata);
+
+	bool			batchAddSingleThrdSafe(
+						AosBitmapObjPtr bittmap,
+						const i64 &size,
+						i64 &num,
+						const AosRundataPtr &rdata);
+
+	//liuwei_hit
+	bool			batchAddRebuildCount(
+						AosBitmapObjPtr bitmap,
+						const i64 &size,
+						const i64 &num,
+						i64 &num_handle,
+						AosBitmapObjPtr orig_bitmap,
+						const i64 &orig_num,
+						i64 &orig_handle,
+						const i64 &iilsize,
+						const AosRundataPtr &rdata);
+
+	//liuwei_hit
+	bool			batchAddRebuild(
+						AosBitmapObjPtr add_bitmap,
+						const i64 &size,
+						i64 &num,
+						i64 &num_handle,
+						AosBitmapObjPtr orig_bitmap,
+						i64 &orig_num,
+						i64 &orig_idx,
+						const i64 &iilsize,
+						const AosRundataPtr &rdata);
+
+	void			lockUpdate(){mUpdateLock->lock();}
+	void			unlockUpdate(){mUpdateLock->unlock();}
+
+private:
+	bool 			splitCheck();
+	AosIILBigHitPtr	splitLeafContent(const AosRundataPtr &rdata);
+
+	bool			splitListSinglePriv(
+						const vector<AosIILBigHitPtr> &subiil_list,
+						const AosRundataPtr &rdata);
+	bool			subiilSplited(
+						const i64 &iilIdx,
+						const vector<AosIILBigHitPtr> &subiil_list,
+						const AosIILExecutorObjPtr &executor,
+						const AosRundataPtr &rdata);
+	bool			subiilSplited(
+						const AosIILExecutorObjPtr &executor,
+						const AosRundataPtr &rdata);
+
+	AosIILBigHitPtr	splitContentUtil(const AosRundataPtr &rdata);
+
+	bool 			initSubiilLeaf(AosBitmapObjPtr bitmap);
+
+	bool 			initSubiilParent(
+						u64 *minDocids, 
+						u64 *maxDocids,
+						u64 *iilids,
+						i64 *numEntries,
+						AosIILBigHitPtr *subiils,
+						const i64 &numSubiils);
+
+	void			setParentIIL(const AosIILBigHitPtr &parent) {mParentIIL = parent;}
+	void			setIILLevel(const int level){mLevel = level;}
+public:
+	//u64 			*getDocids() const {return mDocids;}
+	AosBitmapObjPtr	 getBitmap() const {return mDocBitmap;}
+	//u64				*getValues() const {return mValues;}
+private:
+	bool			addSubiils(
+						const i64 &iilidx,
+						const vector<AosIILBigHitPtr> &subiil_list,
+						const AosRundataPtr &rdata);
+	AosIILBigHitPtr	splitParentContent(const AosRundataPtr &rdata);
+	bool			splitListRootPriv(
+						const vector<AosIILBigHitPtr> &subiil_list,
+						const AosIILExecutorObjPtr &executor,
+						const AosRundataPtr &rdata);
+
+	bool 			splitListPriv(
+						const AosIILExecutorObjPtr &executor,
+						const AosRundataPtr &rdata);
+	bool			setContentsSinglePriv(
+						AosBuffPtr &buff, 
+						const AosRundataPtr &rdata);
+	AosBuffPtr 		getBodyBuffSinglePriv() const;
+
+//================================================
+	bool			batchAddPriv(
+						AosBitmapObjPtr bitmap,
+						const i64 &size,
+						const i64 &num,
+						const AosRundataPtr &rdata);
+
+	bool			batchAddRecPriv(
+						AosBitmapObjPtr bitmap,
+						const i64 &size,
+						i64 &num,
+						i64 &subChanged,
+						const bool isTail,
+						const AosRundataPtr &rdata);
+
+	bool			batchAddSinglePriv(
+						AosBitmapObjPtr bitmap,
+						const i64 &size,
+						i64 &num,
+						i64 &subChanged,
+						const bool isTail,
+						const AosRundataPtr &rdata);
+
+	bool			batchAddSingleThrdPriv(
+						AosBitmapObjPtr bitmap,
+						const i64 &size,
+						i64 &num,
+						const AosRundataPtr &rdata);
+
+	//liuwei_hit
+	i64			binarySearch(
+						AosBitmapObjPtr bitmap,
+						const i64 &size,
+						const i64 &num,
+						//const u64 &key,
+						const u64 &docid);
+
+	//liuwei_hit
+/*
+	i64			binarySearchInc(
+						const char * entries,
+						const i64 &size,
+						const i64 &num,
+						const u64 &key);
+
+*/
+
+	//liuwei_hit
+	int				valueMatch(
+						const char * entry,
+						const i64 &size,
+						//const u64 &key,
+						const u64 &docid);
+	//liuwei_hit
+	int				valueMatch(
+						const char * entry,
+						const u64 &docid);
+
+	int				valueMatchU64(
+						const char * entry1,
+						const char * entry2);
+
+	//liuwei_hit
+	AosIILBigHitPtr	getSubiilByCondPriv(
+						//const u64 &value, 
+						const u64 &docid,
+						//const AosOpr opr,
+						const bool reverse, 
+						const AosRundataPtr &rdata)
+	{
+		AosIILIdx idx;
+		//return getSubiilByCondPriv(idx, value, docid, opr, reverse, rdata);
+		return getSubiilByCondPriv(idx, docid, reverse, rdata);
+	}
+	
+	//liuwei_hit
+/*
+	AosIILBigHitPtr	getSubiilByCondPriv(
+						const u64 &value, 
+						const AosOpr opr,
+						const bool reverse, 
+						const AosRundataPtr &rdata)
+	{
+		AosIILIdx idx;
+		return getSubiilByCondPriv(idx, value, opr, reverse, rdata);
+	}
+
+	AosIILBigHitPtr	getSubiilByCondPriv(
+						AosIILIdx &index, 
+						const u64 &value, 
+						const AosOpr opr, 
+						const bool reverse, 
+						const AosRundataPtr &rdata);
+*/
+
+	//liuwei_hit
+	AosIILBigHitPtr	getSubiilByCondPriv(
+						AosIILIdx &index, 
+						//const u64 &value, 
+						const u64 &docid,
+						//const AosOpr opr, 
+						const bool reverse, 
+						const AosRundataPtr &rdata);
+	//liuwei_hit
+	AosIILBigHitPtr	getSubiilPriv(
+	 					//const u64 &value, 
+	 					const u64 &docid,
+	 					//const bool value_unique,
+	 					//const bool docid_unique,
+	 					const AosRundataPtr &rdata);
+	
+	AosIILBigHitPtr	getSubiilByIndexPriv(
+			 			const i64 &idx,
+						const AosRundataPtr &rdata);
+
+	// Chen Ding, 04/22/2012
+	bool			hasMoreMembers(const AosIILIdx &idx) const;
+	
+	//liuwei_hit
+	AosIILBigHitPtr	getFirstSubiilByCondPriv(
+						AosIILIdx &idx, 
+						//const u64 &value, 
+						//const AosOpr opr, 
+						const bool reverse, 
+						const AosRundataPtr &rdata);
+	//liuwei_hit
+	AosIILBigHitPtr	getFirstSubiilByCondPriv(
+						AosIILIdx &idx, 
+						//const u64 &value, 
+						const u64 &docid,
+						//const AosOpr opr, 
+						const bool reverse, 
+						const AosRundataPtr &rdata);
+	//liuwei_hit
+	AosIILBigHitPtr	nextSubiilByCondPriv(
+						AosIILIdx &idx, 
+						//const u64 &value, 
+						//const AosOpr opr, 
+						const bool reverse, 
+						const AosRundataPtr &rdata);
+	//liuwei_hit
+	AosIILBigHitPtr	nextSubiilByCondPriv(
+						AosIILIdx &idx, 
+						//const u64 &value, 
+						const u64 &docid,
+						//const AosOpr opr, 
+						const bool reverse, 
+						const AosRundataPtr &rdata);
+	//liuwei_hit
+/*
+	i64			getFirstSubiilIndexGT(
+						const u64 &value,
+						const AosRundataPtr &rdata);
+	i64			getFirstSubiilIndexGT(
+						const u64 &value,
+						const u64 &docid,
+						const AosRundataPtr &rdata);
+	i64			getFirstSubiilIndexGE(
+						const u64 &value,
+						const AosRundataPtr &rdata);
+	i64			getFirstSubiilIndexGE(
+						const u64 &value,
+						const u64 &docid,
+						const AosRundataPtr &rdata);
+	i64			getLastSubiilIndexLT(
+						const u64 &value,
+						const AosRundataPtr &rdata);
+	i64			getLastSubiilIndexLT(
+						const u64 &value,
+						const u64 &docid,
+						const AosRundataPtr &rdata);
+	i64			getLastSubiilIndexLE(
+						const u64 &value,
+						const AosRundataPtr &rdata);
+	i64			getLastSubiilIndexLE(
+						const u64 &value,
+						const u64 &docid,
+						const AosRundataPtr &rdata);
+*/
+	bool			containDocidPriv(
+						const u64 &min_docid, 
+						const u64 &max_docid,
+						const u64 &docid, 
+						const bool reverse, 
+						bool &keep_search,
+						const AosRundataPtr &rdata);
+
+	// Chen Ding, 04/22/2012
+	inline static bool isValidLevel(const int level) { return level >= 0 && level < AosIILIdx::eMaxNumLevels; }
+
+	//liuwei_hit
+/*
+	// Chen Ding, 04/22/2012
+	bool			nextUniqueValueSafe(
+						AosIILIdx &idx,
+						const bool reverse,
+						const AosOpr opr,
+						const u64 &value,
+						u64 &unique_value,
+						bool &found,
+						const AosRundataPtr &rdata)
+	{
+		AOSLOCK(mLock);
+		bool rslt = nextUniqueValueSafe(idx, reverse, opr, value, unique_value, found, rdata);
+		AOSUNLOCK(mLock);
+		return rslt;
+	}
+
+	// Chen Ding, 04/22/2012
+	bool			nextUniqueValuePriv(
+						AosIILIdx &idx,
+						const bool reverse,
+						const AosOpr opr,
+						const u64 &value,
+						u64 &unique_value,
+						bool &found,
+						const AosRundataPtr &rdata);
+
+	// Chen Ding, 04/22/2012
+	bool			nextUniqueValueSinglePriv(
+						AosIILIdx &idx,
+						const bool reverse,
+						const AosOpr opr,
+						const u64 &value,
+						u64 &unique_value,
+						bool &found, 
+						const AosRundataPtr &rdata);
+*/
+	// Chen Ding, 04/22/2012
+	inline bool		isIILIdxValid(const AosIILIdx &idx)
+	{
+		aos_assert_r(mLevel >= 0 && mLevel < AosIILIdx::eMaxNumLevels, false);
+		i64 iilidx = idx.getIdx(mLevel);
+		return iilidx >= 0 && iilidx < mNumSubiils;
+	}
+
+	//liuwei_hit
+	// Chen Ding, 04/22/2012
+	AosIILBigHitPtr	getSubiil3Priv(
+						//const u64 &value,
+			            const u64 &docid,
+						const AosRundataPtr &rdata);
+
+	i64			getSubiilIndex3Priv(
+						//const u64 &value,
+			            const u64 &docid,
+						const AosRundataPtr &rdata);
+
+	// Ken Lee, 2013/06/24
+	bool			setSubiilIndexPriv(
+						const AosIILObjPtr &iil,
+						const i64 &iil_idx,
+						const AosRundataPtr &rdata);
+
+	// Ken Lee, 201307/05
+	AosIILBigHitPtr	getSubiilByIndexPriv(
+						const u64 &iilid,
+						const i64 &iil_idx,
+						const AosRundataPtr &rdata);
+
+public:
+	//liuwei_hit
+/*
+	bool			batchIncSafe(
+						char * &entries,
+						const i64 &size,
+						const i64 &num,
+						const u64 &dftValue,
+						const AosIILUtil::AosIILIncType incType,
+						const AosRundataPtr &rdata);
+
+	bool			batchIncRecSafe(
+						char * &entries,
+						const i64 &size,
+						i64 &num,
+						const u64 &dftValue,
+						const AosIILUtil::AosIILIncType incType,
+						i64 &subChanged,
+						const bool isTail,
+						const AosRundataPtr &rdata);
+
+	bool			batchIncParentThrdSafe(
+						const u64 &iilid,
+						const i64 &iil_idx,
+						char * &entries,
+						const i64 &size,
+						i64 &num,
+						const u64 &dftValue,
+						const AosIILUtil::AosIILIncType incType,
+						const AosRundataPtr &rdata);
+
+	bool			batchIncSingleThrdSafe(
+						char * &entries,
+						const i64 &size,
+						i64 &num,
+						const u64 &dftValue,
+						const AosIILUtil::AosIILIncType incType,
+						const AosRundataPtr &rdata);
+*/
+private:
+	//liuwei_hit
+/*
+	bool			batchIncPriv(
+						char * &entries,
+						const i64 &size,
+						const i64 &num,
+						const u64 &dftValue,
+						const AosIILUtil::AosIILIncType incType,
+						const AosRundataPtr &rdata);
+
+	bool			batchIncRecPriv(
+						char * &entries,
+						const i64 &size,
+						i64 &num,
+						const u64 &dftValue,
+						const AosIILUtil::AosIILIncType incType,
+						i64 &subChanged,
+						const bool isTail,
+						const AosRundataPtr &rdata);
+
+	bool			batchIncSinglePriv(
+						char * &entries,
+						const i64 &size,
+						i64 &num,
+						const u64 &dftValue,
+						const AosIILUtil::AosIILIncType incType,
+						i64 &subChanged,
+						const bool isTail,
+						const AosRundataPtr &rdata);
+
+	bool			batchIncSingleThrdPriv(
+						char * &entries,
+						const i64 &size,
+						i64 &num,
+						const u64 &dftValue,
+						const AosIILUtil::AosIILIncType incType,
+						const AosRundataPtr &rdata);
+
+	bool			batchIncRebuild(
+						char * &entries,
+						const i64 &size,
+						i64 &num,
+						const u64 &dftValue,
+						const AosIILUtil::AosIILIncType incType,
+						i64 &num_handle,
+						u64* orig_values,
+						u64* orig_docids,
+						i64 &orig_num,
+						i64 &orig_idx,
+						const i64 &iilsize,
+						const bool isLastSub,
+						const AosRundataPtr &rdata);
+
+	bool			moveDocsForward(
+						const AosIILBigHitPtr &from_iil,
+						const AosIILBigHitPtr &to_iil,
+						const i64 &num_to_move);
+*/
+	bool			sanityCheckPriv(const AosRundataPtr &rdata);
+	bool			sanityCheckRecPriv(i64 &num_docs, const AosRundataPtr &rdata);
+	bool			sanityCheckSinglePriv(i64 &num_docs, const AosRundataPtr &rdata);
+	
+//shawn functions
+private:
+	//bool			distributeIILPriv(const AosRundataPtr &rdata);
+
+	//liuwei_hit
+	bool 			addDocDistr(
+						//const u64 &value, 
+						const u64 &docid, 
+						//const bool value_unique, 
+						//const bool docid_unique, 
+						const AosRundataPtr &rdata);
+
+	bool			removeDocDistr(
+						//const u64 &value,
+						const u64 &docid,
+						const AosRundataPtr &rdata);
+
+	//liuwei_hit
+/*
+	bool 			modifyDocDistr(
+						const u64 &oldvalue, 
+						const u64 &newvalue, 
+						const u64 &docid, 
+						const bool value_unique,
+						const bool docid_unique,
+						const AosRundataPtr &rdata);
+*/
+	//liuwei_hit
+	bool			getDistrInfo(
+						i64 &distr_num,
+						vector<u64> &iilids, 
+						//vector<u64> &values,
+						vector<u64> &docids);
+
+	bool			sendContentToDistr(
+						const u64 &iilid,
+						const AosRundataPtr &rdata);
+	
+	void			setDistrType(const DistrType type){mDistrType = type;}
+	void			setDistrStatus(const DistrStatus status){mDistrStatus = status;}
+
+	DistrType		getDistrType()const {return mDistrType;}
+	DistrStatus		getDistrStatus()const {return mDistrStatus;}
+
+	void			updateDistrInfo();
+	bool			needCallDistr1();
+public:
+	bool			entireCheckSafe(const AosRundataPtr &rdata);
+private:
+
+	//liuwei_hit
+	bool			entireCheckRecPriv(
+						//u64 &value,
+						u64 &docid,
+						const AosRundataPtr &rdata);
+	//liuwei_hit					
+	bool			entireCheckSinglePriv(
+						//u64 &value,
+						u64 &docid,
+						const AosRundataPtr &rdata);
+
+public:
+	//liuwei_hit
+
+	bool			queryNewPriv(
+						const AosQueryRsltObjPtr &query_rslt,
+						const AosBitmapObjPtr &query_bitmap,
+						const AosQueryContextObjPtr &query_context,
+						const AosRundataPtr &rdata);
+
+	bool			bitmapQueryNewPriv(
+						const AosQueryRsltObjPtr &query_rslt,
+						const AosBitmapObjPtr &query_bitmap,
+						const AosQueryContextObjPtr &query_context,
+						const AosRundataPtr &rdata);
+
+	bool			bitmapRsltQueryNewPriv(
+						const AosQueryRsltObjPtr &query_rslt,
+						const AosBitmapObjPtr &query_bitmap,
+						const AosQueryContextObjPtr &query_context,
+						const AosRundataPtr &rdata){return true;}
+
+	//liuwei_hit
+/*
+	bool			queryNewNEPriv(
+						const AosQueryRsltObjPtr &query_rslt,
+						const AosBitmapObjPtr &query_bitmap,
+						const AosQueryContextObjPtr &query_context,
+						const AosRundataPtr &rdata);
+
+	bool			queryNewInPriv(
+						const AosQueryRsltObjPtr &query_rslt,
+						const AosBitmapObjPtr &query_bitmap,
+						const AosQueryContextObjPtr &query_context,
+						const AosRundataPtr &rdata);
+
+	bool			bitmapQueryNewNEPriv(
+						const AosQueryRsltObjPtr &query_rslt,
+						const AosBitmapObjPtr &query_bitmap,
+						const AosQueryContextObjPtr &query_context,
+						const AosRundataPtr &rdata);
+
+	bool			bitmapQueryNewInPriv(
+						const AosQueryRsltObjPtr &query_rslt,
+						const AosBitmapObjPtr &query_bitmap,
+						const AosQueryContextObjPtr &query_context,
+						const AosRundataPtr &rdata);
+
+	bool			bitmapRsltQueryNewNEPriv(
+						const AosQueryRsltObjPtr &query_rslt,
+						const AosBitmapObjPtr &query_bitmap,
+						const AosQueryContextObjPtr &query_context,
+						const AosRundataPtr &rdata);
+
+	bool			bitmapRsltQueryNewInPriv(
+						const AosQueryRsltObjPtr &query_rslt,
+						const AosBitmapObjPtr &query_bitmap,
+						const AosQueryContextObjPtr &query_context,
+						const AosRundataPtr &rdata);
+*/
+	bool			queryPagingProc(
+						const AosQueryRsltObjPtr &query_rslt,
+						const AosBitmapObjPtr &query_bitmap,
+						const AosQueryContextObjPtr &query_context,
+						AosIILIdx &start_iilidx,
+						AosIILIdx &end_iilidx,
+						bool &has_data,
+						const bool need_paging,
+						const AosRundataPtr &rdata);
+//liuwei_hit
+/*
+	bool			queryPagingProcDistinct(
+						const AosQueryRsltObjPtr &query_rslt,
+						const AosBitmapObjPtr &query_bitmap,
+						const AosQueryContextObjPtr &query_context,
+						AosIILIdx &start_iilidx,
+						AosIILIdx &end_iilidx,
+						bool &has_data,
+						const bool need_paging,
+						const AosRundataPtr &rdata);
+*/
+	bool			copyData(
+						const AosQueryRsltObjPtr &query_rslt,
+						const AosBitmapObjPtr &query_bitmap,
+						const AosQueryContextObjPtr &query_context,
+						const AosIILIdx &start_iilidx,
+						const AosIILIdx &end_iilidx,
+						const AosRundataPtr &rdata);
+
+	bool			copyBitmap(
+						const AosQueryRsltObjPtr &query_rslt,
+						const AosBitmapObjPtr &query_bitmap,
+						const AosQueryContextObjPtr &query_context,
+						const AosIILIdx &start_iilidx,
+						const AosIILIdx &end_iilidx,
+						const AosRundataPtr &rdata);
+
+	bool			copyDataWithBitmap(
+						const AosQueryRsltObjPtr &query_rslt,
+						const AosBitmapObjPtr &query_bitmap,
+						const AosQueryContextObjPtr &query_context,
+						const AosIILIdx &start_iilidx,
+						const AosIILIdx &end_iilidx,
+						const AosRundataPtr &rdata);
+
+	bool			copyDataWithCheck(
+						const AosQueryRsltObjPtr &query_rslt,
+						const AosBitmapObjPtr &query_bitmap,
+						const AosQueryContextObjPtr &query_context,
+						const AosIILIdx &start_iilidx,
+						const AosIILIdx &end_iilidx,
+						const AosRundataPtr &rdata);
+
+	bool			copyDataRec(
+						const AosQueryRsltObjPtr &query_rslt,
+						const AosBitmapObjPtr &query_bitmap,
+						const AosQueryContextObjPtr &query_context,
+						const AosIILIdx &start_iilidx,
+						const AosIILIdx &end_iilidx,
+						AosIILIdx &cur_iilidx,
+						const AosIILUtil::CopyType copytype, 
+						const AosRundataPtr &rdata);
+
+	bool			copyBitmapRec(
+						const AosQueryRsltObjPtr &query_rslt,
+						const AosBitmapObjPtr &query_bitmap,
+						const AosQueryContextObjPtr &query_context,
+						const AosIILIdx &start_iilidx,
+						const AosIILIdx &end_iilidx,
+						AosIILIdx &cur_iilidx,
+						const AosIILUtil::CopyType copytype, 
+						const AosRundataPtr &rdata);
+
+	bool			copyDataWithBitmapRec(
+						const AosQueryRsltObjPtr &query_rslt,
+						const AosBitmapObjPtr &query_bitmap,
+						const AosQueryContextObjPtr &query_context,
+						const AosIILIdx &start_iilidx,
+						const AosIILIdx &end_iilidx,
+						AosIILIdx &cur_iilidx,
+						const AosIILUtil::CopyType copytype, 
+						const AosRundataPtr &rdata);
+
+	bool			copyBitmapSingle(
+						const AosQueryRsltObjPtr &query_rslt,
+						const AosBitmapObjPtr &query_bitmap,
+						const AosQueryContextObjPtr &query_context,
+						const AosIILIdx &start_iilidx,
+						const AosIILIdx &end_iilidx,
+						AosIILIdx &cur_iilidx,
+						const AosIILUtil::CopyType copytype, 
+						const AosRundataPtr &rdata);
+
+	bool			copyDataSingle(
+						const AosQueryRsltObjPtr &query_rslt,
+						const AosBitmapObjPtr &query_bitmap,
+						const AosQueryContextObjPtr &query_context,
+						const AosIILIdx &start_iilidx,
+						const AosIILIdx &end_iilidx,
+						AosIILIdx &cur_iilidx,
+						const AosIILUtil::CopyType copytype, 
+						const AosRundataPtr &rdata);
+	//liuwei_hit
+	void			nextIndexFixErrorIdx(
+						AosIILIdx &start_iilidx,
+						AosIILIdx &end_iilidx,
+						AosIILIdx &cur_iilidx,
+						//const u64 &cur_value,
+						const u64 &cur_docid,
+						const bool reverse,
+						bool &include_self,
+						bool &has_data,
+						const AosRundataPtr &rdata);
+						
+	i64			countNumRec(
+						const AosIILIdx start_iilidx,
+						const AosIILIdx end_iilidx,
+						const AosRundataPtr &rdata);
+
+	i64			countNumToEndRec(
+						const AosIILIdx start_iilidx,
+					   	const AosRundataPtr &rdata);
+
+	i64			countNumFromStartRec(
+						const AosIILIdx end_iilidx,
+					   	const AosRundataPtr &rdata);
+
+	i64			countNumSingle(
+						const AosIILIdx start_iilidx,
+						const AosIILIdx end_iilidx);
+
+	i64			countNumToEndSingle(const AosIILIdx start_iilidx);
+
+	i64			countNumFromStartSingle(const AosIILIdx end_iilidx);
+
+	bool			moveToRec(
+						AosIILIdx &start_iilidx,
+						AosIILIdx &end_iilidx,
+						u64 &page_start,
+						const bool &reverse,
+						bool &has_data,
+						const AosIILUtil::CopyType copytype, 
+						const AosRundataPtr &rdata);
+
+	bool			moveToSingle(
+						AosIILIdx &start_iilidx,
+						AosIILIdx &end_iilidx,
+						u64 &page_start,
+						const bool &reverse,
+						bool &has_data,
+						const AosIILUtil::CopyType copytype, 
+						const AosRundataPtr &rdata);
+
+	bool			queryPagingProcRec(
+						const AosQueryContextObjPtr &query_context,
+						AosIILIdx &start_iilidx,
+						AosIILIdx &end_iilidx,
+						i64 &bsize,
+						const bool reverse,
+						bool &include_self,	
+						const bool from_start,
+						const AosRundataPtr &rdata);
+
+	bool			queryPagingProcSingle(
+						const AosQueryContextObjPtr &query_context,
+						AosIILIdx &start_iilidx,
+						AosIILIdx &end_iilidx,
+						i64 &bsize,
+						const bool reverse,
+						bool &include_self,
+						const bool from_start,
+						const AosRundataPtr &rdata);
+
+private:
+	bool			prevQueryPosSingle(
+						AosIILIdx &iilidx,
+						const AosRundataPtr &rdata);
+	
+	bool			prevQueryPosL1(
+						AosIILIdx &iilidx,
+						const AosRundataPtr &rdata);
+	
+	bool			prevQueryPosRec(
+						AosIILIdx &iilidx,
+						const AosRundataPtr &rdata);
+	
+	bool			lastQueryPosSingle(
+						AosIILIdx &iilidx,
+						const AosRundataPtr &rdata);
+	
+	bool			lastQueryPosL1(
+						AosIILIdx &iilidx,
+						const AosRundataPtr &rdata);
+	
+	bool			lastQueryPosRec(
+						AosIILIdx &iilidx,
+						const AosRundataPtr &rdata);
+	
+	bool			nextQueryPosSingle(
+						AosIILIdx &iilidx,
+						const AosRundataPtr &rdata);
+	
+	bool			nextQueryPosL1(
+						AosIILIdx &iilidx,
+						const AosRundataPtr &rdata);
+	
+	bool			nextQueryPosRec(
+						AosIILIdx &iilidx,
+						const AosRundataPtr &rdata);
+
+
+	bool			deleteIILRecSafe(
+						vector<u64> &iilids,
+						const AosRundataPtr &rdata)
+	{
+		AOSLOCK(mLock);
+		bool rslt = deleteIILRecPriv(iilids, rdata);
+		AOSUNLOCK(mLock);
+		return rslt;
+	}
+
+	bool			deleteIILPriv(
+						const bool true_delete,
+						const AosRundataPtr &rdata);
+	bool			deleteIILRecPriv(
+						vector<u64> &iilids,
+						const AosRundataPtr &rdata);
+
+	i64		subInMem()
+	{
+		if (!mSubiils) return 0;
+		i64 i = 0;
+		for(i64 j = 0;j < mNumSubiils;j++)
+		{
+			if (mSubiils[j]) i++;
+		}
+		return i;
+	}
+	
+//=======================================================
+public:
+	//ken 2012/07/31
+	bool	getSplitValueSafe(
+				const AosQueryContextObjPtr &context,
+				const i64 &size,
+				vector<AosQueryContextObjPtr> &contexts,
+				const AosRundataPtr &rdata)
+	{
+		AOSLOCK(mLock);
+		context->setIILType(getIILType());
+		bool rslt = getSplitValuePriv(context, size, contexts, rdata);
+		AOSUNLOCK(mLock);
+		return rslt;
+	}
+
+private:
+	bool	getSplitValuePriv(
+				const AosQueryContextObjPtr &context,
+				const i64 &size,
+				vector<AosQueryContextObjPtr> &contexts,
+				const AosRundataPtr &rdata);
+
+	//liuwei_hit
+	bool	getSplitValueRecPriv(
+				i64 &num_splitters, 
+				i64 &cur_split_num, 
+				i64 &num_each_split, 
+				i64 &cur_doc_num,
+				//u64 &cur_value,
+				u64 &cur_docid,
+				const AosQueryRsltObjPtr &query_rslt,
+				const AosRundataPtr &rdata);
+
+	//liuwei_hit
+	bool			getSplitValueRecSafe(
+						i64 &num_splitters, 
+						i64 &cur_split_num, 
+						i64 &num_each_split, 
+						i64 &cur_doc_num,
+						//u64 &cur_value,
+						u64 &cur_docid,
+						const AosQueryRsltObjPtr &query_rslt,
+						const AosRundataPtr &rdata)
+	{
+		AOSLOCK(mLock);
+		bool rslt = getSplitValueRecPriv(
+						num_splitters, 
+						cur_split_num, 
+						num_each_split, 
+						cur_doc_num,
+						//cur_value,
+						cur_docid,
+						query_rslt,
+						rdata);
+		AOSUNLOCK(mLock);
+		return rslt;
+	}
+
+	//liuwei_hit
+	bool			getSplitValueSinglePriv(
+						i64 &num_splitters, 
+						i64 &cur_split_num, 
+						i64 &num_each_split, 
+						i64 &cur_doc_num,
+						//u64 &cur_value,
+						u64 &cur_docid,
+						const AosQueryRsltObjPtr &query_rslt,
+						const AosRundataPtr &rdata);
+
+	bool			getSplitValuePriv(
+						const i64 &num_blocks,
+						const AosQueryRsltObjPtr &query_rslt,
+						const AosRundataPtr &rdata);
+
+	//liuwei_hit
+	bool			getSplitValueRec(
+						const AosIILUtil::CopyType type,
+						const AosIILIdx &start_iilidx,
+						const AosIILIdx &end_iilidx,
+						const i64 &each,
+						i64 &num_left,
+						i64 &saperator_num_left,
+						//vector<u64> &values,
+						vector<u64> &docids,
+						const AosRundataPtr &rdata);
+	//liuwei_hit
+	bool			getSplitValueSingle(
+						const AosIILUtil::CopyType type,
+						const AosIILIdx &start_iilidx,
+						const AosIILIdx &end_iilidx,
+						const i64 &each,
+						i64 &num_left,
+						i64 &saperator_num_left,
+						//vector<u64> &values,
+						vector<u64> &docids,
+						const AosRundataPtr &rdata);
+	//liuwei_hit
+/*
+	bool	preQueryNEPriv(
+				const AosQueryContextObjPtr &query_context,
+				const AosRundataPtr &rdata);
+*/
+	bool	preQueryPriv(
+				const AosQueryContextObjPtr &query_context,
+				const AosRundataPtr &rdata);
+
+	bool	returnSubIILPriv(
+				const i64 &idx,
+				const AosRundataPtr &rdata);
+
+public:
+	bool			batchDelSafe(
+						char* &entries,
+						const i64 &size,
+						const i64 &num,
+						const AosIILExecutorObjPtr &executor,
+						const AosRundataPtr &rdata);
+	
+	bool			batchDelRecSafe(
+						AosBitmapObjPtr bitmap,
+						const i64 &size,
+						i64 &num,
+						const AosRundataPtr &rdata);
+
+private:
+	bool			batchDelPriv(
+						AosBitmapObjPtr bitmap,
+						const i64 &size,
+						const i64 &num,
+						const AosRundataPtr &rdata);
+
+	bool			batchDelRecPriv(
+						AosBitmapObjPtr bitmap,
+						const i64 &size,
+						i64 &num,
+						const AosRundataPtr &rdata);
+
+	bool			batchDelSinglePriv(
+						AosBitmapObjPtr bitmap,
+						const i64 &size,
+						i64 &num,
+						const AosRundataPtr &rdata);
+
+	bool			resetMaxMin(
+						const i64 &idx,
+						const AosRundataPtr &rdata);
+
+public:
+	//liuwei_hit
+/*
+	bool			batchDecSafe(
+						char * &entries,
+						const i64 &size,
+						const i64 &num,
+						const bool delete_flag,
+						const AosIILUtil::AosIILIncType incType,
+						const AosRundataPtr &rdata);
+
+	bool			batchDecRecSafe(
+						char * &entries,
+						const i64 &size,
+						i64 &num,
+						const bool delete_flag,
+						const AosIILUtil::AosIILIncType incType,
+						const AosRundataPtr &rdata);
+
+private:
+	bool			batchDecPriv(
+						char * &entries,
+						const i64 &size,
+						const i64 &num,
+						const bool delete_flag,
+						const AosIILUtil::AosIILIncType incType,
+						const AosRundataPtr &rdata);
+
+	bool			batchDecRecPriv(
+						char * &entries,
+						const i64 &size,
+						i64 &num,
+						const bool delete_flag,
+						const AosIILUtil::AosIILIncType incType,
+						const AosRundataPtr &rdata);
+
+	bool			batchDecSinglePriv(
+						char * &entries,
+						const i64 &size,
+						i64 &num,
+						const bool delete_flag,
+						const AosIILUtil::AosIILIncType incType,
+						const AosRundataPtr &rdata);
+*/
+
+public:
+	AosBitmapTreeObjPtr getBitmapTree(const AosRundataPtr &rdata);
+
+	AosBitmapObjPtr createBitmap();
+	bool			setBitmapTree(
+						const AosBitmapTreeObjPtr &tree,
+						const AosRundataPtr &rdata);
+
+	bool			buildBitmap(
+						AosBitmapObjPtr& bitmap,
+						const AosRundataPtr &rdata);
+
+	bool			checkWithBitmap(
+						const int &pos,
+						const AosBitmapObjPtr &query_bitmap,
+						bool &parent_ignored,
+						u64 &crt_parent_id,
+						vector<u64> &child_list,
+						const AosRundataPtr &rdata);
+
+	virtual bool	saveBitmapTree(const AosRundataPtr &rdata);
+
+	bool			rebuildLevelOne(
+						const u64 &index, 
+						const u64 num, 
+						const u64 node_id,
+						const AosRundataPtr &rdata);
+//=============================================================
+private:
+	void			countDirtyRec(
+						int &parent_changed, 
+						int &leaf_changed,
+						const AosRundataPtr &rdata);
+
+	virtual bool	saveLeafToFileSafe(
+						int &numToSave,
+						const AosRundataPtr &rdata);
+	virtual bool	saveLeafToFilePriv(
+						int &numToSave,
+						const AosRundataPtr &rdata);
+	virtual bool	saveLeafToFileRecSafe(
+						int &numToSave,
+						const AosRundataPtr &rdata);
+	virtual bool	saveLeafToFileRecPriv(
+						int &numToSave,
+						const AosRundataPtr &rdata);
+
+	virtual bool	rebuildBitmapSafe(const AosRundataPtr &rdata);
+	bool			clearBitmapPriv(
+						AosIILExecutorObjPtr &executor,
+						const AosRundataPtr &rdata);
+	bool			clearBitmapRecPriv(
+						AosIILExecutorObjPtr &executor,
+						const AosRundataPtr &rdata);
+	bool			rebuildBitmapPriv(
+						AosIILExecutorObjPtr &executor,
+						const AosRundataPtr &rdata);
+	bool			rebuildBitmapRecPriv(
+						AosIILExecutorObjPtr &executor,
+						const AosRundataPtr &rdata);
+						
+	bool			checkValueDocidRec(
+						const AosIILIdx &cur_iilidx,
+						const u64 &cur_docid,
+						const AosRundataPtr &rdata);
+
+	bool			locateIdx(
+						AosIILIdx &end_iilidx,
+						AosIILIdx &start_iilidx,
+						AosIILIdx &cur_iilidx,
+						const u64 &cur_docid,
+						const bool reverse,
+						bool &include_self,
+						bool &has_data,
+						const AosRundataPtr &rdata);
+
+	bool			setLimitation(
+						AosIILIdx &end_iilidx,
+						AosIILIdx &start_iilidx,
+						const u64 &cur_docid,
+						const bool reverse,
+						bool &include_self,
+						bool &has_data,
+						const AosRundataPtr &rdata);
+
+	bool			findPosPriv(
+						const u64 &docid, 
+						AosIILIdx &idx,
+						const bool reverse, 
+						bool &include_self,
+						const AosRundataPtr &rdata);
+						
+	//liuwei_hit
+	bool			findPosSinglePriv(
+						const u64 &docid, 
+						AosIILIdx &idx,
+						const bool reverse, 
+						bool &include_self,
+						const AosRundataPtr &rdata);
+
+	bool			getDistrMap(
+						const AosQueryContextObjPtr &query_context,
+						const AosIILIdx &start_iilidx,
+						const AosIILIdx &end_iilidx,
+						const bool reverse,
+						const i64 &total,
+						const AosRundataPtr &rdata);
+	
+	//liuwei_hit
+	bool			getDistrMapRec(
+						const AosQueryContextObjPtr &query_context,
+						const AosIILIdx &start_iilidx,
+						const AosIILIdx &end_iilidx,
+						AosIILIdx &cur_iilidx,
+						vector<u64> &docids, 
+						vector<u64> &num_entries,
+						const bool reverse,
+						const u64 &step,
+						const AosRundataPtr &rdata);
+
+//====================================================================
+public:
+	virtual void	setSnapShotId(const u64 &snap_id);
+	virtual void	resetSnapShotId();
+	virtual void	setSnapShotIdPriv(const u64 &snap_id);
+	virtual void	resetSnapShotIdPriv();
+	virtual bool	resetIIL(const AosRundataPtr &rdata);
+
+private:
+	bool			copyDataSingleWithThrd(
+						const AosQueryRsltObjPtr &query_rslt,
+						const AosBitmapObjPtr &query_bitmap,
+						const AosQueryContextObjPtr &query_context,
+						const i64 &start,
+						const i64 &end,
+						AosIILIdx &cur_iilidx,
+						const AosRundataPtr &rdata);
+
+public:
+	bool			copyDataSingleThrdSafe(
+						AosIILBigHitCopyDataSingleThrd *thrd,
+						const AosQueryRsltObjPtr &query_rslt,
+						const AosBitmapObjPtr &query_bitmap,
+						const AosQueryContextObjPtr &query_context,
+						const i64 &start,
+						const i64 &end,
+						const AosRundataPtr &rdata);
+
+};
+
+#endif
+

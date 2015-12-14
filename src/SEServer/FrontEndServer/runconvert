@@ -1,0 +1,1 @@
+./frontendserver.exe -config config_norm.txt -log 1 -repairing

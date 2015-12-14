@@ -1,0 +1,23 @@
+<valueset name='cond'>
+	<required>                                               
+		<attrs>
+			<attr name="zky_docselector_type"><![CDATA[[003]]]></attr>
+			<attr name="opr"><![CDATA[[>#<#==#>=#<=#!=]]]></attr>
+		</attrs>
+		<childnodes>
+			<node name="zky_lhs">
+				<required>                                               
+					<attr name="zky_data_type"><![CDATA[[int#u64#string]]]></attr>
+					<texts><![CDATA[(0#100)]]></texts>
+				</required>                                               
+			</node>
+			<node name="zky_rhs">
+				<required>                                               
+					<attr name="zky_data_type"><![CDATA[[int#u64#string]]]></attr>
+					<texts><![CDATA[(0#100)]]></texts>
+				</required>                                               
+			</node>
+
+		</childnodes>
+	</required>
+</valueset>

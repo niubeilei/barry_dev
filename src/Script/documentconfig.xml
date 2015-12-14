@@ -1,0 +1,15 @@
+<data>
+    <items>
+    	<item name="server_ip">192.168.99.89</item>
+    	<item name="server_port">5555</item>
+    	<item name="loginname">root</item>
+    	<item name="loginpasswd">12345</item>
+		<item name="dir_backup_name">/home/prod/DocumentBackUp</item>
+		<item name="source1_dir_name">/home/ftpuser/SIP</item>
+		<item name="source2_dir_name">/home/ftpuser/File</item>
+		<item name="dest_dir_name_tmp">/home/prod/UnicomDocumentTmp</item>
+		<item name="dest_dir_name">/home/prod/UnicomDocument</item>
+		<item name="zky_sdoc_objid">job_importdoc2</item>
+    	<item name="zky_jobname">importdocumentdata</item>
+    </items>
+</data>

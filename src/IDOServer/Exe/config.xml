@@ -1,0 +1,78 @@
+<config base_dir="./" trans_dir="./">	
+	<admin_engine_cluster num_cubes="4" name="admin_engine_cluster" port="7101">
+		<cube_map docid="5000">
+			<cubes>
+				<cube cube_id="0">
+					<physical id="1" status="1"/>
+					<physical id="2" status="1"/>				
+				</cube>
+				<cube cube_id="1">
+					<physical id="1" status="1"/>
+					<physical id="2" status="1"/>					
+				</cube>
+				<cube cube_id="2">
+					<physical id="2" status="1"/>
+					<physical id="1" status="1"/>					
+				</cube>
+				<cube cube_id="3">
+					<physical id="2" status="1"/>
+					<physical id="1" status="1"/>					
+				</cube>
+			</cubes>
+		</cube_map>
+		<dialer type="1">
+			<physical id="1"/>
+		</dialer>
+	</admin_engine_cluster>
+	<admin_store_cluster num_cubes="4" name="admin_store_cluster" port="7102">
+		<cube_map docid="5002">
+			<cubes>
+				<cube cube_id="0">
+					<physical id="1" status="1"/>
+					<physical id="2" status="1"/>				
+				</cube>
+				<cube cube_id="1">
+					<physical id="1" status="1"/>
+					<physical id="2" status="1"/>					
+				</cube>
+				<cube cube_id="2">
+					<physical id="2" status="1"/>
+					<physical id="1" status="1"/>					
+				</cube>
+				<cube cube_id="3">
+					<physical id="2" status="1"/>
+					<physical id="1" status="1"/>					
+				</cube>
+			</cubes>
+		</cube_map>
+		<dialer type="1">
+			<physical id="1"/>
+		</dialer>
+	</admin_store_cluster>	
+	<ido_store_cluster num_cubes="4" name="ido_store_cluster">
+		<physicals>
+			<physical ip_addr="192.168.99.82" port="7001" id="1"/>
+			<physical ip_addr="192.168.99.82" port="7002" id="2"/>
+			<physical ip_addr="192.168.99.82" port="7003" id="3"/>
+		</physicals>
+		<cube_map>
+			<cube cube_id="0">
+				<physical id="1" status="1"/>
+				<physical id="2" status="1"/>				
+			</cube>
+			<cube cube_id="1">
+				<physical id="1" status="1"/>
+				<physical id="2" status="1"/>					
+			</cube>
+			<cube cube_id="2">
+				<physical id="2" status="1"/>
+				<physical id="1" status="1"/>					
+			</cube>
+			<cube cube_id="3">
+				<physical id="2" status="1"/>
+				<physical id="1" status="1"/>					
+			</cube>
+		</cube_map>
+		<dialer type="auto"/>
+	</ido_store_cluster>	
+</config>

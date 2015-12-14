@@ -1,0 +1,9 @@
+testing wanCM simple case:
+This case must let the machine have IP:172.22.250.158 and have the submask: 255.255.0.0
+
+ [ipacketengine]$wan health check set ip 172.22.0.1            
+
+ [ipacketengine]$wan ip address set 172.22.250.158 255.255.0.0
+
+ [ipacketengine]$wan set status on  
+

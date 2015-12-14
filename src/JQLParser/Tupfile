@@ -1,0 +1,12 @@
+LIBNAME = JQLParser
+
+CFLAGS += -g -Wall -DOMN_PLATFORM_UNIX 
+CFLAGS += -I../ -I../../Include
+OBJDIR = ../../obj/$(LIBNAME)
+LIBDIR = ../../obj
+
+: Grammars/Head.yy Grammars/Mid.yy Grammars/Stmt*.yy Grammars/Bottom.yy |> cat %f > %o |> Parser.yy
+: Parser.yy |> bison -vd %f |> Parser.output position.hh location.hh stack.hh Parser.tab.hh Parser.tab.cc
+: Parser.l |> flex -o %o %f |> Parser.lex.cpp
+: foreach *.cc *.cpp | Parser.lex.cpp position.hh location.hh stack.hh Parser.tab.hh |> g++ $(CFLAGS) -c %f -o %o |> $(OBJDIR)/%B.o
+: $(OBJDIR)/*.o |> ar crs %o %f |> $(LIBDIR)/lib$(LIBNAME).a ../../<mod>

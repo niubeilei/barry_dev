@@ -1,0 +1,238 @@
+<apis>
+	<module>wan</module>
+	<api>
+		<api_name>aos_wan_set_addr</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>addr</var>
+			</param>
+			<param>
+				<type>char*</type>
+				<var>mask</var>
+			</param>
+		</protype>
+		<prefix>wan ip address set</prefix>
+		<description>set outcard ip address</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+				<param>"192.168.0.1"</param>
+				<param>"255.255.0.0"</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_wan_get_addr</api_name>
+		<protype>
+			<param>
+				<type>outdata</type>
+				<var>str1</var>
+			</param>
+		</protype>
+		<prefix>wan ip address show</prefix>
+		<description>show outcard ip address</description>
+		<testcases>
+			<testcase>
+				<testcaseid>2</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_wan_set_method</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>method</var>
+			</param>
+		</protype>
+		<prefix>wan connect method set</prefix>
+		<description>set connect method</description>
+		<testcases>
+			<testcase>
+				<testcaseid>3</testcaseid>
+				<expected>0</expected>
+				<param>"dhcp"</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_wan_set_hc_interval</api_name>
+		<protype>
+			<param>
+				<type>int</type>
+				<var>freq</var>
+			</param>
+		</protype>
+		<prefix>wan health check set time</prefix>
+		<description>set interval</description>
+		<testcases>
+			<testcase>
+				<testcaseid>4</testcaseid>
+				<expected>0</expected>
+				<param>4</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_wan_set_remote_ip</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>ip</var>
+			</param>
+		</protype>
+		<prefix>wan health check set ip</prefix>
+		<description>remote ip </description>
+		<testcases>
+			<testcase>
+				<testcaseid>5</testcaseid>
+				<expected>0</expected>
+				<param>"192.168.0.2"</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_wan_set_adsl_user</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>username</var>
+			</param>
+		</protype>
+		<prefix>wan adsl username set</prefix>
+		<description>set adsl account</description>
+		<testcases>
+			<testcase>
+				<testcaseid>6</testcaseid>
+				<expected>0</expected>
+				<param>"hiadfdfdfd"</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_wan_set_adsl_password</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>password</var>
+			</param>
+		</protype>
+		<prefix>wan adsl password set</prefix>
+		<description>set adsl account's password</description>
+		<testcases>
+			<testcase>
+				<testcaseid>7</testcaseid>
+				<expected>0</expected>
+				<param>"passwordadsl"</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_wan_dns_set</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>dns1</var>
+			</param>
+			<param>
+				<type>char*</type>
+				<var>dns2</var>
+			</param>
+		</protype>
+		<prefix>wan dns set</prefix>
+		<description>set wan dns</description>
+		<testcases>
+			<testcase>
+				<testcaseid>8</testcaseid>
+				<expected>0</expected>
+				<param>"72.134.3.1"</param>
+				<param>"192.169.1.1"</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_wan_set_status</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>status</var>
+			</param>
+		</protype>
+		<prefix>wan set status</prefix>
+		<description>start stop  wan</description>
+		<testcases>
+			<testcase>
+				<testcaseid>9</testcaseid>
+				<expected>0</expected>
+				<param>"on"</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_wan_retrieve_config</api_name>
+		<protype>
+			<param>
+				<type>outdata</type>
+				<var>str1</var>
+			</param>
+		</protype>
+		<prefix>wan show config</prefix>
+		<description>show current config</description>
+		<testcases>
+			<testcase>
+			 	<testcaseid>10</testcaseid>
+				<expected>0</expected>
+		  	</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_wan_clear_config</api_name>
+		<protype>
+		</protype>
+		<prefix>wan clear config</prefix>
+		<description>clear current config</description>
+		<testcases>
+			<testcase>
+			<testcaseid>11</testcaseid>
+			<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_wan_save_config</api_name>
+		<protype>
+			<!--<param>
+				<type>char*</type>
+				<var>fname</var>
+			</param>-->
+		</protype>
+		<prefix>wan save config</prefix>
+		<description>save current config</description>
+		<testcases>
+			<testcase>
+				<testcaseid>12</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_wan_load_config</api_name>
+		<protype>
+			<!--<param>
+				<type>char*</type>
+				<var>fname</var>
+			</param>-->
+		</protype>
+		<prefix>wan load config</prefix>
+		<description>this is description</description>
+		<testcases>
+			<testcase>
+				<testcaseid>13</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+</apis>

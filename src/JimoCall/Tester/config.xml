@@ -1,0 +1,154 @@
+<config base_dir="./" trans_dir="./">	
+	<admin_engine_cluster num_cubes="4" name="admin_engine_cluster">
+		<cube_map docid="6001">
+			<cube cube_id="0">
+				<physical id="1" status="1"/>
+			</cube>
+			<cube cube_id="1">
+				<physical id="1" status="1"/>
+			</cube>
+			<cube cube_id="2">
+				<physical id="1" status="1"/>					
+			</cube>
+			<cube cube_id="3">
+				<physical id="1" status="1"/>					
+			</cube>
+		</cube_map>
+		<physicals>
+			<physical addr="192.168.99.82" port="7201" id="1" name="admin_engine_1"/>
+		</physicals>
+		<dialer type="manual" conn_type="tcp">
+			<physical id="1" name="admin_engine_dialer_1" addr="192.168.99.82" port="7100"/>
+		</dialer>
+	</admin_engine_cluster>
+	<admin_store_cluster num_cubes="4" name="admin_store_cluster">
+		<cube_map docid="6002">
+			<cube cube_id="0">
+				<physical id="1" status="1"/>
+			</cube>
+			<cube cube_id="1">
+				<physical id="1" status="1"/>
+			</cube>
+			<cube cube_id="2">
+				<physical id="1" status="1"/>					
+			</cube>
+			<cube cube_id="3">
+				<physical id="1" status="1"/>					
+			</cube>
+		</cube_map>
+		<physicals>
+			<physical addr="192.168.99.82" port="7202" id="1" name="admin_store_1"/>
+		</physicals>
+		<dialer type="manual" conn_type="tcp">
+			<physical id="1" name="admin_store_dialer_1" addr="192.168.99.82" port="7100"/>
+		</dialer>
+	</admin_store_cluster>	
+	<doc_engine_cluster num_cubes="4" name="doc_engine_cluster">
+		<cube_map docid="6003">
+			<cube cube_id="0">
+				<physical id="1" status="1"/>
+			</cube>
+			<cube cube_id="1">
+				<physical id="1" status="1"/>
+			</cube>
+			<cube cube_id="2">
+				<physical id="1" status="1"/>					
+			</cube>
+			<cube cube_id="3">
+				<physical id="1" status="1"/>					
+			</cube>
+		</cube_map>
+		<physicals>
+			<physical addr="192.168.99.82" port="7203" id="1" name="doc_engine_1"/>
+		</physicals>
+		<dialer type="manual" conn_type="tcp">
+			<physical id="1" name="doc_engine_dialer_1" addr="192.168.99.82" port="7100"/>
+		</dialer>
+	</doc_engine_cluster>
+	<doc_store_cluster num_cubes="4" name="doc_store_cluster">
+		<cube_map docid="6004">
+			<cube cube_id="0">
+				<physical id="1" status="1"/>
+			</cube>
+			<cube cube_id="1">
+				<physical id="1" status="1"/>
+			</cube>
+			<cube cube_id="2">
+				<physical id="1" status="1"/>					
+			</cube>
+			<cube cube_id="3">
+				<physical id="1" status="1"/>					
+			</cube>
+		</cube_map>
+		<physicals>
+			<physical addr="192.168.99.82" port="7204" id="1" name="doc_store_1"/>
+		</physicals>
+		<dialer type="manual" conn_type="tcp">
+			<physical id="1" name="doc_store_dialer_1" addr="192.168.99.82" port="7100"/>
+		</dialer>
+	</doc_store_cluster>	
+	<index_engine_cluster num_cubes="4" name="index_engine_cluster">
+		<cube_map docid="6005">
+			<cube cube_id="0">
+				<physical id="1" status="1"/>
+			</cube>
+			<cube cube_id="1">
+				<physical id="1" status="1"/>
+			</cube>
+			<cube cube_id="2">
+				<physical id="1" status="1"/>					
+			</cube>
+			<cube cube_id="3">
+				<physical id="1" status="1"/>					
+			</cube>
+		</cube_map>
+		<physicals>
+			<physical addr="192.168.99.82" port="7205" id="1" name="doc_engine_1"/>
+		</physicals>
+		<dialer type="manual" conn_type="tcp">
+			<physical id="1" name="index_engine_dialer_1" addr="192.168.99.82" port="7100"/>
+		</dialer>
+	</index_engine_cluster>
+	<ido_store_cluster num_cubes="4" name="ido_store_cluster">
+    <cube_map docid="6006">
+      <cube cube_id="0">
+        <physical id="1" status="1"/>                                  
+      </cube>
+      <cube cube_id="1">
+        <physical id="1" status="1"/>
+      </cube>
+      <cube cube_id="2">
+        <physical id="1" status="1"/>                   
+      </cube>
+      <cube cube_id="3">
+        <physical id="1" status="1"/>                   
+      </cube>
+    </cube_map>
+    <physicals>
+      <physical addr="192.168.99.82" port="7206" id="1" name="ido_store_1"/>
+    </physicals>
+    <dialer type="auto"/>
+	</ido_store_cluster>    
+	<hello_world_cluster num_cubes="4" name="hello_world_cluster">
+		<cube_map docid="6001">
+			<cube cube_id="0">
+				<physical id="1" status="1"/>
+			</cube>
+			<cube cube_id="1">
+				<physical id="1" status="1"/>
+			</cube>
+			<cube cube_id="2">
+				<physical id="1" status="1"/>					
+			</cube>
+			<cube cube_id="3">
+				<physical id="1" status="1"/>					
+			</cube>
+		</cube_map>
+		<physicals>
+			<physical addr="192.168.99.82" port="7201" id="1" name="admin_engine_1"/>
+		</physicals>
+		<dialer type="manual" conn_type="tcp">
+			<physical id="1" name="hello_world_cluster" addr="192.168.99.82" port="7100"/>
+		</dialer>
+	</hello_world_cluster>
+</config>

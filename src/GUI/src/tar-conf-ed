@@ -1,0 +1,12 @@
+#!/bin/bash
+
+. /etc/dom_partition
+
+if [ $# -lt 1 ]; then
+	exit 1
+fi
+
+mount $DEVICE /mnt
+tar czf $1 /mnt/linux-config /mnt/aos-config
+umount /mnt
+

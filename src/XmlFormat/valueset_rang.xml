@@ -1,0 +1,14 @@
+<valueset name='zky_valueset'>
+	<required>                                               
+		<attrs>
+			<attr name="zky_valueset_type"><![CDATA[[001]]]></attr>
+			<attr name="zky_start"><![CDATA[(0#100)]]></attr>
+			<attr name="zky_end"><![CDATA[(0#100)]]></attr>
+		</attrs>
+	</required>
+	<optional>
+		<attrs>
+			<attr name="zky_data_type"><![CDATA[[string#int]]]></attr>
+		</attrs>
+	</optional>
+</valueset>

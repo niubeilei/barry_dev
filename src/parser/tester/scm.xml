@@ -1,0 +1,9 @@
+<Node1>
+	<Name>test1</Name>
+	<Type>XML</Type>
+	<Fields>
+		<Field>
+			<Name>test11</Name>
+			<Type>XML</Type>
+			<IsMandatory>1</IsMandatory>
+			<DataType>

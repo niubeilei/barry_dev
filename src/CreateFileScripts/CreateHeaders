@@ -1,0 +1,81 @@
+mkdir ../src/AosInclude/DataGenSeqno
+cp DataGenSeqno/AllDataGenSeqno.h ../src/AosInclude/DataGenSeqno/AllDataGenSeqno.h
+mkdir ../src/AosInclude/CounterServer
+cp CounterServer/Ptrs.h ../src/AosInclude/CounterServer/Ptrs.h
+cp CounterServer/VirCtnrSvr.h ../src/AosInclude/CounterServer/
+cp CounterServer/PhyCtnrSvr.h ../src/AosInclude/CounterServer/
+mkdir ../src/AosInclude/CounterTime
+cp CounterTime/CounterTimeInfo.h ../src/AosInclude/CounterTime/
+mkdir ../src/AosInclude/CounterClt
+cp CounterClt/CounterClt.h ../src/AosInclude/CounterClt/
+cp CounterClt/Ptrs.h ../src/AosInclude/CounterClt/
+mkdir ../src/AosInclude/DocTrans
+cp DocTrans/Ptrs.h ../src/AosInclude/DocTrans/
+cp DocTrans/DocTransMgr.h ../src/AosInclude/DocTrans/
+cp DocTrans/DocTrans.h ../src/AosInclude/DocTrans/
+cp DocTrans/DocTransProc.h ../src/AosInclude/DocTrans/
+mkdir ../src/AosInclude/IDTransMap
+cp IDTransMap/Ptrs.h ../src/AosInclude/IDTransMap
+cp IDTransMap/IDTransMap.h ../src/AosInclude/IDTransMap
+mkdir ../src/AosInclude/BitmapMgr
+cp BitmapMgr/Bitmap.h ../src/AosInclude/BitmapMgr
+cp BitmapMgr/BitmapMgr.h ../src/AosInclude/BitmapMgr
+cp BitmapMgr/BitmapNode.h ../src/AosInclude/BitmapMgr
+cp BitmapMgr/BitmapItr.h ../src/AosInclude/BitmapMgr
+mkdir ../src/AosInclude/QueryRslt
+cp QueryRslt/Ptrs.h ../src/AosInclude/QueryRslt
+cp QueryRslt/QueryRsltMgr.h ../src/AosInclude/QueryRslt
+mkdir ../src/AosInclude/DocServer
+cp DocServer/DocSvrConnMgr.h ../src/AosInclude/DocServer
+cp DocServer/DocSvr.h ../src/AosInclude/DocServer
+mkdir ../src/AosInclude/MsgClient
+cp MsgClient/MsgClient.h ../src/AosInclude/MsgClient
+mkdir ../src/AosInclude/Job
+cp Job/JobMgr.h ../src/AosInclude/Job
+cp Job/Ptrs.h ../src/AosInclude/Job
+mkdir ../src/AosInclude/RemoteBackupClt/
+cp RemoteBackupClt/RemoteBackupClt.h ../src/AosInclude/RemoteBackupClt/
+cp RemoteBackupClt/Ptrs.h ../src/AosInclude/RemoteBackupClt/
+mkdir ../src/AosInclude/IILIDIdGen/
+cp IILIDIdGen/Ptrs.h ../src/AosInclude/IILIDIdGen
+cp IILIDIdGen/IILIDIdGen.h ../src/AosInclude/IILIDIdGen
+mkdir ../src/AosInclude/RemoteBackupUtil/
+cp RemoteBackupUtil/RemoteBkType.h ../src/AosInclude/RemoteBackupUtil
+mkdir ../src/AosInclude/SystemMonitor/
+cp SystemMonitor/SysMonitor.h ../src/AosInclude/SystemMonitor
+mkdir ../src/AosInclude/SeLogSvr/
+cp SeLogSvr/PhyLogSvr.h ../src/AosInclude/SeLogSvr
+cp SeLogSvr/Ptrs.h ../src/AosInclude/SeLogSvr
+mkdir ../src/AosInclude/StorageEngine
+cp StorageEngine/SizeIdMgr.h ../src/AosInclude/StorageEngine/
+cp StorageEngine/Ptrs.h ../src/AosInclude/StorageEngine/
+cp StorageEngine/StorageEngineMgr.h  ../src/AosInclude/StorageEngine
+cp StorageEngine/AllStorageEngines.h  ../src/AosInclude/StorageEngine
+mkdir ../src/AosInclude/IILTransServer/
+cp IILTransServer/IILTransServer.h ../src/AosInclude/IILTransServer/
+cp IILTransServer/Ptrs.h ../src/AosInclude/IILTransServer/
+mkdir ../src/AosInclude/SeLogClient/
+cp SeLogClient/SeLogClient.h ../src/AosInclude/SeLogClient/
+cp SeLogClient/Ptrs.h ../src/AosInclude/SeLogClient/
+mkdir ../src/AosInclude/SeLogUtil/
+cp  SeLogUtil/LogNames.h ../src/AosInclude/SeLogUtil
+mkdir ../src/AosInclude/ShortMsgClt/
+cp  ShortMsgClt/ShortMsgClt.h ../src/AosInclude/ShortMsgClt
+mkdir ../src/AosInclude/WordMgr/
+cp WordMgr/WordMgr1.h ../src/AosInclude/WordMgr
+mkdir ../src/AosInclude/WordTransClient/
+cp WordTransClient/WordTransClient.h ../src/AosInclude/WordTransClient
+mkdir ../src/AosInclude/VersionServer
+cp VersionServer/VersionServer.h ../src/AosInclude/VersionServer
+mkdir ../src/AosInclude/Python/
+cp Python/Python.h ../src/AosInclude/Python
+mkdir ../src/AosInclude/CustomizedProcs/
+mkdir ../src/AosInclude/CustomizedProcs/Contec/
+cp CustomizedProcs/Contec/Decl.h ../src/AosInclude/CustomizedProcs/Contec/
+mkdir ../src/AosInclude/CustomizedProcs/INotify
+cp CustomizedProcs/INotify/INotifyMgr.h ../src/AosInclude/CustomizedProcs/INotify
+mkdir ../src/AosInclude/DocMgr
+cp DocMgr/DocMgr.h ../src/AosInclude/DocMgr
+mkdir ../src/AosInclude/DocProc
+cp DocProc/DocProc.h ../src/AosInclude/DocProc
+

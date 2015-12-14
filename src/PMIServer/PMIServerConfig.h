@@ -1,0 +1,266 @@
+////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) 2005
+// Packet Engineering, Inc. All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification is not permitted unless authorized in writing by a duly
+// appointed officer of Packet Engineering, Inc. or its derivatives
+//
+// File Name: PMIServerConfig.h
+// Description:
+//   
+//
+// Modification History:
+// 
+////////////////////////////////////////////////////////////////////////////
+
+#ifndef Omn_PMIServer_PMIServerConfig_h
+#define Omn_PMIServer_PMIServerConfig_h
+
+#include "Util/RCObject.h"
+#include "Util/String.h"
+
+OmnString sgPMIServerConfigStr("<PMIServerConfig>\
+	<PMITcpServer> \
+		<LocalPort>7408</LocalPort> \
+		<LocalNumPorts>1</LocalNumPorts> \
+	</PMITcpServer> \
+	<PMIData> \
+		<PMIDataBlock> \
+			<UserOrg>/l=公安部</UserOrg> 	 \
+			<UserSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</UserSys> \
+			<UserSN>A0200000000748</UserSN>	  \
+			<SrcOrg>/l=公安部</SrcOrg>  \
+			<SrcSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</SrcSys>	  \
+			<Src>index1.html</Src>		  \
+			<Operation>密文访问</Operation>  \
+		</PMIDataBlock>		 \
+		<PMIDataBlock> \
+			<UserOrg>/l=公安部</UserOrg> 	 \
+			<UserSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</UserSys> \
+			<UserSN>A0200000000748</UserSN>	  \
+			<SrcOrg>/l=公安部</SrcOrg>  \
+			<SrcSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</SrcSys>	  \
+			<Src>index2.html</Src>		  \
+			<Operation>密文访问</Operation>  \
+		</PMIDataBlock>		 \
+		<PMIDataBlock> \
+			<UserOrg>/l=公安部</UserOrg> 	 \
+			<UserSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</UserSys> \
+			<UserSN>A0200000000748</UserSN>	  \
+			<SrcOrg>/l=公安部</SrcOrg>  \
+			<SrcSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</SrcSys>	  \
+			<Src>index3.html</Src>		  \
+			<Operation>密文访问</Operation>  \
+		</PMIDataBlock>		 \
+		<PMIDataBlock> \
+			<UserOrg>/l=公安部</UserOrg> 	 \
+			<UserSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</UserSys> \
+			<UserSN>A0200000000748</UserSN>	  \
+			<SrcOrg>/l=公安部</SrcOrg>  \
+			<SrcSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</SrcSys>	  \
+			<Src>picuture1.jpg</Src>		  \
+			<Operation>密文访问</Operation>  \
+		</PMIDataBlock>		 \
+		<PMIDataBlock> \
+			<UserOrg>/l=公安部</UserOrg> 	 \
+			<UserSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</UserSys> \
+			<UserSN>A0200000000748</UserSN>	  \
+			<SrcOrg>/l=公安部</SrcOrg>  \
+			<SrcSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</SrcSys>	  \
+			<Src>Picuture2.jpg</Src>		  \
+			<Operation>密文访问</Operation>  \
+		</PMIDataBlock>		 \
+		<PMIDataBlock> \
+			<UserOrg>/l=公安部</UserOrg> 	 \
+			<UserSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</UserSys> \
+			<UserSN>A0200000000748</UserSN>	  \
+			<SrcOrg>/l=公安部</SrcOrg>  \
+			<SrcSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</SrcSys>	  \
+			<Src>Picuture3.jpg</Src>		  \
+			<Operation>密文访问</Operation>  \
+		</PMIDataBlock>		 \
+		<PMIDataBlock> \
+			<UserOrg>/l=公安部</UserOrg> 	 \
+			<UserSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</UserSys> \
+			<UserSN>A0200000000748</UserSN>	  \
+			<SrcOrg>/l=公安部</SrcOrg>  \
+			<SrcSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</SrcSys>	  \
+			<Src>Picuture4.png</Src>		  \
+			<Operation>密文访问</Operation>  \
+		</PMIDataBlock>		 \
+		<PMIDataBlock> \
+			<UserOrg>/l=公安部</UserOrg> 	 \
+			<UserSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</UserSys> \
+			<UserSN>A0200000000748</UserSN>	  \
+			<SrcOrg>/l=公安部</SrcOrg>  \
+			<SrcSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</SrcSys>	  \
+			<Src>Picture5.png</Src>		  \
+			<Operation>密文访问</Operation>  \
+		</PMIDataBlock>		 \
+		<PMIDataBlock> \
+			<UserOrg>/l=公安部</UserOrg> 	 \
+			<UserSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</UserSys> \
+			<UserSN>A0200000000748</UserSN>	  \
+			<SrcOrg>/l=公安部</SrcOrg>  \
+			<SrcSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</SrcSys>	  \
+			<Src>Picture6.png</Src>		  \
+			<Operation>密文访问</Operation>  \
+		</PMIDataBlock>		 \
+		<PMIDataBlock> \
+			<UserOrg>/l=公安部</UserOrg> 	 \
+			<UserSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</UserSys> \
+			<UserSN>A0200000000748</UserSN>	  \
+			<SrcOrg>/l=公安部</SrcOrg>  \
+			<SrcSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</SrcSys>	  \
+			<Src>Movie1.rm</Src>		  \
+			<Operation>密文访问</Operation>  \
+		</PMIDataBlock>		 \
+		<PMIDataBlock> \
+			<UserOrg>/l=公安部</UserOrg> 	 \
+			<UserSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</UserSys> \
+			<UserSN>A0200000000748</UserSN>	  \
+			<SrcOrg>/l=公安部</SrcOrg>  \
+			<SrcSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</SrcSys>	  \
+			<Src>Movie2.rm</Src>		  \
+			<Operation>密文访问</Operation>  \
+		</PMIDataBlock>		 \
+		<PMIDataBlock> \
+			<UserOrg>/l=公安部</UserOrg> 	 \
+			<UserSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</UserSys> \
+			<UserSN>A0200000000748</UserSN>	  \
+			<SrcOrg>/l=公安部</SrcOrg>  \
+			<SrcSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</SrcSys>	  \
+			<Src>Movie3.rm</Src>		  \
+			<Operation>密文访问</Operation>  \
+		</PMIDataBlock>		 \
+		<PMIDataBlock> \
+			<UserOrg>/l=公安部</UserOrg> 	 \
+			<UserSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</UserSys> \
+			<UserSN>A0200000000748</UserSN>	  \
+			<SrcOrg>/l=公安部</SrcOrg>  \
+			<SrcSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</SrcSys>	  \
+			<Src>Download1.exe</Src>		  \
+			<Operation>密文访问</Operation>  \
+		</PMIDataBlock>		 \
+		<PMIDataBlock> \
+			<UserOrg>/l=公安部</UserOrg> 	 \
+			<UserSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</UserSys> \
+			<UserSN>A0200000000748</UserSN>	  \
+			<SrcOrg>/l=公安部</SrcOrg>  \
+			<SrcSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</SrcSys>	  \
+			<Src>Download2.exe</Src>		  \
+			<Operation>密文访问</Operation>  \
+		</PMIDataBlock>		 \
+		<PMIDataBlock> \
+			<UserOrg>/l=公安部</UserOrg> 	 \
+			<UserSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</UserSys> \
+			<UserSN>A0200000000748</UserSN>	  \
+			<SrcOrg>/l=公安部</SrcOrg>  \
+			<SrcSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</SrcSys>	  \
+			<Src>Download3.exe</Src>		  \
+			<Operation>密文访问</Operation>  \
+		</PMIDataBlock>		 \
+		<PMIDataBlock> \
+			<UserOrg>/l=公安部</UserOrg> 	 \
+			<UserSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</UserSys> \
+			<UserSN>A0200000000748</UserSN>	  \
+			<SrcOrg>/l=公安部</SrcOrg>  \
+			<SrcSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</SrcSys>	  \
+			<Src>/directory1/page1.html</Src>		  \
+			<Operation>密文访问</Operation>  \
+		</PMIDataBlock>		 \
+		<PMIDataBlock> \
+			<UserOrg>/l=公安部</UserOrg> 	 \
+			<UserSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</UserSys> \
+			<UserSN>A0200000000748</UserSN>	  \
+			<SrcOrg>/l=公安部</SrcOrg>  \
+			<SrcSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</SrcSys>	  \
+			<Src>/directory1/download21.html</Src>		  \
+			<Operation>密文访问</Operation>  \
+		</PMIDataBlock>		 \
+		<PMIDataBlock> \
+			<UserOrg>/l=公安部</UserOrg> 	 \
+			<UserSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</UserSys> \
+			<UserSN>A0200000000748</UserSN>	  \
+			<SrcOrg>/l=公安部</SrcOrg>  \
+			<SrcSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</SrcSys>	  \
+			<Src>/directory1/movie21.rm</Src>		  \
+			<Operation>密文访问</Operation>  \
+		</PMIDataBlock>		 \
+		<PMIDataBlock> \
+			<UserOrg>/l=公安部</UserOrg> 	 \
+			<UserSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</UserSys> \
+			<UserSN>A0200000000748</UserSN>	  \
+			<SrcOrg>/l=公安部</SrcOrg>  \
+			<SrcSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</SrcSys>	  \
+			<Src>/directory2/page2.html</Src>		  \
+			<Operation>密文访问</Operation>  \
+		</PMIDataBlock>	\
+		<PMIDataBlock> \
+			<UserOrg>/l=公安部</UserOrg> 	 \
+			<UserSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</UserSys> \
+			<UserSN>A0200000000748</UserSN>	  \
+			<SrcOrg>/l=公安部</SrcOrg>  \
+			<SrcSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</SrcSys>	  \
+			<Src>/directory3/directory31/page22.html</Src>		  \
+			<Operation>密文访问</Operation>  \
+		</PMIDataBlock>	\
+		<PMIDataBlock> \
+			<UserOrg>/l=公安部</UserOrg> 	 \
+			<UserSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</UserSys> \
+			<UserSN>A0200000000748</UserSN>	  \
+			<SrcOrg>/l=公安部</SrcOrg>  \
+			<SrcSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</SrcSys>	  \
+			<Src>/directory4/1234/page22.html</Src>		  \
+			<Operation>密文访问</Operation>  \
+		</PMIDataBlock>	\
+		<PMIDataBlock> \
+			<UserOrg>/l=公安部</UserOrg> 	 \
+			<UserSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</UserSys> \
+			<UserSN>A0200000000748</UserSN>	  \
+			<SrcOrg>/l=公安部</SrcOrg>  \
+			<SrcSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</SrcSys>	  \
+			<Src>/directory4/1234/download21.exe</Src>		  \
+			<Operation>密文访问</Operation>  \
+		</PMIDataBlock>	\
+		<PMIDataBlock> \
+			<UserOrg>/l=公安部</UserOrg> 	 \
+			<UserSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</UserSys> \
+			<UserSN>A0200000000748</UserSN>	  \
+			<SrcOrg>/l=公安部</SrcOrg>  \
+			<SrcSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</SrcSys>	  \
+			<Src>/directory4/1234/picture21.jpg</Src>		  \
+			<Operation>密文访问</Operation>  \
+		</PMIDataBlock>	\
+		<PMIDataBlock> \
+			<UserOrg>/l=公安部</UserOrg> 	 \
+			<UserSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</UserSys> \
+			<UserSN>A0200000000748</UserSN>	  \
+			<SrcOrg>/l=公安部</SrcOrg>  \
+			<SrcSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</SrcSys>	  \
+			<Src>/directory4/1234/movie21.rm</Src>		  \
+			<Operation>密文访问</Operation>  \
+		</PMIDataBlock>	\
+		<PMIDataBlock> \
+			<UserOrg>/l=公安部</UserOrg> 	 \
+			<UserSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</UserSys> \
+			<UserSN>A0200000000748</UserSN>	  \
+			<SrcOrg>/l=公安部</SrcOrg>  \
+			<SrcSys>/dc=公安涉密信息系统/dc=部机关涉密信息系统/dc=array测试涉密信息系统</SrcSys>	  \
+			<Src>/directory5/one-two/page31.html</Src>		  \
+			<Operation>密文访问</Operation>  \
+		</PMIDataBlock>	\
+	</PMIData> \
+</PMIServerConfig>\
+<CliClientConfig>      \
+    <RemoteIpAddr>127.0.0.1</RemoteIpAddr>  \
+    <RemotePort>30000</RemotePort>                    \
+    <RemoteNumPorts>1</RemoteNumPorts>             \
+    <LocalAddr>127.0.0.1</LocalAddr>               \
+    <LocalPort>30001</LocalPort>                           \
+    <LocalNumPorts>1</LocalNumPorts>                     \
+</CliClientConfig>") ;
+
+#endif

@@ -1,0 +1,177 @@
+<config base_dir="./Jimo_Servers0/" trans_dir="./Jimo_Servers0/">	
+	<networkmgr replic_policy="nobkp" zky_procid="2" zky_phyclientid="0" zky_physerverid="0" proc_type="cube" cube_grp_id="0" vids="0,1,2,3" config_master="0" crt_master="0">
+		<servers>
+			<server server_id="0">
+				<proc proc_type="cube" cube_grp_id="0"/>
+				<proc proc_type="frontend"/>
+			</server>
+		</servers>
+		<cubes replic_policy="nobkp">
+			<cube_grp grp_id="0" vids="0,1,2,3"/>
+		</cubes>
+	</networkmgr>
+	<storage_mgr>
+		<storage_device>
+			<storage_partition device_id="0" userdir="Data/cube" totalsize="1000">
+				<storage_policy/>
+			</storage_partition>
+		</storage_device>
+		<storage_space_alloc/>
+	</storage_mgr>
+	<TransClient showlog="true"/>
+	<transserver proc_thread_num="5" showlog="true1" trans_max_cachesize="500"/>
+	<sitemgr>
+		<sites>
+			<site zky_siteid="100" zky_dftsite="true" create="true"/>
+		</sites>
+	</sitemgr>
+	<IpcClt tmp_data_dir="proxy_tmp/"/>
+	<clusters> 
+	<admin_engine_cluster num_cubes="4" name="admin_engine_cluster">
+		<cube_map docid="6001">
+			<cube cube_id="0">
+				<physical id="1" status="1"/>
+			</cube>
+				<cube cube_id="1">
+					<physical id="1" status="1"/>
+				</cube>
+			<cube cube_id="2">
+				<physical id="1" status="1"/>					
+			</cube>
+			<cube cube_id="3">
+				<physical id="1" status="1"/>					
+			</cube>
+		</cube_map>
+		<physicals>
+			<physical addr="192.168.99.215" port="7201" id="1" name="admin_engine_1"/>
+		</physicals>
+		<dialer type="manual" conn_type="tcp">
+			<physical id="1" name="admin_engine_dialer_1" addr="192.168.99.215" port="7100"/>
+		</dialer>
+	</admin_engine_cluster>
+	<admin_store_cluster num_cubes="4" name="admin_store_cluster">
+		<cube_map docid="6002">
+			<cube cube_id="0">
+				<physical id="1" status="1"/>
+			</cube>
+			<cube cube_id="1">
+				<physical id="1" status="1"/>
+			</cube>
+			<cube cube_id="2">
+				<physical id="1" status="1"/>					
+			</cube>
+			<cube cube_id="3">
+				<physical id="1" status="1"/>					
+			</cube>
+		</cube_map>
+		<physicals>
+			<physical addr="192.168.99.215" port="7202" id="1" name="admin_store_1"/>
+		</physicals>
+		<dialer type="manual" conn_type="tcp">
+			<physical id="1" name="admin_store_dialer_1" addr="192.168.99.215" port="7100"/>
+		</dialer>
+	</admin_store_cluster>	
+	<doc_engine_cluster num_cubes="4" name="doc_engine_cluster">
+		<cube_map docid="6003">
+			<cube cube_id="0">
+				<physical id="1" status="1"/>
+			</cube>
+			<cube cube_id="1">
+				<physical id="1" status="1"/>
+			</cube>
+			<cube cube_id="2">
+				<physical id="1" status="1"/>					
+			</cube>
+			<cube cube_id="3">
+				<physical id="1" status="1"/>					
+			</cube>
+		</cube_map>
+		<physicals>
+			<physical addr="192.168.99.215" port="7203" id="1" name="doc_engine_1"/>
+		</physicals>
+		<dialer type="manual" conn_type="tcp">
+			<physical id="1" name="doc_engine_dialer_1" addr="192.168.99.215" port="7100"/>
+		</dialer>
+	</doc_engine_cluster>
+	<index_engine_cluster num_cubes="4" name="index_engine_cluster">
+		<cube_map docid="6005">
+			<cube cube_id="0">
+				<physical id="1" status="1"/>
+			</cube>
+			<cube cube_id="1">
+				<physical id="1" status="1"/>
+			</cube>
+			<cube cube_id="2">
+				<physical id="1" status="1"/>					
+			</cube>
+			<cube cube_id="3">
+				<physical id="1" status="1"/>					
+			</cube>
+		</cube_map>
+		<physicals>
+			<physical addr="192.168.99.215" port="7205" id="1" name="doc_engine_1"/>
+		</physicals>
+		<dialer type="manual" conn_type="tcp">
+			<physical id="1" name="index_engine_dialer_1" addr="192.168.99.215" port="7100"/>
+		</dialer>
+	</index_engine_cluster>
+	<ido_store_cluster num_cubes="4" name="ido_store_cluster">
+    <cube_map docid="6006">
+      <cube cube_id="0">
+        <physical id="1" status="1"/>                                  
+      </cube>
+      <cube cube_id="1">
+        <physical id="1" status="1"/>
+      </cube>
+      <cube cube_id="2">
+        <physical id="1" status="1"/>                   
+      </cube>
+      <cube cube_id="3">
+        <physical id="1" status="1"/>                   
+      </cube>
+    </cube_map>
+    <physicals>
+      <physical addr="192.168.99.215" port="7206" id="1" name="ido_store_1"/>
+    </physicals>
+    <dialer type="auto"/>
+	</ido_store_cluster>    
+	<hello_world_cluster num_cubes="4" name="hello_world_cluster">
+		<cube_map docid="6001">
+			<cube cube_id="0">
+				<physical id="1" status="1"/>
+			</cube>
+			<cube cube_id="1">
+				<physical id="1" status="1"/>
+			</cube>
+			<cube cube_id="2">
+				<physical id="1" status="1"/>					
+			</cube>
+			<cube cube_id="3">
+				<physical id="1" status="1"/>					
+			</cube>
+		</cube_map>
+		<physicals>
+			<physical addr="192.168.99.215" port="7201" id="1" name="admin_engine_1"/>
+		</physicals>
+		<dialer type="manual" conn_type="tcp">
+			<physical id="1" name="hello_world_cluster" addr="192.168.99.215" port="7100"/>
+		</dialer>
+	</hello_world_cluster>
+	<doc_store_cluster num_cubes="3" name="doc_store_cluster">
+		<cube_map docid="6004">
+			<cube cube_id="0">
+				<physical id="0" status="1"/>
+				<physical id="1" status="1"/>
+				<physical id="2" status="1"/>					
+			</cube>
+		</cube_map>
+		<physicals>
+			<physical addr="192.168.99.215" port="21500" id="0" name="doc_store_0"/>
+			<physical addr="192.168.99.215" port="21501" id="1" name="doc_store_1"/>
+			<physical addr="192.168.99.215" port="21502" id="2" name="doc_store_2"/>
+		</physicals>
+		<dialer type="auto" conn_type="tcp" />
+	</doc_store_cluster>	
+</clusters> 
+	<jimocall_server id="2" name="doc_store_2" addr="192.168.99.215" port="21502" conn_type="tcp"/>
+</config>

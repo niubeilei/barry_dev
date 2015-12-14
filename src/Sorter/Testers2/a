@@ -1,0 +1,4 @@
+tup
+mv /home/liuwei/Jimo_Servers0/mergesort.exe ./aaaa
+rm aaaa
+cp ../../../obj/mergesort.exe ~/Jimo_Servers0

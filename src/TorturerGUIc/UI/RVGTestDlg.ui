@@ -1,0 +1,296 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>RVGTestDlg</class>
+<widget class="QDialog">
+    <property name="name">
+        <cstring>RVGTestDlg</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>517</width>
+            <height>525</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Test RVG</string>
+    </property>
+    <property name="sizeGripEnabled">
+        <bool>true</bool>
+    </property>
+    <widget class="QGroupBox">
+        <property name="name">
+            <cstring>mRVGGroupBox</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>10</y>
+                <width>480</width>
+                <height>70</height>
+            </rect>
+        </property>
+        <property name="title">
+            <string>Tested RVG</string>
+        </property>
+        <widget class="QLabel">
+            <property name="name">
+                <cstring>mRVGNameLabel</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>250</x>
+                    <y>30</y>
+                    <width>66</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>RVG Name</string>
+            </property>
+        </widget>
+        <widget class="QLineEdit">
+            <property name="name">
+                <cstring>mProductNameLineEdit</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>120</x>
+                    <y>30</y>
+                    <width>100</width>
+                    <height>22</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="readOnly">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="QLineEdit">
+            <property name="name">
+                <cstring>mRVGNamelineEdit</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>330</x>
+                    <y>30</y>
+                    <width>130</width>
+                    <height>21</height>
+                </rect>
+            </property>
+            <property name="readOnly">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="QLabel">
+            <property name="name">
+                <cstring>mProductNameLabel</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>10</x>
+                    <y>30</y>
+                    <width>90</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Product Name</string>
+            </property>
+        </widget>
+    </widget>
+    <widget class="QLayoutWidget">
+        <property name="name">
+            <cstring>Layout1</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>140</x>
+                <y>480</y>
+                <width>360</width>
+                <height>33</height>
+            </rect>
+        </property>
+        <hbox>
+            <property name="name">
+                <cstring>unnamed</cstring>
+            </property>
+            <property name="margin">
+                <number>0</number>
+            </property>
+            <property name="spacing">
+                <number>6</number>
+            </property>
+            <spacer>
+                <property name="name">
+                    <cstring>Horizontal Spacing2</cstring>
+                </property>
+                <property name="orientation">
+                    <enum>Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                    <enum>Expanding</enum>
+                </property>
+                <property name="sizeHint">
+                    <size>
+                        <width>20</width>
+                        <height>20</height>
+                    </size>
+                </property>
+            </spacer>
+            <widget class="QPushButton">
+                <property name="name">
+                    <cstring>buttonOk</cstring>
+                </property>
+                <property name="text">
+                    <string>&amp;OK</string>
+                </property>
+                <property name="accel">
+                    <string></string>
+                </property>
+                <property name="autoDefault">
+                    <bool>true</bool>
+                </property>
+                <property name="default">
+                    <bool>true</bool>
+                </property>
+            </widget>
+        </hbox>
+    </widget>
+    <widget class="QGroupBox">
+        <property name="name">
+            <cstring>mPolicyGroupBox</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>90</y>
+                <width>480</width>
+                <height>380</height>
+            </rect>
+        </property>
+        <property name="title">
+            <string>Test Info</string>
+        </property>
+        <widget class="QLabel">
+            <property name="name">
+                <cstring>mTestTimes</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>10</x>
+                    <y>30</y>
+                    <width>66</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Test Times</string>
+            </property>
+        </widget>
+        <widget class="QLabel">
+            <property name="name">
+                <cstring>mValuesLabel</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>10</x>
+                    <y>70</y>
+                    <width>120</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Generated Values</string>
+            </property>
+        </widget>
+        <widget class="QListBox">
+            <item>
+                <property name="text">
+                    <string>New Item</string>
+                </property>
+            </item>
+            <property name="name">
+                <cstring>mValuesListBox</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>10</x>
+                    <y>100</y>
+                    <width>450</width>
+                    <height>270</height>
+                </rect>
+            </property>
+            <property name="columnMode">
+                <enum>FitToWidth</enum>
+            </property>
+        </widget>
+        <widget class="QLineEdit">
+            <property name="name">
+                <cstring>mTestTimesLineEdit</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>120</x>
+                    <y>30</y>
+                    <width>100</width>
+                    <height>22</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>100</string>
+            </property>
+        </widget>
+        <widget class="QPushButton">
+            <property name="name">
+                <cstring>mStartTestBtn</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>248</x>
+                    <y>30</y>
+                    <width>210</width>
+                    <height>24</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Start Testing</string>
+            </property>
+        </widget>
+    </widget>
+</widget>
+<connections>
+    <connection>
+        <sender>buttonOk</sender>
+        <signal>clicked()</signal>
+        <receiver>RVGTestDlg</receiver>
+        <slot>accept()</slot>
+    </connection>
+    <connection>
+        <sender>mStartTestBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>RVGTestDlg</receiver>
+        <slot>startTestBtn_clicked()</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="global" impldecl="in declaration">qlistview.h</include>
+    <include location="local" impldecl="in declaration">RVG/Ptrs.h</include>
+    <include location="local" impldecl="in declaration">RVG/RVG.h</include>
+    <include location="local" impldecl="in declaration">TorTree.h</include>
+    <include location="local" impldecl="in implementation">RVGTestDlg.ui.h</include>
+</includes>
+<variables>
+    <variable access="public">AosRVGPtr mRVG;</variable>
+</variables>
+<slots>
+    <slot>startTestBtn_clicked()</slot>
+</slots>
+<functions>
+    <function>initialize()</function>
+</functions>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

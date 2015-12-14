@@ -1,0 +1,1 @@
+ctags -R --language-force=c++ --c++-types=+px --verbose --extra=+q

@@ -1,0 +1,161 @@
+<config base_dir="/home/felicia/AOSCVS/Data/frontend_data">
+	<thrift_servers>
+		<server value="true" ip="0.0.0.0" port="29090" />
+	</thrift_servers>
+	<seserver
+		local_addr="0.0.0.0"
+		local_port="2001-2001"
+		service_name="SEServer"
+		req_delinerator="first_four_high"
+		max_proc_time="10000"
+		max_conns="10000"/>
+	<transserver showlog="false" trans_max_cachesize="500" />
+	<sizeid initSizeid="10" incSizeid="10" initDocids="10" incDocids="1000000" />
+	<DocProc
+		num_threads="8"
+		showlog="false"
+		ignored_hashname="ignoredWords"
+		wordnorm_hashname="wordNorm"/>
+	<docclient>
+		<defs>
+			<docid crtid = "5000"/>
+		</defs>
+		<distributor type="idrobin"/>
+	</docclient>
+	<docserver is_cache="false" is_groupeddoc_compress="true">
+	</docserver>
+	<storageengine
+		max_file_size="4000000"
+		num_threads = "4"
+		fixed_length_comp = "true"
+		remove_cache_file="true"/>
+	<image imagedir="images" imgback_dir="Backup/images" />
+	<sitemgr>
+	    <sites>
+			<site zky_siteid="100" zky_dftsite="true" create="true" />
+		</sites>
+	</sitemgr>
+	<security_mgr>
+		<dft_access_record
+			read="public"
+			delmem="private"
+			addmem="private"
+			delete="private"
+			copy="private"
+			create="private"
+			write="private">
+		</dft_access_record>
+	</security_mgr>
+	<session_mgr timed_unit="60"/>
+	<storage_mgr>
+		<storage_device>
+			<storage_partition device_id="0"
+					devname="dev/sda1"
+					mountdir="/"
+					userdir="Data"
+					totalsize="1000">
+				<storage_policy />
+			</storage_partition>
+		</storage_device>
+		<storage_space_alloc />
+	</storage_mgr>
+    <iil_client  showlog="false" /> 
+	<wordmgr wordid_hashname="wordid"   
+	         wordid_tablesize="1000000"/>
+	<iilmgr
+		showlog="false"
+		max_iils="5000"
+		max_iilsize="20000"         
+		max_norm_iilsize="5000"
+		max_big_iilsize="50000"
+		min_iilsize="500"
+		max_subiilsize="5000"
+		min_subiilsize="500"
+		iilmgr_sanitycheck="false" >
+		<iil_map showlog="false"
+				 single_size="4000"
+				 queue_size="20500"
+				 max_trans="500000"
+				 batch_size="0"
+				 proc_queue_size="500"
+				 proc_trans_size="2000"
+				 post_proc="true" />
+		<IdGens>
+			<defs>
+				<iilid crtid="5000" blocksize="1" maxid="1000000" />
+			</defs>
+		</IdGens>
+	</iilmgr>
+	<IdGens>                                  
+	    <defs>
+			<cloudid init_value="100000"/>
+			<compid init_value="1000000"/>
+			<ssid init_value="1000000"/>
+		</defs>
+	</IdGens>
+	<SeLogClt />
+	<SeLogSvr ischecking="true" /> 
+	<CounterClt />
+	<CounterSvr showlog="false" />
+	<timermgr timer_fname="timer"/>
+	<frontendserver server_id="2">
+	    <record server_id="0" ip="0.0.0.0" port="5555"/>
+	</frontendserver>
+	<datacollectorMgr 
+		perBktMem    = "1000000" 
+		perMaxBktMem = "50000000" 
+		maxMemory    = "4000000000" 
+		maxBuffMem2  = "2000000000"
+		maxBuffMem   = "8000000000">
+	</datacollectorMgr>
+	<data_assembler zky_maxbuffsize="10000000"/>
+	<SysMonitor />
+	<IpcClt tmp_data_dir="../../ProxyTmp0/" />
+	<tester test_num="1000000" thrd_num="1">
+		<dataproc type="wordparser" version="1">
+			<fields>
+				<key zky_input_field_name="rcd_001.field1" zky_output_field_name = "rcd_002.key"/>
+				<docid zky_input_field_name="rcd_001.docid" zky_output_field_name = "rcd_002.value"/>
+			</fields>
+		</dataproc>
+		<datarecords>
+			<input_rcds>
+				<datarecord type="fixbin" zky_name="rcd_001" zky_length="58">
+					<datafields>
+						<datafield type="str" zky_name="field1" zky_offset="0" zky_length="50" zky_datatooshortplc="cstr"/>
+						<datafield type="bin_u64" zky_name="docid" zky_offset="50" zky_length="8"/>
+					</datafields>
+				</datarecord>
+			</input_rcds>
+			<output_rcds>
+				<datarecord zky_name="rcd_002" type="ctnr">	
+					<datarecord type="fixbin" zky_name="rcd_002" zky_length="58">
+						<datafields>
+							<datafield type="str" zky_name="key" zky_offset="0" zky_length="50" zky_datatooshortplc="cstr"/>
+							<datafield type="bin_u64" zky_name="value" zky_offset="50" zky_length="8"/>
+						</datafields>
+					</datarecord>
+				</datarecord>
+			</output_rcds>
+		</datarecords>
+		<rf_infos>
+			<rf_info record_name = "rcd_001">
+			 	<field is_input="true" rcd_idx="0" field_idx = "0" field_name="field1" />  
+			 	<field is_input="true" rcd_idx="0" field_idx = "1" field_name="docid" />  
+			</rf_info>
+			<rf_info record_name = "rcd_002">
+				<field is_input="false" rcd_idx="0" field_idx = "0" field_name="key"/>
+				<field is_input="false" rcd_idx="0" field_idx = "1" field_name="value"/>
+			</rf_info>
+		</rf_infos>
+		<input_rcd_values>
+			<record name="rcd_001">
+				<value idx="0">happy new year happy birthday happy year year</value>
+				<value idx="1">12345</value>
+			</record>
+		</input_rcd_values>
+	</tester>
+<networkmgr replic_policy="nobkp" zky_procid="3" zky_phyclientid="0" zky_physerverid="0" proc_type="frontend"><servers><![CDATA[
+		]]><server server_id="0"><![CDATA[
+			]]><proc proc_type="cube" cube_grp_id="0"/><proc proc_type="frontend"/></server></servers><cubes replic_policy="nobkp"><![CDATA[
+		]]><cube_grp grp_id="0" vids="0, 1"/></cubes></networkmgr></config>

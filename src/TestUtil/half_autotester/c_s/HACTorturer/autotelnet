@@ -1,0 +1,20 @@
+#!/usr/bin/env expect
+#set timeout 60
+set y [lindex $argv 0]
+set p [lindex $argv 1]
+spawn telnet $y $p
+#HAC Proxy login
+expect "*login:*"
+send "ttt\n"
+expect "*Password:*"
+send "tttttt\n"
+#Real Server login
+expect "*login:*"
+send "ytao\n"
+expect "*Password:*"
+send " \n"
+send "exit\n"
+expect "logout"
+exit
+expect eof
+

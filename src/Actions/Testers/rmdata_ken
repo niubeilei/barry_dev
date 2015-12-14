@@ -1,0 +1,4 @@
+cd ../../../
+rm -rf DataBack/*
+//rm -rf CreateData/*
+tar -zxvf DataBack-20120521.tar.gz 

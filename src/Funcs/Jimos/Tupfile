@@ -1,0 +1,10 @@
+
+LIBNAME = FuncJimos
+
+CFLAGS += -g -Wall -DOMN_PLATFORM_UNIX 
+CFLAGS += -I../../ -I../../../Include
+OBJDIR = ../../../obj/$(LIBNAME)
+LIBDIR = ../../../obj
+
+: foreach *.cpp |> g++ $(CFLAGS) -c -fpic -shared -rdynamic %f -o %o |> $(OBJDIR)/%B.o
+: $(OBJDIR)/*.o |> g++ -shared -o %o %f |> $(LIBDIR)/lib$(LIBNAME).so ../../../<mod>

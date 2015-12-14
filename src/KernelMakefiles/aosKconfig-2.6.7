@@ -1,0 +1,61 @@
+
+menu "AOS SSL PROXY"
+
+config AOS_CORE
+    tristate "AOS Core"
+    ---help---
+    The AOS Core files
+
+config CERT_VERIFY
+    tristate "AOS Cert Verify"
+	depends on AOS_CORE
+    ---help--- 
+    This module includes OCSP and CRL
+
+config AOS_SSL
+    tristate "AOS SSL"
+	depends on CERT_VERIFY
+    ---help---
+    The aos ssl is kernel ssl process.
+   
+config AOS_TEST
+	tristate "AOS Test"
+	depends on AOS_CORE
+	---help---
+	The AOS Test Module
+
+config AOS_INMEMORY_LOG
+	tristate "AOS In-Memory Log"
+	depends on AOS_CORE
+	---help---
+	Keep logs in memory
+
+config AOS_MEMORY_CATCHER
+	tristate "AOS Memory Catcher"
+	depends on AOS_CORE
+	---help---
+	This facility is used to catch kernel memory leaks. If not sure, select no. 
+
+config AOS_TCPVS
+    tristate "AOS TCPVS"
+    depends on AOS_CORE
+    ---help---
+    The AOS TCPVS module
+
+config AOS_APP_HTTP
+    tristate "AOS APP HTTP For TCPVS Proxy"
+    depends on AOS_TCPVS
+    ---help---
+    This module includes http application processing
+
+config AOS_WEB_WALL
+    tristate "AOS WEB WALL"
+    depends on AOS_APP_HTTP
+    ---help---
+    This module includes web wall url filter feature
+
+source "net/aos/Kconfig"
+
+endmenu
+
+

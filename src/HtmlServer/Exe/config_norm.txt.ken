@@ -1,0 +1,743 @@
+<config
+	js_path = "http://192.168.99.96:8080/lps-ken/ken/Ext/"
+	ajax_path = "http://192.168.99.96:8080/"
+	file_path = "/usr/local/openlaszlo/lps-4.7.2/Server/lps-ken/ken/Ext/"
+	simulate_path = "/lps-ken/simulate/"
+	image_path = "http://yunyuyan.com/lps-ken/images/"
+	service_name = "HtmlServer"
+	req_delinerator = "first_four_high"
+	max_proc_time = "10000"
+	max_conns = "1024"
+	remote_addr = "0.0.0.0"
+	remote_port = "5575"	
+	local_addr = "0.0.0.0"
+	local_port = "5585-5585">
+	<files>
+		<file name="jquery" src="Util/jquery-1.5.2.js" fname="AosJQueryStart" />
+		<file name="ext-one" src="extjs/jsSrc-3.3/ext-one-debug.js" fname="AosExtOneDebugStart" />
+			<file name="ext-base" src="extjs/jsSrc-3.3/ext-base-debug.js" fname="AosExtBaseStart" />
+			<file name="ext-core" src="extjs/jsSrc-3.3/ext-core-debug.js" fname="AosExtCoreStart" />
+			<file name="ext-foundation" src="extjs/jsSrc-3.3/ext-foundation-debug.js" fname="AosExtFoundationStart" />
+			<file name="ext-dd" src="extjs/jsSrc-3.3/ext-dd-debug.js" fname="AosExtDDStart" />
+			<file name="ext-state" src="extjs/jsSrc-3.3/state-debug.js" fname="AosExtStateStart" />
+		<file name="ext-cmp-foundation" src="extjs/jsSrc-3.3/cmp-foundation-debug.js" fname="AosExtCmpFoundationStart" />
+		<file name="ext-two" src="extjs/jsSrc-3.3/ext-two-debug.js" fname="AosExtTwoDebugStart" />
+			<file name="pkg-tips" src="extjs/jsSrc-3.3/pkg-tips-debug.js" fname="AosExtTipsStart" />
+			<file name="ext-resizable" src="extjs/jsSrc-3.3/resizable-debug.js" fname="AosExtResizableStart" />
+			<file name="pkg-buttons" src="extjs/jsSrc-3.3/pkg-buttons-debug.js" fname="AosExtButtonsStart" />
+			<file name="ext-window" src="extjs/jsSrc-3.3/window-debug.js" fname="AosExtWindowStart" />
+			<file name="pkg-menu" src="extjs/jsSrc-3.3/pkg-menu-debug.js" fname="AosExtMenuStart" />
+			<file name="pkg-forms" src="extjs/jsSrc-3.3/pkg-forms-debug.js" fname="AosExtFormsStart" />
+			<file name="pkg-toolbars" src="extjs/jsSrc-3.3/pkg-toolbars-debug.js" fname="AosExtToolbarsStart" />
+		<file name="ext-data" src="extjs/jsSrc-3.3/ext-data-debug.js" fname="AosExtDataDebugStart" />
+			<file name="ext-data-foundation" src="extjs/jsSrc-3.3/data-foundation-debug.js" fname="AosExtDataFoundationStart" />
+			<file name="ext-data-json" src="extjs/jsSrc-3.3/data-json-debug.js" fname="AosExtDataJsonStart" />
+			<file name="ext-data-xml" src="extjs/jsSrc-3.3/data-xml-debug.js" fname="AosExtDataXmlStart" />
+			<file name="ext-data-grouping" src="extjs/jsSrc-3.3/data-grouping-debug.js"	fname="AosExtDataGroupingStart" />
+			<file name="ext-data-list-views" src="extjs/jsSrc-3.3/data-list-views-debug.js" fname="AosExtDataListViewsStart" />
+		<file name="ext-grid" src="extjs/jsSrc-3.3/ext-grid-debug.js" fname="AosExtGridDebugStart" />
+			<file name="pkg-grid-foundation" src="extjs/jsSrc-3.3/pkg-grid-foundation-debug.js" fname="AosExtGridFoundationStart" />
+			<file name="pkg-grid-editor" src="extjs/jsSrc-3.3/pkg-grid-editor-debug.js" fname="AosExtGridEditorStart" />
+			<file name="pkg-grid-property" src="extjs/jsSrc-3.3/pkg-grid-property-debug.js" fname="AosExtGridPropertyStart" />
+			<file name="pkg-grid-grouping" src="extjs/jsSrc-3.3/pkg-grid-grouping-debug.js" fname="AosExtGridGroupingStart" />
+		<file name="pkg-tree" src="extjs/jsSrc-3.3/pkg-tree-debug.js" fname="AosExtTreeStart" />
+		<file name="pkg-tabs" src="extjs/jsSrc-3.3/pkg-tabs-debug.js" fname="AosExtTabsStart" />
+		<file name="pkg-charts" src="extjs/jsSrc-3.3/pkg-charts-debug.js" fname="AosExtChartsStart" />
+		<file name="ext-direct" src="extjs/jsSrc-3.3/direct-debug.js" fname="AosExtDirectStart" />
+		<file name="pkg-history" src="extjs/jsSrc-3.3/pkg-history-debug.js" fname="AosExtHistoryStart" />
+		<file name="ext-calendar" src="extjs/jsSrc-3.3/calendar-all-debug.js" fname="AosCalendarAllDebugStart" />
+		<file name="language-cn" src="Util/language-cn.js" fname="AosLanguageStart" />
+		<file name="util" src="Util/AosUtilMain.js" fname="AosUtilMainStart" />
+			<file name="xmlparser" src="Util/XmlParser.js" fname="AosXmlParserStart" />
+			<file name="utilbase" src="Util/util.js" fname="AosUtilStart" />
+			<file name="pngfix" src="Util/jquery.pngFix.js" fname="AosPngTransStart" />
+		<file name="bgiframe" src="Util/jquery.bgiframe.js" fname="AosIE6ZIndexStart" />
+		<file name="pie" src="Util/pie.js" fname="AosPieStart" />
+		<file name="raphael" src="Util/raphael.min.js" fname="AosRaphaelStart" />
+		<file name="raphael.all" src="Util/raphael.js" fname="AosRaphaelStart" />
+		<file name="graphael" src="Util/graphael.js" fname="AosGraphaelStart" />
+		<file name="gbar" src="Util/gbar.js" fname="AosGbarStart" />
+		<file name="gpie" src="Util/gpie.js" fname="AosGpieStart" />
+		<file name="msghandler" src="Util/msgHandler.js" fname="AosMsgHandlerStart" />
+		<file name="MsgService" src="Util/MsgService.js" fname="AosMsgServiceStart" />
+		<file name="microblog" src="Util/microblog.js" fname="AosMicroblogStart" />
+		<file name="instantmsg" src="Util/instantmsg.js" fname="AosInstantMsgStart" />
+		<file name="act_inlinesearch" src="Actions/act_inlinesearch.js" fname="AosActInlineSearchStart" />
+		<file name="inlinesearchMgr" src="Modules/inlinesearchMgr.js" fname="AosInlineSearchMgrStart" />
+		<file name="inlinesearch" src="Modules/inlinesearch.js" fname="AosInlineSearchStart" />
+		<file name="modules" src="Modules/AosModules.js" fname="AosModulesStart" />
+			<file name="domain" src="Modules/domain_mgr.js" fname="AosDomainMgrStart" />
+			<file name="alarm" src="Modules/alarm.js" fname="AosAlarmStart" />
+			<file name="system" src="Modules/system.js" fname="AosSystemStart" />
+			<file name="dataservice" src="DataService/AosDataService.js" fname="AosDataServiceStart" />
+			<file name="clipboard" src="Modules/clipboard.js" fname="AosClipboardStart" />
+			<file name="dcl_db" src="Modules/dcl_db.js" fname="AosDclDbStart" />
+			<file name="dcl_str" src="Modules/dcl_str.js" fname="AosDclStrStart" />
+			<file name="dcl_embobj" src="Modules/dcl_embobj.js" fname="AosDclEmbobjStart" />
+			<file name="condition" src="Modules/conditions.js" fname="AosConditionsStart" />
+		<file name="shopboard" src="Modules/shopboard.js" fname="AosShopboardStart" />
+		<file name="actions" src="Actions/AosAction.js" fname="AosActionStart" />
+			<file name="action_service" src="Actions/action_service.js" fname="AosActionServiceStart" />
+			<file name="var_expr" src="Actions/var_expr.js" fname="AosVarExprStart" />
+			<file name="act_open_dialog" src="Actions/act_open_dialog.js" fname="AosActOpenDialogStart" />
+			<file name="act_set_pane" src="Actions/act_set_pane.js" fname="AosActSetPaneStart" />
+			<file name="act_close_dialog" src="Actions/act_close_dialog.js" fname="AosActCloseDialogStart" />
+			<file name="act_cancel_dialog" src="Actions/act_cancel_dialog.js" fname="AosActCancelDialogStart" />
+			<file name="act_close_fvpd" src="Actions/act_close_fvpd.js" fname="AosActClosefvpdStart" />
+			<file name="act_set_var" src="Actions/act_set_var.js" fname="AosActSetVarStart" />
+			<file name="act_remove_var" src="Actions/act_remove_var.js" fname="AosActSetVarStart" />
+			<file name="act_set_listen" src="Actions/act_set_listen.js" fname="AosActSetListenStart" />
+			<file name="act_create_cobj" src="Actions/act_create_cobj.js" fname="AosActCreateCobjStart" />
+			<file name="act_callserverfun" src="Actions/act_callserverfun.js" fname="AosActCallserverfunStart" />
+			<file name="act_del_obj" src="Actions/act_del_obj.js" fname="AosActDelobjStart" />
+			<file name="act_del_objs" src="Actions/act_del_objs.js" fname="AosActDelobjsStart" />
+			<file name="act_save_obj" src="Actions/act_save_obj.js" fname="AosActSaveobjStart" />
+			<file name="act_timer" src="Actions/act_timer.js" fname="AosActTimerStart" />
+			<file name="act_vpd" src="Actions/act_vpd.js" fname="AosActVpdStart" />
+			<file name="act_count" src="Actions/act_count.js" fname="AosActCountStart" />
+			<file name="act_create_acct" src="Actions/act_create_acct.js" fname="AosActCreateAcctStart" />
+			<file name="act_login" src="Actions/act_login.js" fname="AosActLoginStart" />
+			<file name="act_logout" src="Actions/act_logout.js" fname="AosActLogoutStart" />
+			<file name="act_load_url" src="Actions/act_load_url.js" fname="AosActLoadurlStart" />
+			<file name="act_math" src="Actions/act_math.js" fname="AosActMathStart" />
+			<file name="act_send_msg" src="Actions/act_send_msg.js" fname="AosActSendMsgStart" />
+			<file name="act_set_parm_priv" src="Actions/act_set_parm_priv.js" fname="AosActSetparmPrivStart" />
+			<file name="act_set_obj" src="Actions/act_set_obj.js" fname="AosActSetobjStart" />
+			<file name="act_publish_url" src="Actions/act_publish_url.js" fname="AosActPublishUrlStart" />
+			<file name="act_vote" src="Actions/act_vote.js" fname="AosActVoteStart" />
+			<file name="act_counter" src="Actions/act_counter.js" fname="AosActCounterStart" />
+			<file name="act_tip" src="Actions/act_tip.js" fname="AosActTipStart" />
+			<file name="act_alipay" src="Actions/act_alipay.js" fname="AosActAlipayStart" />
+			<file name="act_gicactions" src="Actions/act_gicactions.js" fname="AosGicActionsStart" />
+			<file name="act_applet" src="Actions/act_applet.js" fname="AosActAppletStart" />
+		<file name="window" src="window/AosWindowMain.js" fname="AosWindowMainStart" />
+			<file name="layoutObj" src="Layout2/layoutObj.js" fname="AosLayoutObjStart" />
+			<file name="layout_fixed" src="Layout2/layout_fixed.js" fname="AosLayoutFixedStart" />
+			<file name="layoutNpane" src="Layout2/layoutNpane.js" fname="AosLayoutNpaneStart" />
+			<file name="layoutCpane" src="Layout2/layoutCpane.js" fname="AosLayoutCpaneStart" />
+			<file name="layoutWindow" src="Layout2/layoutWindow.js" fname="AosLayoutWindowStart" />
+			<file name="layout_hori" src="Layout2/layout_hori.js" fname="AosLayoutHoriStart" />
+			<file name="layout_vert" src="Layout2/layout_vert.js" fname="AosLayoutVertStart" />
+			<file name="layoutMgr" src="Layout2/layoutMgr.js" fname="AosLayoutMgr3Start" />
+			<file name="viewport" src="window/viewport.js"	fname="AosViewportStart" />
+			<file name="container" src="window/container.js" fname="AosContainerStart" />
+			<file name="panel" src="window/panel.js" fname="AosPanelStart" />
+			<file name="pane_util" src="window/pane_util.js" fname="AosPaneUtilStart" />
+			<file name="pane" src="window/pane.js" fname="AosPaneStart" />
+			<file name="win" src="window/window.js" fname="AosWindowStart" />
+			<file name="splitbar" src="window/splitbar.js" fname="AosSplitbarStart" />
+			<file name="dialog" src="window/dialog.js" fname="AosDialogStart" />
+		<file name="cute_editor" src="window/AosCuteEditorAll.js" fname="AosCuteEditorAllStart" />
+			<file name="aos_flex" src="Modules/aos_flex.js" fname="AosFlexStart" />
+			<file name="editor_tabpanel" src="window/editor_tabpanel.js" fname="AosEditorTabpanelStart" />
+			<file name="editor_panel" src="window/editor_panel.js" fname="AosEditorPanelStart" />
+			<file name="undo_mgr" src="GICs/undo_mgr.js" fname="AosUndoMgrStart" />
+			<file name="gic_group" src="GICs/gic_group.js" fname="AosGicGroupStart" />
+			<file name="editor" src="GICs/editor.js" fname="AosEditorStart" />
+			<file name="cute_edit" src="GICs/cute_editor.js" fname="AosCuteEditorStart" />
+		<file name="ajaxx" src="GICs/ajaxx.js" fname="AosAjaxxStart" />
+		<file name="gicbase" src="GICs/gic.js" fname="AosGicStart" />
+			<file name="gic_pulldownmenu" src="GICs/gic_pulldownmenu.js" fname="AosGicPulldownmenuStart" />
+			<file name="AosComposer" src="GICs/AosComposer.js" fname="AosComposerStart" />
+		<file name="gic_analyticschart" src="GICs/gic_analyticschart.js" fname="AosGicAnalyticschartStart" />
+		<file name="gic_animatedchart" src="GICs/gic_animatedchart.js" fname="AosGicAnimatedchartStart" />
+		<file name="gic_barchart" src="GICs/gic_barchart.js" fname="AosGicBarChartStart" />
+		<file name="gic_breadcrumbs" src="GICs/gic_breadcrumbs.js" fname="AosGicBreadcrumbsStart" />
+		<file name="gic_button" src="GICs/gic_button.js" fname="AosGicButtonStart" />
+		<file name="gic_calendar" src="GICs/gic_calendar.js" fname="AosGicCalendarStart" />
+		<file name="gic_chartpie" src="GICs/gic_chartpie.js" fname="AosGicChartpieStart" />
+		<file name="gic_checkbox" src="GICs/gic_checkbox.js" fname="AosGicCheckboxStart" />
+		<file name="gic_checkboxgrp" src="GICs/gic_checkboxgrp.js" fname="AosGicCheckboxgrpStart" />
+		<file name="gic_checkboxtwo" src="GICs/gic_checkboxtwo.js" fname="AosGicCheckboxtwoStart" />
+		<file name="gic_clock" src="GICs/gic_clock.js" fname="AosGicClockStart" />
+		<file name="gic_colorpicker" src="GICs/gic_colorpicker.js" fname="AosGicColorpickerStart" />
+		<file name="gic_columntree" src="GICs/gic_columntree.js" fname="AosGicColumntreeStart" />
+		<file name="gic_combox" src="GICs/gic_combox.js" fname="AosGicComboxStart" />
+		<file name="gic_container" src="GICs/gic_container.js" fname="AosGicContainerStart" />
+		<file name="gic_creator" src="GICs/gic_creator.js" fname="AosGicCreatorStart" />
+		<file name="gic_cute_editor" src="GICs/gic_cute_editor.js" fname="AosGicCuteEditorStart" />
+		<file name="gic_data" src="GICs/gic_data.js" fname="AosGicDataStart" />
+		<file name="gic_dataviewbase" src="GICs/gic_dataviewbase.js" fname="AosGicDataviewbaseStart" />
+		<file name="gic_datepicker" src="GICs/gic_datepicker.js" fname="AosGicDatepickerStart" />
+		<file name="gic_dressroom" src="GICs/gic_dressroom.js" fname="AosGicDressroomStart" />
+		<file name="gic_downloader" src="GICs/gic_downloader.js" fname="AosGicDownloaderStart" />
+		<file name="gic_flash" src="GICs/gic_flash.js" fname="AosGicFlashStart" />
+		<file name="gic_floatingvpd" src="GICs/gic_floatingvpd.js" fname="AosGicFloatingvpdStart" />
+		<file name="gic_framer" src="GICs/gic_framer.js" fname="AosGicFramerStart" />
+			<file name="framer_8psimple" src="GICs/framer_8psimple.js" fname="AosFramer8psimpleStart" />
+			<file name="framer_3psimple" src="GICs/framer_3psimple.js" fname="AosFramer3psimpleStart" />
+		<file name="gic_grid" src="GICs/gic_grid.js" fname="AosGicGridStart" />
+		<file name="gic_gridapp" src="GICs/gic_gridapp.js" fname="AosGicGridappStart" />
+		<file name="gic_grid_actionColumn" src="GICs/gic_grid_actionColumn.js" fname="AosGicGridActoinColumnStart" />
+		<file name="gic_grid_checkModel" src="GICs/gic_grid_checkModel.js" fname="AosGicGridCheckModelStart" />
+		<file name="gic_grid_view" src="GICs/gic_grid_view.js" fname="AosGicGridViewStart" />
+		<file name="gic_groupsummary" src="GICs/gic_groupsummary.js" fname="AosGicGroupsummaryStart" />
+		<file name="gic_growingchart" src="GICs/gic_growingchart.js" fname="AosGicGrowingchartStart" />
+		<file name="gic_hintbutton" src="GICs/gic_hintbutton.js" fname="AosGicHintButtonStart" />
+		<file name="gic_html" src="GICs/gic_html.js" fname="AosGicHtmlStart" />
+		<file name="gic_htmlcmp" src="GICs/gic_htmlcmp.js" fname="AosGicHtmlcmpStart" />
+		<file name="gic_htmlcmp_dd" src="GICs/gic_htmlcmp_dd.js"	fname="AosGicHtmlcmpDdStart" />
+		<file name="gic_htmleditor" src="GICs/gic_htmleditor.js" fname="AosGicHtmleditorStart" />
+		<file name="gic_image" src="GICs/gic_image.js" fname="AosGicImageStart" />
+		<file name="gic_imgrolling" src="GICs/gic_imgrolling.js"	fname="AosGicImgrollingStart" />
+		<file name="gic_imgshow" src="GICs/gic_imgshow.js" fname="AosGicImgshowStart" />
+		<file name="gic_input" src="GICs/gic_input.js" fname="AosGicInputStart" />
+		<file name="gic_interactivechart" src="GICs/gic_interactivechart.js" fname="AosGicInteractivechartStart" />
+		<file name="gic_label_img" src="GICs/gic_label_img.js" fname="AosGicLabelImgStart" />
+		<file name="gic_label_img_str" src="GICs/gic_label_img_str.js" fname="AosGicLabelImgStrStart" />
+		<file name="gic_label_str" src="GICs/gic_label_str.js" fname="AosGicLabelStrStart" />
+		<file name="gic_linechart" src="GICs/gic_linechart.js" fname="AosGicLinechartStart" />
+		<file name="gic_listicon" src="GICs/gic_listicon.js" fname="AosGicListiconStart" />
+		<file name="gic_login" src="GICs/gic_login.js" fname="AosGicLoginStart" />
+		<file name="gic_map" src="GICs/gic_map.js" fname="AosGicMapStart" />
+		<file name="gic_math_game" src="GICs/gic_math_game.js" fname="AosGicMathGameStart" />
+		<file name="gic_num_clock" src="GICs/gic_num_clock.js" fname="AosGicNumClockStart" />
+		<file name="gic_msg" src="GICs/gic_msg.js" fname="AosMsgStart" />
+		<file name="gic_mutilist" src="GICs/gic_mutilist.js" fname="AosGicMutilistStart" />
+		<file name="gic_mytree" src="GICs/gic_mytree.js" fname="AosGicMytreeStart" />
+		<file name="gic_namevalue" src="GICs/gic_namevalue.js" fname="AosGicNamevalueStart" />
+		<file name="gic_notice" src="GICs/gic_notice.js" fname="AosGicNoticeStart" />
+		<file name="gic_paneltree" src="GICs/gic_paneltree.js" fname="AosGicPaneltreeStart" />
+		<file name="gic_piechart" src="GICs/gic_piechart.js" fname="AosGicPiechartStart" />
+		<file name="gic_plate" src="GICs/gic_plate.js" fname="AosGicPlateStart" />
+		<file name="gic_postit" src="GICs/gic_postit.js" fname="AosGicPostitStart" />
+		<file name="gic_prompt" src="GICs/gic_prompt.js" fname="AosGicPromptStart" />
+		<file name="gic_propertylist" src="GICs/gic_propertylist.js" fname="AosGicPropertylistStart" />
+		<file name="gic_propertyGrid" src="GICs/gic_propertyGrid.js" fname="AosGicPropertyGridStart" />
+		<file name="gic_qaeditor" src="GICs/gic_qaeditor.js" fname="AosGicQaeditorStart" />
+		<file name="gic_questionanswer" src="GICs/gic_questionanswer.js" fname="AosGicQuestionanswerStart" />
+		<file name="gic_radiogrp" src="GICs/gic_radiogrp.js" fname="AosGicRadiogrpStart" />
+		<file name="gic_reflectionimage" src="GICs/gic_reflectionimage.js" fname="AosGicReflectionimageStart" />
+		<file name="gic_rotationimage" src="GICs/gic_rotationimage.js" fname="AosGicRotationimageStart" />
+		<file name="gic_roweditor" src="GICs/gic_roweditor.js" fname="AosGicRoweditorStart" />
+		<file name="gic_rowexpander" src="GICs/gic_rowexpander.js" fname="AosGicRowexpanderStart" />
+		<file name="gic_rowlist" src="GICs/gic_rowlist.js" fname="AosGicRowlistStart" />
+		<file name="gic_rss" src="GICs/gic_rss.js" fname="AosGicRssStart" />
+		<file name="gic_schedule" src="GICs/gic_schedule.js" fname="AosGicScheduleStart" />
+		<file name="gic_scrollmenu" src="GICs/gic_scrollmenu.js" fname="AosGicScrollmenuStart" />
+		<file name="gic_shape" src="GICs/gic_shape.js" fname="AosGicShapeStart" />
+		<file name="gic_shape_str" src="GICs/gic_shape_str.js" fname="AosGicShapeStrStart" />
+		<file name="gic_simple_htmleditor" src="GICs/gic_simple_htmleditor.js" fname="AosGicSimpleHtmleditorStart" />
+		<file name="gic_slider" src="GICs/gic_slider.js" fname="AosGicSliderStart" />
+		<file name="gic_stackchart" src="GICs/gic_stackchart.js" fname="AosGicStackchartStart" />
+		<file name="gic_tabmenu" src="GICs/gic_tabmenu.js" fname="AosGicTabmenuStart" />
+		<file name="gic_tablist" src="GICs/gic_tablist.js" fname="AosGicTablistStart" />
+		<file name="gic_tree" src="GICs/gic_tree.js" fname="AosGicTreeStart" />
+		<file name="gic_turntable" src="GICs/gic_turntable.js" fname="AosGicTurntableStart" />
+		<file name="gic_typeset" src="GICs/gic_typeset.js" fname="AosGicTypesetStart" />
+		<file name="gic_uploader" src="GICs/gic_uploader.js" fname="AosGicUploaderStart" />
+		<file name="gic_verticalmenu" src="GICs/gic_verticalmenu.js" fname="AosGicVerticalmenuStart" />
+		<file name="gic_viewlist" src="GICs/gic_viewlist.js" fname="AosGicViewlistStart" />
+		<file name="gic_xmltree" src="GICs/gic_xmltree.js" fname="AosGicXmltreeStart" />
+		<file name="gic_xmltreeloader" src="GICs/gic_xmltreeloader.js" fname="AosGicXmltreeloaderStart" />
+		<file name="AosCmpVPD" src="GICs/AosCmpVPD.js" fname="AosCmpVpdStart" />
+		<file name="gic_htmlbase" src="HtmlGICs/gic_htmlbase.js" fname="AosGicHtmlBaseStart" />
+		<file name="gic_html_animation" src="HtmlGICs/gic_html_animation.js" fname="AosGicHtmlAnimationStart" />
+		<file name="gic_html_button" src="HtmlGICs/gic_html_button.js" fname="AosGicHtmlButtonStart" />
+		<file name="gic_html_checkbox" src="HtmlGICs/gic_html_checkbox.js" fname="AosGicHtmlCheckboxStart" />
+		<file name="gic_html_combox" src="HtmlGICs/gic_html_combox.js" fname="AosGicHtmlComboxStart" />
+		<file name="gic_html_combox_new" src="HtmlGICs/gic_html_combox_new.js" fname="AosGicHtmlComboxNewStart" />
+		<file name="gic_html_dataview" src="HtmlGICs/gic_html_dataview.js" fname="AosGicHtmlDataviewStart" />
+		<file name="gic_html_facechange" src="HtmlGICs/gic_html_facechange.js" fname="AosGicFaceChangeStart" />
+		<file name="gic_html_framer" src="HtmlGICs/gic_html_framer.js" fname="AosGicHtmlFramerStart" />
+		<file name="gic_html_8pcframer" src="HtmlGICs/gic_html_8pcframer.js" fname="AosGicHtml8pcFramerStart" />
+		<file name="gic_html_grid" src="HtmlGICs/gic_html_grid.js" fname="AosGicHtmlGridStart" />
+		<file name="gic_html_grouplist" src="HtmlGICs/gic_html_grouplist.js"	fname="AosGicGrouplistHtmlStart" />
+		<file name="gic_html_html" src="HtmlGICs/gic_html_html.js" fname="AosGicHtmlHtmlStart" />
+		<file name="gic_html_image" src="HtmlGICs/gic_html_image.js" fname="AosGicHtmlImageStart" />
+		<file name="gic_html_input" src="HtmlGICs/gic_html_input.js" fname="AosGicHtmlinputStart" />
+		<file name="gic_html_list" src="HtmlGICs/gic_html_list.js" fname="AosGicHtmlListStart" />
+		<file name="gic_html_menu" src="HtmlGICs/gic_html_menu.js" fname="AosGicHtmlmenuStart" />
+		<file name="gic_html_multimenu" src="HtmlGICs/gic_html_multimenu.js" fname="AosGicHtmlMultiMenuStart" />
+		<file name="gic_html_popvpd" src="HtmlGICs/gic_html_popvpd.js" fname="AosGicHtmlPopVpdStart" />
+		<file name="gic_html_query" src="HtmlGICs/gic_html_query.js"	fname="AosQueryStart" />
+		<file name="gic_html_radio" src="HtmlGICs/gic_html_radio.js" fname="AosGicHtmlRadioStart" />
+		<file name="gic_html_slideimage" src="HtmlGICs/gic_html_slideimage.js" fname="AosGicSlideImageStart" />
+		<file name="gic_html_tab" src="HtmlGICs/gic_html_tab.js" fname="AosGicHtmlTabStart" />
+		<file name="gic_html_tablist" src="HtmlGICs/gic_html_tablist.js" fname="AosGicHtmlTabListStart" />
+		<file name="gic_html_tree" src="HtmlGICs/gic_html_tree.js" fname="AosGicHtmlTreeStart" />
+		<file name="gic_html_treeview" src="HtmlGICs/gic_html_treeview.js" fname="AosGicHtmlTreeViewStart" />
+		<file name="gic_sim_html" src="HtmlGICs/gic_sim_html.js" fname="AosGicSimHtmlStart" />
+		<file name="gic_sim_menu" src="HtmlGICs/gic_sim_menu.js" fname="AosGicSimMenuStart" />
+	</files>
+	<gics>
+		<gic type="gic_html_multimenu">
+		    <file name="gic_html_multimenu"/>
+		</gic>
+		<gic type="gic_sim_menu">
+		    <file name="gic_sim_menu"/>
+		</gic>
+		<gic type="gic_html_8pcframer">
+			<file name="gic_html_8pcframer"/>
+		</gic>
+		<gic type="gic_html_popvpd">
+			<file name="gic_html_popvpd"/>
+		</gic>
+		<gic type="gic_mytree">
+			<file name="pkg-tree"/>
+			<file name="gic_mytree"/>
+		</gic>
+		<gic type="gic_html_list">
+			<file name="gic_html_list"/>
+			<file name="gic_html_query"/>
+		</gic>
+		<gic type="gic_html_treeview">
+			<file name="gic_html_treeview"/>
+		</gic>
+		<gic type="gic_html_tab">
+			<file name="gic_html_tab"/>
+		</gic>
+		<gic type="gic_html_tablist">
+			<file name="gic_html_tablist"/>
+		</gic>
+		<gic type="gic_sim_html">
+			<file name="gic_sim_html"/>
+		</gic>
+		<gic type="gic_html_animation">
+			<file name="gic_html_animation"/>
+		</gic>
+		<gic type="gic_html_combox">
+			<file name="bgiframe"/>
+			<file name="gic_html_combox"/>
+			<file name="gic_html_query"/>
+		</gic>
+		<gic type="gic_html_combox_new">
+			<file name="bgiframe"/>
+			<file name="gic_html_combox_new"/>
+			<file name="gic_html_query"/>
+		</gic>
+		<gic type="gic_html_grouplist">
+		    <file name="gic_html_grouplist"/>
+		</gic>
+		<gic type="gic_html_button">
+		    <file name="gic_html_button"/>
+		</gic>
+		<gic type="gic_htmlradio">
+		    <file name="gic_html_radio"/>
+		</gic>
+		<gic type="gic_html_input">
+			<file name="gic_html_input"/>
+			<file name="gic_html_query"/>
+		</gic>
+		<gic type="gic_html_menu">
+			<file name="gic_html_query"/>
+			<file name="gic_html_menu"/>
+		</gic>
+		<gic type="gic_htmlcheckbox">
+			<file name="gic_html_checkbox"/>
+		</gic>
+		<gic type="gic_htmlimage">
+			<file name="gic_html_image"/>
+		</gic>
+		<gic type="gic_htmltree">
+			<file name="gic_html_tree"/>
+		</gic>
+		<gic type="gic_facechange">
+			<file name="gic_html_facechange"/>
+		</gic>
+		<gic type="gic_html_grid">
+			<file name="gic_html_grid"/>
+		</gic>
+		<gic type="gic_html_dataview">
+			<file name="gic_html_dataview"/>
+		</gic>
+		<gic type="gic_slideimage">
+			<file name="gic_html_slideimage"/>
+		</gic>   
+		<gic type="gic_html_html">
+			<file name="gic_html_html"/>
+		</gic>
+		<gic type="aos_base_start">
+		    <file name="jquery"/>
+			<file name="ext-one"/>
+			<file name="ext-cmp-foundation"/>
+			<file name="ext-two"/>
+			<file name="language-cn"/>
+			<file name="util"/>
+			<file name="modules"/>
+			<file name="actions"/>
+			<file name="layoutObj" />
+			<file name="layout_fixed" />
+			<file name="layoutNpane" />
+			<file name="layoutCpane" />
+			<file name="layoutWindow" />
+			<file name="layout_hori" />
+			<file name="layout_vert" />
+			<file name="layoutMgr" />
+			<file name="viewport" />
+			<file name="container" />
+			<file name="panel" />
+			<file name="pane_util" />
+			<file name="pane" />
+			<file name="win" />
+			<file name="splitbar" />
+			<file name="dialog" />
+			<file name="gicbase"/>
+			<file name="gic_htmlbase"/>
+			<file name="gic_html_framer"/>
+		</gic>
+
+		<gic type="gic_input">
+			<file name="gic_input"/>
+		</gic>
+		<gic type="gic_html">
+			<file name="gic_html"/>
+		</gic> 
+		<gic type="gic_image">
+			<file name="gic_image"/>
+		</gic>   
+		<gic type="gic_checkbox">
+			<file name="gic_checkbox"/>
+		</gic> 
+		<gic type="gic_checkgrp">
+			<file name="gic_checkboxgrp"/>
+		</gic>   
+		<gic type="gic_checkboxtwo">
+			<file name="gic_checkbox"/>
+			<file name="gic_checkboxtwo"/>
+		</gic> 
+		<gic type="gic_radiogrp">
+			<file name="gic_radiogrp"/>
+		</gic>    
+		<gic type="gic_container">
+			<file name="gic_container"/>
+		</gic> 
+		<gic type="gic_questionanswer">
+			<file name="gic_html"/>
+			<file name="gic_input"/>
+			<file name="gic_checkboxgrp"/>
+			<file name="gic_radiogrp"/>
+			<file name="gic_image"/>
+			<file name="gic_container"/>
+			<file name="gic_questionanswer"/>
+		</gic>
+
+		<gic type="gic_button">
+			<file name="gic_button"/>
+		</gic>
+		<gic type="gic_namevalue">
+			<file name="gic_namevalue"/>
+		</gic> 
+		<gic type="gic_hintbutton">
+			<file name="gic_hintbutton"/>
+		</gic>    
+		<gic type="gic_prompt">
+			  <file name="gic_prompt"/>
+		</gic>        
+		<gic type="gic_plate">
+			<file name="gic_plate"/>
+		</gic>
+		<gic type="gic_combox">
+			<file name="ext-data"/>
+			<file name="gic_combox"/>
+		</gic>
+		<gic type="gic_flash">
+			<file name="gic_flash"/>
+		</gic> 
+		<gic type="gic_login">
+			<file name="gic_login"/>
+		</gic>
+
+		<gic type="gic_label_img">
+			<file name="gic_label_img"/>
+		</gic>     
+		<gic type="gic_shape">
+			<file name="raphael"/>
+			<file name="gic_shape"/>
+		</gic>
+		<gic type="gic_msg">
+			<file name="ext-data"/>
+			<file name="pkg-tree"/>
+			<file name="pkg-tabs"/>
+			<file name="ext-grid"/>
+			<file name="instantmsg"/>
+			<file name="microblog"/>
+			<file name="MsgService"/>
+			<file name="gic_msg"/>
+		</gic>
+		<gic type="gic_barchart">
+			<file name="raphael"/>
+			<file name="graphael"/>
+			<file name="gbar"/>
+			<file name="gic_barchart"/>
+		</gic>
+		<gic type="gic_label_shape">
+			<file name="raphael"/>
+			<file name="gic_shape"/>
+		</gic>
+		<gic type="gic_label_shape_string">
+			<file name="raphael"/>
+			<file name="gic_shape_str"/>
+		</gic>      
+		<gic type="gic_label_string">
+			<file name="raphael"/>
+			<file name="gic_label_str"/>
+		</gic>      
+		<gic type="gic_label_img_string">
+			<file name="gic_label_img_str"/>
+		</gic> 
+		<gic type="gic_shape_str">
+			<file name="raphael"/>
+			<file name="gic_shape_str"/>
+		</gic>
+		<gic type="gic_slider">
+			<file name="gic_slider"/>
+		</gic>  
+		
+		<gic type="gic_list">
+			<file name="ext-data"/>
+			<file name="ext-grid"/>
+			<file name="gic_grid_checkModel"/>
+			<file name="gic_grid_actionColumn"/>
+			<file name="gic_grid_view"/>
+			<file name="gic_rowexpander"/>
+			<file name="gic_grid"/>
+		</gic> 
+		<gic type="gic_mutilist">
+			<file name="ext-data"/>
+			<file name="ext-grid"/>
+			<file name="gic_grid_checkModel"/>
+			<file name="gic_groupsummary"/>
+			<file name="gic_grid_actionColumn"/>
+			<file name="gic_grid_view"/>
+			<file name="gic_rowexpander"/>
+			<file name="gic_mutilist"/>
+		</gic>  
+		<gic type="gic_simple_list">
+			<file name="ext-data"/>
+			<file name="ext-grid"/>
+			<file name="gic_grid_checkModel"/>
+			<file name="gic_grid_actionColumn"/>
+			<file name="gic_grid_view"/>
+			<file name="gic_rowexpander"/>
+			<file name="gic_grid"/>
+		</gic> 
+		<gic type="gic_contactlist">
+			<file name="gic_tablist"/>
+		</gic>
+		<gic type="gic_tablist">
+			<file name="gic_tablist"/>
+		</gic>
+		<gic type="gic_propertylist">
+			<file name="ext-data"/>
+			<file name="ext-grid"/>
+			<file name="gic_propertylist"/>
+		</gic> 
+	
+		<gic type="gic_tree">
+			<file name="pkg-tree"/>
+			<file name="gic_tree"/>
+			<file name="gic_xmltreeloader"/>
+		</gic>
+		<gic type="gic_columntree">
+			<file name="pkg-tree"/>
+			<file name="gic_columntree"/>
+			<file name="gic_tree"/>
+		</gic>
+		<gic type="gic_paneltree">
+			<file name="pkg-tree"/>
+			<file name="gic_tree"/>
+			<file name="gic_paneltree"/>
+		</gic>    
+		<gic type="gic_xmltree">
+			<file name="pkg-tree"/>
+			<file name="gic_tree"/>
+			<file name="gic_xmltreeloader"/>
+			<file name="gic_xmltree"/>
+		</gic>
+		<gic type="gic_viewlist">
+			<file name="ext-data"/>
+			<file name="gic_dataviewbase"/>
+			<file name="gic_viewlist"/>
+		</gic>
+		<gic type="gic_iconlist">
+			<file name="pkg-tree"/> 
+			<file name="ext-data"/>
+			<file name="gic_tree"/>
+			<file name="gic_dataviewbase"/>
+			<file name="gic_listicon"/>
+		</gic>   
+		
+		<gic type="editor_pane">
+			<file name="pkg-tree"/>
+			<file name="pkg-tabs"/>
+			<file name="ext-data"/>
+			<file name="ext-grid"/>
+			<file name="aos_flex"/>
+			<file name="editor_tabpanel"/>
+			<file name="editor_panel"/>
+			<file name="undo_mgr"/>
+			<file name="gic_group"/>
+			<file name="editor"/>
+			<file name="cute_edit"/>
+			<file name="gic_propertyGrid"/>
+			<file name="gic_container"/>
+			<file name="gic_creator"/>
+			<file name="gic_tablist"/>
+		</gic>
+		<gic type="gic_cute_editor">
+			<file name="pkg-tabs"/>
+			<file name="window"/>
+			<file name="gic_container"/>
+			<file name="gic_image"/>
+			<file name="gic_cute_editor"/>
+			<file name="gic_creator"/>
+			<file name="gic_tablist"/>
+		</gic>  
+		<gic type="gic_creator">
+		    <file name="gic_creator"/>
+		</gic>
+		<gic type="gsc_wgt_creator">
+		    <file name="gic_creator"/>
+		</gic>
+		<gic type="gic_htmlcmp">
+			<file name="ext-data"/>
+			<file name="pkg-tabs"/>
+			<file name="gic_htmlcmp"/>
+		</gic>
+		<gic type="gic_htmlcmp_dd">
+			<file name="gic_htmlcmp_dd"/>
+		</gic> 
+		<gic type="gic_simple_htmleditor">
+			<file name="gic_simple_htmleditor"/>
+		</gic>
+		<gic type="gAosHtmlHandler">
+			<file name="AosComposer"/>
+		</gic>    
+		
+		<gic type="gic_interactivechart">
+			<file name="gic_interactivechart"/>
+		</gic> 
+		<gic type="gic_analyticschart">
+			<file name="raphael"/>
+			<file name="pie"/>
+			<file name="gic_analyticschart"/>
+		</gic>
+		<gic type="gic_animatedchart">
+			<file name="gic_animatedchart"/>
+		</gic>
+		<gic type="gic_growingchart">
+			<file name="gic_growingchart"/>
+		</gic>
+		<gic type="gic_piechart">
+			<file name="raphael"/>
+			<file name="pie"/>
+			<file name="graphael"/>
+			<file name="gpie"/>
+			<file name="gic_piechart"/>
+		</gic>
+		<gic type="gic_stackchart">
+			<file name="ext-data"/>
+			<file name="pkg-charts"/>
+			<file name="raphael"/>
+			<file name="gic_stackchart"/>
+		</gic>
+		<gic type="gic_linechart">
+			<file name="ext-data"/>
+			<file name="pkg-charts"/>
+			<file name="gic_linechart"/>
+		</gic>   
+		<gic type="gic_chartpie">
+			<file name="ext-data"/>
+			<file name="pkg-charts"/>
+			<file name="gic_chartpie"/>
+		</gic>    
+
+		<gic type="gic_schedule">
+			<file name="ext-data"/>
+			<file name="ext-calendar"/>
+			<file name="gic_schedule"/>
+		</gic>
+		<gic type="gic_adv_tab">
+			<file name="gic_tabmenu"/>
+		</gic>
+		<gic type="gic_clock">
+			<file name="raphael"/>
+			<file name="gic_clock"/>
+		</gic>    
+		<gic type="gic_num_clock">
+			<file name="gic_num_clock"/>
+		</gic> 
+		<gic type="gic_colorpicker">
+			<file name="gic_colorpicker"/>
+		</gic>  
+		<gic type="gic_datepicker">
+			<file name="gic_datepicker"/>
+		</gic>
+		<gic type="gic_calendar">
+			<file name="gic_calendar"/>
+		</gic>  
+	
+		<gic type="gic_data">
+			<file name="gic_data"/>
+			<file name="ajaxx"/>
+		</gic>
+		<gic type="gic_turntable">
+			<file name="gic_turntable"/>
+		</gic>
+		<gic type="gic_postit">
+			<file name="gic_postit"/>
+		</gic>     
+		<gic type="gic_typeset">
+			<file name="raphael"/>
+			<file name="gic_typeset"/>
+		</gic>
+		<gic type="gic_gridapp">
+			<file name="gic_gridapp"/>
+		</gic>    
+		<gic type="gic_dressroom"> 
+			<file name="gic_dressroom"/>
+		</gic> 
+		
+		<gic type="gic_uploader">
+			<file name="gic_uploader"/>
+		</gic>
+		<gic type="gic_downloader">
+			<file name="gic_downloader"/>
+		</gic>   
+		<gic type="gic_notice">
+			<file name="gic_notice"/>
+		</gic>
+		<gic type="gic_map">
+			<file name="gic_map"/>
+		</gic>
+		<gic type="gic_framer">
+			<file name="gic_framer"/>
+		</gic>     
+
+		<gic type="gic_rotationimage">
+			<file name="gic_rotationimage"/>
+		</gic> 
+		<gic type="gic_reflectionimage">
+			<file name="gic_reflectionimage"/>
+		</gic> 
+		<gic type="gic_imgshow">
+			<file name="gic_imgshow"/>
+		</gic>       
+		<gic type="gic_imgrolling">
+			<file name="gic_imgrolling"/>
+			<file name="gic_imgshow"/>
+		</gic>
+
+		<gic type="gic_breadcrumbs">
+			<file name="gic_breadcrumbs"/>
+		</gic> 
+		<gic type="gic_verticalmenu">
+			<file name="gic_verticalmenu"/>
+		</gic> 
+		<gic type="gic_floatingvpd">
+			<file name="gic_floatingvpd"/>
+		</gic>  
+		<gic type="gic_scrollmenu">
+			<file name="gic_scrollmenu"/>
+		</gic>
+		<gic type="gic_math_game">
+			<file name="gic_math_game"/>
+		</gic>     
+		<gic type="act_inlinesearch">
+			<file name="act_inlinesearch"/>
+			<file name="inlinesearchMgr"/>
+			<file name="inlinesearch"/>
+		</gic>
+	</gics>
+</config>

@@ -1,0 +1,1 @@
+./tester.exe -config config_norm.txt -s -log 1 -domain 218.64.170.28/lps-4.7.2 -init_idgens 32kladta53

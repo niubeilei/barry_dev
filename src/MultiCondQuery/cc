@@ -1,0 +1,3 @@
+mv /home/liuwei/Jimo_Servers0/smartquery_torturer.exe ./aaa
+rm aaa
+cp *.exe /home/liuwei/Jimo_Servers0

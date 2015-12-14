@@ -1,0 +1,1 @@
+./localserver.exe -config config_norm.txt -datasync zky_sysvtg sys false -s -log 2 

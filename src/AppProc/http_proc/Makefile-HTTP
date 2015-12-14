@@ -1,0 +1,14 @@
+#
+# Makefile for the http application data processing
+#
+CFLAGS += -DKERNEL
+
+obj-$(CONFIG_AOS_APP_HTTP_PMI) += AppHttp.o
+AppHttp-y    := \
+			AppProcReq.o \
+			HTTP.o \
+			HttpParser.o \
+			SmtpParser.o \
+			ForwardTable.o \
+			HttpProcSet.o \
+			url_decode.o 

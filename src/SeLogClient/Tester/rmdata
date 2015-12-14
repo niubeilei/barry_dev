@@ -1,0 +1,3 @@
+rm -rf ../SeLogSvr/Exe/Data/*
+rm -rf  ../../check/Data
+tar -zxvf ../../check/data-0909.tar.gz ../../check

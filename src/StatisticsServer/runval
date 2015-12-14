@@ -1,0 +1,1 @@
+valgrind --leak-check=full ./StatsServer.exe -config config_norm.txt -s -log 2

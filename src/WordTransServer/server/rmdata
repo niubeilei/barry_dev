@@ -1,0 +1,4 @@
+rm -rf Data
+mkdir Data
+rm -rf WorkBackup
+mkdir WorkBackup

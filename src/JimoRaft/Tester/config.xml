@@ -1,0 +1,34 @@
+<config base_dir="./Jimo_Servers0/" trans_dir="./Jimo_Servers0/">	
+	<networkmgr replic_policy="nobkp" zky_procid="2" zky_phyclientid="0" zky_physerverid="0" proc_type="cube" cube_grp_id="0" vids="0,1,2,3" config_master="0" crt_master="0">
+		<servers>
+			<server server_id="0">
+				<proc proc_type="cube" cube_grp_id="0"/>
+				<proc proc_type="frontend"/>
+			</server>
+		</servers>
+		<tester>
+				<tries tries="100" />
+				<batch batch_siz ="10" />
+				<site siteid="10" />
+				<cube cubeid="10" />
+				<ase aseid="10" />
+				<seed seed_count="100" />
+				<test1 test1_weight="25" />
+				<test2 test2_weight="25" />
+				<test3 test3_weight="25" />
+				<test4 test4_weight="25" />
+				<test5 test5_weight="25" />
+				<test6 test6_weight="25" />
+				<test7 test7_weight="25" />
+				<test8 test8_weight="25" />
+				<test9 test9_weight="25" />
+				<test10 test10_weight="25" />
+				<test11 test11_weight="25" />
+				<test12 test12_weight="25" />
+
+		</tester>
+		<cubes replic_policy="nobkp">
+			<cube_grp grp_id="0" vids="0,1,2,3"/>
+		</cubes>
+	</networkmgr>
+</config>

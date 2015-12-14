@@ -1,0 +1,218 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>NewRVGDialog</class>
+<widget class="QDialog">
+    <property name="name">
+        <cstring>NewRVGDialog</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>444</width>
+            <height>321</height>
+        </rect>
+    </property>
+    <property name="sizePolicy">
+        <sizepolicy>
+            <hsizetype>2</hsizetype>
+            <vsizetype>2</vsizetype>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+        </sizepolicy>
+    </property>
+    <property name="baseSize">
+        <size>
+            <width>400</width>
+            <height>300</height>
+        </size>
+    </property>
+    <property name="caption">
+        <string>New RVG - select from the list</string>
+    </property>
+    <property name="sizeGripEnabled">
+        <bool>true</bool>
+    </property>
+    <property name="modal">
+        <bool>true</bool>
+    </property>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>mRVGsLabel</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>60</y>
+                <width>66</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>RVG</string>
+        </property>
+    </widget>
+    <widget class="QLayoutWidget">
+        <property name="name">
+            <cstring>Layout1</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>60</x>
+                <y>280</y>
+                <width>360</width>
+                <height>33</height>
+            </rect>
+        </property>
+        <hbox>
+            <property name="name">
+                <cstring>unnamed</cstring>
+            </property>
+            <property name="margin">
+                <number>0</number>
+            </property>
+            <property name="spacing">
+                <number>6</number>
+            </property>
+            <spacer>
+                <property name="name">
+                    <cstring>Horizontal Spacing2</cstring>
+                </property>
+                <property name="orientation">
+                    <enum>Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                    <enum>Expanding</enum>
+                </property>
+                <property name="sizeHint">
+                    <size>
+                        <width>20</width>
+                        <height>20</height>
+                    </size>
+                </property>
+            </spacer>
+            <widget class="QPushButton">
+                <property name="name">
+                    <cstring>buttonOk</cstring>
+                </property>
+                <property name="text">
+                    <string>&amp;OK</string>
+                </property>
+                <property name="accel">
+                    <string></string>
+                </property>
+                <property name="autoDefault">
+                    <bool>true</bool>
+                </property>
+                <property name="default">
+                    <bool>true</bool>
+                </property>
+            </widget>
+            <widget class="QPushButton">
+                <property name="name">
+                    <cstring>buttonCancel</cstring>
+                </property>
+                <property name="text">
+                    <string>&amp;Cancel</string>
+                </property>
+                <property name="accel">
+                    <string></string>
+                </property>
+                <property name="autoDefault">
+                    <bool>true</bool>
+                </property>
+            </widget>
+        </hbox>
+    </widget>
+    <widget class="QComboBox">
+        <property name="name">
+            <cstring>mProductNamecomboBox</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>90</x>
+                <y>20</y>
+                <width>200</width>
+                <height>22</height>
+            </rect>
+        </property>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>mProductNameLabel</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>20</y>
+                <width>66</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Product</string>
+        </property>
+    </widget>
+    <widget class="QIconView">
+        <item>
+            <property name="text">
+                <string>New Item</string>
+            </property>
+            <property name="pixmap">
+                <pixmap></pixmap>
+            </property>
+        </item>
+        <property name="name">
+            <cstring>mRVGsIconView</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>90</x>
+                <y>60</y>
+                <width>330</width>
+                <height>200</height>
+            </rect>
+        </property>
+        <property name="arrangement">
+            <enum>TopToBottom</enum>
+        </property>
+        <property name="resizeMode">
+            <enum>Adjust</enum>
+        </property>
+        <property name="autoArrange">
+            <bool>true</bool>
+        </property>
+        <property name="itemsMovable">
+            <bool>false</bool>
+        </property>
+        <property name="wordWrapIconText">
+            <bool>false</bool>
+        </property>
+    </widget>
+</widget>
+<connections>
+    <connection>
+        <sender>buttonCancel</sender>
+        <signal>clicked()</signal>
+        <receiver>NewRVGDialog</receiver>
+        <slot>reject()</slot>
+    </connection>
+    <connection>
+        <sender>buttonOk</sender>
+        <signal>clicked()</signal>
+        <receiver>NewRVGDialog</receiver>
+        <slot>accept()</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">RVG/Util.h</include>
+    <include location="local" impldecl="in implementation">Torturer/Product.h</include>
+    <include location="local" impldecl="in implementation">NewRVGDialog.ui.h</include>
+</includes>
+<slots>
+    <slot>init()</slot>
+    <slot returnType="std::string">getProductName()</slot>
+    <slot returnType="AosRVGType::E">getRVGType()</slot>
+</slots>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

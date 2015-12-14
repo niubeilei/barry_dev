@@ -1,0 +1,38 @@
+[proxy_switch]
+#the default setting is On
+On
+[proxy_address]
+#the section is  the definition of proxy IP address.
+#In this version, one IP address is supported only. 
+192.168.2.165
+[proxy_port]
+#the section is  the definition of proxy Port.
+#In this version, one Port is supported only.
+8080
+[deny_page]
+#the section includes some token of deny page from HTTP response.
+#you can copy content that no HTML tag to the section in tags between <body> and </body>.
+ERROR
+The requested URL could not be retrieved
+While trying to retrieve the URL 
+The following error was encountered
+Access Denied
+[exist]
+#here,insert the existed HTTP resources.
+#example:http://192.168.2.165/apache2-default/index.html.ca
+http://192.168.2.165/apache2-default/index.html.ca
+[exist_page]
+[no_exist]
+#here,insert the non-existed HTTP resources.
+#example:http://192.168.2.29:8080/index1.html
+http://192.168.2.29:8080/index1.html
+http://192.168.2.29:8080/index1011.html
+http://192.168.2.165/apache2-default/index.html.ca
+[no_exist_page]
+[exist_deny]
+
+[download]
+#here,insert the download-enable resources.
+#the resources will download in the directory "downloads" which is same as the directory of gethttp program.
+#example:http://192.168.2.165/apache2-default/index.html.ca
+http://192.168.2.165/apache2-default/index.html.ca

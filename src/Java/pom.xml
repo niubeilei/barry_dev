@@ -1,0 +1,230 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!-- Basis Settings -->
+  <groupId>com.zykie.tools</groupId>
+  <artifactId>tools</artifactId>
+  <version>1.0</version>
+  <packaging>pom</packaging>
+  
+  <!-- Add Global Properties -->
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.build.directory>target</project.build.directory>
+    <!-- Properties value for specifying build version inside JAR file. -->
+    <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+    <build.timestamp>${maven.build.timestamp}</build.timestamp>
+	<skipTests>true</skipTests>      
+  </properties>
+  
+    <!-- 
+    	Use profiles to define properties defined differently depending on how 
+    	projects were build (via Jenkins or dev VM).
+		Properties populate by Hudson/Jenkins during build process.
+      		Dev environment build will have no values for these properties. 
+      		BUILD_TAG => eg. jenkins-MAIN-20 or use ${project.name}
+      		BUILD_NUMBER => eg. 20 or '000000'
+      		BUILD_ID => yyyy-MM-dd_hh-mm-ss (use date and hour as ID number)
+      		P4_CHANGELIST => Perforce changelist number. 
+      -->      
+   <profiles>
+   		<profile>
+   			<id>default</id>
+   			<activation><property><name>!${hudson.build.tag}</name></property></activation>
+   			<properties>
+   				<hudson.build.tag>private-${env.COMPUTERNAME}-${project.name}-000000</hudson.build.tag>
+   				<hudson.build.number>private-${env.COMPUTERNAME}-000000</hudson.build.number>
+   				<hudson.build.id>private-${build.timestamp}</hudson.build.id>
+   				<hudson.build.changelist>private-000000</hudson.build.changelist>
+   			</properties>
+   		</profile>
+   		<profile>
+   			<id>jenkins</id>
+   			<properties>
+   				<hudson.build.tag>${BUILD_TAG}</hudson.build.tag>
+   				<hudson.build.number>${BUILD_NUMBER}</hudson.build.number>
+   				<hudson.build.id>${BUILD_ID}</hudson.build.id>
+   				<hudson.build.changelist>${P4_CHANGELIST}</hudson.build.changelist>
+   			</properties>
+   		</profile>
+			
+		<!-- 
+			Define profile for DEV QE to remove ${env.M2_REPOSITORY}\com\zykie\stafjars directory
+			from their test environment.
+			SAMPLE: mvn -Dpurge clean
+			MINOR_ISSUE: "M2_Repository" must not contains double quotes defined in system environment variable.
+		-->
+		<profile>
+			<id>purge</id>
+			<!--
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			-->
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-clean-plugin</artifactId>
+						<version>2.5</version>
+						<configuration>
+							<filesets>
+								<fileset>
+									<directory>${env.M2_REPOSITORY}/com/zykie</directory>
+									<includes>
+										<include>**/*</include>
+									</includes>
+									<followSymlinks>false</followSymlinks>
+								</fileset>
+							</filesets>
+							<failOnError>false</failOnError>
+						</configuration>
+					</plugin>						
+           	   </plugins>
+            </build>
+		</profile>
+   </profiles>
+  
+  <dependencies>
+  </dependencies>	  
+  
+  <!-- Project Aggregation -->
+  <modules>
+	  <module>logminer</module>   
+	  <module>oracle</module>
+	  <module>hbase</module>
+  </modules>
+
+  <!-- Master Repositories -->
+  <repositories>
+    <!--
+    <localRepository>repo</localRepository>
+	-->
+    <repository>
+      <id>central</id>
+      <name>Maven Repository Switchboard</name>
+      <url>http://repo1.maven.org/maven2</url>
+    </repository>
+  </repositories>
+
+  <pluginRepositories>
+    <pluginRepository>
+        <id>org.apache.maven.plugins</id>
+        <url>http://repo.maven.apache.org/maven2</url>
+    </pluginRepository>
+  </pluginRepositories>
+  
+  <!-- Report Settings -->
+  <reporting>
+	  <plugins>
+		  <plugin >
+			 <groupId>org.apache.maven.plugins</groupId>
+			 <artifactId>maven-javadoc-plugin</artifactId>
+			 <version>2.9</version>
+         </plugin>
+	  </plugins>
+  </reporting>
+  
+  <!-- Build Settings -->
+  <build>
+     <plugins>
+	  <plugin>
+       	 <groupId>org.apache.maven.plugins</groupId>
+         <artifactId>maven-resources-plugin</artifactId>
+         <version>2.6</version>
+         <configuration>
+         	<!-- Specifying UTF-8, ISO-8849-1 or any other file encoding -->
+         	<encoding>UTF-8</encoding>
+		 </configuration>
+       </plugin>
+       <plugin>
+           <groupId>org.jvnet.jaxb2.maven2</groupId>
+           <artifactId>maven-jaxb2-plugin</artifactId>
+           <version>0.8.1</version>
+        </plugin>
+        <plugin>
+           <groupId>org.apache.maven.plugins</groupId>
+           <artifactId>maven-compiler-plugin</artifactId>
+           <version>2.5</version>
+           <configuration>
+              <source>1.6</source>
+              <target>1.6</target>
+           </configuration>
+         </plugin>         
+      </plugins>
+      
+      <resources>
+          <resource>
+              <directory>src/main/resources</directory>
+          </resource>
+		  <resource>
+			  <directory>src/main</directory>
+			  <includes>
+				  <include>**/*.xml</include>
+				  <include>**/*.txt</include>
+			  </includes>
+		  </resource>
+      </resources>
+	
+	<!--  plugin lifecycle not defined in m2e (eclipse). Set to ignore in Eclipse environment. -->	 
+	 <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.eclipse.m2e</groupId>
+          <artifactId>lifecycle-mapping</artifactId>
+          <version>1.0.0</version>
+          <configuration>
+            <lifecycleMappingMetadata>
+              <pluginExecutions>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <versionRange>[1.0.0,)</versionRange>
+                    <goals>
+                      <goal>unpack</goal>
+					  <goal>copy-dependencies</goal>
+					  <goal>unpack-dependencies</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <ignore />
+                  </action>
+                </pluginExecution>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>properties-maven-plugin</artifactId>
+                    <versionRange>[1.0-alpha-2,)</versionRange>
+                    <goals>
+                      <goal>write-project-properties</goal>
+					  <goal>read-project-properties</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <ignore />
+                  </action>
+                </pluginExecution>
+              </pluginExecutions>
+            </lifecycleMappingMetadata>
+          </configuration>
+        </plugin>
+        <plugin>
+      		<groupId>org.codehaus.mojo</groupId>
+			<artifactId>properties-maven-plugin</artifactId>
+			<version>1.0-alpha-2</version>
+      	</plugin>
+      	<plugin>
+      		<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-dependency-plugin</artifactId>
+			<version>2.6</version>
+      	</plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <!-- Project Meta Data -->
+  <name>some java tools</name>
+  <description>Let's try it!</description>
+
+</project>

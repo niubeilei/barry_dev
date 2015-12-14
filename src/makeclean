@@ -1,0 +1,15 @@
+rm -rf ../obj/*; rm -rf ../lib/*; 
+mv ../shared_libs/libBitmapEngine.so ../lib
+mv ../shared_libs/libBitmapTreeMgr.so ../lib
+mv ../shared_libs/libIndexMgrJimos.so ../lib
+mv ../shared_libs/libQueryCacher.so ../lib
+mv ../shared_libs/libQueryEngine.so ../lib
+mv ../shared_libs/libQueryProc.so ../lib
+rm -rf ../shared_libs/*
+mv ../lib/libBitmapEngine.so ../shared_libs
+mv ../lib/libBitmapTreeMgr.so ../shared_libs
+mv ../lib/libIndexMgrJimos.so ../shared_libs
+mv ../lib/libQueryCacher.so ../shared_libs
+mv ../lib/libQueryEngine.so ../shared_libs
+mv ../lib/libQueryProc.so ../shared_libs
+

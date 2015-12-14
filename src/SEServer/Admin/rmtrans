@@ -1,0 +1,2 @@
+rm -rf ../../../../DataNorm/Trans/*
+rm -rf ../../../../DataBig/Trans/*

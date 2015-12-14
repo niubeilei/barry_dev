@@ -1,0 +1,114 @@
+# File: makefile
+#
+# This is a makefile for use with g++
+#
+LIBNAME = native_api
+
+CC = g++
+
+.SUFFIXES: .cpp .h
+
+FLAGS = -gdwarf-2 -g3 -Wall -DOMN_PLATFORM_UNIX $(Optimize) -DAOS_USERLAND
+
+INCDIRS = -I../ -I/usr/local/scws/include -L/usr/local/scws/lib
+
+OBJDIR =  ../../obj/$(LIBNAME)
+
+EXLIBDIR = ../../Lib
+
+CREATEDIR = $(shell if [ -d $(OBJDIR) ]; then echo ""; else mkdir $(OBJDIR); fi)
+
+OUTPUTDIR = ../../obj
+
+LIBS = -L/usr/local/scws/lib -lnsl -lpthread -lstdc++ -lscws 
+
+DOBJS = \
+	  ../../obj/aos_alarms/*.o \
+	  ../../obj/Alarm/*.o \
+	  ../../obj/OmnUtil/*.o \
+	  ../../obj/XmlParser/*.o \
+	  ../../obj/TinyXml/*.o \
+	  ../../obj/SEClient/*.o \
+	  ../../obj/AosApi/*.o \
+	  ../../obj/Tracer/*.o \
+	  ../../obj/Util1/*.o \
+	  ../../obj/XmlUtil/*.o \
+	  ../../obj/Thread/*.o \
+	  ../../obj/AppMgr/*.o \
+	  ../../obj/UtilComm/*.o \
+	  ../../obj/Rundata/*.o \
+	  ../../obj/SEInterfaces/*.o \
+	  ../../obj/aos_util2/*.o \
+	  ../../obj/Porting/*.o \
+	  ../../obj/Singleton/*.o \
+	  ../../obj/SEBase/*.o \
+	  ../../obj/SEUtil/*.o \
+	  ../../obj/Message/*.o \
+	  ../../obj/Jimo/*.o \
+	  ../../obj/MultiLang/*.o \
+	  ../../obj/Base64/*.o \
+	  ../../obj/aosUtil/*.o \
+	  ../../obj/Debug/*.o \
+	  ../../obj/aos_util_c/*.o \
+	  ../../obj/DataTypes/*.o \
+	  ../../obj/JimoAPI/*.o \
+	  ../../obj/Random/*.o \
+	  ../../obj/DataCube/*.o \
+	  ../../obj/Funcs/*.o \
+	  ../../obj/JQLStatement/JqlLimit.o \
+	  $(EXLIBDIR)/libsnappy.a 	  
+#	  ../../obj/Actions/*.o \
+#	  ../../obj/Actions/*.o \
+#	  ../../obj/XmlUtil/XmlTag.o \
+#	  ../../obj/TinyXml/TinyXmlError.o \
+#	  ../../obj/Debug/Except.o \
+#	  ../../obj/AosApi/AosApiG.o \
+#	  ../../obj/Alarm/AlarmProc.o \
+#	  ../../obj/Tracer/Tracer.o \
+#	  ../../obj/Tracer/TraceEntry.o \
+#	  ../../obj/Alarm/AlarmMgr.o \
+#	  ../../obj/Util/Object.o \
+#	  ../../obj/Alarm/Alarm.o \
+#	  ../../obj/Util/IpAddr.o \
+#	  ../../obj/Util1/Time.o \
+#	  ../../obj/Util1/DateTime.o \
+#	  ../../obj/TinyXml/TinyXmlParser.o \
+#	  ../../obj/aos_util_c/memory.o \
+#	  ../../obj/TinyXml/TinyXml.o \
+#	  ../../obj/XmlLib/tinyxml.o \
+#	  ../../obj/Thread/Mutex.o \
+#	  ../../obj/UtilComm/Tcp.o \
+#	  ../../obj/UtilComm/Conn.o \
+#	  ../../obj/UtilComm/TcpClient.o \
+#	  ../../obj/Util/StrParser.o \
+#	  ../../obj/Util/File.o \
+#	  ../../obj/Util/RCObjImp.o \
+#	  ../../obj/Util/UtUtil.o \
+#	  ../../obj/Util/String.o \
+#	  ../../obj/Util/Buff.o \
+#	  ../../obj/aos_alarms/alarm.o \
+
+
+#
+# objects and targets
+#
+OBJECTS = $(patsubst %.cpp,$(OBJDIR)/%.o,$(wildcard *.cpp))
+#OBJECTS += $(patsubst %.cpp,$(OBJDIR)/%.o,$(wildcard ../Util1/*.cpp))
+TARGETLIB = lib$(LIBNAME).a
+
+#
+# Rules for normal comile and link 
+#
+all:: lib
+
+
+lib: $(OBJECTS)
+	ar rvu $(TARGETLIB) $^ $(DOBJS)
+	mv -f $(TARGETLIB) $(OUTPUTDIR)
+
+$(OBJECTS): $(OBJDIR)/%.o: %.cpp
+	$(CREATEDIR)
+	$(CC) -c $(FLAGS) $< $(INCDIRS) -o $@
+
+clean:
+	rm -rf $(OBJECTS) $(OUTPUTDIR)/$(TARGETLIB) 

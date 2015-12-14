@@ -1,0 +1,3 @@
+touch /usr/local/keyou/Config/proxy.conf
+sqlite3 /usr/local/keyou/Config/hac.db </usr/local/keyou/Bin/for_mkt  >/usr/local/keyou/Config/proxy.conf
+/usr/local/keyou/Bin/setxmlconfig

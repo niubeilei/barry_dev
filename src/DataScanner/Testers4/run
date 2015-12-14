@@ -1,0 +1,1 @@
+nohup ./test.exe -config config_82.txt -s -log 2 -memorycheck 600 & 

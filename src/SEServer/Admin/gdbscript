@@ -1,0 +1,3 @@
+b alarm.c:50
+handle SIGPIPE noprint
+set args -config config_norm.txt -s -log 2 

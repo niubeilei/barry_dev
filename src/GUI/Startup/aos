@@ -1,0 +1,44 @@
+#! /bin/sh
+# Author:       Tao Yang <yangt@ipacketengine.com>
+
+start() {
+	/usr/local/AOS/Bin/setxmlconfig
+	/usr/local/AOS/Bin/Cli.exe -cmd "load config /usr/local/AOS/Config/current"
+	/usr/local/AOS/Bin/utf82gb
+	/usr/local/AOS/Bin/dnslookup
+}
+
+stop() {
+	/usr/local/AOS/Bin/Cli.exe -cmd "clear config"
+	killall -9 utf82gb
+	killall -9 dnslookup
+}
+
+
+restart() {
+	stop
+	start
+}	
+
+reload() {
+	restart
+}	
+
+
+case "$1" in
+start)
+	start
+	;;
+stop)
+	stop
+	;;
+reload|restart)
+	restart
+	;;
+*)
+	echo $"Usage: $0 {start|stop|restart}"
+	exit 1
+esac
+
+exit 0
+

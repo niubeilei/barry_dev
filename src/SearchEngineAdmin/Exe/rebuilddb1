@@ -1,0 +1,1 @@
+./admin.exe -config config_norm.txt -s -rebuilddb 100 5000 400000 0 10 0 10

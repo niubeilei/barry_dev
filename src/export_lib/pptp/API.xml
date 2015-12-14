@@ -1,0 +1,168 @@
+<apis>
+	<module>pptp</module>
+	<api>
+		<api_name>aos_api_pptp_start</api_name>
+		<protype>
+		</protype>
+		<prefix>pptp start</prefix>
+		<description>start pptp service</description>
+		<testcases>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+	</testcases>
+	</api>
+	<api>
+		<api_name>aos_api_pptp_stop</api_name>
+		<protype>
+		</protype>
+		<prefix>pptp stop</prefix>
+		<description>stop pptp service</description>
+		<testcases>
+			<testcase>
+				<testcaseid>2</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_api_pptp_add_local_ip</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>str1</var>
+			</param>
+		</protype>
+		<prefix>pptp local ip</prefix>
+		<description>set pptp local ip</description>
+		<testcases>
+			<testcase>
+				<testcaseid>3</testcaseid>
+				<expected>0</expected>
+				<param>"192.168.0.1"</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_api_pptp_add_ip_range</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>str1</var>
+			</param>
+			<param>
+				<type>char*</type>
+				<var>str2</var>
+			</param>
+		</protype>
+		<prefix>pptp ip range</prefix>
+		<description>set pptp server ip range</description>
+		<testcases>
+			<testcase>
+				<testcaseid>4</testcaseid>
+				<expected>0</expected>
+				<param>"192.168.0.1"</param>
+				<param>"192.168.0.100"</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_api_pptp_add_account</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>str1</var>
+			</param>
+			<param>
+				<type>char*</type>
+				<var>str2</var>
+			</param>
+			<param>
+				<type>char*</type>
+				<var>str3</var>
+			</param>
+		</protype>
+		<prefix>pptp add user</prefix>
+		<description>add pptp account</description>
+		<testcases>
+			<testcase>
+				<testcaseid>5</testcaseid>
+				<expected>0</expected>
+				<param>"gb"</param>
+				<param>"yt"</param>
+				<param>"192.168.0.89"</param>
+			</testcase>
+			<testcase>
+				<testcaseid>6</testcaseid>
+				<expected>0</expected>
+				<param>"yy"</param>
+				<param>"gg"</param>
+				<param>"192.168.0.99"</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_api_pptp_del_account</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>str1</var>
+			</param>
+		</protype>
+		<prefix>pptp del user</prefix>
+		<description>del a pptp account</description>
+		<testcases>
+			<testcase>
+				<testcaseid>7</testcaseid>
+				<expected>0</expected>
+				<param>"yy"</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_api_pptp_save_config</api_name>
+		<protype>
+			<!--<param>
+				<type>char*</type>
+				<var>str1</var>
+			</param>-->
+		</protype>
+		<prefix>pptp save config</prefix>
+		<description>save current config</description>
+		<testcases>
+			<testcase>
+				<testcaseid>8</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_api_pptp_retrieve_config</api_name>
+		<protype>
+			<param>
+				<type>outdata</type>
+				<var>str1</var>
+			</param>
+		</protype>
+		<prefix>pptp show config</prefix>
+		<description>show current config</description>
+		<testcases>
+			<testcase>
+				<testcaseid>9</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_api_pptp_clear_config</api_name>
+		<protype>
+		</protype>
+		<prefix>pptp clear config</prefix>
+		<description>clear current config</description>
+		<testcases>
+			<testcase>
+				<testcaseid>10</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+</apis>

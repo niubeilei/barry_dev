@@ -1,0 +1,1 @@
+./dbconverter.exe -s -passwd chen0318 -dbport 3306 -siteid 100 -convdb all -rtport 5565 -rtaddr 127.0.0.1

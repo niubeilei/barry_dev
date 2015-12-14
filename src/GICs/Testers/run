@@ -1,0 +1,1 @@
+gics_tester.exe -config config_norm.txt -s -log 2

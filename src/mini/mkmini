@@ -1,0 +1,187 @@
+#!/bin/bash
+
+make_fakeroot_directory_structure()
+{
+	echo "make directory structure"
+
+	install -d $FAKEROOTDIR/{aos,sys,initrd,proc,bin,boot,etc,home,lib/tls,mnt}
+	install -d $FAKEROOTDIR/dev/{shm,pts}
+	install -d $FAKEROOTDIR/etc/{init.d,default}
+	install -d $FAKEROOTDIR/etc/php4/apache2
+	install -d $FAKEROOTDIR/etc/apache2/{mods-enabled,sites-enabled,conf.d,sites-available}
+	install -d $FAKEROOTDIR/etc/network/{run,if-up.d,if-down.d,if-pre-up.d,if-post-down.d}
+	install -d $FAKEROOTDIR/etc/rc{0,1,2,3,4,5,6,S}.d
+	install -d $FAKEROOTDIR/{sbin,usr/local,var}
+	install -d $FAKEROOTDIR/root -m 0750
+	install -d $FAKEROOTDIR/tmp $FAKEROOTDIR/var/tmp -m 1777
+	install -d $FAKEROOTDIR/media/{cdrom}
+	install -d $FAKEROOTDIR/usr/{bin,lib/apache2/modules,sbin,share,local,lib/gconv}
+	install -d $FAKEROOTDIR/usr/share/{doc,info,locale,man}
+	install -d $FAKEROOTDIR/usr/share/{misc,terminfo,zoneinfo}
+	install -d $FAKEROOTDIR/var/{tmp,lock,log/apache2,mail,run/sshd,spool/cron/crontabs}
+	install -d $FAKEROOTDIR/var/{www,cache,lib/{php4,misc,locate,urandom},local}
+	install -d $FAKEROOTDIR/etc/{cron.d,cron.hourly,cron.daily,cron.monthly,cron.weekly}
+
+	chmod 6777 $FAKEROOTDIR/var/lib/php4
+	echo "make directory structure completed"
+}
+
+copy_files_to_fakeroot()
+{
+	echo "copy files"
+	tar -zxf $MINIHOME/devices.tar.gz -C $FAKEROOTDIR
+	for i in `ls $MINIHOME/files|grep -v CVS`
+	do
+		#echo "reading file: $i ........................"
+		CP="cp -a "
+		if [ $i == "libs" ]; then
+			CP="cp "
+		fi
+
+		for j in `cat $MINIHOME/files/$i`
+		do
+			if [ -e $j ]
+			then 
+				d=`dirname $j`
+				mkdir -p $FAKEROOTDIR$d
+				$CP $j $FAKEROOTDIR$d
+			fi
+		done
+	done
+	mv $FAKEROOTDIR/usr/bin/mawk $FAKEROOTDIR/usr/bin/awk
+	cp -f $MINIHOME/config/fstab $FAKEROOTDIR/etc
+	cp -f $MINIHOME/config/logcron $FAKEROOTDIR/etc/cron.daily
+	cp -f $MINIHOME/config/syslog.conf $FAKEROOTDIR/etc
+	cp -f $MINIHOME/config/interfaces $FAKEROOTDIR/etc/network
+	cp -f $MINIHOME/config/default $FAKEROOTDIR/etc/apache2/sites-available/
+	ln -sf /etc/apache2/sites-available/default $FAKEROOTDIR/etc/apache2/sites-enabled/000-default
+	cp -f $MINIHOME/config/php.ini $FAKEROOTDIR/etc/php4/apache2/
+	cp -f $MINIHOME/config/ports.conf $FAKEROOTDIR/etc/apache2/
+	strip $FAKEROOTDIR/usr/local/AOS/Bin/{Cli.exe,dnslookup,init_jmk_daemon,mysudo,netconfig,setxmlconfig,utf82gb}
+	echo "DEVICE=$partition" > $FAKEROOTDIR/etc/dom_partition
+	echo "Copy files completed"
+}
+
+make_initrd()
+{
+echo "make initrd"
+echo "mount $INITRDDIR"
+mount -o loop -t cramfs /boot/initrd.img-sslproxy-$RELEASE $INITRDDIR
+cd $INITRDDIR; tar czf $WORKDIR/initrd.tgz *
+cd /
+umount $INITRDDIR
+tar zxf $WORKDIR/initrd.tgz -C $INITRDDIR 2>/dev/null
+cp -f $MINIHOME/config/init $INITRDDIR/sbin/
+cp -f /bin/{tar,cp,gzip} $INITRDDIR/bin/
+cp -f /lib/{librt.so.1,libc.so.6} $INITRDDIR/lib/
+cp -f /lib/{libacl.so.1,libattr.so.1} $INITRDDIR/lib/
+cp -f /lib/tls/libpthread.so.0 $INITRDDIR/lib/
+mkdir $INITRDDIR/aos
+
+mkcramfs $INITRDDIR $WORKDIR/initrd.img-sslproxy-$RELEASE
+echo "make initrd completed"
+}
+
+
+make_flash_content()
+{
+
+	echo "make flash content"
+cd $FAKEROOTDIR
+tar czf $FLASH_CONTENT_DIR/aos.tgz *
+cp -a /boot/vmlinuz-sslproxy $FLASH_CONTENT_DIR/boot
+cp -a /boot/vmlinuz-sslproxy-$RELEASE $FLASH_CONTENT_DIR/boot
+cp -a /boot/initrd.img-sslproxy $FLASH_CONTENT_DIR/boot
+mkdir -p $FLASH_CONTENT_DIR/linux-config
+mkdir -p $FLASH_CONTENT_DIR/aos-config
+cp -a $FAKEROOTDIR/etc/network/interfaces $FLASH_CONTENT_DIR/linux-config
+cp -a $FAKEROOTDIR/etc/apache2/ports.conf $FLASH_CONTENT_DIR/linux-config
+echo "#a"> $FLASH_CONTENT_DIR/linux-config/aoscron
+cp -a $FAKEROOTDIR/usr/local/AOS/Config/* $FLASH_CONTENT_DIR/aos-config
+cp -f $WORKDIR/initrd.img-sslproxy-$RELEASE $FLASH_CONTENT_DIR/boot
+
+	echo "make flash content complete"
+}
+
+
+install_flash()
+{
+	echo "install on DOM"
+	if [ $partition ] && [ -b $partition ] ; then
+		grep $partition /etc/mtab
+		if [ $? -eq 0 ] ; then
+			echo "$partition is mounted, exit"
+			exit 1
+		fi
+		echo "flash will be installed on the partition $partition"
+		mkfs -t ext2 $partition
+		mount $partition $FLASH_MOUNT_DIR
+		if [ $grub_disc ] && [ -b $grub_disc ] ; then
+			echo "grub will be installed on the MBR of disc $grub_disc"
+			grub-install --no-floppy --root-directory=$FLASH_MOUNT_DIR $grub_disc
+			cp $MINIHOME/config/menu.lst $FLASH_MOUNT_DIR/boot/grub
+		fi
+		cp -a $FLASH_CONTENT_DIR/* $FLASH_MOUNT_DIR
+		umount $FLASH_MOUNT_DIR
+	fi
+	echo "install on DOM complete"
+}
+
+
+#set -x
+
+if [ `id -u` -ne 0 ]
+then
+	echo "Must be root to run me"
+	exit 1
+fi
+
+MINIHOME=$AOSHOME/src/mini
+WORKDIR=/tmp/ed
+rm -rf $WORKDIR/*
+
+echo MINIHOME $MINIHOME
+
+INITRDDIR=$WORKDIR/initrd
+FAKEROOTDIR=$WORKDIR/fake-root
+FLASH_MOUNT_DIR=$WORKDIR/mnt-flash
+FLASH_CONTENT_DIR=$WORKDIR/content-flash
+
+mkdir -p $INITRDDIR
+mkdir -p $FAKEROOTDIR
+mkdir -p $FLASH_MOUNT_DIR
+mkdir -p $FLASH_CONTENT_DIR/boot
+
+while getopts "g:p:" flag; 
+do
+	case $flag in
+		
+		g)
+		grub_disc=$OPTARG
+		;;
+		
+		p)
+		partition=$OPTARG
+		;;
+		
+		*)
+		;;
+	esac
+done
+
+
+make_fakeroot_directory_structure
+
+copy_files_to_fakeroot
+
+RELEASE=`$FAKEROOTDIR/usr/local/AOS/Bin/Cli.exe -r`
+
+make_initrd
+
+make_flash_content
+
+install_flash
+
+echo "complete"
+exit 0
+

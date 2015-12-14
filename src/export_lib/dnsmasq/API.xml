@@ -1,0 +1,358 @@
+<apis>
+	<module>dnsmasq</module>
+	<api>
+		<api_name>aos_dnsmasq_start</api_name>
+		<protype>
+		</protype>
+		<prefix>dnsmasq start</prefix>
+		<description>starts DHCP Server</description>
+		<testcases>
+			<testcase>	
+				<testcaseid>1</testcaseid>
+				<expected>1</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_dnsmasq_stop</api_name>
+		<protype>
+		</protype>
+		<prefix>dnsmasq stop</prefix>
+		<description>stops DHCP Server</description>
+		<testcases>
+			<testcase>	
+				<testcaseid>1</testcaseid>
+				<expected>1</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_dnsmasq_set_name</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>str1</var>
+			</param>
+		</protype>
+		<prefix>dnsmasq set name</prefix>
+		<description>this is description</description>
+		<testcases>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_dnsmasq_set_ip_block</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>ip1</var>
+			</param>
+			<param>
+				<type>char*</type>
+				<var>ip2</var>
+			</param>
+			<param>
+				<type>char*</type>
+				<var>netmask</var>
+			</param>
+		</protype>
+		<prefix>dnsmasq set ip_range</prefix>
+		<description>sets DHCP Server's IP block range</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+				<param>"172.22.0.1"</param>
+				<param>"172.22.0.234"</param>
+				<param>"255.255.255.0"</param>
+			</testcase>
+		</testcases>
+	</api>
+		<api>
+		<api_name>aos_dnsmasq_get_ip_block</api_name>
+		<protype>
+			<param>
+				<type>outdata</type>
+				<var>str1</var>
+			</param>
+		</protype>
+		<prefix>dnsmasq get ip_range</prefix>
+		<description>sets DHCP Server's IP block range</description>
+		<testcases>
+			<testcase>
+			<testcaseid>1</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_dnsmasq_set_lease_time</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>lease_time</var>
+			</param>
+		</protype>
+		<prefix>dnsmasq set lease_time</prefix>
+		<description>sets DHCP Server's lease time.</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+				<param>"13h"</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_dnsmasq_get_lease_time</api_name>
+		<protype>
+			<param>
+				<type>outdata</type>
+				<var>str1</var>
+			</param>
+		</protype>
+		<prefix>dnsmasq get lease_time</prefix>
+		<description>ets DHCP Server's lease time.</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_api_dnsmasq_set_except_dev</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>dev</var>
+			</param>
+		</protype>
+		<prefix>dnsmasq set except_dev</prefix>
+		<description>set except interface which the DHCP Server does not take effect</description>
+		<testcases>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_dnsmasq_add_bind</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>label</var>
+			</param>
+			<param>
+				<type>char*</type>
+				<var>mac</var>
+			</param>
+			<param>
+				<type>char*</type>
+				<var>ip</var>
+			</param>
+		</protype>
+		<prefix>dnsmasq add bind</prefix>
+		<description>adds an IP address and a MAC address binding</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+				<param>"bind1"</param>
+				<param>"00:02:13:24:34:65"</param>
+				<param>"192.168.0.1"</param>
+			</testcase>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+				<param>"bind2"</param>
+				<param>"00:12:13:24:34:65"</param>
+				<param>"192.168.0.3"</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_dnsmasq_del_host</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>label</var>
+			</param>
+		</protype>
+		<prefix>dnsmasq del host</prefix>
+		<description>removes a hosts table entry which associates IP addresses with hostnames </description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+				<param>"bind2"</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_dnsmasq_add_host</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>label</var>
+			</param>
+			<param>
+				<type>char*</type>
+				<var>ip</var>
+			</param>
+			<param>
+				<type>char*</type>
+				<var>domain</var>
+			</param>
+		</protype>
+		<prefix>dnsmasq add host</prefix>
+		<description> adds a hosts table entry which associates IP addresses with hostnames or domainnames</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+				<param>"bind1"</param>
+				<param>"192.168.3.1"</param>
+				<param>"hac"</param>
+			</testcase>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+				<param>"bind2"</param>
+				<param>"192.16.2.0"</param>
+				<param>"home"</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_api_dnsmasq_del_bind</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>label</var>
+			</param>
+		</protype>
+		<prefix>dnsmasq del bind</prefix>
+		<description>remove an IP address and a MAC address binding</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+				<param>"bind2"</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_dnsmasq_get_bind</api_name>
+		<protype>
+			<param>
+				<type>outdata</type>
+				<var>str1</var>
+			</param>
+		</protype>
+		<prefix>dnsmasq get bind</prefix>
+		<description>gets bind address</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_dnsmasq_set_dns</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>dns1</var>
+			</param>
+			<param>
+				<type>char*</type>
+				<var>dns2</var>
+			</param>
+		</protype>
+		<prefix>dnsmasq set dns</prefix>
+		<description>sets DHCP Server's DNS IP address</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+				<param>"210.72.13.83"</param>
+				<param>"172.22.10.1"</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_dnsmasq_get_dns</api_name>
+		<protype>
+			<param>
+				<type>outdata</type>
+				<var>str1</var>
+			</param>
+		</protype>
+		<prefix>dnsmasq set dns</prefix>
+		<description>gets DHCP Server's DNS IP address</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_dnsmasq_retrieve_config</api_name>
+		<protype>
+		</protype>
+		<prefix>dnsmasq show config</prefix>
+		<description>this is description</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_dnsmasq_clear_config</api_name>
+		<protype>
+		</protype>
+		<prefix>dnsmasq clear config</prefix>
+		<description>clear current config</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_dnsmasq_save_config</api_name>
+		<protype>
+			<!--<param>
+				<type>char*</type>
+				<var>str1</var>
+			</param>-->
+		</protype>
+		<prefix>dnsmasq save config</prefix>
+		<description>save current config</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_dnsmasq_load_config</api_name>
+		<protype>
+			<!--<param>
+				<type>char*</type>
+				<var>str1</var>
+			</param>-->
+		</protype>
+		<prefix>dnsmasq load config</prefix>
+		<description>reload DHCP Server configuration</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+</apis>

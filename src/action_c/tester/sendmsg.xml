@@ -1,0 +1,9 @@
+<Action_SendMsg>
+	<Name>send_msg</Name>
+	<Type>SendMsg</Type>
+	<LocalAddr data_type=ip_addr>192.168.197.128</LocalAddr>
+	<RemoteAddr data_type=ip_addr>192.168.197.128</RemoteAddr>
+	<RemotePort data_type=u16>5000</RemotePort>
+	<Proto>TCP</Proto>
+</Action_SendMsg>
+

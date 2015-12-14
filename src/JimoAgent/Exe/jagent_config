@@ -1,0 +1,5 @@
+#jimod config
+Port=2200
+Report_Addr=192.168.99.82
+Report_Port=2011
+HeartBeat_Time=2

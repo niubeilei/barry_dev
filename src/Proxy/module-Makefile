@@ -1,0 +1,18 @@
+
+ifneq ($(KERNELRELEASE),)
+	obj-m := aos_proxy.o http.o 
+	aos_proxy-objs := proxy_cli.o proxy.o proxy_app_if.o proxy_proc.o proxy_service.o
+else
+	KERNELVERSION=2.6.7
+	KERNELDIR=/lib/modules/$(KERNELVERSION)/build
+	PWD=$(shell pwd)
+modules:
+	$(MAKE) -C $(KERNELDIR) M=$(PWD) LDDINC=$(PWD) modules
+endif
+
+clean :
+	   rm -rf *.o *.mod.c *.ko .*cmd .*versions
+run: modules
+	sudo dmesg -c ; sudo rmmod http ; sudo rmmod aos_proxy ; sudo insmod ./aos_proxy.ko; sudo insmod http.ko
+	dmesg
+

@@ -1,0 +1,36 @@
+#		FileName: runTestcase13Gen
+#		Created by Hugo 11/10/2005
+#		Modified by
+#		Comments: this script file is for genrator
+#
+
+#Testcase 13
+#Virtual Services:3
+
+#
+# Conns.5	Repeat.100	Length.1000
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8001 -r 100 -conn 5 -len 1000& 
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8002 -r 100 -conn 5 -len 1000&
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8003 -r 100 -conn 5 -len 1000&
+#./TcpTrafficGen.exe -a 192.168.1.81 -s -p 8001 -r 100 -conn 5 -len 1000 
+#./TcpTrafficGen.exe -a 192.168.1.81 -s -p 8002 -r 100 -conn 5 -len 1000
+#./TcpTrafficGen.exe -a 192.168.1.81 -s -p 8003 -r 100 -conn 5 -len 1000
+
+#
+# Conns.50   Repeat.100  Length.1000
+#./TcpTrafficGen.exe -a 192.168.1.181 -p 8001 -r 100 -conn 40 -len 1000&
+#./TcpTrafficGen.exe -a 192.168.1.181 -p 8002 -r 100 -conn 40 -len 1000&
+#./TcpTrafficGen.exe -a 192.168.1.181 -p 8003 -r 100 -conn 40 -len 1000&
+# Temp Test
+#./TcpTrafficGen.exe -a 192.168.1.181 -p 8001 -r 10 -conn 50 -len 1000&
+#./TcpTrafficGen.exe -a 192.168.1.181 -p 8002 -r 10 -conn 50 -len 1000&
+#./TcpTrafficGen.exe -a 192.168.1.181 -p 8003 -r 10 -conn 50 -len 1000&
+
+#
+# Conns.100   Repeat.100  Length.1000
+./TcpTrafficGen.exe -a 192.168.1.181 -p 8001 -r 100 -conn 100 -len 1000 -sec 90&
+./TcpTrafficGen.exe -a 192.168.1.181 -p 8002 -r 100 -conn 100 -len 1000 -sec 90&
+./TcpTrafficGen.exe -a 192.168.1.181 -p 8003 -r 100 -conn 100 -len 1000 -sec 90&
+
+
+

@@ -1,0 +1,3 @@
+./build
+
+./raftserver.exe -c docstore$1.xml

@@ -1,0 +1,1 @@
+./counter_tester.exe -config config_norm.txt -s -log 2 -tries 1000000

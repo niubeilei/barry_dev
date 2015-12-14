@@ -1,0 +1,3 @@
+src/TinyXml/*.cpp
+src/TinyXml/*.h 
+src/TinyXml/Makefile

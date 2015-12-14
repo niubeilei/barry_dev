@@ -1,0 +1,3 @@
+rm -fr ./Data/Data/*
+rm -fr ./Data/Trans/*
+rm -fr ./Data/WorkBackup/*

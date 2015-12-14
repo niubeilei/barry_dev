@@ -1,0 +1,1 @@
+./job.exe -s -config config_norm.txt -tester jobtest

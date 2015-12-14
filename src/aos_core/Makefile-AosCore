@@ -1,0 +1,41 @@
+#
+# Makefile for the Linux AOS Core
+#
+
+#			TcpSockBridge.o 
+#			
+obj-$(CONFIG_AOS_CORE) += AosCore.o
+AosCore-y	:= \
+			aosConfig.o \
+			aosCoreComm.o \
+			aosKernelAlarm.o \
+			aosKernelApi.o \
+			aosMacCtlr.o \
+			aosMacRule.o \
+			aosPktStat.o \
+			aosRule.o \
+			aosRuleHeadSwapper.o \
+			aosRuleNetInput.o \
+			aosSock.o \
+			aosSocket.o \
+			aosSockSSL.o \
+			AppServer.o \
+			CharPtree.o \
+			aosArpProxy.o \
+			UrlPtree.o \
+			KernelLock.o \
+			StringUtil.o \
+			MgdObj.o \
+			ServerGroup.o \
+			Slab.o \
+			SockFirewall.o \
+			TArray.o \
+			aosSockCtl.o \
+			AosAlarm.o \
+			Modules.o \
+			Tracer.o \
+			Random.o \
+			BusyLoop.o \
+			Debug.o \
+			HashBin.o \
+			aos_hashtab.o

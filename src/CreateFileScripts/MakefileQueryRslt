@@ -1,0 +1,78 @@
+#----------------------------------------------------------------------------
+#	Makefile for SPNR
+#----------------------------------------------------------------------------
+
+#----------------------------------------------------------------------------
+#	Local macros
+#----------------------------------------------------------------------------
+DIRS  = API \
+	Alarm  \
+  AppMgr  \
+  AppVar  \
+  util2  \
+  util_c  \
+  random_c \
+  aos  \
+  thread_c \
+  aosUtil  \
+  alarm_c \
+  Base64  \
+  CompressUtil  \
+  Config  \
+  Debug  \
+  aosDLL \
+  Database  \
+  Dictionary  \
+  DocFileMgr \
+  DocUtil \
+  ErrorMgr  \
+  GICs \
+  HtmlServer \
+  HtmlLayoutMgr \
+  HtmlModules  \
+  HtmlUtil  \
+  HealthCheck \
+  MultiLang  \
+  NetworkMgrUtil  \
+  Obj  \
+  parser  \
+  Proggie/ProggieUtil \
+  Porting  \
+  porting_c \
+  Proggie/ReqDistr \
+  QueryRslt \
+  Random \
+  Rundata  \
+  SearchEngineAdmin  \
+  SEClient  \
+  SQLClient  \
+  SEBase  \
+  SingletonClass \
+  Security  \
+  SEInterfaces  \
+  Thread  \
+  Tracer  \
+  Timer \
+  TinyXml  \
+  UserMgmt  \
+  UtilHash  \
+  UtilComm  \
+  UtilHash  \
+  Util  \
+  Util1  \
+  WordParser  \
+  XmlUtil  \
+  XmlInterface  \
+  XmlParser  
+
+
+#----------------------------------------------------------------------------
+#	Include macros and targets
+#----------------------------------------------------------------------------
+
+include	../makeinclude/wrapper_macros.GNU
+include	../makeinclude/macros.GNU
+include	../makeinclude/rules.common.GNU
+include	../makeinclude/rules.nested.GNU
+include	../makeinclude/rules.nolocal.GNU
+

@@ -1,0 +1,29 @@
+#!/bin/bash
+
+interval=2
+count=10
+statfile=/proc/net/qos_stat
+
+if [ $# -gt 0 ]; then
+	interval=$1
+	if [ $# -gt 1 ]; then
+		count=$2
+	fi
+fi
+
+if [ $interval -eq 0 ]; then
+	interval=1
+fi
+
+#echo interval=$interval
+#echo count=$count
+
+index=0
+while [ $index -lt $count ]
+do
+	cat $statfile
+	index=$((1+index))
+	sleep $interval
+done
+
+

@@ -1,0 +1,1 @@
+./admin.exe -config config_norm.txt -s -sdshm 100 15606201591 hello,brian!

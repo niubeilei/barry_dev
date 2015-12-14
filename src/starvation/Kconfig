@@ -1,0 +1,7 @@
+
+config AOS_STARVATION
+	tristate "aos starvation manager"
+	depends on AOS_CORE
+	help
+		aos starvation manager
+

@@ -1,0 +1,67 @@
+#!/bin/bash
+#you must use root to run this script
+set -e
+if [ `id -u` -ne 0 ]; then
+	echo "You need root privileges to run this script"
+	exit 1
+fi
+
+#jimodb's agent service exe file
+JIMOAGENTEXE="jagent.exe"
+
+#jimodb's agent service start script
+JIMOAGENT="jagent"
+
+#jimodb's agent config directroy
+JIMOAGENT_DIR_NAME="jagent"
+JIMOAGENT_CONFIG="jagent_config"
+
+#jimodb's remote copy file and remote command
+JIMO_SSH="jssh"
+JIMO_SCP="jscp"
+
+install_file=(${JIMOAGENTEXE} ${JIMOAGENT} ${JIMOAGENT_CONFIG} ${JIMO_SSH} ${JIMO_SCP})
+success=true
+cd $(dirname "$0")
+work_dir=`echo $(cd "$(dirname "$0")"; pwd)`
+file_num=${#install_file[@]}
+for((i=0;i<${file_num};i++))
+do
+	path=${work_dir}/${install_file[$i]}
+	if [ -f ${path} ]
+	then
+		continue
+	else
+		echo -e "${path} not found"
+		success=false
+	fi
+done
+
+if [ ${success} == false ]
+then
+	exit
+fi
+
+#this is jimodb's agent exe
+echo "cp ${JIMOAGENTEXE} /usr/sbin/"
+cp ${JIMOAGENTEXE} /usr/sbin/
+
+#this is jimodb's agent start script
+echo "cp ${JIMOAGENT} /etc/init.d/"
+cp ${JIMOAGENT} /etc/init.d/
+
+echo "cp ${JIMO_SCP} ${JIMO_SSH} /usr/bin/"
+cp ${JIMO_SCP} /usr/bin/
+
+#set service to start jimodb's agent
+echo "ln -sf /etc/init.d/${JIMOAGENT} /etc/rc3.d/\"S99${JIMOAGENT}\""
+ln -sf /etc/init.d/${JIMOAGENT} /etc/rc3.d/"S99${JIMOAGENT}"
+
+#this is jimodb's agent work home
+echo "mkdir -p /etc/${JIMOAGENT_DIR_NAME}"
+mkdir -p /etc/${JIMOAGENT_DIR_NAME}
+
+#copy jimodb's agent config
+echo "cp $JIMOAGENT_CONFIG /etc/${JIMOAGENT_DIR_NAME}/"
+cp $JIMOAGENT_CONFIG /etc/${JIMOAGENT_DIR_NAME}/
+

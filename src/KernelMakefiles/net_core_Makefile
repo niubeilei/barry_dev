@@ -1,0 +1,75 @@
+#
+# Makefile for the Linux networking core.
+#
+
+obj-y := sock.o skbuff.o iovec.o datagram.o scm.o
+
+obj-$(CONFIG_SYSCTL) += sysctl_net_core.o
+
+obj-y		     += flow.o dev.o ethtool.o dev_mcast.o dst.o \
+			neighbour.o rtnetlink.o utils.o link_watch.o filter.o
+
+obj-y +=    avl.o \
+            misc.o \
+            redirect.o \
+            tcp_vs.o \
+            tcp_vs_chttp.o \
+            tcp_vs_ctl.o \
+            tcp_vs_hhttp.o \
+            tcp_vs_http.o \
+            tcp_vs_http_parser.o \
+            tcp_vs_http_trans.o \
+            tcp_vs_phttp.o \
+            tcp_vs_sched.o \
+            tcp_vs_srvconn.o \
+            tcp_vs_timer.o \
+            tcp_vs_wlc.o \
+            aosTcpVsCntl.o \
+            regex.o
+
+obj-y += aosKernelAlarm.o \
+         aosBridge.o \
+         aosBuiltinRules.o \
+         aosConfig.o \
+         aosCoreComm.o \
+         aosCorePcp.o \
+         aosDev.o \
+         aosFwdDev.o \
+         aosFwder.o \
+         aosKernelApi.o \
+         aosMacCtlr.o \
+         SockFirewall.o \
+         aosMacRule.o \
+         aosMultiCaster.o \
+         aosPktStat.o \
+         aosSkbRecv.o \
+         aosRule.o \
+         aosRuleHeadSwapper.o \
+         aosRuleNetInput.o \
+         aosSockBridge.o \
+         aosSock.o \
+         aosSocket.o \
+         aosSockSSL.o \
+         aosTimer.o \
+		 TimerPack.o \
+         sock.o \
+         TcpSockBridge.o \
+         aosKernelAlarm.o \
+         CharPtree.o \
+         UrlPtree.o \
+         KernelLock.o \
+         KernelStr.o \
+         Slab.o \
+         TArray.o \
+         AppServer.o \
+         AppProxy.o \
+         AaaServer.o \
+         MgdObj.o \
+         ServerGroup.o
+
+obj-$(CONFIG_SYSFS) += net-sysfs.o
+obj-$(CONFIG_NETFILTER) += netfilter.o
+obj-$(CONFIG_NET_DIVERT) += dv.o
+obj-$(CONFIG_NET_PKTGEN) += pktgen.o
+obj-$(CONFIG_NET_RADIO) += wireless.o
+obj-$(CONFIG_NETPOLL) += netpoll.o

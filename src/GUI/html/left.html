@@ -1,0 +1,288 @@
+<html>
+
+<head>
+<title>新建网页 1</title>
+<base target="main">
+</head>
+
+<body background="image/backleft.gif">
+
+
+<script language="JavaScript1.2">
+//菜单1——访问控制的内容
+var menu1=new Array()
+menu1[0]='<a href=pmi_control.php?numb=1><center>PMI规则管理</center></a>'
+menu1[1]='<a href=denypage.php?numb=1><center>DenyPage管理</center></a>'
+menu1[2]='<a href=usbkey.php?numb=1><center>Key用户注册</center></a>'
+//menu1[2]='<a href=role.php?numb=1><center>角色制定</center></a>'
+
+//--------------20060105;by yy;增加监控服务器菜单功能------------------------
+//菜单2——监控服务器的内容
+var menu2=new Array()
+menu2[0]='<a href=mserresource.php><center>显示服务器资源</center></a>'
+menu2[1]='<a href=mappproxy.php><center>显示应用代理</center></a>'
+menu2[2]='<a href=mother.php><center>显示其它状态</center></a>'
+menu2[3]='<a href=downloadsyslog.php><center>系统日志下载</center></a>'
+//--------------20060105;by yy;增加监控服务器菜单功能------------------------
+
+//--------------20060210;by yy;增加其他操作菜单功能------------------------
+//菜单3——其他操作的内容
+var menu3=new Array()
+menu3[0]='<a href=settime.php><center>时间设置</center></a>'
+menu3[1]='<a href=license.php><center>License</center></a>'
+//--------------20060210;by yy;增加监控服务器菜单功能------------------------
+</script>
+
+<style>
+<!--
+.iewrap1{
+position:relative;
+height:40px;
+; font-family: "宋体"; font-size: 12pt
+}
+.iewrap2{
+position:absolute;
+; font-family: "宋体"; font-size: 12pt}
+#dropmenu1, #dropmenu2{
+visibility:hide;
+z-index:100;
+}
+#dropmenu1 { font-family: "华文彩云" ; font-size: 12pt}
+#dropmenu2 { font-family: "华文彩云" ; font-size: 12pt}
+-->
+</style>
+
+<table border="0" cellspacing="0" width="19%" id="AutoNumber3" height="385" cellpadding="0">
+     <tr>
+     <td>
+     <center><IMG height="35" src="image/version.gif" width=120></center>
+     </td>
+     </tr>
+     <tr>
+        <td width="100%" height="35">
+        <a href="manager.php">
+        <IMG height=35
+            src="image/manreg.gif" width=128></a>　</td>
+      </tr>
+       <tr>
+        <td width="100%" height="35">
+        <a href="parameter.php">
+        <IMG height=35
+            src="image/parameter.gif" width=128></a>　</td>
+      </tr>
+      <tr>
+        <td width="100%" height="35">
+        <a href="server.php?numb=1">
+        <IMG height=35
+            src="image/server.gif" width=128></a>　
+        </td>
+      </tr>
+       <tr>
+        <td width="100%" height="35">
+        <a href="revserver.php?numb=1">
+        <IMG height=35
+            src="image/revserver.gif" width=128></a>　
+        </td>
+      </tr>
+      <tr>
+        <td width="100%" height="35">
+        <!--//-----------------20051215;by yy;修改PMI访问控制部分
+        <a href="pmi_control.php?numb=1">
+        <IMG height=35 src="image/pmi.gif" width=128></a>
+        //-----------------20051215;by yy;修改PMI访问控制部分-->
+
+<!--   //-----------------20051215;by yy;注释目的：修改PMI访问控制部分-->
+<ilayer height=35px>
+<layer visibility=show>
+<span class=iewrap1>
+<span class=iewrap2 onClick="dropit2(dropmenu1);event.cancelBubble=true;return false">
+<a href="#" onClick="if(document.layers) return dropit(event, 'document.dropmenu1')">
+<IMG height=35 src="image/accessctl.gif" width=128></a>
+</span>
+</span>
+</layer>
+</ilayer>
+ <div id=dropmenu1 style="position:absolute;left:0;top:0;layer-background-color:#eef4f4;background-color:#eef4f4;width:128;visibility:hidden;border:1px solid black;padding:0px">
+<script language="JavaScript1.2">
+if (document.all)
+dropmenu1.style.padding="4px"
+dropmenu1.style.visibility="hidden"
+for (i=0;i<menu1.length;i++)
+document.write(menu1[i])
+</script>
+</div>
+<script language="JavaScript1.2">
+if (document.layers){
+document.dropmenu1.captureEvents(Event.CLICK)
+document.dropmenu1.onclick=hidemenu2
+}
+</script>
+<!--//-----------------20051215;by yy;修改PMI访问控制部分
+-->
+
+
+        </td>
+      </tr>
+      
+      <tr>
+        <td width="100%" height="35">
+                <a href="confile.php">
+        <IMG height=35
+            src="image/confile.gif" width=128></a>　
+        </td>
+      </tr>
+
+      <tr>
+        <td width="100%" height="35">
+                <a href="shutdown.php">
+        <IMG height=35
+            src="image/reboot.gif" width=128></a>　
+        </td>
+      </tr>
+      
+      <tr>
+        <td width="100%" height="35">
+        <!--//-----------------20051215;by yy;修改PMI访问控制部分
+        <a href="pmi_control.php?numb=1">
+        <IMG height=35 src="image/pmi.gif" width=128></a>
+        //-----------------20051215;by yy;修改PMI访问控制部分-->
+
+<!--   //--------------20060105;by yy;增加监控服务器菜单功能------------------------ -->
+<ilayer height=35px>
+<layer visibility=show>
+<span class=iewrap1>
+<span class=iewrap2 onClick="dropit2(dropmenu2);event.cancelBubble=true;return false">
+<a href="#" onClick="if(document.layers) return dropit(event, 'document.dropmenu2')">
+<IMG height=35 src="image/monitor.gif" width=128></a>
+</span>
+</span>
+</layer>
+</ilayer>
+ <div id=dropmenu2 style="position:absolute;left:0;top:0;layer-background-color:#eef4f4;background-color:#eef4f4;width:128;visibility:hidden;border:1px solid black;padding:0px">
+<script language="JavaScript1.2">
+if (document.all)
+dropmenu2.style.padding="4px"
+dropmenu2.style.visibility="hidden"
+for (i=0;i<menu2.length;i++)
+document.write(menu2[i])
+</script>
+</div>
+<script language="JavaScript1.2">
+if (document.layers){
+document.dropmenu2.captureEvents(Event.CLICK)
+document.dropmenu2.onclick=hidemenu2
+</script>
+<!-- //--------------20060105;by yy;增加监控服务器菜单功能------------------------
+-->}
+
+
+
+
+        </td>
+      </tr>
+      
+      <tr>
+        <td width="100%" height="35">
+<!--   //--------------20060210;by yy;增加其他操作菜单功能------------------------ -->
+<ilayer height=35px>
+<layer visibility=show>
+<span class=iewrap1>
+<span class=iewrap2 onClick="dropit2(dropmenu3);event.cancelBubble=true;return false">
+<a href="#" onClick="if(document.layers) return dropit(event, 'document.dropmenu3')">
+<IMG height=35 src="image/shut.gif" width=128></a>
+</span>
+</span>
+</layer>
+</ilayer>
+ <div id=dropmenu3 style="position:absolute;left:0;top:0;layer-background-color:#eef4f4;background-color:#eef4f4;width:128;visibility:hidden;border:1px solid black;padding:0px">
+<script language="JavaScript1.2">
+if (document.all)
+dropmenu3.style.padding="4px"
+dropmenu3.style.visibility="hidden"
+for (i=0;i<menu3.length;i++)
+document.write(menu3[i])
+</script>
+</div>
+<script language="JavaScript1.2">
+if (document.layers){
+document.dropmenu3.captureEvents(Event.CLICK)
+document.dropmenu3.onclick=hidemenu2
+</script>
+<!-- //--------------20060210;by yy;增加监控服务器菜单功能------------------------
+-->}
+ 
+        </td>
+      </tr>
+      <tr>
+        <td width="100%" height="35">
+                <a href="logout.php">
+        <IMG height=35
+            src="image/reload.gif" width=128></a>　
+        </td>
+      </tr>
+     </table></body>
+
+<script language="JavaScript1.2">
+//-------------------20060105;by yy;修正了初始显示错误的问题！------------------------
+var zindex=100
+//var themenu;
+function dropit(e,whichone){
+	if (window.themenu&&themenu.id!=eval(whichone).id)
+		themenu.visibility="hide"
+	themenu=eval(whichone)
+	//alert("Dropit!");
+	if (themenu.visibility=="hide")
+		themenu.visibility="show"
+	else
+		themenu.visibility="hide"
+	themenu.zIndex++
+	themenu.left=e.pageX-e.layerX
+	themenu.top=e.pageY-e.layerY+19
+	return false
+}
+function dropit2(whichone){
+	//alert("Dropit2!"+themenu.id);
+	if (window.themenu&&themenu.id!=whichone.id)
+		themenu.style.visibility="hidden"
+	themenu=whichone
+	//alert("Dropit2!"+themenu.id);
+	if (document.all){
+		themenu.style.left=document.body.scrollLeft+event.clientX-event.offsetX
+		themenu.style.top=document.body.scrollTop+event.clientY-event.offsetY+18
+		if (themenu.style.visibility=="hidden"){
+			themenu.style.visibility="visible"
+			themenu.style.zIndex=zindex++
+		}
+		else{
+			hidemenu()
+		}
+	}
+}
+
+//------------初始隐藏所有菜单----------------
+function hidemenu(whichone){
+	//themenu=whichone;
+	themenu=dropmenu1;
+  if (window.themenu)
+  {
+    themenu.style.visibility="hidden";
+    dropmenu2.style.visibility="hidden";
+    dropmenu3.style.visibility="hidden";
+  }
+}
+//------------初始隐藏所有菜单----------------
+function hidemenu2(){
+themenu.visibility="hide"
+}
+
+if (document.all)
+{
+	document.body.onclick=hidemenu
+	//------------初始隐藏所有菜单----------------
+	hidemenu();
+	//------------初始隐藏所有菜单----------------
+}
+
+//-------------------20060105;by yy;修正了初始显示错误的问题！------------------------
+</script>
+</html>

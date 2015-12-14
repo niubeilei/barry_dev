@@ -1,0 +1,1 @@
+./test.exe -config config_norm.txt -isbigiil -s -log 2

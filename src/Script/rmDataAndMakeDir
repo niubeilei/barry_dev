@@ -1,0 +1,47 @@
+rm -rf /AOS/Data/Data1
+mkdir -p /AOS/Data/Data1/DocClient
+mkdir -p /AOS/Data/Data1/DocClient/Trans
+mkdir -p /AOS/Data/Data1/DocServer
+mkdir -p /AOS/Data/Data1/DocServer/Data
+mkdir -p /AOS/Data/Data1/DocServer/DocTrans
+mkdir -p /AOS/Data/Data1/DocServer/IILTrans
+mkdir -p /AOS/Data/Data1/DocServer/WordTrans
+mkdir -p /AOS/Data/Data1/DocServer/WorkBackup
+
+mkdir -p /AOS/Data/Data1/IILClient
+mkdir -p /AOS/Data/Data1/IILClient/Trans
+mkdir -p /AOS/Data/Data1/IILServer
+mkdir -p /AOS/Data/Data1/IILServer/Data
+mkdir -p /AOS/Data/Data1/IILServer/Trans
+mkdir -p /AOS/Data/Data1/IILServer/WorkBackup
+
+
+mkdir -p /AOS/Data/Data1/WordClient
+mkdir -p /AOS/Data/Data1/WordClient/Trans
+mkdir -p /AOS/Data/Data1/WordServer
+mkdir -p /AOS/Data/Data1/WordServer/Trans
+
+mkdir -p /AOS/Data/Data1/LogClient
+mkdir -p /AOS/Data/Data1/LogClient/Trans
+mkdir -p /AOS/Data/Data1/LogServer
+mkdir -p /AOS/Data/Data1/LogServer/Trans
+
+mkdir -p /AOS/Data/Data1/MonitorLog
+
+mkdir -p /AOS/Data/Data1/MsgClient
+mkdir -p /AOS/Data/Data1/MsgClient/Trans
+mkdir -p /AOS/Data/Data1/MsgServer
+mkdir -p /AOS/Data/Data1/MsgServer/Trans
+
+mkdir -p /AOS/Data/Data1/CounterClient
+mkdir -p /AOS/Data/Data1/CounterClient/Trans/Data
+mkdir -p /AOS/Data/Data1/CounterServer
+mkdir -p /AOS/Data/Data1/CounterServer/Data
+mkdir -p /AOS/Data/Data1/CounterServer/WorkBackup
+touch    /AOS/Data/Data1/CounterServer/WorkBackup/idgen
+mkdir -p /AOS/Data/Data1/CounterServer/Trans/Data
+mkdir -p /AOS/Data/Data1/CounterServer/RecordFileSystem/Data
+
+mkdir -p /AOS/Data/Data1/SEServer
+mkdir -p /AOS/Data/Data1/SEServer/WorkBackup
+mkdir -p /AOS/Data/Data1/SEServer/Data

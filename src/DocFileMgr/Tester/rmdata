@@ -1,0 +1,4 @@
+rm -rf ../../../../DataBack/*
+rm Dfm_Tester_Data
+rm output_*
+

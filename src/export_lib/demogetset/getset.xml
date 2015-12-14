@@ -1,0 +1,88 @@
+<apis>
+	<module>demo</module>
+	<api>
+		<api_name>aos_ww_api_set_proxy_addr</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>ip</var>
+			</param>
+			<param>
+				<type>int</type>
+				<var>port</var>
+			</param>
+		</protype>
+		<prefix>proxy address</prefix>
+		<description>set the proxy address</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>AOS_CLI_ERROR_WEBWALL_SUCCESS</expected>
+				<param>"172.22.0.1"</param>
+				<param>3128</param>
+			</testcase>
+			<testcase>
+				<testcaseid>2</testcaseid>
+				<expected>AOS_CLI_ERROR_WEBWALL_IP_FORMAT</expected>		
+				<param>"172.22.0.345"</param>
+				<param>3128</param>
+			</testcase>
+			<testcase>
+				<testcaseid>3</testcaseid>
+				<expected>AOS_CLI_ERROR_WEBWALL_PORT_FORMAT</expected>		
+				<param>"172.22.0.345"</param>
+				<param>-1</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_ww_api_set_proxy_action</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>action</var>
+			</param>
+		</protype>
+		<prefix>proxy status</prefix>
+		<description>set the action of proxy</description>
+		<testcases>
+			<testcase>
+				<testcaseid>4</testcaseid>
+				<expected>AOS_CLI_ERROR_WEBWALL_FAIL_ACTION</expected>
+				<param>"start"</param>
+			</testcase>
+			<testcase>
+				<testcaseid>5</testcaseid>
+				<expected>AOS_CLI_ERROR_WEBWALL_UNSUPPORT_ACTION_TYPE</expected>		
+				<param>"on"</param>
+			</testcase>
+		</testcases>
+	</api>
+	
+	<getf>
+		<getParm>
+			<name>Name1</name>
+			<type>type1</type>
+		</getParm>
+		<getParm>
+			<name>Name2</name>
+			<type>type2</type>
+		</getParm>
+	</getf>
+
+	<setf>
+		<setParm>
+			<name>Name1</name>
+			<nameLow>name1</nameLow>
+			<type>type1</type>
+		</setParm>
+		<setParm>
+			<name>Name2</name>
+			<nameLow>name2</nameLow>
+			<type>type2</type>
+		</setParm>
+	</setf>
+
+</apis>
+
+

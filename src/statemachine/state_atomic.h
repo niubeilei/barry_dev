@@ -1,0 +1,45 @@
+////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) 2005
+// Packet Engineering, Inc. All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification is not permitted unless authorized in writing by a duly
+// appointed officer of Packet Engineering, Inc. or its derivatives
+//
+// Description:
+//   
+//
+// Modification History:
+// 02/20/2008 Created by Chen Ding
+////////////////////////////////////////////////////////////////////////////
+#ifndef aos_omni_statemachine_state_atomic_h
+#define aos_omni_statemachine_state_atomic_h
+
+#include "statemachine/state.h"
+
+#define AOS_STATE_ATOMIC_MEMFUNC_DECL				\
+
+#define AOS_STATE_ATOMIC_MEMDATA_DECL				\
+
+
+typedef struct aos_state_atomic_mf
+{
+	AOS_STATE_MEMFUNC_DECL;
+	AOS_STATE_ATOMIC_MEMFUNC_DECL
+} aos_state_atomic_mf_t;
+
+typedef struct aos_state_atomic
+{
+	aos_state_atomic_mf_t *mf;
+
+	AOS_STATE_MEMDATA_DECL;
+	AOS_STATE_ATOMIC_MEMDATA_DECL;
+} aos_state_atomic_t;
+
+extern int aos_state_atomic_init(aos_state_atomic_t *state);
+extern aos_state_t *aos_state_atomic_create_xml(
+		struct aos_xml_node *node);
+
+#endif
+

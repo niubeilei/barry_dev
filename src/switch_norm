@@ -1,0 +1,8 @@
+if (test -d "IILMgrBig") then 
+	echo "Already In Norm Mode"
+else 
+	echo "Switching To Norm Mode"
+	mv IILMgr IILMgrBig
+	mv IILMgrNorm IILMgr
+	echo "Finished"
+fi

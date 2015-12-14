@@ -1,0 +1,7 @@
+#./CliTorturer.exe -f firewall.txt -src AutoTorturing/src/fw -s
+#./CliTorturer.exe -f qos.txt -src AutoTorturing/src/QoS -s
+#./CliTorturer.exe -f iac.txt -src AutoTorturing/src/IAC -s
+#./CliTorturer.exe -f all.txt -s -src AutoTorturing/src/All
+#./CliTorturer.exe -f webwall.txt -s -src AutoTorturing/src/WebWall
+#./CliTorturer.exe -f router.txt -s -src AutoTorturing/src/Router
+./CliTorturer.exe -f example.txt -s -src AutoTorturing/src/Example

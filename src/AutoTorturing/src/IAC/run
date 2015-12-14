@@ -1,0 +1,2 @@
+#./QoSTorturer.exe -l log.txt -f qos.txt -n 100 -s -flush
+./IacTorturer.exe -l log -f iac.txt -n 100 -s -flush

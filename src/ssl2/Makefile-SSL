@@ -1,0 +1,23 @@
+#
+# Makefile for the Linux SSL
+#
+CFLAGS += -DKERNEL
+
+obj-$(CONFIG_AOS_SSL) += AosSsl.o
+AosSsl-y    := \
+			des.o \
+			md5.o \
+			random.o \
+			rc4.o \
+			rsa.o \
+			sha1.o \
+			SslClient.o \
+			SslRecord.o \
+			SslSessionMgr.o \
+			Ssl.o \
+			SslMisc.o \
+			SslServer.o \
+			SslStatemachine.o \
+			SslCipher.o
+
+

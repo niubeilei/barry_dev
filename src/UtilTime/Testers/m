@@ -1,0 +1,2 @@
+rm utiltime_tester.exe
+make

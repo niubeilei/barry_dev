@@ -1,0 +1,1 @@
+./tester.exe -config config_norm.txt -s -log 2 -init_idgens 32kladta53

@@ -1,0 +1,102 @@
+<RvgXml>
+	<Type>Xml</Type>
+	<tag_name_rsg>
+		<Type>RsgCharset</Type>
+		<LengthRIG>
+			<Name>len_rig</Name>
+			<Type>RigBasic</Type>
+			<Ranges>
+				<Range>1, 10, 50</Range>
+				<Range>11, 20, 10</Range>
+				<Range>21, 50, 5</Range>
+			</Ranges>
+		</LengthRIG>
+		<Charset>
+			<Name>tag_name</Name>
+			<Ranges>
+				<Range>48, 57, 10</Range>
+				<Range>65, 90, 30</Range>
+				<Range>97, 122, 30</Range>
+			</Ranges>
+		</Charset>
+	</tag_name_rsg>
+	<integer_value_rig>
+		<Type>RigBasic</Type>
+		<Name>integer_value_rig</Name>
+		<Ranges>
+			<Range>1, 1000, 50</Range>
+			<Range>1001, 2000, 20</Range>
+			<Range>2001, 3000, 10</Range>
+		</Ranges>
+	</integer_value_rig>
+	<string_value_rsg>
+		<Type>RsgCharset</Type>
+		<LengthRIG>
+			<Name>str_len_rig</Name>
+			<Type>RigBasic</Type>
+			<Ranges>
+				<Range>1, 5, 50</Range>
+				<Range>6, 20, 10</Range>
+				<Range>21, 50, 5</Range>
+			</Ranges>
+		</LengthRIG>
+		<Charset>
+			<Name>tag_name</Name>
+			<Ranges>
+				<Range>48, 57, 10</Range>
+				<Range>65, 90, 30</Range>
+				<Range>97, 122, 30</Range>
+			</Ranges>
+		</Charset>
+	</string_value_rsg>
+	<ip_addr_value_rsg>
+		<Type>RsgCharset</Type>
+		<LengthRIG>
+			<Name>addr_len_rig</Name>
+			<Type>RigBasic</Type>
+			<Ranges>
+				<Range>15, 15, 5</Range>
+			</Ranges>
+		</LengthRIG>
+		<Charset>
+			<Name>addr_charset</Name>
+			<Ranges>
+				<Range>48, 57, 10</Range>
+				<Range>46, 46, 4</Range>
+			</Ranges>
+		</Charset>
+	</ip_addr_value_rsg>
+	<atomic_type_rig>
+		<Type>RigBasic</Type>
+		<Name>atomic_type_rig</Name>
+		<Ranges>
+			<Range>1, 3, 50</Range>
+		</Ranges>
+	</atomic_type_rig>
+	<num_child_rig>
+		<Type>RigBasic</Type>
+		<Name>num_child_rig</Name>
+		<Ranges>
+			<Range>1, 5, 50</Range>
+			<Range>6, 10, 20</Range>
+		</Ranges>
+	</num_child_rig>
+	<atomic_child_rig>
+		<Type>RigBasic</Type>
+		<Name>atomic_child_rig</Name>
+		<Ranges>
+			<Range>0, 0, 50</Range>
+			<Range>1, 1, 50</Range>
+		</Ranges>
+	</atomic_child_rig>
+	<total_node_rig>
+		<Type>RigBasic</Type>
+		<Name>total_node_rig</Name>
+		<Ranges>
+			<Range>1, 5, 10</Range>
+			<Range>6, 10, 20</Range>
+			<Range>21, 40, 50</Range>
+		</Ranges>
+	</total_node_rig>
+</RvgXml>
+

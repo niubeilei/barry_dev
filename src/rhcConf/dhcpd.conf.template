@@ -1,0 +1,14 @@
+#dhcpd.conf
+
+ddns-update-style interim;
+ignore client-updates;
+
+subnet 0.0.0.0 netmask 0.0.0.0{
+
+range 192.168.10.10 192.168.10.30;
+option subnet-mask 255.255.255.0;
+option routers 192.168.10.1;
+option domain-name-servers 192.168.10.254;
+default-lease-time 7200;
+
+}

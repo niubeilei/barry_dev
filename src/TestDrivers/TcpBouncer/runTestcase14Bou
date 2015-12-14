@@ -1,0 +1,26 @@
+#       FileName: runTestcase14Bou
+#       Created by Hugo 11/10/2005
+#       Modified by
+#       Comments: this script file is for bouncer
+#
+
+#Testcase 14
+#Virtual Services:10
+
+#
+# Conns.5   Repeat.100  Length.1000
+./TcpBouncer.exe -a 192.168.2.190 -p 81&
+./TcpBouncer.exe -a 192.168.2.190 -p 82&
+./TcpBouncer.exe -a 192.168.2.190 -p 83&
+./TcpBouncer.exe -a 192.168.2.190 -p 84&
+./TcpBouncer.exe -a 192.168.2.190 -p 85&
+./TcpBouncer.exe -a 192.168.2.190 -p 86&
+./TcpBouncer.exe -a 192.168.2.190 -p 87&
+./TcpBouncer.exe -a 192.168.2.190 -p 88&
+./TcpBouncer.exe -a 192.168.2.190 -p 89&
+./TcpBouncer.exe -a 192.168.2.190 -p 810&
+#./TcpBouncer.exe -a 192.168.2.190 -s -p 81&
+#./TcpBouncer.exe -a 192.168.2.190 -s -p 82&
+#./TcpBouncer.exe -a 192.168.2.190 -s -p 83& 
+
+

@@ -1,0 +1,4 @@
+rm -f Data/*
+rm -f Data2/*
+rm -f /home/ice/AOS/src/TransServer/Tester/Data/*
+rm -f /home/ice/AOS/src/TransServer/Tester/Data2/*

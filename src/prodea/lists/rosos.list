@@ -1,0 +1,3 @@
+src/RosOS/Kconfig
+src/RosOS/kernel-Makefile
+sr/RosOS/ros_os_cli.c

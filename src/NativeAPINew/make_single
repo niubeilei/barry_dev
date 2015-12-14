@@ -1,0 +1,5 @@
+cp Makefile Makefile_pub
+cp Makefile_single Makefile
+make clean
+make -j8
+cp Makefile_pub Makefile

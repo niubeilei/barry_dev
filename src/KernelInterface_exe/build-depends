@@ -1,0 +1,26 @@
+cd ..
+make -C CliClient
+make -C TcpAppServer
+make -C SecuredShell
+make -C Base64
+make -C Util
+make -C AppMgr
+make -C SingletonClass
+make -C Thread
+make -C UtilComm
+make -C Tracer
+make -C DataStore 
+make -C KernelInterface
+make -C KernelAPI
+make -C XmlParser
+make -C Obj
+make -C Config
+make -C Debug
+make -C Alarm
+make -C Porting
+make -C aosUtil
+make -C OmnUtil
+make -C Util1
+make -C KernelUtil
+make -C keyman
+make -C CommandMan

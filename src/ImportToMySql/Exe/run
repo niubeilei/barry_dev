@@ -1,0 +1,2 @@
+//./filetomysql.exe -formatdir /home/jackie/Format -datadir Data -dbaddr 192.168.99.96 -dbname ice_db -dbpasswd 12345 -dbuname root 
+nohup ./filetomysql.exe -formatdir /home/jackie/Format -datadir /home/jackie/cu_data1 -dbaddr 192.168.99.96 -dbname ice_db -dbpasswd 12345 -dbuname root &

@@ -1,0 +1,5 @@
+# Sample dnsmasq configuration file. Must be customized to obtain a working dnsmasq setup!
+
+#127.0.0.1 localhost.localdomain localhost rhc
+
+#host_list

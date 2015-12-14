@@ -1,0 +1,1 @@
+./admin.exe -config config_norm.txt -s -sendobjbycontainer 100 5000 250000 actiondef

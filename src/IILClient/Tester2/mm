@@ -1,0 +1,5 @@
+make clean
+make -j8
+mv /home/gavin/Jimo_Servers0/i64_torturer.exe ./aaa
+rm aaa
+cp *.exe /home/gavin/Jimo_Servers0

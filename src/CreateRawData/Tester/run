@@ -1,0 +1,1 @@
+./createrawdata.exe -sourcefile RAWDATA -startday 20120101 -endday 20120102

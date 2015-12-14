@@ -1,0 +1,5 @@
+<jimodoc zky_objid="dataproccheckpoint_jimodoc_v0" zky_pctrs="jimo_doc" zky_public_doc="true" zky_public_ctnr="true" jimo_name="jimo_schema" jimo_type="jimo_schema" current_version="0" zky_classname="AosDataProcCheckPoint">
+<versions>
+<version_0>libJimoDataProc.so</version_0>
+</versions>
+</jimodoc>

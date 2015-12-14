@@ -1,0 +1,19 @@
+cd BitmapEngine
+make clean;make -j8;
+cd -
+cd BitmapTreeMgr  
+make clean;make -j8;
+cd -
+cd IndexMgr  
+make clean;make -j8;
+cd -
+cd QueryCacher  
+make clean;make -j8;
+cd -
+cd QueryEngine  
+make clean;make -j8;
+cd -
+cd QueryProcDyn
+make clean;make -j8;
+cd -
+

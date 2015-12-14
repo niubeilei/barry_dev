@@ -1,0 +1,100 @@
+<config base_dir="./Jimo_Servers0/Data/" trans_dir="./trans_dir/">
+	<networkmgr replic_policy="nobkp" zky_procid="5" zky_phyclientid="0" zky_physerverid="0" proc_type="docstore" cube_grp_id="0" vids="0,1,2,3" config_master="0" crt_master="0">
+		<servers>
+			<server server_id="0">
+				<proc proc_type="cube" cube_grp_id="0"/>
+				<proc proc_type="frontend"/>
+				<proc proc_type="docengine"/>
+				<proc proc_type="docstore"/>
+			</server>
+		</servers>
+		<cubes replic_policy="nobkp">
+			<cube_grp grp_id="0" vids="0,1,2,3"/>
+		</cubes>
+	</networkmgr>
+	<storage_mgr>
+		<storage_device>
+			<storage_partition device_id="0" userdir="Data/cube" totalsize="1000">
+				<storage_policy/>
+			</storage_partition>
+		</storage_device>
+		<storage_space_alloc/>
+	</storage_mgr>
+	<SeLogClt />
+	<SeLogSvr ischecking="true" />
+	<TransClient showlog="true"/>
+	<transserver proc_thread_num="5" showlog="true1" trans_max_cachesize="500"/>
+	<sitemgr>
+		<sites>
+			<site zky_siteid="100" zky_dftsite="true" create="true"/>
+		</sites>
+	</sitemgr>
+	<docclient>
+		<defs>
+			<docid crtid = "5000"/>
+		</defs>
+		<distributor type="idrobin"/>
+	</docclient>
+	<security_mgr>
+		<dft_access_record read="public" delmem="private" addmem="private" delete="private" copy="private" create="private"     write="private">
+		</dft_access_record>
+	</security_mgr>
+	<IpcClt tmp_data_dir="proxy_tmp/"/>
+	<BlobSE
+		cubeid="1"
+		siteid="1"
+		aseid="1"
+		max_doc_size="100000"
+		active_log_max_size="50000000"
+		header_custom_data_size="2"
+        write_req_timeout_threshold="100000000000"
+        strict_sanity_check="true">
+        <RawSE base_dir="./Jimo_Servers0/">
+        </RawSE>
+	    <HeaderCache
+	    	header_cache_size="100000">
+	    </HeaderCache>
+	    <OldHeaderCache
+	    	old_header_cache_size="100000000">
+	    </OldHeaderCache>
+	    <DirtyHeaderCache
+            flush_wait_for_compaction_to_finish="2"
+            flush_dirty_header_interval="5">
+	    </DirtyHeaderCache>
+	    <HeaderBuffAndFileMgr
+	        cache_flush_threshold="50000"
+	    	dirty_header_cache_size="10000000">
+	    </HeaderBuffAndFileMgr>
+	    <HeaderFile
+	    	headers_per_file="50000"
+	    	old_header_file_size="1000000">
+	    </HeaderFile>
+	    <OprIDCache
+	        oprids_per_file="10000">
+	    </OprIDCache>
+	    <Compaction
+	        deleted_percentage_threshold="10"
+	        header_count_threshold="100000"
+	        compaction_time_windows_in_days="1"
+	        new_log_file_size_threshold="10000000"
+	        compaction_backoff_time="20">
+	    	<cmp_fields>
+	    		<field
+	    			cmp_pos="8"
+	    			cmp_datatype="u64"
+	    			cmp_size="8">
+	    		</field>
+	    	</cmp_fields>
+	    </Compaction>
+	</BlobSE>
+	<BlobSETester
+		seed_count="100"
+		create_weight="25"
+		read_weight="10"
+		modify_weight="10"
+		delete_weight="10"
+		apply_weight="10"
+		number_of_threads="10"
+		docid_allocate_size="10000">
+	</BlobSETester>
+</config>

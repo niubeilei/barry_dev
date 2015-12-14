@@ -1,0 +1,19 @@
+#jimocall package
+cd ../../../JimoCallPackages/Raft
+make clean
+make -j8
+
+#jimoraft
+cd ../../src/JimoAPI
+make clean
+make -j8
+
+#jimoraft
+cd ../JimoRaft
+make clean
+make -j8
+
+#raftserver
+cd Exe
+make clean
+make -j8

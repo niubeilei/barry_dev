@@ -1,0 +1,2 @@
+rm Data/*
+rm ../../TransClient/Tester/Data/*

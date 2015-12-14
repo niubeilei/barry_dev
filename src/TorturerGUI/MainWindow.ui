@@ -1,0 +1,401 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>MainWindow</class>
+<widget class="QMainWindow">
+    <property name="name">
+        <cstring>MainWindow</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>600</width>
+            <height>480</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Torturer Platform</string>
+    </property>
+</widget>
+<menubar>
+    <property name="name">
+        <cstring>MenuBar</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>600</width>
+            <height>24</height>
+        </rect>
+    </property>
+    <item text="&amp;Project" name="Project">
+        <action name="mainOpen_projectAction"/>
+        <action name="mainCreate_projectAction"/>
+        <separator/>
+        <action name="projectExitAction"/>
+    </item>
+    <item text="&amp;RVG" name="RVG">
+        <action name="RVGNewAction"/>
+        <action name="SaveAction"/>
+        <action name="RVGDeleteAction"/>
+        <separator/>
+        <action name="RVGTestAction"/>
+    </item>
+    <item text="&amp;Table" name="Table">
+    </item>
+    <item text="&amp;Command" name="Command">
+    </item>
+    <item text="&amp;Module" name="Module">
+    </item>
+    <item text="T&amp;orturer" name="Torturer">
+    </item>
+    <item text="&amp;Window" name="Window">
+        <action name="windowCloseAction"/>
+        <action name="windowClose_AllAction"/>
+        <separator/>
+        <action name="windowCascadeAction"/>
+        <action name="windowTitleAction"/>
+        <action name="windowTitle_HorizontallyAction"/>
+        <separator/>
+    </item>
+    <item text="&amp;Help" name="helpMenu">
+        <action name="helpContentsAction"/>
+        <action name="helpIndexAction"/>
+        <separator/>
+        <action name="helpAboutAction"/>
+    </item>
+</menubar>
+<toolbars>
+    <toolbar dock="2">
+        <property name="name">
+            <cstring>toolBar</cstring>
+        </property>
+        <property name="label">
+            <string>Tools</string>
+        </property>
+        <action name="RVGNewAction"/>
+        <action name="SaveAction"/>
+        <action name="helpAboutAction"/>
+    </toolbar>
+</toolbars>
+<actions>
+    <action>
+        <property name="name">
+            <cstring>RVGNewAction</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>filenew</iconset>
+        </property>
+        <property name="text">
+            <string>New</string>
+        </property>
+        <property name="menuText">
+            <string>&amp;New</string>
+        </property>
+        <property name="accel">
+            <string>Ctrl+N</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>SaveAction</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>filesave</iconset>
+        </property>
+        <property name="text">
+            <string>Save</string>
+        </property>
+        <property name="menuText">
+            <string>&amp;Save</string>
+        </property>
+        <property name="accel">
+            <string>Ctrl+S</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>helpContentsAction</cstring>
+        </property>
+        <property name="text">
+            <string>Contents</string>
+        </property>
+        <property name="menuText">
+            <string>&amp;Contents...</string>
+        </property>
+        <property name="accel">
+            <string></string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>helpIndexAction</cstring>
+        </property>
+        <property name="text">
+            <string>Index</string>
+        </property>
+        <property name="menuText">
+            <string>&amp;Index...</string>
+        </property>
+        <property name="accel">
+            <string></string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>helpAboutAction</cstring>
+        </property>
+        <property name="text">
+            <string>About</string>
+        </property>
+        <property name="menuText">
+            <string>&amp;About</string>
+        </property>
+        <property name="accel">
+            <string></string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>mainOpen_projectAction</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>fileopen</iconset>
+        </property>
+        <property name="text">
+            <string>Open</string>
+        </property>
+        <property name="menuText">
+            <string>Open</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>mainCreate_projectAction</cstring>
+        </property>
+        <property name="text">
+            <string>Create</string>
+        </property>
+        <property name="menuText">
+            <string>Create</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>projectExitAction</cstring>
+        </property>
+        <property name="text">
+            <string>E&amp;xit</string>
+        </property>
+        <property name="menuText">
+            <string>E&amp;xit</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>windowCloseAction</cstring>
+        </property>
+        <property name="text">
+            <string>Cl&amp;ose</string>
+        </property>
+        <property name="menuText">
+            <string>Cl&amp;ose</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>windowClose_AllAction</cstring>
+        </property>
+        <property name="text">
+            <string>Close Al&amp;l</string>
+        </property>
+        <property name="menuText">
+            <string>Close Al&amp;l</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>window_Action</cstring>
+        </property>
+        <property name="text">
+            <string>-</string>
+        </property>
+        <property name="menuText">
+            <string>-</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>windowTitleAction</cstring>
+        </property>
+        <property name="text">
+            <string>&amp;Title</string>
+        </property>
+        <property name="menuText">
+            <string>&amp;Title</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>windowCascadeAction</cstring>
+        </property>
+        <property name="text">
+            <string>Cascade</string>
+        </property>
+        <property name="menuText">
+            <string>Cascade</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>windowTitle_HorizontallyAction</cstring>
+        </property>
+        <property name="text">
+            <string>Title &amp;Horizontally</string>
+        </property>
+        <property name="menuText">
+            <string>Title &amp;Horizontally</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>RVGDeleteAction</cstring>
+        </property>
+        <property name="text">
+            <string>&amp;Delete</string>
+        </property>
+        <property name="menuText">
+            <string>&amp;Delete</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>RVGTestAction</cstring>
+        </property>
+        <property name="text">
+            <string>&amp;Test</string>
+        </property>
+        <property name="menuText">
+            <string>&amp;Test</string>
+        </property>
+    </action>
+</actions>
+<connections>
+    <connection>
+        <sender>RVGNewAction</sender>
+        <signal>activated()</signal>
+        <receiver>MainWindow</receiver>
+        <slot>newRVGAction()</slot>
+    </connection>
+    <connection>
+        <sender>SaveAction</sender>
+        <signal>activated()</signal>
+        <receiver>MainWindow</receiver>
+        <slot>SaveObjectAction()</slot>
+    </connection>
+    <connection>
+        <sender>helpIndexAction</sender>
+        <signal>activated()</signal>
+        <receiver>MainWindow</receiver>
+        <slot>helpIndex()</slot>
+    </connection>
+    <connection>
+        <sender>helpContentsAction</sender>
+        <signal>activated()</signal>
+        <receiver>MainWindow</receiver>
+        <slot>helpContents()</slot>
+    </connection>
+    <connection>
+        <sender>helpAboutAction</sender>
+        <signal>activated()</signal>
+        <receiver>MainWindow</receiver>
+        <slot>helpAbout()</slot>
+    </connection>
+    <connection>
+        <sender>windowCloseAction</sender>
+        <signal>activated()</signal>
+        <receiver>MainWindow</receiver>
+        <slot>windowCloseAction_activated()</slot>
+    </connection>
+    <connection>
+        <sender>windowClose_AllAction</sender>
+        <signal>activated()</signal>
+        <receiver>MainWindow</receiver>
+        <slot>windowClose_AllAction_activated()</slot>
+    </connection>
+    <connection>
+        <sender>windowCascadeAction</sender>
+        <signal>activated()</signal>
+        <receiver>MainWindow</receiver>
+        <slot>windowCascadeAction_activated()</slot>
+    </connection>
+    <connection>
+        <sender>windowTitleAction</sender>
+        <signal>activated()</signal>
+        <receiver>MainWindow</receiver>
+        <slot>windowTitleAction_activated()</slot>
+    </connection>
+    <connection>
+        <sender>windowTitle_HorizontallyAction</sender>
+        <signal>activated()</signal>
+        <receiver>MainWindow</receiver>
+        <slot>windowTitle_HorizontallyAction_activated()</slot>
+    </connection>
+    <connection>
+        <sender>RVGDeleteAction</sender>
+        <signal>activated()</signal>
+        <receiver>MainWindow</receiver>
+        <slot>RVGDeleteAction_activated()</slot>
+    </connection>
+    <connection>
+        <sender>RVGTestAction</sender>
+        <signal>activated()</signal>
+        <receiver>MainWindow</receiver>
+        <slot>RVGTestAction_activated()</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="global" impldecl="in implementation">qworkspace.h</include>
+    <include location="global" impldecl="in implementation">qheader.h</include>
+    <include location="global" impldecl="in implementation">qmessagebox.h</include>
+    <include location="global" impldecl="in implementation">qvbox.h</include>
+    <include location="global" impldecl="in implementation">qstatusbar.h</include>
+    <include location="local" impldecl="in implementation">MDIWindow.h</include>
+    <include location="local" impldecl="in implementation">MDIWndRVG.h</include>
+    <include location="local" impldecl="in implementation">NewRVGDialog.h</include>
+    <include location="local" impldecl="in implementation">RVGTestDlg.h</include>
+    <include location="global" impldecl="in declaration">qlistview.h</include>
+    <include location="local" impldecl="in declaration">RVG/Ptrs.h</include>
+    <include location="local" impldecl="in declaration">RVG/RVG.h</include>
+    <include location="local" impldecl="in declaration">TorTree.h</include>
+    <include location="local" impldecl="in implementation">MainWindow.ui.h</include>
+</includes>
+<forwards>
+    <forward>class QWorkspace;</forward>
+    <forward>class AosTorTree;</forward>
+</forwards>
+<variables>
+    <variable access="private">QWorkspace* mWorkSpace;</variable>
+    <variable access="private">AosTorTree* mTorTree;</variable>
+</variables>
+<slots>
+    <slot>helpIndex()</slot>
+    <slot>helpContents()</slot>
+    <slot>helpAbout()</slot>
+    <slot>initTorTree()</slot>
+    <slot>initWorkspace()</slot>
+    <slot>newMDIWnd( QListViewItem * item )</slot>
+    <slot>windowCloseAction_activated()</slot>
+    <slot>windowClose_AllAction_activated()</slot>
+    <slot>windowCascadeAction_activated()</slot>
+    <slot>windowTitleAction_activated()</slot>
+    <slot>windowTitle_HorizontallyAction_activated()</slot>
+    <slot>newRVGWindow( AosRVGPtr &amp; rvg, AosRVGTreeItem * item )</slot>
+    <slot>newRVGAction()</slot>
+    <slot>SaveObjectAction()</slot>
+    <slot>RVGDeleteAction_activated()</slot>
+    <slot>RVGTestAction_activated()</slot>
+</slots>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

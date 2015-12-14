@@ -1,0 +1,17 @@
+<config base_dir="./" trans_dir="./">	
+	<doc_store_cluster num_cubes="3" name="doc_store_cluster">
+		<cube_map docid="6004">
+			<cube cube_id="0">
+				<physical id="0" status="1"/>
+				<physical id="1" status="1"/>
+				<physical id="2" status="1"/>					
+			</cube>
+		</cube_map>
+		<physicals>
+			<physical addr="192.168.99.215" port="21500" id="0" name="doc_store_0"/>
+			<physical addr="192.168.99.215" port="21501" id="1" name="doc_store_1"/>
+			<physical addr="192.168.99.215" port="21502" id="2" name="doc_store_2"/>
+		</physicals>
+		<dialer type="manual" conn_type="tcp"/>
+	</doc_store_cluster>	
+</config>

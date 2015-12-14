@@ -1,0 +1,1 @@
+00 18 * * * python /home/prod/Script/autojob.py

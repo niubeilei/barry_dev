@@ -1,0 +1,12 @@
+<myobj zky_docid="1" 
+	empname="ding chen" 
+	empnum="432" 
+	zky_dname="firstdocnew"
+	zky_otype="textnew"
+	zky_stype="testingnew"
+	zky_tag="blue, red, white" 
+	zky_ctnr="abc">
+	www1 www2 www3
+	<subtag attr11="avalue1 avalue2" attr12="avalue3"/>
+	<subtag attr21="avalue21 avalue21" attr22="avalue23"/>
+</myobj>

@@ -1,0 +1,16 @@
+<config
+	base_dir="./"
+	trans_dir="./"
+	replic_dir = "./"
+	seserver_name = "seserver"
+	htmlserver_name = "htmlserver"
+	service_name = "AccessServer"
+	req_delinerator = "first_four_high"
+	max_proc_time = "10000"
+	max_conns = "1024"
+	remote_addr = "0.0.0.0"
+	remote_port = "6155"	
+	local_addr = "0.0.0.0"
+	local_port = "9008-9008">
+	<def min="0" max="100" weight="100" len="20"/>	
+</config>

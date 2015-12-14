@@ -1,0 +1,25 @@
+#!/usr/bin/env expect
+#set timeout 60
+set y [lindex $argv 0]
+set p [lindex $argv 1]
+spawn ssh root@$y -p $p
+#expect "*yes*"
+#send "yes\n"
+expect "*assword:*"
+send " \n"
+expect "*login*" 
+send "uname -a\n"
+expect 
+send "pwd\n"
+expect 
+send "ls\n"
+expect 
+#expect "*login:*"
+#send "ytao\n"
+#expect "*Password:*"
+#send " \n"
+send "exit\n"
+expect "*close*"
+exit
+expect eof
+

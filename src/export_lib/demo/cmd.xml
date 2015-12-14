@@ -1,0 +1,216 @@
+<!-- Module Definition -->
+<Cmds>
+<ModDef>
+	<Mod>
+		<ModId>system</ModId>
+		<ModAddr>127.0.0.1</ModAddr>
+		<ModPort>5000</ModPort>
+	</Mod>
+	<Mod>
+		<ModId>Redundancy</ModId>
+		<ModAddr>127.0.0.1</ModAddr>
+		<ModPort>2000</ModPort>
+	</Mod>
+	<Mod>
+		<ModId>PMIServer</ModId>
+		<ModAddr>127.0.0.1</ModAddr>
+		<ModPort>30001</ModPort>
+	</Mod>
+	<Mod>
+		<ModId>OCSPServer</ModId>
+		<ModAddr>127.0.0.1</ModAddr>
+		<ModPort>30002</ModPort>
+	</Mod>
+	<Mod>
+		<ModId>AttackMgr</ModId>
+		<ModAddr>127.0.0.1</ModAddr>
+		<ModPort>30003</ModPort>
+	</Mod>
+	<Mod>
+		<ModId>BouncerMgr</ModId>
+		<ModAddr>127.0.0.1</ModAddr>
+		<ModPort>30004</ModPort>
+	</Mod>
+	<Mod>
+		<ModId>test</ModId>
+		<ModAddr>127.0.0.1</ModAddr>
+		<ModPort>40000</ModPort>
+	</Mod>
+</ModDef>
+
+
+<!-- System cmd -->
+<Cmd>
+	<OprID>system_excute</OprID>
+		<Prefix>system excute</Prefix>
+		<bufsize>2000</bufsize>
+		<ModId>system</ModId>
+		<Usage>Usage:system excute [linux_cli]</Usage>
+		<Parms>
+		</Parms>
+</Cmd>
+
+
+
+<!-- pcp status <on|off> <pcp> -->
+<Cmd>
+	<OprID>pcpOnOff</OprID>
+	<Prefix>pcp status</Prefix>
+	<bufsize>0</bufsize>
+	<ModId>kernel</ModId>
+	<Usage>Usage: pcp status [on|off] [pcp-name]</Usage>
+	<Parms>
+		<Parm>
+			<type>string</type>
+			<help>The status: on|off</help>
+			<values>on, off</values>
+		</Parm>
+		<Parm>
+			<type>string</type>
+			<help>The PCP</help>
+			<values>netinput</values>
+		</Parm>
+	</Parms>
+</Cmd>
+
+
+<!-- bridge add <id> <method> <devicename> <weight> <devicename> <weight> -->
+<Cmd>
+	<OprID>bridge-add</OprID>
+	<Prefix>bridge add</Prefix>
+	<bufsize>0</bufsize>
+	<ModId>kernel</ModId>
+	<Usage>Usage: bridge add [id] [method] [devicename] [weight] [devicename] [weight]</Usage>
+	<Parms>
+		<Parm>
+			<type>int</type>
+			<help>Bridge ID (an integer)</help>
+		</Parm>
+		<Parm>
+			<type>string</type>
+			<help>Method: wrr | ipflow_wrr</help>
+			<values>wrr, ipflow_wrr</values>
+		</Parm>
+		<Parm>
+			<type>string</type>
+			<help>Device name</help>
+		</Parm>
+		<Parm>
+			<type>int</type>
+			<help>Device weight</help>
+		</Parm>
+		<Parm>
+			<type>string</type>
+			<help>Device name</help>
+		</Parm>
+		<Parm>
+			<type>int</type>
+			<help>Device weight</help>
+		</Parm>
+	</Parms>
+</Cmd>
+
+<!-- show bridge [<bridge-id>] -->
+<Cmd>
+	<OprID>show-bridge</OprID>
+	<Prefix>show bridge</Prefix>
+	<ModId>kernel</ModId>
+	<bufsize>5000</bufsize>
+	<Usage>Usage: show bridge</Usage>
+	<Parms>
+		<Parm>
+			<type>int</type>
+			<optional>1</optional>
+			<help>Bridge ID (an integer)</help>
+		</Parm>
+	</Parms>
+</Cmd>
+
+<!-- bridge remove <bridge-id> -->
+<Cmd>
+	<OprID>bridge-remove</OprID>
+	<Prefix>bridge remove</Prefix>
+	<bufsize>5000</bufsize>
+	<ModId>kernel</ModId>
+	<Usage>Usage: bridge remove [bridge-id]</Usage>
+	<Parms>
+		<Parm>
+			<type>int</type>
+			<help>Bridge ID (an integer)</help>
+		</Parm>
+	</Parms>
+</Cmd>
+
+<!-- clear bridge -->
+<Cmd>
+	<OprID>clear-bridge</OprID>
+	<Prefix>clear bridge</Prefix>
+	<ModId>kernel</ModId>
+	<bufsize>0</bufsize>
+	<Usage>Usage: clear bridge[bridge-id]</Usage>
+	<Parms>
+	</Parms>
+</Cmd>
+
+<!-- bridge reset -->
+<Cmd>
+	<OprID>bridge-reset</OprID>
+	<Prefix>bridge reset</Prefix>
+	<bufsize>0</bufsize>
+	<ModId>kernel</ModId>
+	<Usage>Usage: clear bridge[bridge-id]</Usage>
+	<Parms>
+		<Parm>
+			<type>int</type>
+			<help>Bridge ID (an integer)</help>
+		</Parm>
+	</Parms>
+</Cmd>
+
+<!-- bridge status -->
+<Cmd>
+	<OprID>bridge-status</OprID>
+	<Prefix>bridge status</Prefix>
+	<ModId>kernel</ModId>
+	<bufsize>0</bufsize>
+	<Usage>Usage: bridge status [on|off][bridge-id]</Usage>
+	<Parms>
+		<Parm>
+			<type>string</type>
+			<help>Bridge status: on|off</help>
+			<values>on, off</values>
+		</Parm>
+	</Parms>
+</Cmd>
+
+<!-- bridge device add <bridge-id> <side> <devicename> <weight> -->
+<Cmd>
+	<OprID>bridge-devadd</OprID>
+	<Prefix>bridge device add</Prefix>
+	<ModId>kernel</ModId>
+	<bufsize>2000</bufsize>
+	<Usage>Usage: bridge device add [bridge-id] [side] [devicename] [weight]</Usage>
+	<Parms>
+		<Parm>
+			<type>int</type>
+			<help>The bridge id (an integer)</help>
+		</Parm>
+		<Parm>
+			<type>string</type>
+			<help>The side: left|right</help>
+			<values>left, right</values>
+		</Parm>
+		<Parm>
+			<type>string</type>
+			<help>The device name (a string)</help>
+		</Parm>
+		<Parm>
+			<type>int</type>
+			<help>The weight (an integer)</help>
+		</Parm>
+	</Parms>
+</Cmd>
+</Cmds>
+
+
+

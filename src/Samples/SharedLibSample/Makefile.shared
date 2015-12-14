@@ -1,0 +1,48 @@
+# File: makefile
+#
+# This is a makefile for use with g++
+#
+LIBNAME = SharedLibSample
+
+CC = g++
+
+.SUFFIXES: .cpp .h
+
+FLAGS = -g -Wall -fPIC -DOMN_PLATFORM_UNIX $(Optimize) -DAOS_USERLAND
+
+INCDIRS = -I$(AOS_HOME)/src
+
+OBJDIR = $(AOS_HOME)/obj/$(LIBNAME)
+
+CREATEDIR = $(shell if [ -d $(OBJDIR) ]; then echo ""; else mkdir $(OBJDIR); fi)
+
+OUTPUTDIR = $(AOS_HOME)/lib
+
+LIBS = -lnsl 
+
+#
+# objects and targets
+#
+OBJECTS = $(patsubst %.cpp,$(OBJDIR)/%.o,$(wildcard *.cpp))
+
+TARGETLIB0 = lib$(LIBNAME).so
+TARGETLIB1 = lib$(LIBNAME).so.1
+TARGETLIB2 = lib$(LIBNAME).so.1.0
+
+#
+# Rules for normal comile and link 
+#
+all:: lib
+
+lib: $(OBJECTS)
+	$(CC) -shared -Wl,-soname,$(TARGETLIB1) -o $(TARGETLIB2) $(OBJECTS) 
+	mv $(TARGETLIB2) $(OUTPUTDIR)/$(TARGETLIB2)
+	ln -sf $(AOS_HOME)/lib/$(TARGETLIB2) $(AOS_HOME)/lib/$(TARGETLIB0)
+	ln -sf $(AOS_HOME)/lib/$(TARGETLIB2) $(AOS_HOME)/lib/$(TARGETLIB1)
+
+$(OBJECTS): $(OBJDIR)/%.o: %.cpp
+	$(CREATEDIR)
+	$(CC) -c $(FLAGS) $< $(INCDIRS) -o $@
+
+clean:
+	rm -rf $(OBJECTS) $(OUTPUTDIR)/$(TARGETLIB0) $(OUTPUTDIR)/$(TARGETLIB1) $(OUTPUTDIR)/$(TARGETLIB2) 

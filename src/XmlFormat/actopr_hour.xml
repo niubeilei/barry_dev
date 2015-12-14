@@ -1,0 +1,13 @@
+<valueset name='zky_valueselector'>
+	<required>                                               
+		<attrs>
+			<attr name="zky_value_type"><![CDATA[[actopr_hour]]]></attr>
+			<attr name="zky_time_format"><![CDATA[(0#5)]]></attr>
+		</attrs>
+	</required>
+	<optional>
+		<attrs>
+			<attr name="zky_data_type"><![CDATA[[string]]]></attr>
+		</attrs>
+	</optional>
+</valueset>

@@ -1,0 +1,7 @@
+cvs up -D "15 days ago"
+mkdir tmp
+mv *.cpp tmp
+mv *.h tmp
+mv Makefile tmp
+mv *.c tmp
+

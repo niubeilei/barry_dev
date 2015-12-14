@@ -1,0 +1,2 @@
+rm querytester.exe
+make

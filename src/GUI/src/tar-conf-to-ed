@@ -1,0 +1,16 @@
+#!/bin/bash
+
+. /etc/dom_partition
+
+if [ $# -lt 1 ]; then
+	exit 1
+fi
+
+mount $DEVICE /mnt
+tar zxf $1 -C / 
+cp -f /mnt/linux-config/interfaces /etc/network/
+cp -f /mnt/linux-config/ports.conf /etc/apache2/
+cp -f /mnt/linux-config/aoscron /etc/cron.d/
+cp -af /mnt/aos-config/* /usr/local/AOS/Config/
+umount /mnt
+

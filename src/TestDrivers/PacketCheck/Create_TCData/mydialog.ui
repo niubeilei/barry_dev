@@ -1,0 +1,204 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>MyDialog</class>
+<widget class="QDialog">
+    <property name="name">
+        <cstring>MyDialog</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>479</width>
+            <height>565</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Testcase config file operation</string>
+    </property>
+    <property name="sizeGripEnabled">
+        <bool>true</bool>
+    </property>
+    <widget class="QGroupBox">
+        <property name="name">
+            <cstring>groupBox1</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>20</y>
+                <width>441</width>
+                <height>531</height>
+            </rect>
+        </property>
+        <property name="title">
+            <string>Config File</string>
+        </property>
+        <widget class="QLabel">
+            <property name="name">
+                <cstring>textLabel1</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>30</x>
+                    <y>30</y>
+                    <width>78</width>
+                    <height>26</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>File Name</string>
+            </property>
+        </widget>
+        <widget class="QLineEdit">
+            <property name="name">
+                <cstring>EditFileName</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>130</x>
+                    <y>30</y>
+                    <width>230</width>
+                    <height>33</height>
+                </rect>
+            </property>
+        </widget>
+        <widget class="QPushButton">
+            <property name="name">
+                <cstring>mOpenFileBtn</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>25</x>
+                    <y>81</y>
+                    <width>80</width>
+                    <height>42</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Read</string>
+            </property>
+        </widget>
+        <widget class="QPushButton">
+            <property name="name">
+                <cstring>mDeleteBtn</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>343</x>
+                    <y>81</y>
+                    <width>80</width>
+                    <height>42</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Delete</string>
+            </property>
+        </widget>
+        <widget class="QPushButton">
+            <property name="name">
+                <cstring>mAddBtn</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>237</x>
+                    <y>81</y>
+                    <width>80</width>
+                    <height>42</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Add</string>
+            </property>
+        </widget>
+        <widget class="QPushButton">
+            <property name="name">
+                <cstring>mSaveBtn</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>131</x>
+                    <y>81</y>
+                    <width>80</width>
+                    <height>42</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Save</string>
+            </property>
+        </widget>
+        <widget class="QListBox">
+            <property name="name">
+                <cstring>TCDataList</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>10</x>
+                    <y>130</y>
+                    <width>420</width>
+                    <height>370</height>
+                </rect>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>7</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+        </widget>
+    </widget>
+</widget>
+<connections>
+    <connection>
+        <sender>mOpenFileBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>MyDialog</receiver>
+        <slot>OpenFileBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>TCDataList</sender>
+        <signal>doubleClicked(QListBoxItem*)</signal>
+        <receiver>MyDialog</receiver>
+        <slot>TCDataList_doubleClicked(QListBoxItem*)</slot>
+    </connection>
+    <connection>
+        <sender>mSaveBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>MyDialog</receiver>
+        <slot>mSaveBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>mAddBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>MyDialog</receiver>
+        <slot>mAddBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>mDeleteBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>MyDialog</receiver>
+        <slot>mDeleteBtn_clicked()</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">PCTestcaseConfig.h</include>
+    <include location="local" impldecl="in implementation">tceditdlg.h</include>
+    <include location="global" impldecl="in implementation">qerrormessage.h</include>
+</includes>
+<variables>
+    <variable>AosPCTestcaseConfig mTCConfig;</variable>
+</variables>
+<slots>
+    <slot>OpenFileBtn_clicked()</slot>
+    <slot>TCDataList_doubleClicked( QListBoxItem * pItem )</slot>
+    <slot>mSaveBtn_clicked()</slot>
+    <slot>mAddBtn_clicked()</slot>
+    <slot>mDeleteBtn_clicked()</slot>
+</slots>
+<functions>
+    <function specifier="non virtual" returnType="int">getTCIDFromString( QString str )</function>
+    <function specifier="non virtual">updateDataList()</function>
+</functions>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

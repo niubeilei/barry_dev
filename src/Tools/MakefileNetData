@@ -1,0 +1,32 @@
+#
+# objects and targets
+#
+AR=				/usr/bin/ar
+CC=				/usr/bin/g++
+INSTALL=		/usr/bin/install
+LN=				/bin/ln
+
+CFLAGS=			-DPOSIX -O   -g
+LDFLAGS=
+
+
+#
+# objects and targets
+#
+OBJECTS = *.o
+
+all: dataClient dataServer
+
+dataClient: client.o
+	$(CC) $(LDFLAGS) $(CFLAGS) -o dataClient client.o
+
+client.o: client.c
+	$(CC) -c -o client.o client.c
+
+dataServer: server.o
+	 $(CC) $(LDFLAGS) $(CFLAGS) -o dataServer server.o   
+
+server.o: server.c
+	  $(CC) -c -o server.o server.c
+clean:
+	rm -rf $(all) $(OBJECTS)

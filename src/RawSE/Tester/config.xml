@@ -1,0 +1,13 @@
+<config
+	tries="5000"
+	batch_size="100"
+	max_cubeid="100"
+	max_siteid="100"
+	max_aseid="100"
+	seed_count="100"
+	create_weight="25"
+	read_weight="25"
+	append_weight="25"
+	delete_weight="10"
+	seed_file="/home1/white/AOS/src/RawSE/Tester/seed.txt">
+</config>

@@ -1,0 +1,48 @@
+user=`whoami`; 
+
+multicond="/home/$user/Jimo_Servers0/multicondquery.exe"
+frontend="/home/$user/Jimo_Servers0/frontend.exe"
+
+if [ ! -f "$frontend" ];
+	then
+	echo "frontend.exe not exist!"
+	exit 1;
+elif [ ! -f "$multicond" ];
+	then
+	echo "multicondquery.exe not exist!"
+	exit 1;
+fi
+
+mv frontend.exe frontend.exe.orig
+mv multicondquery.exe frontend.exe
+./jimodb start
+
+while true
+do
+	process=`ps aux | grep "$user" | grep 3_config | grep -v grep | wc -l`;
+	if [ $process -eq 0 ]; 
+	then
+		echo "=================wait start==================";
+		sleep 5;
+	else
+		break;
+	fi
+done
+
+while true
+do
+	process=`ps aux | grep "$user" | grep 3_config | grep -v grep | wc -l`;
+	if [ $process -eq 0 ];
+	then
+		./jimodb stop 9
+		./jimodb clean
+		echo "multicondquery finished";
+		mv frontend.exe multicondquery.exe;
+		mv frontend.exe.orig frontend.exe;
+		exit 1;
+	else
+		echo "===============running==============="
+		sleep 5;
+	fi
+done
+

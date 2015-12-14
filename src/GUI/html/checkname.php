@@ -1,0 +1,11 @@
+CommonName=<?php echo $uname ?> <br>
+IdentityName=<?php echo $pwd ?> <br>
+SerialNum=<?php echo $SerialNum ?> <br>
+OrgName=<?php echo $OrgName ?> <br>
+DepartmentName=<?php echo $DeptName ?> <br>
+TitleName=<?php echo $TitleName?> <br>
+GroupName1=<?php echo $GName1?> <br>
+GroupName2=<?php echo $GName2?> <br>
+GroupName3=<?php echo $GName3?> <br>
+Rights=<?php echo $Rights?> <br>
+MyChoose=<?php echo $R1 ?> <br>

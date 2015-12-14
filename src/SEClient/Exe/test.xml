@@ -1,0 +1,10 @@
+<myobj empname="chen ding" 
+	empnum="1234" 
+	zky_dname="firstdoc"
+	zky_otype="text"
+	zky_stype="testing"
+	zky_tag="tag1, tag2" 
+	zky_ctnr="abc">
+	word1 word2 word3
+	<subtag attr11="avalue1 avalue2" attr12="avalue3"/>
+</myobj>

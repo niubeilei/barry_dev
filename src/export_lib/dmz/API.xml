@@ -1,0 +1,138 @@
+<apis>
+	<module>dmz</module>
+	<api>
+		<api_name>aos_dmz_set_status</api_name>
+		<protype>
+			<param>
+				<type>int</type>
+				<var>status</var>
+			</param>
+		</protype>
+		<prefix>dmz set status</prefix>
+		<description>set dmz status</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+				<param>1</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_dmz_add_machine</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>alias</var>
+			</param>
+			<param>
+				<type>char*</type>
+				<var>public_ip</var>
+			</param>
+			<param>
+				<type>char*</type>
+				<var>dmz_ip</var>
+			</param>
+		</protype>
+		<prefix>dmz add machine</prefix>
+		<description> map a public IP into an internal machine</description>
+		<testcases>
+			<testcase>
+				<testcaseid>2</testcaseid>
+				<expected>0</expected>
+				<param>"m1"</param>
+				<param>"192.168.0.3"</param>
+				<param>"172.22.0.113"</param>
+			</testcase>
+			<testcase>
+				<testcaseid>3</testcaseid>
+				<expected>0</expected>
+				<param>"m1"</param>
+				<param>"192.168.0.4"</param>
+				<param>"172.22.0.114"</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_dmz_del_machine</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>alias</var>
+			</param>
+		</protype>
+		<prefix>dmz del machine</prefix>
+		<description>remove a DMZ machine</description>
+		<testcases>
+			<testcase>
+				<testcaseid>4</testcaseid>
+				<expected>0</expected>
+				<param>"m1"</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_dmz_retrieve_config</api_name>
+		<protype>
+			<param>
+				<type>outdata</type>
+				<var>str1</var>
+			</param>
+		</protype>
+		<prefix>dmz show config</prefix>
+		<description>retrieves the current DMZ configuration</description>
+		<testcases>
+			<testcase>
+				<testcaseid>5</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_dmz_clear_config</api_name>
+		<protype>
+		</protype>
+		<prefix>dmz clear config</prefix>
+		<description>clears the current DMZ configuration.</description>
+		<testcases>
+			<testcase>
+				<testcaseid>6</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_dmz_save_config</api_name>
+		<protype>
+			<!--<param>
+				<type>char*</type>
+				<var>str1</var>
+			</param>-->
+		</protype>
+		<prefix>dmz save config</prefix>
+		<description>save current DMZ configuration</description>
+		<testcases>
+			<testcase>
+				<testcaseid>7</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_dmz_load_config</api_name>
+		<protype>
+			<!--<param>
+				<type>char*</type>
+				<var>str1</var>
+			</param>-->
+		</protype>
+		<prefix>dmz load config</prefix>
+		<description>load current DMZ configuration</description>
+		<testcases>
+			<testcase>
+				<testcaseid>8</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+</apis>

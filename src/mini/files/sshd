@@ -1,0 +1,10 @@
+/usr/sbin/sshd
+/etc/init.d/ssh
+/etc/rc2.d/S20ssh
+/etc/rc3.d/S20ssh
+/etc/rc0.d/K20ssh
+/etc/rc1.d/K20ssh
+/etc/rc6.d/K20ssh
+/etc/ssh/sshd_config
+/etc/ssh/ssh_host_rsa_key
+/etc/ssh/ssh_host_dsa_key

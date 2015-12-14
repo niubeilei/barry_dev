@@ -1,0 +1,4 @@
+
+#register environment
+export AOS_HOME=/home/allen/AOS
+export TORTURER_PLATFORM=$AOS_HOME/Data/TorturerPlatform

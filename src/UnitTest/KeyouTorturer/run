@@ -1,0 +1,2 @@
+./KeyouTorturer -local 192.168.2.3 -ser 192.168.2.3 -ftpport 21 -ftpdataport 3000 -telnetport 200 
+

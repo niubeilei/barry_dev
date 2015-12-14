@@ -1,0 +1,208 @@
+  mkdir ../src
+  mkdir ../src/AosInclude
+  cp CreateFileScripts/MakefileDocFileMgr ../src/Makefile
+  cp -r  API ../src
+  cp -r  Alarm  ../src
+  cp -r  AppMgr  ../src
+  cp -r  AppVar  ../src
+  cp -r  util2  ../src
+  cp -r  util_c  ../src
+  cp -r  random_c ../src
+  cp -r  aos  ../src
+  cp -r  thread_c ../src
+  cp -r  aosUtil  ../src
+  cp -r  alarm_c ../src
+  cp -r  Base64  ../src
+  cp -r  CompressUtil  ../src
+  cp -r  Config  ../src
+  cp -r  Debug  ../src
+  cp -r  aosDLL ../src
+  cp -r  Database  ../src
+  cp -r  Dictionary  ../src
+  cp -r  DocUtil ../src
+  cp -r  ErrorMgr  ../src
+  cp -r  GICs ../src
+  cp -r  HtmlServer ../src
+  cp -r  HtmlLayoutMgr ../src
+  cp -r  HtmlModules  ../src
+  cp -r  HtmlUtil  ../src
+  cp -r  HealthCheck ../src
+  cp -r  MultiLang  ../src
+  cp -r  Network ../src
+  cp -r  NetworkMgrUtil  ../src
+  cp -r  Obj  ../src
+  cp -r  parser  ../src
+  mkdir ../src/Proggie
+  cp -r  Proggie/ProggieUtil ../src/Proggie/ProggieUtil
+  cp -r  Proggie/ReqDistr ../src/Proggie/ReqDistr
+  cp -r  Porting  ../src
+  cp -r  porting_c ../src
+  cp -r  Rundata  ../src
+  cp -r  SearchEngineAdmin  ../src
+  cp -r  SEClient  ../src
+  cp -r  SQLClient  ../src
+  cp -r  SEBase  ../src
+  cp -r  SingletonClass ../src
+  cp -r  Security  ../src
+  cp -r  SEInterfaces  ../src
+  cp -r  Thread  ../src
+  cp -r  Tracer  ../src
+  cp -r  Timer ../src
+  cp -r  TinyXml  ../src
+  cp -r  UserMgmt  ../src
+  cp -r  UtilHash  ../src
+  cp -r  UtilComm  ../src
+  cp -r  UtilHash  ../src
+  cp -r  Util  ../src
+  cp -r  Util1  ../src
+  cp -r  WordParser  ../src
+  cp -r  XmlUtil  ../src
+  cp -r  XmlInterface  ../src
+  cp -r  XmlParser  ../src
+  cp -r  Message ../src
+  cp -r  KernelSimu ../src
+  cp -r  Semantics ../src
+  cp -r  SEUtil ../src
+  cp -r  Random ../src
+  cp -r  DataStore ../src
+  cp -r  LogUtil ../src
+  cp -r  SEServer ../src
+  cp -r  SEServer/Local ../src/SEServer
+  cp   	 CreateFileScripts/main.cpp-DocFileMgr ../src/SEServer/Local/main.cpp
+  cp   	 CreateFileScripts/Makefile-DocFileMgr-brian ../src/SEServer/Local/Makefile
+mkdir ../src/TaskMgr
+cp TaskMgr/*.h ../src/TaskMgr
+mkdir ../src/TaskUtil
+cp TaskUtil/*.h ../src/TaskUtil
+cp SEServer/*.h ../src/SEServer
+mkdir ../src/SearchEngine
+cp SearchEngine/*.h ../src/SearchEngine
+mkdir ../src/SEModules
+cp SEModules/*.h ../src/SEModules
+mkdir ../src/TransUtil
+cp TransUtil/*.h ../src/TransUtil
+mkdir ../src/CounterUtil
+cp CounterUtil/*.h ../src/CounterUtil
+mkdir ../src/UtilTime
+cp UtilTime/*.h ../src/UtilTime
+mkdir ../src/DataCacher
+cp DataCacher/*.h ../src/DataCacher
+mkdir ../src/DataBlob
+cp DataBlob/*.h ../src/DataBlob
+mkdir ../src/DataRecord
+cp DataRecord/*.h ../src/DataRecord
+mkdir ../src/ImportData
+cp ImportData/*.h ../src/ImportData
+mkdir ../src/DataField
+cp DataField/*.h ../src/DataField
+mkdir ../src/DataTypes
+cp DataTypes/*.h ../src/DataTypes
+mkdir ../src/DataCollector
+cp DataCollector/*.h ../src/DataCollector
+mkdir ../src/DataScanner
+cp DataScanner/*.h ../src/DataScanner
+mkdir ../src/ThreadShellRunners
+cp ThreadShellRunners/*.h ../src/ThreadShellRunners
+mkdir ../src/DocSelector
+cp DocSelector/*.h ../src/DocSelector
+mkdir ../src/DocFileMgr
+cp -r DocFileMgr ../src
+mkdir ../src/QueryUtil
+cp QueryUtil/*.h ../src/QueryUtil
+mkdir ../src/IILUtil
+cp IILUtil/*.h ../src/IILUtil
+mkdir ../src/IILScanner
+cp IILScanner/*.h ../src/IILScanner
+mkdir ../src/ValueSel
+cp ValueSel/*.h ../src/ValueSel
+mkdir ../src/IILTrans
+cp IILTrans/*.h ../src/IILTrans
+mkdir ../src/TransServer
+cp TransServer/*.h ../src/TransServer
+mkdir ../src/TransClient
+cp TransClient/*.h ../src/TransClient
+mkdir ../src/QueryCond
+cp QueryCond/*.h ../src/QueryCond
+mkdir ../src/MsgProc
+cp MsgProc/*.h ../src/MsgProc
+mkdir ../src/AppMgrUtil
+cp AppMgrUtil/*.h ../src/AppMgrUtil
+mkdir ../src/Logger
+cp Logger/*.h ../src/Logger
+mkdir ../src/TransMgr
+cp TransMgr/*.h ../src/TransMgr
+mkdir ../src/IdGen
+cp IdGen/*.h ../src/IdGen
+mkdir ../src/KernelPorting
+cp KernelPorting/*.h ../src/KernelPorting
+mkdir ../src/KernelHooking
+cp KernelHooking/*.h ../src/KernelHooking
+mkdir ../src/conditions_c
+cp conditions_c/*.h ../src/conditions_c
+mkdir ../src/aos_core
+cp aos_core/*.h ../src/aos_core
+mkdir ../src/aos_util
+cp aos_util/*.h ../src/aos_util
+mkdir ../src/net
+cp net/*.h ../src/net
+mkdir ../src/DocClient
+cp DocClient/*.h ../src/DocClient
+mkdir ../src/semantics_c
+cp semantics_c/*.h ../src/semantics_c
+mkdir ../src/semanopr
+cp semanopr/*.h ../src/semanopr
+mkdir ../src/IILClient
+cp IILClient/*.h ../src/IILClient
+mkdir ../src/IILMgr
+cp IILMgr/*.h ../src/IILMgr
+mkdir ../src/DbQuery
+cp DbQuery/*.h ../src/DbQuery
+mkdir ../src/Query
+cp Query/*.h ../src/Query
+mkdir ../src/QueryClient
+cp QueryClient/*.h ../src/QueryClient
+mkdir ../src/SiteMgr
+cp SiteMgr/*.h ../src/SiteMgr
+mkdir ../src/DataMgr
+cp DataMgr/*.h ../src/DataMgr
+mkdir ../src/NMS
+cp NMS/*.h ../src/NMS
+mkdir ../src/PacketCheck
+cp PacketCheck/*.h ../src/PacketCheck
+mkdir ../src/StorageMgr
+cp StorageMgr/*.h ../src/StorageMgr
+mkdir ../src/SqlUtil
+cp SqlUtil/*.h ../src/SqlUtil
+mkdir ../src/Statistics
+cp Statistics/*.h ../src/Statistics
+mkdir ../src/rvg_c
+cp rvg_c/*.h ../src/rvg_c
+mkdir ../src/Event
+cp Event/*.h ../src/Event
+mkdir ../src/EventMgr
+cp EventMgr/*.h ../src/EventMgr
+mkdir ../src/RVG
+cp RVG/*.h ../src/RVG
+mkdir ../src/SEUtilServer
+cp SEUtilServer/*.h ../src/SEUtilServer
+mkdir ../src/Conds
+cp Conds/*.h ../src/Conds
+mkdir ../src/SecUtil
+cp SecUtil/*.h ../src/SecUtil
+mkdir ../src/Statemachine
+cp Statemachine/*.h ../src/Statemachine
+mkdir ../src/DataFormat
+cp DataFormat/*.h ../src/DataFormat
+mkdir ../src/StorageMgrUtil
+cp StorageMgrUtil/*.h ../src/StorageMgrUtil
+mkdir ../src/Tester
+cp Tester/* ../src/Tester
+mkdir ../src/CliUtil
+cp CliUtil/* ../src/CliUtil
+mkdir ../src/SmartDoc
+cp SmartDoc/*.h ../src/SmartDoc
+mkdir ../src/Actions
+cp Actions/*.h ../src/Actions
+mkdir ../src/KernelUtil
+cp -rf KernelUtil/* ../src/KernelUtil
+

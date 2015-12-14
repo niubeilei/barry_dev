@@ -1,0 +1,20 @@
+<apis>
+	<module>demo</module>
+	<api>
+		<api_name>aos_api_pcpOnOff</api_name>
+		<protype>
+			<param>
+				<type>outdata</type>
+				<var>str1</var>
+			</param>
+			<param>
+				<type>char*</type>
+				<var>str2</var>
+			</param>
+		</protype>
+		<prefix>pcp status</prefix>
+		<description>this is description</description>
+		<testcases>
+		</testcases>
+	</api>
+</apis>

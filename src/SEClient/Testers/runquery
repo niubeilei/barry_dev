@@ -1,0 +1,1 @@
+./seclient_torturer.exe -s -wn 10 -rport 5555 -raddr 127.0.0.1 -querythrds 1 -totalquery 10000

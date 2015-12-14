@@ -1,0 +1,121 @@
+#		FileName: runTestcase14Gen
+#		Created by Hugo 11/10/2005
+#		Modified by
+#		Comments: this script file is for genrator
+#
+
+#Testcase 15
+#Virtual Services:100
+
+#
+# Conns.2	Repeat.100	Length.1000
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8001 -r 100 -conn 2 -len 1000 -sec 180&
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8002 -r 100 -conn 2 -len 1000 -sec 180&
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8003 -r 100 -conn 2 -len 1000 -sec 180&
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8004 -r 100 -conn 2 -len 1000 -sec 180&
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8005 -r 100 -conn 2 -len 1000 -sec 180&
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8006 -r 100 -conn 2 -len 1000 -sec 180&
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8007 -r 100 -conn 2 -len 1000 -sec 180&
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8008 -r 100 -conn 2 -len 1000 -sec 180&
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8009 -r 100 -conn 2 -len 1000 -sec 180&
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8010 -r 100 -conn 2 -len 1000 -sec 180&
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8011 -r 100 -conn 2 -len 1000 -sec 180&
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8012 -r 100 -conn 2 -len 1000 -sec 180&
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8013 -r 100 -conn 2 -len 1000 -sec 180&
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8014 -r 100 -conn 2 -len 1000 -sec 180&
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8015 -r 100 -conn 2 -len 1000 -sec 180&
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8016 -r 100 -conn 2 -len 1000 -sec 180&
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8017 -r 100 -conn 2 -len 1000 -sec 180&
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8018 -r 100 -conn 2 -len 1000 -sec 180&
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8019 -r 100 -conn 2 -len 1000 -sec 180&
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8020 -r 100 -conn 2 -len 1000 -sec 180&
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8021 -r 100 -conn 2 -len 1000 -sec 180&
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8022 -r 100 -conn 2 -len 1000 -sec 180&
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8023 -r 100 -conn 2 -len 1000 -sec 180&
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8024 -r 100 -conn 2 -len 1000 -sec 180&
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8025 -r 100 -conn 2 -len 1000 -sec 180&
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8026 -r 100 -conn 2 -len 1000 -sec 180&
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8027 -r 100 -conn 2 -len 1000 -sec 180&
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8028 -r 100 -conn 2 -len 1000 -sec 180&
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8029 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8030 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8031 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8032 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8033 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8034 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8035 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8036 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8037 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8038 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8039 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8040 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8041 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8042 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8043 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8044 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8045 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8046 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8047 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8048 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8049 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8050 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8051 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8052 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8053 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8054 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8055 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8056 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8057 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8058 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8059 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8060 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8061 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8062 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8063 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8064 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8065 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8066 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8067 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8068 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8069 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8070 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8071 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8072 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8073 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8074 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8075 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8076 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8077 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8078 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8079 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8080 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8081 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8082 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8083 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8084 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8085 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8086 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8087 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8088 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8089 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8090 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8091 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8092 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8093 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8094 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8095 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8096 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8097 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8098 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8099 -r 100 -conn 2 -len 1000 -sec 180&              
+./TcpTrafficGen.exe -a 192.168.1.81 -p 8100 -r 100 -conn 2 -len 1000 -sec 180& 
+
+#
+# Conns.20   Repeat.100  Length.1000
+
+
+#
+# Conns.50   Repeat.100  Length.1000
+
+
+

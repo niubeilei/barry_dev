@@ -1,0 +1,33 @@
+#!/bin/bash
+
+DEVICE=/
+
+if [ -f /etc/dom_partition ]
+then
+	. /etc/dom_partition
+fi
+
+if ! [ -b $DEVICE ]
+then
+	echo "$DEVICE is an invalid block device"
+	exit 1
+fi
+
+mount $DEVICE /mnt
+
+if ! [ -f /mnt/old/aos.tgz ]
+then
+	echo "old version does not exist"
+	umount /mnt
+	exit 1
+fi
+
+cp -f /mnt/old/aos.tgz /mnt
+mv -f /mmt/old/boot/vmlinuz* /mnt/boot
+mv -f /mnt/old/boot/initrd* /mnt/boot
+rm -rf /mnt/old
+
+umount /mnt
+
+exit 0
+

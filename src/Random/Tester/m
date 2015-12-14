@@ -1,0 +1,2 @@
+rm random_tester.exe
+make

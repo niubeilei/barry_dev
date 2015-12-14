@@ -1,0 +1,61 @@
+#!/bin/bash
+#you must use root to run this script
+set -e
+if [ `id -u` -ne 0 ]; then
+	echo "You need root privileges to run this script"
+	exit 1
+fi
+
+#jimodb's agent service exe file
+JIMOD="jimod"
+
+#jimodb's agent service start script
+JIMO="jimo"
+
+#jimodb's agent config directroy
+JIMO_DIR_NAME="jimo"
+
+JIMOD_CONFIG="jimod_config"
+
+install_file=(jimod jimo jimod_config)
+success=true
+crt_dir=`pwd`
+file_num=${#install_file[@]}
+for((i=0;i<${file_num};i++))
+do
+	path=${crt_dir}/${install_file[$i]}
+	if [ -f ${path} ]
+	then
+		continue
+	else
+		echo -e "${path} not found"
+		success=false
+	fi
+done
+
+if [ ${success} == false ]
+then
+	exit
+fi
+
+#this is jimodb's agent service
+echo "cp ${JIMOD} /usr/sbin/"
+cp ${JIMOD} /usr/sbin/
+
+#this is jimodb's agent start script
+echo "cp ${JIMO} /etc/init.d/"
+cp ${JIMO} /etc/init.d/
+
+#set service to start jimodb's agent
+echo "ln -sf /etc/init.d/${JIMO} /etc/rc3.d/\"S99${JIMO}\""
+ln -sf /etc/init.d/${JIMO} /etc/rc3.d/"S99${JIMO}"
+
+#this is jimodb's agent work home
+echo "mkdir -p /etc/${JIMO_DIR_NAME}"
+mkdir -p /etc/${JIMO_DIR_NAME}
+
+#copy jimodb's agent config
+echo "cp $JIMOD_CONFIG /etc/${JIMO_DIR_NAME}/"
+cp $JIMOD_CONFIG /etc/${JIMO_DIR_NAME}/
+
+

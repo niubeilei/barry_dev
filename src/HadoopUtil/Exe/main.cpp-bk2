@@ -1,0 +1,88 @@
+////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) 2005
+// Packet Engineering, Inc. All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification is not permitted unless authorized in writing by a duly
+// appointed officer of Packet Engineering, Inc. or its derivatives
+//
+// Description:
+//
+// Modification History:
+// 01/03/2010: Created by Chen Ding
+////////////////////////////////////////////////////////////////////////////
+//#include "HDFS/hdfs.h"
+#include "hdfs.h"
+
+#include <stdlib.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <signal.h>
+#include <dirent.h>
+#include <iostream>
+#include <errno.h>
+#include <strings.h>
+
+using namespace std;
+
+using namespace std;
+
+
+
+int 
+main(int argc, char **argv)
+{
+
+const char* env = getenv("CLASSPATH");
+cout << "classpath : " << env << endl;
+
+	//aos_alarm_init(1);
+
+     hdfsFS fs = hdfsConnect("192.168.99.206", 9002);//default是连本地文件                                                                                                                
+     if (!fs) {
+         fprintf(stderr, "Oops! Failed to connect to hdfs!\n");
+         exit(-1);
+     } 
+  
+     const char* rfile = "/usr/root/data_csv.txt";
+     tSize fileTotalSize = 10;
+     tSize bufferSize = 10;
+     tOffset offset = 0; 
+    
+     hdfsFile readFile = hdfsOpenFile(fs, rfile, O_RDONLY, bufferSize, 0, 0);
+     if (!readFile) {
+         fprintf(stderr, "Failed to open %s for writing!\n", rfile);
+         exit(-2);
+     }
+ 
+     // data to be written to the file
+     char* buffer = (char * )malloc(sizeof(char) * bufferSize);
+     if(buffer == NULL) {
+         return -2;
+     }
+     
+     // read from the file
+     tSize curSize = bufferSize;
+     for (; curSize == bufferSize;) {
+         curSize = hdfsPread(fs, readFile, offset, (void*)buffer, curSize);
+		 offset += curSize;
+		 printf("%s", buffer);
+     }
+	int len = hdfsAvailable(fs, readFile);
+	printf("len : %d" , len);
+
+	printf("\n");
+ 
+     free(buffer);
+     hdfsCloseFile(fs, readFile);
+     hdfsDisconnect(fs);
+
+//Jackie
+	return 0;
+}
+
+
+

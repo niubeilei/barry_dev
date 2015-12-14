@@ -1,0 +1,3 @@
+./rmdata
+rm backup_log_tester.exe
+make

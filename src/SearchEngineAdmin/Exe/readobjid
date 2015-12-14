@@ -1,0 +1,2 @@
+./admin.exe -config config_norm.txt -s -readobjid zkytkt_search_new 200000 100 doc_idx doc false
+

@@ -1,0 +1,5 @@
+AC_INIT
+AC_PROG_CC
+AC_PROG_RANLIB
+AM_INIT_AUTOMAKE(rxspencer, alpha3.8.g2)
+AC_OUTPUT(Makefile)

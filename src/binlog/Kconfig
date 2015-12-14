@@ -1,0 +1,7 @@
+
+config AOS_BINLOG
+	tristate "aos binary log facilities"
+	depends on AOS_CORE
+	help
+		aos binary log facilities
+

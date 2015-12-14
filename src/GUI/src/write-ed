@@ -1,0 +1,11 @@
+#!/bin/bash
+
+. /etc/dom_partition
+
+mount $DEVICE /mnt
+cp -f /etc/network/interfaces /mnt/linux-config
+cp -f /etc/apache2/ports.conf /mnt/linux-config
+cp -f /etc/cron.d/aoscron /mnt/linux-config
+cp -af /usr/local/AOS/Config/* /mnt/aos-config
+umount /mnt
+

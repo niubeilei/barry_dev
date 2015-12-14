@@ -1,0 +1,14 @@
+#
+# Makefile for the Linux AOS Test
+#
+
+obj-$(CONFIG_AOS_TEST) += AosTest.o
+AosTest-y	:= \
+			MutexTesterKnl.o  \
+			RwlockTesterKnl.o \
+			OcspTestDriver.o \
+			OcspTesterKernelApi.o \
+			LogSetLinesKernelApi.o \
+			Memory.o \
+			HashBinRaw.o \
+			SlabRaw.o

@@ -1,0 +1,1 @@
+./admin.exe -config config_norm.txt -s -checkrebuild 100 5000 300000

@@ -1,0 +1,28 @@
+#!/usr/bin/perl
+
+my $arg = shift @ARGV;
+
+my $links = {
+	"../../keyman/keyman.cpp" => "keyman.cpp",
+	"../../Base64/Base64.cpp" => "Base64.cpp",
+};
+
+#add/remove links
+if ($arg eq "-a") {
+	foreach my $k (keys %$links) {
+		my $ret = `ln -s $k $links->{$k} 2>&1`;
+		if ($ret ne "") {
+			print "Failed to create links:$ret\n";
+			exit -1;
+		}
+	}
+} elsif ($arg eq "-d") {
+	foreach my $v (values %$links) {
+		my $ret = `rm -f $v 2>&1`;
+		if ($ret ne "") {
+			print "Failed to rm: $ret\n";
+		}
+	}
+}
+
+

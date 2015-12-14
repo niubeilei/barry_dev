@@ -1,0 +1,99 @@
+<config>
+<BlobSE
+	cubeid="1"
+	siteid="1"
+	aseid="1"
+	max_doc_size="100000"
+	active_log_max_size="10000000"
+	del_log_enabled="false"
+	header_custom_data_size="12"
+	write_req_timeout_threshold="100000">
+</BlobSE>
+<HeaderCache
+	open_change_log="true"
+	header_cache_size="100000000">
+</HeaderCache>
+<OldHeaderCache
+	old_header_cache_size="100000000">
+</OldHeaderCache>
+<DirtyHeaderCache
+	dirty_header_cache_size="100000"
+	cache_flush_threshold="50000">
+</DirtyHeaderCache>
+<HeaderFile
+	headers_per_file="100000"
+	old_header_file_size="1000">
+</HeaderFile>
+<OprIDCache
+    oprids_per_file="1000000">
+</OprIDCache>
+<Compaction
+    deleted_percentage_threshold="10"
+    header_count_threshold="100000"
+    header_file_expiration_threshold_in_seconds="1"
+    new_log_file_size_threshold="10000000">
+	<cmp_fields>
+		<field
+			cmp_pos="32"
+			cmp_datatype="u64"
+			cmp_size="8">
+		</field>
+	</cmp_fields>
+</Compaction>
+<HeaderChangeLog
+	delta_size="10000"
+	delta_save_count_of_every_header_flush="5"
+	delta_saving_interval="10">
+	<cmp_fields>
+		<field
+			cmp_pos="0"
+			cmp_datatype="u64"
+			cmp_size="8">
+		</field>
+	</cmp_fields>
+</HeaderChangeLog>
+<DeletionLog
+	delta_size="10000"
+	delta_save_count_of_every_compaction="5"
+	delta_saving_interval="10"
+	compaction_threshold="3000"
+	compaction_percentage_threshold="1"
+	compacted_buff_max_size="1000000">
+	<cmp_fields>
+		<field
+			cmp_pos="0"
+			cmp_datatype="u64"
+			cmp_size="8">
+		</field>
+	</cmp_fields>
+</DeletionLog>
+<BlobSETester
+	tries="50000"
+	stop_on_fail="1"
+	batch_size="100"
+	doc_type="1"
+	seed_count="100"
+	create_weight="25"
+	read_weight="10"
+	modify_weight="10"
+	delete_weight="10"
+	read_invalid_weight="0"
+	read_deleted_weight="0"
+	create_snapshot_weight="0"
+	commit_snapshot_weight="0"
+	rollback_snapshot_weight="0"
+	submit_snapshot_weight="0"
+	createdoc_to_snap_weight="0"
+	modifydoc_from_snap_weight="0"
+	deletedoc_from_snap_weight="0"
+	readdoc_from_snap_weight="0"
+	read_valid_weight="90"
+	number_of_threads="1"
+	docid_allocate_size="10000"
+	big_doc_weight = "1"
+	small_doc_weight = "100"
+    docs_left="docs_left"
+    docs_deleted="docs_deleted"
+	just_check_what_left="true">
+</BlobSETester>
+</config>

@@ -1,0 +1,376 @@
+GET /image/index/go2.jpg HTTP/1.1
+Accept: */*
+Referer: http://www.firsttravel.cn/
+Accept-Language: zh-cn
+Accept-Encoding: gzip, deflate
+If-Modified-Since: Tue, 12 Jul 2005 12:26:57 GMT
+If-None-Match: "609ee1fedc86c51:15c3"
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Maxthon)
+Host: www.firsttravel.cn
+Connection: Keep-Alive
+Cookie: .ASPXANONYMOUS=AcXi7xI1GcBmN2Q5MGE5Ni05YTIwLTQyZjctYTc3Mi1iNTRmNDkyMTYzNWU1
+
+POST /bbs-oa/login.asp?action=chk HTTP/1.1
+Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, application/x-shockwave-flash, */*
+Referer: http://www.firsttravel.cn/bbs-oa/index.asp
+Accept-Language: zh-cn
+Content-Type: application/x-www-form-urlencoded
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Maxthon)
+Host: www.firsttravel.cn
+Content-Length: 69
+Connection: Keep-Alive
+Cache-Control: no-cache
+Cookie: www%2Efirsttravel%2Ecn%2Fbbs%2Doa%2F=StatUserID=22128265656; .ASPXANONYMOUS=AcXi7xI1GcBmN2Q5MGE5Ni05YTIwLTQyZjctYTc3Mi1iNTRmNDkyMTYzNWU1; ASPSESSIONIDSSCAABRB=BGLCFEFCGHJOFGLIJBOAADDO
+
+username=nearlee&password=nearacd52x&CookieDate=0&submit=%B5%C7%C2%BCGET /image/index/go2.jpg HTTP/1.1
+Accept: */*
+Referer: http://www.firsttravel.cn/
+Accept-Language: zh-cn
+Accept-Encoding: gzip, deflate
+If-Modified-Since: Tue, 12 Jul 2005 12:26:57 GMT
+If-None-Match: "609ee1fedc86c51:15c3"
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Maxthon)
+Host: www.firsttravel.cn
+Connection: Keep-Alive
+Cookie: .ASPXANONYMOUS=AcXi7xI1GcBmN2Q5MGE5Ni05YTIwLTQyZjctYTc3Mi1iNTRmNDkyMTYzNWU1
+
+POST /bbs-oa/login.asp?action=chk HTTP/1.1
+Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, application/x-shockwave-flash, */*
+Referer: http://www.firsttravel.cn/bbs-oa/index.asp
+Accept-Language: zh-cn
+Content-Type: application/x-www-form-urlencoded
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Maxthon)
+Host: www.firsttravel.cn
+Content-Length: 69
+Connection: Keep-Alive
+Cache-Control: no-cache
+Cookie: www%2Efirsttravel%2Ecn%2Fbbs%2Doa%2F=StatUserID=22128265656; .ASPXANONYMOUS=AcXi7xI1GcBmN2Q5MGE5Ni05YTIwLTQyZjctYTc3Mi1iNTRmNDkyMTYzNWU1; ASPSESSIONIDSSCAABRB=BGLCFEFCGHJOFGLIJBOAADDO
+
+username=nearlee&password=nearacd52x&CookieDate=0&submit=%B5%C7%C2%BCGET /image/index/go2.jpg HTTP/1.1
+Accept: */*
+Referer: http://www.firsttravel.cn/
+Accept-Language: zh-cn
+Accept-Encoding: gzip, deflate
+If-Modified-Since: Tue, 12 Jul 2005 12:26:57 GMT
+If-None-Match: "609ee1fedc86c51:15c3"
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Maxthon)
+Host: www.firsttravel.cn
+Connection: Keep-Alive
+Cookie: .ASPXANONYMOUS=AcXi7xI1GcBmN2Q5MGE5Ni05YTIwLTQyZjctYTc3Mi1iNTRmNDkyMTYzNWU1
+
+POST /bbs-oa/login.asp?action=chk HTTP/1.1
+Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, application/x-shockwave-flash, */*
+Referer: http://www.firsttravel.cn/bbs-oa/index.asp
+Accept-Language: zh-cn
+Content-Type: application/x-www-form-urlencoded
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Maxthon)
+Host: www.firsttravel.cn
+Content-Length: 69
+Connection: Keep-Alive
+Cache-Control: no-cache
+Cookie: www%2Efirsttravel%2Ecn%2Fbbs%2Doa%2F=StatUserID=22128265656; .ASPXANONYMOUS=AcXi7xI1GcBmN2Q5MGE5Ni05YTIwLTQyZjctYTc3Mi1iNTRmNDkyMTYzNWU1; ASPSESSIONIDSSCAABRB=BGLCFEFCGHJOFGLIJBOAADDO
+
+username=nearlee&password=nearacd52x&CookieDate=0&submit=%B5%C7%C2%BCGET /image/index/go2.jpg HTTP/1.1
+Accept: */*
+Referer: http://www.firsttravel.cn/
+Accept-Language: zh-cn
+Accept-Encoding: gzip, deflate
+If-Modified-Since: Tue, 12 Jul 2005 12:26:57 GMT
+If-None-Match: "609ee1fedc86c51:15c3"
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Maxthon)
+Host: www.firsttravel.cn
+Connection: Keep-Alive
+Cookie: .ASPXANONYMOUS=AcXi7xI1GcBmN2Q5MGE5Ni05YTIwLTQyZjctYTc3Mi1iNTRmNDkyMTYzNWU1
+
+POST /bbs-oa/login.asp?action=chk HTTP/1.1
+Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, application/x-shockwave-flash, */*
+Referer: http://www.firsttravel.cn/bbs-oa/index.asp
+Accept-Language: zh-cn
+Content-Type: application/x-www-form-urlencoded
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Maxthon)
+Host: www.firsttravel.cn
+Content-Length: 69
+Connection: Keep-Alive
+Cache-Control: no-cache
+Cookie: www%2Efirsttravel%2Ecn%2Fbbs%2Doa%2F=StatUserID=22128265656; .ASPXANONYMOUS=AcXi7xI1GcBmN2Q5MGE5Ni05YTIwLTQyZjctYTc3Mi1iNTRmNDkyMTYzNWU1; ASPSESSIONIDSSCAABRB=BGLCFEFCGHJOFGLIJBOAADDO
+
+username=nearlee&password=nearacd52x&CookieDate=0&submit=%B5%C7%C2%BCGET /image/index/go2.jpg HTTP/1.1
+Accept: */*
+Referer: http://www.firsttravel.cn/
+Accept-Language: zh-cn
+Accept-Encoding: gzip, deflate
+If-Modified-Since: Tue, 12 Jul 2005 12:26:57 GMT
+If-None-Match: "609ee1fedc86c51:15c3"
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Maxthon)
+Host: www.firsttravel.cn
+Connection: Keep-Alive
+Cookie: .ASPXANONYMOUS=AcXi7xI1GcBmN2Q5MGE5Ni05YTIwLTQyZjctYTc3Mi1iNTRmNDkyMTYzNWU1
+
+POST /bbs-oa/login.asp?action=chk HTTP/1.1
+Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, application/x-shockwave-flash, */*
+Referer: http://www.firsttravel.cn/bbs-oa/index.asp
+Accept-Language: zh-cn
+Content-Type: application/x-www-form-urlencoded
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Maxthon)
+Host: www.firsttravel.cn
+Content-Length: 69
+Connection: Keep-Alive
+Cache-Control: no-cache
+Cookie: www%2Efirsttravel%2Ecn%2Fbbs%2Doa%2F=StatUserID=22128265656; .ASPXANONYMOUS=AcXi7xI1GcBmN2Q5MGE5Ni05YTIwLTQyZjctYTc3Mi1iNTRmNDkyMTYzNWU1; ASPSESSIONIDSSCAABRB=BGLCFEFCGHJOFGLIJBOAADDO
+
+username=nearlee&password=nearacd52x&CookieDate=0&submit=%B5%C7%C2%BCGET /image/index/go2.jpg HTTP/1.1
+Accept: */*
+Referer: http://www.firsttravel.cn/
+Accept-Language: zh-cn
+Accept-Encoding: gzip, deflate
+If-Modified-Since: Tue, 12 Jul 2005 12:26:57 GMT
+If-None-Match: "609ee1fedc86c51:15c3"
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Maxthon)
+Host: www.firsttravel.cn
+Connection: Keep-Alive
+Cookie: .ASPXANONYMOUS=AcXi7xI1GcBmN2Q5MGE5Ni05YTIwLTQyZjctYTc3Mi1iNTRmNDkyMTYzNWU1
+
+POST /bbs-oa/login.asp?action=chk HTTP/1.1
+Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, application/x-shockwave-flash, */*
+Referer: http://www.firsttravel.cn/bbs-oa/index.asp
+Accept-Language: zh-cn
+Content-Type: application/x-www-form-urlencoded
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Maxthon)
+Host: www.firsttravel.cn
+Content-Length: 69
+Connection: Keep-Alive
+Cache-Control: no-cache
+Cookie: www%2Efirsttravel%2Ecn%2Fbbs%2Doa%2F=StatUserID=22128265656; .ASPXANONYMOUS=AcXi7xI1GcBmN2Q5MGE5Ni05YTIwLTQyZjctYTc3Mi1iNTRmNDkyMTYzNWU1; ASPSESSIONIDSSCAABRB=BGLCFEFCGHJOFGLIJBOAADDO
+
+username=nearlee&password=nearacd52x&CookieDate=0&submit=%B5%C7%C2%BCGET /image/index/go2.jpg HTTP/1.1
+Accept: */*
+Referer: http://www.firsttravel.cn/
+Accept-Language: zh-cn
+Accept-Encoding: gzip, deflate
+If-Modified-Since: Tue, 12 Jul 2005 12:26:57 GMT
+If-None-Match: "609ee1fedc86c51:15c3"
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Maxthon)
+Host: www.firsttravel.cn
+Connection: Keep-Alive
+Cookie: .ASPXANONYMOUS=AcXi7xI1GcBmN2Q5MGE5Ni05YTIwLTQyZjctYTc3Mi1iNTRmNDkyMTYzNWU1
+
+POST /bbs-oa/login.asp?action=chk HTTP/1.1
+Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, application/x-shockwave-flash, */*
+Referer: http://www.firsttravel.cn/bbs-oa/index.asp
+Accept-Language: zh-cn
+Content-Type: application/x-www-form-urlencoded
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Maxthon)
+Host: www.firsttravel.cn
+Content-Length: 69
+Connection: Keep-Alive
+Cache-Control: no-cache
+Cookie: www%2Efirsttravel%2Ecn%2Fbbs%2Doa%2F=StatUserID=22128265656; .ASPXANONYMOUS=AcXi7xI1GcBmN2Q5MGE5Ni05YTIwLTQyZjctYTc3Mi1iNTRmNDkyMTYzNWU1; ASPSESSIONIDSSCAABRB=BGLCFEFCGHJOFGLIJBOAADDO
+
+username=nearlee&password=nearacd52x&CookieDate=0&submit=%B5%C7%C2%BCGET /image/index/go2.jpg HTTP/1.1
+Accept: */*
+Referer: http://www.firsttravel.cn/
+Accept-Language: zh-cn
+Accept-Encoding: gzip, deflate
+If-Modified-Since: Tue, 12 Jul 2005 12:26:57 GMT
+If-None-Match: "609ee1fedc86c51:15c3"
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Maxthon)
+Host: www.firsttravel.cn
+Connection: Keep-Alive
+Cookie: .ASPXANONYMOUS=AcXi7xI1GcBmN2Q5MGE5Ni05YTIwLTQyZjctYTc3Mi1iNTRmNDkyMTYzNWU1
+
+POST /bbs-oa/login.asp?action=chk HTTP/1.1
+Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, application/x-shockwave-flash, */*
+Referer: http://www.firsttravel.cn/bbs-oa/index.asp
+Accept-Language: zh-cn
+Content-Type: application/x-www-form-urlencoded
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Maxthon)
+Host: www.firsttravel.cn
+Content-Length: 69
+Connection: Keep-Alive
+Cache-Control: no-cache
+Cookie: www%2Efirsttravel%2Ecn%2Fbbs%2Doa%2F=StatUserID=22128265656; .ASPXANONYMOUS=AcXi7xI1GcBmN2Q5MGE5Ni05YTIwLTQyZjctYTc3Mi1iNTRmNDkyMTYzNWU1; ASPSESSIONIDSSCAABRB=BGLCFEFCGHJOFGLIJBOAADDO
+
+username=nearlee&password=nearacd52x&CookieDate=0&submit=%B5%C7%C2%BCGET /image/index/go2.jpg HTTP/1.1
+Accept: */*
+Referer: http://www.firsttravel.cn/
+Accept-Language: zh-cn
+Accept-Encoding: gzip, deflate
+If-Modified-Since: Tue, 12 Jul 2005 12:26:57 GMT
+If-None-Match: "609ee1fedc86c51:15c3"
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Maxthon)
+Host: www.firsttravel.cn
+Connection: Keep-Alive
+Cookie: .ASPXANONYMOUS=AcXi7xI1GcBmN2Q5MGE5Ni05YTIwLTQyZjctYTc3Mi1iNTRmNDkyMTYzNWU1
+
+POST /bbs-oa/login.asp?action=chk HTTP/1.1
+Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, application/x-shockwave-flash, */*
+Referer: http://www.firsttravel.cn/bbs-oa/index.asp
+Accept-Language: zh-cn
+Content-Type: application/x-www-form-urlencoded
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Maxthon)
+Host: www.firsttravel.cn
+Content-Length: 69
+Connection: Keep-Alive
+Cache-Control: no-cache
+Cookie: www%2Efirsttravel%2Ecn%2Fbbs%2Doa%2F=StatUserID=22128265656; .ASPXANONYMOUS=AcXi7xI1GcBmN2Q5MGE5Ni05YTIwLTQyZjctYTc3Mi1iNTRmNDkyMTYzNWU1; ASPSESSIONIDSSCAABRB=BGLCFEFCGHJOFGLIJBOAADDO
+
+username=nearlee&password=nearacd52x&CookieDate=0&submit=%B5%C7%C2%BCGET /image/index/go2.jpg HTTP/1.1
+Accept: */*
+Referer: http://www.firsttravel.cn/
+Accept-Language: zh-cn
+Accept-Encoding: gzip, deflate
+If-Modified-Since: Tue, 12 Jul 2005 12:26:57 GMT
+If-None-Match: "609ee1fedc86c51:15c3"
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Maxthon)
+Host: www.firsttravel.cn
+Connection: Keep-Alive
+Cookie: .ASPXANONYMOUS=AcXi7xI1GcBmN2Q5MGE5Ni05YTIwLTQyZjctYTc3Mi1iNTRmNDkyMTYzNWU1
+
+POST /bbs-oa/login.asp?action=chk HTTP/1.1
+Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, application/x-shockwave-flash, */*
+Referer: http://www.firsttravel.cn/bbs-oa/index.asp
+Accept-Language: zh-cn
+Content-Type: application/x-www-form-urlencoded
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Maxthon)
+Host: www.firsttravel.cn
+Content-Length: 69
+Connection: Keep-Alive
+Cache-Control: no-cache
+Cookie: www%2Efirsttravel%2Ecn%2Fbbs%2Doa%2F=StatUserID=22128265656; .ASPXANONYMOUS=AcXi7xI1GcBmN2Q5MGE5Ni05YTIwLTQyZjctYTc3Mi1iNTRmNDkyMTYzNWU1; ASPSESSIONIDSSCAABRB=BGLCFEFCGHJOFGLIJBOAADDO
+
+username=nearlee&password=nearacd52x&CookieDate=0&submit=%B5%C7%C2%BCGET /image/index/go2.jpg HTTP/1.1
+Accept: */*
+Referer: http://www.firsttravel.cn/
+Accept-Language: zh-cn
+Accept-Encoding: gzip, deflate
+If-Modified-Since: Tue, 12 Jul 2005 12:26:57 GMT
+If-None-Match: "609ee1fedc86c51:15c3"
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Maxthon)
+Host: www.firsttravel.cn
+Connection: Keep-Alive
+Cookie: .ASPXANONYMOUS=AcXi7xI1GcBmN2Q5MGE5Ni05YTIwLTQyZjctYTc3Mi1iNTRmNDkyMTYzNWU1
+
+POST /bbs-oa/login.asp?action=chk HTTP/1.1
+Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, application/x-shockwave-flash, */*
+Referer: http://www.firsttravel.cn/bbs-oa/index.asp
+Accept-Language: zh-cn
+Content-Type: application/x-www-form-urlencoded
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Maxthon)
+Host: www.firsttravel.cn
+Content-Length: 69
+Connection: Keep-Alive
+Cache-Control: no-cache
+Cookie: www%2Efirsttravel%2Ecn%2Fbbs%2Doa%2F=StatUserID=22128265656; .ASPXANONYMOUS=AcXi7xI1GcBmN2Q5MGE5Ni05YTIwLTQyZjctYTc3Mi1iNTRmNDkyMTYzNWU1; ASPSESSIONIDSSCAABRB=BGLCFEFCGHJOFGLIJBOAADDO
+
+username=nearlee&password=nearacd52x&CookieDate=0&submit=%B5%C7%C2%BCGET /image/index/go2.jpg HTTP/1.1
+Accept: */*
+Referer: http://www.firsttravel.cn/
+Accept-Language: zh-cn
+Accept-Encoding: gzip, deflate
+If-Modified-Since: Tue, 12 Jul 2005 12:26:57 GMT
+If-None-Match: "609ee1fedc86c51:15c3"
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Maxthon)
+Host: www.firsttravel.cn
+Connection: Keep-Alive
+Cookie: .ASPXANONYMOUS=AcXi7xI1GcBmN2Q5MGE5Ni05YTIwLTQyZjctYTc3Mi1iNTRmNDkyMTYzNWU1
+
+POST /bbs-oa/login.asp?action=chk HTTP/1.1
+Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, application/x-shockwave-flash, */*
+Referer: http://www.firsttravel.cn/bbs-oa/index.asp
+Accept-Language: zh-cn
+Content-Type: application/x-www-form-urlencoded
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Maxthon)
+Host: www.firsttravel.cn
+Content-Length: 69
+Connection: Keep-Alive
+Cache-Control: no-cache
+Cookie: www%2Efirsttravel%2Ecn%2Fbbs%2Doa%2F=StatUserID=22128265656; .ASPXANONYMOUS=AcXi7xI1GcBmN2Q5MGE5Ni05YTIwLTQyZjctYTc3Mi1iNTRmNDkyMTYzNWU1; ASPSESSIONIDSSCAABRB=BGLCFEFCGHJOFGLIJBOAADDO
+
+username=nearlee&password=nearacd52x&CookieDate=0&submit=%B5%C7%C2%BCGET /image/index/go2.jpg HTTP/1.1
+Accept: */*
+Referer: http://www.firsttravel.cn/
+Accept-Language: zh-cn
+Accept-Encoding: gzip, deflate
+If-Modified-Since: Tue, 12 Jul 2005 12:26:57 GMT
+If-None-Match: "609ee1fedc86c51:15c3"
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Maxthon)
+Host: www.firsttravel.cn
+Connection: Keep-Alive
+Cookie: .ASPXANONYMOUS=AcXi7xI1GcBmN2Q5MGE5Ni05YTIwLTQyZjctYTc3Mi1iNTRmNDkyMTYzNWU1
+
+POST /bbs-oa/login.asp?action=chk HTTP/1.1
+Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, application/x-shockwave-flash, */*
+Referer: http://www.firsttravel.cn/bbs-oa/index.asp
+Accept-Language: zh-cn
+Content-Type: application/x-www-form-urlencoded
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Maxthon)
+Host: www.firsttravel.cn
+Content-Length: 69
+Connection: Keep-Alive
+Cache-Control: no-cache
+Cookie: www%2Efirsttravel%2Ecn%2Fbbs%2Doa%2F=StatUserID=22128265656; .ASPXANONYMOUS=AcXi7xI1GcBmN2Q5MGE5Ni05YTIwLTQyZjctYTc3Mi1iNTRmNDkyMTYzNWU1; ASPSESSIONIDSSCAABRB=BGLCFEFCGHJOFGLIJBOAADDO
+
+username=nearlee&password=nearacd52x&CookieDate=0&submit=%B5%C7%C2%BCGET /image/index/go2.jpg HTTP/1.1
+Accept: */*
+Referer: http://www.firsttravel.cn/
+Accept-Language: zh-cn
+Accept-Encoding: gzip, deflate
+If-Modified-Since: Tue, 12 Jul 2005 12:26:57 GMT
+If-None-Match: "609ee1fedc86c51:15c3"
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Maxthon)
+Host: www.firsttravel.cn
+Connection: Keep-Alive
+Cookie: .ASPXANONYMOUS=AcXi7xI1GcBmN2Q5MGE5Ni05YTIwLTQyZjctYTc3Mi1iNTRmNDkyMTYzNWU1
+
+POST /bbs-oa/login.asp?action=chk HTTP/1.1
+Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, application/x-shockwave-flash, */*
+Referer: http://www.firsttravel.cn/bbs-oa/index.asp
+Accept-Language: zh-cn
+Content-Type: application/x-www-form-urlencoded
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Maxthon)
+Host: www.firsttravel.cn
+Content-Length: 69
+Connection: Keep-Alive
+Cache-Control: no-cache
+Cookie: www%2Efirsttravel%2Ecn%2Fbbs%2Doa%2F=StatUserID=22128265656; .ASPXANONYMOUS=AcXi7xI1GcBmN2Q5MGE5Ni05YTIwLTQyZjctYTc3Mi1iNTRmNDkyMTYzNWU1; ASPSESSIONIDSSCAABRB=BGLCFEFCGHJOFGLIJBOAADDO
+
+username=nearlee&password=nearacd52x&CookieDate=0&submit=%B5%C7%C2%BCGET /image/index/go2.jpg HTTP/1.1
+Accept: */*
+Referer: http://www.firsttravel.cn/
+Accept-Language: zh-cn
+Accept-Encoding: gzip, deflate
+If-Modified-Since: Tue, 12 Jul 2005 12:26:57 GMT
+If-None-Match: "609ee1fedc86c51:15c3"
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Maxthon)
+Host: www.firsttravel.cn
+Connection: Keep-Alive
+Cookie: .ASPXANONYMOUS=AcXi7xI1GcBmN2Q5MGE5Ni05YTIwLTQyZjctYTc3Mi1iNTRmNDkyMTYzNWU1
+
+POST /bbs-oa/login.asp?action=chk HTTP/1.1
+Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, application/x-shockwave-flash, */*
+Referer: http://www.firsttravel.cn/bbs-oa/index.asp
+Accept-Language: zh-cn
+Content-Type: application/x-www-form-urlencoded
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Maxthon)
+Host: www.firsttravel.cn
+Content-Length: 69
+Connection: Keep-Alive
+Cache-Control: no-cache
+Cookie: www%2Efirsttravel%2Ecn%2Fbbs%2Doa%2F=StatUserID=22128265656; .ASPXANONYMOUS=AcXi7xI1GcBmN2Q5MGE5Ni05YTIwLTQyZjctYTc3Mi1iNTRmNDkyMTYzNWU1; ASPSESSIONIDSSCAABRB=BGLCFEFCGHJOFGLIJBOAADDO
+
+username=nearlee&password=nearacd52x&CookieDate=0&submit=%B5%C7%C2%BC

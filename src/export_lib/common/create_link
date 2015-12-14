@@ -1,0 +1,92 @@
+#!/usr/bin/perl
+
+my $arg = shift @ARGV;
+
+my $links = {
+	"../../KernelInterface/CliCmd.cpp" => "CliCmd.cpp",
+	"../../KernelInterface/CliSysCmd.cpp" => "CliSysCmd.cpp",
+	"../../KernelInterface/CliProc.cpp" => "CliProc.cpp",
+	"../../Util/String.cpp" => "String.cpp",
+	"../../Util/IpAddr.cpp" => "IpAddr.cpp",
+	"../../Util/MacAddr.cpp" => "MacAddr.cpp",
+	"../../Util/File.cpp" => "File.cpp",
+	"../../Util/FileDesc.cpp" => "FileDesc.cpp",
+	"../../Util/RCObjImp.cpp" => "RCObjImp.cpp",
+	"../../Util/RCObject.cpp" => "RCObject.cpp",
+	"../../Util/StrParser.cpp" => "StrParser.cpp",
+	"../../Util/Object.cpp" => "Object.cpp",
+	"../../Util/MacAddr.cpp" => "MacAddr.cpp",
+	"../../Util/SerialTo.cpp" => "SerialTo.cpp",
+	"../../Util/FileTypes.cpp" => "FileTypes.cpp",
+	"../../Util1/MemPoolMul.cpp" => "MemPoolMul.cpp",
+	"../../Util1/MemPool.cpp" => "MemPool.cpp",
+	"../../Util1/MemBlock.cpp" => "MemBlock.cpp",
+	"../../Util1/DateTime.cpp" => "DateTime.cpp",
+	"../../Util1/Timer.cpp" => "Timer.cpp",
+	"../../Util1/Time.cpp" => "Time.cpp",
+	"../../Util1/TimeDriver.cpp" => "TimeDriver.cpp",
+	"../../Util1/Wait.cpp" => "Wait.cpp",
+	"../../Util1/MemMgr.cpp" => "MemMgr.cpp",
+	"../../Alarm/Alarm.cpp" => "Alarm.cpp",
+	"../../Alarm/AlarmMgr.cpp" => "AlarmMgr.cpp",
+	"../../Alarm/AlarmLogger.cpp" => "AlarmLogger.cpp",
+	"../../XmlParser/XmlItem.cpp" => "XmlItem.cpp",
+	"../../XmlParser/XmlItemName.cpp" => "XmlItemName.cpp",
+	"../../XmlParser/XmlParser.cpp" => "XmlParser.cpp",
+	"../../UtilComm/TcpCommSvr.cpp" => "TcpCommSvr.cpp",
+	"../../UtilComm/Tcp.cpp" => "Tcp.cpp",
+	"../../UtilComm/Udp.cpp" => "Udp.cpp",
+	"../../UtilComm/TcpClient.cpp" => "TcpClient.cpp",
+	"../../UtilComm/TcpServer.cpp" => "TcpServer.cpp",
+	"../../UtilComm/TcpServer.cpp" => "TcpServer.cpp",
+	"../../UtilComm/ConnBuff.cpp" => "ConnBuff.cpp",
+	"../../UtilComm/Conn.cpp" => "Conn.cpp",
+	"../../UtilComm/CommUtil.cpp" => "CommUtil.cpp",
+	"../../CliClient/ModuleCliServer.cpp" => "ModuleCliServer.cpp",
+	"../../aosUtil/CharPtree.cpp" => "CharPtree.cpp",
+	"../../aosUtil/Alarm.cpp" => "Alarm1.cpp",
+	"../../aosUtil/Memory.cpp" => "Memory.cpp",
+	"../../aosUtil/Slab.cpp" => "Slab.cpp",
+	"../../aosUtil/HashBinRaw.cpp" => "HashBinRaw.cpp",
+	"../../aosUtil/Modules.cpp" => "Modules.cpp",
+	"../../aosUtil/SlabRaw.cpp" => "SlabRaw.cpp",
+	"../../Thread/Mutex.cpp" => "Mutex.cpp",
+	"../../Thread/Thread.cpp" => "Thread.cpp",
+	"../../Thread/ThreadMgr.cpp" => "ThreadMgr.cpp",
+	"../../Thread/CondVar.cpp" => "CondVar.cpp",
+	"../../Thread/ThreadedObj.cpp" => "ThreadedObj.cpp",
+	"../../Tracer/Tracer.cpp" => "Tracer.cpp",
+	"../../Tracer/TraceEntry.cpp" => "TracerEntry.cpp",
+	"../../Debug/Except.cpp" => "Except.cpp",
+	"../../Debug/Rslt.cpp" => "Rslt.cpp",
+	"../../Debug/ErrId.cpp" => "ErrId.cpp",
+	"../../Debug/ExitHandler.cpp" => "ExitHandler.cpp",
+	"../../AppMgr/App.cpp" => "App.cpp",
+	"../../AppMgr/AppInfo.cpp" => "AppInfo.cpp",
+	"../../KernelAPI/KernelAPI.cpp" => "KernelAPI.cpp",
+	"../../KernelUtil/aosKernelAlarm.cpp" => "aosKernelAlarm.cpp",
+	"../../SingletonClass/SingletonMgr.cpp" => "SingletonMgr.cpp",
+	"../../Config/ConfigReader.cpp" => "ConfigReader.cpp",
+	"../../TcpAppServer/TcpAppServer.cpp" => "TcpAppServer.cpp",
+	"../../Porting/ThreadDef.cpp" => "ThreadDef.cpp",
+};
+
+#add/remove links
+if ($arg eq "-a") {
+	foreach my $k (keys %$links) {
+		my $ret = `ln -s $k $links->{$k} 2>&1`;
+		if ($ret ne "") {
+			print "Failed to create links:$ret\n";
+			exit -1;
+		}
+	}
+} elsif ($arg eq "-d") {
+	foreach my $v (values %$links) {
+		my $ret = `rm -f $v 2>&1`;
+		if ($ret ne "") {
+			print "Failed to rm: $ret\n";
+		}
+	}
+}
+
+

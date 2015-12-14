@@ -1,0 +1,7 @@
+
+config AOS_PANICNOTIFIER
+	tristate "aos panic notifier"
+	depends on AOS_CORE
+	help
+		aos panic notifier
+

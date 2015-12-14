@@ -1,0 +1,10 @@
+app proxy add app1 www.app1.com 192.168.0.81 5555 TCP ssl
+aaa server add LDAP-A LDAP 192.168.0.81 4000 icmp
+app proxy add aaa server app1 LDAP-A 500
+app server create server-a SMTP 192.168.0.168 6600 TCP
+app server create server-b SMTP 192.168.0.168 7700 TCP
+server group add group1 rr
+server group member add group1 server-a 300
+app proxy set server group app1 group1
+app proxy set status app1 on
+

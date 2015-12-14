@@ -1,0 +1,1 @@
+./admin.exe -config config_norm.txt -s -checkquery 100 5000 150000

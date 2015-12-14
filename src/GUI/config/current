@@ -1,0 +1,119 @@
+------AosCliBlock: app proxy------
+<Commands>
+<Cmd>ktcpvs init</Cmd>
+<Cmd>app proxy add GUI_INSIDE http 192.168.1.190 5680 plain</Cmd>
+<Cmd>app proxy rs add GUI_INSIDE 192.168.1.190 80</Cmd>
+<Cmd>app proxy ssl backend GUI_INSIDE off</Cmd>
+<Cmd>app proxy set status GUI_INSIDE on</Cmd>
+<Cmd>app proxy add GUI_OUTSIDE http 192.168.1.190 4438 ssl</Cmd>
+<Cmd>app proxy rs add GUI_OUTSIDE 192.168.1.190 80</Cmd>
+<Cmd>app proxy ssl clientauth GUI_OUTSIDE on</Cmd>
+<Cmd>app proxy set status GUI_OUTSIDE on</Cmd>
+<Cmd>app proxy add app1 http 192.168.0.190 801 ssl</Cmd>
+<Cmd>app proxy rs add app1 192.168.0.111 801</Cmd>
+<Cmd>app proxy ssl clientauth app1 on</Cmd>
+<Cmd>app proxy pmi sysname app1 /d=篮球对</Cmd>
+<Cmd>app proxy set pmi app1 on</Cmd>
+<Cmd>app proxy set status app1 on</Cmd>
+<Cmd>app proxy add app2 ftp 192.168.0.190 802 ssl</Cmd>
+<Cmd>app proxy rs add app2 192.168.0.201 802</Cmd>
+<Cmd>app proxy ssl clientauth app2 on</Cmd>
+<Cmd>app proxy set pmi app2 off</Cmd>
+<Cmd>app proxy set status app2 on</Cmd>
+<Cmd>app proxy add app3 http 192.168.0.190 803 ssl</Cmd>
+<Cmd>app proxy rs add app3 192.168.0.202 803</Cmd>
+<Cmd>app proxy ssl clientauth app3 on</Cmd>
+<Cmd>app proxy set pmi app3 off</Cmd>
+<Cmd>app proxy set status app3 on</Cmd>
+<Cmd>app proxy add app4 http 192.168.0.190 804 ssl</Cmd>
+<Cmd>app proxy rs add app4 192.168.0.204 804</Cmd>
+<Cmd>app proxy ssl clientauth app4 on</Cmd>
+<Cmd>app proxy set pmi app4 off</Cmd>
+<Cmd>app proxy set status app4 on</Cmd>
+<Cmd>app proxy add app5 http 192.168.0.190 805 ssl</Cmd>
+<Cmd>app proxy rs add app5 192.168.0.200 805</Cmd>
+<Cmd>app proxy ssl clientauth app5 on</Cmd>
+<Cmd>app proxy set pmi app5 off</Cmd>
+<Cmd>app proxy set status app5 on</Cmd>
+<Cmd>app proxy add app6 http 192.168.1.190 806 plain</Cmd>
+<Cmd>app proxy rs add app6 192.168.0.190 806</Cmd>
+<Cmd>app proxy ssl backend app6 on</Cmd>
+<Cmd>app proxy set status app6 on</Cmd>
+<Cmd>app proxy add app7 ftp 192.168.1.190 807 plain</Cmd>
+<Cmd>app proxy rs add app7 192.168.0.191 807</Cmd>
+<Cmd>app proxy ssl backend app7 on</Cmd>
+<Cmd>app proxy set status app7 on</Cmd>
+<Cmd>app proxy add app8 http 192.168.1.190 808 plain</Cmd>
+<Cmd>app proxy rs add app8 192.168.0.201 808</Cmd>
+<Cmd>app proxy ssl backend app8 on</Cmd>
+<Cmd>app proxy set status app8 on</Cmd>
+<Cmd>app proxy add app9 http 192.168.1.190 809 plain</Cmd>
+<Cmd>app proxy rs add app9 192.168.0.191 809</Cmd>
+<Cmd>app proxy ssl backend app9 on</Cmd>
+<Cmd>app proxy set status app9 on</Cmd>
+<Cmd>app proxy add app10 jns 192.168.1.190 810 plain</Cmd>
+<Cmd>app proxy rs add app10 192.168.0.191 810</Cmd>
+<Cmd>app proxy ssl backend app10 on</Cmd>
+<Cmd>app proxy set status app10 on</Cmd>
+<Cmd>app proxy add app11 http 192.168.1.190 811 plain</Cmd>
+<Cmd>app proxy rs add app11 192.168.0.1 811</Cmd>
+<Cmd>app proxy ssl backend app11 on</Cmd>
+<Cmd>app proxy forward table app11 on</Cmd>
+<Cmd>app proxy set status app11 on</Cmd>
+<Cmd>app proxy add app12 http 192.168.1.190 812 plain</Cmd>
+<Cmd>app proxy rs add app12 192.168.0.11 812</Cmd>
+<Cmd>app proxy ssl backend app12 on</Cmd>
+<Cmd>app proxy set status app12 on</Cmd>
+</Commands>
+------EndAosCliBlock------
+
+------AosCliBlock: forward table------
+<Commands>
+</Commands>
+------EndAosCliBlock------
+
+------AosCliBlock: deny page------
+<Commands>
+<Cmd>deny page import qqq /usr/local/AOS/Config/Denypages/qqq.ppp</Cmd>
+<Cmd>deny page import page1 /usr/local/AOS/Config/Denypages/page1</Cmd>
+<Cmd>deny page assign app1 page1</Cmd>
+</Commands>
+------EndAosCliBlock------
+
+------AosCliBlock: cert manager------
+<Commands>
+</Commands>
+------EndAosCliBlock------
+
+------AosCliBlock: cert chain------
+<Commands>
+</Commands>
+------EndAosCliBlock------
+
+------AosCliBlock: ocsp------
+<Commands>
+<Cmd>ocsp set addr 192.168.1.142 3904</Cmd>
+<Cmd>ocsp status on</Cmd>
+<Cmd>crl set addr 192.168.1.142 80</Cmd>
+<Cmd>crl set url http://192.168.1.142/SCA_CRL.dat</Cmd>
+<Cmd>crl status on</Cmd>
+<Cmd>crl set timeout 20</Cmd>
+</Commands>
+------EndAosCliBlock------
+
+------AosCliBlock: amm------
+<Commands>
+<Cmd>amm status on</Cmd>
+<Cmd>amm set addr 192.168.1.142 7408</Cmd>
+<Cmd>amm set org /d=公安部</Cmd>
+</Commands>
+------EndAosCliBlock------
+
+------AosCliBlock: ssl------
+<Commands>
+<Cmd>ssl session reuse client off</Cmd>
+<Cmd>ssl session reuse server off</Cmd>
+<Cmd>ssl hardware on</Cmd>
+</Commands>
+------EndAosCliBlock------
+

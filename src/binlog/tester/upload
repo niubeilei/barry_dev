@@ -1,0 +1,3 @@
+
+lftp -c "open moon; cd incoming; put writer; put reader; put random-writer "
+

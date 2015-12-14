@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gethttp", "gethttp.vcproj", "{708A9104-CDBA-439D-BA79-524F8CF5A51A}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{708A9104-CDBA-439D-BA79-524F8CF5A51A}.Debug.ActiveCfg = Debug|Win32
+		{708A9104-CDBA-439D-BA79-524F8CF5A51A}.Debug.Build.0 = Debug|Win32
+		{708A9104-CDBA-439D-BA79-524F8CF5A51A}.Release.ActiveCfg = Release|Win32
+		{708A9104-CDBA-439D-BA79-524F8CF5A51A}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

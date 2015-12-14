@@ -1,0 +1,15 @@
+<myobj 
+	firstname="ding" 
+	lastname="chen" 
+	zky_ctnr="abc" 
+	zky_docid="1" 
+	zky_cnts="1:1:0:0:0:0:0:0" 
+	zky_crtor="chen" 
+	zky_musr="chen" 
+	zky_siteid="site123" 
+	zky_ctime="20010-1-14 21:44:45" 
+	zky_mtime="20010-1-14 21:44:45">
+	<addr zipcode="75024">
+		4628 Old Pond
+	</addr>
+</myobj>

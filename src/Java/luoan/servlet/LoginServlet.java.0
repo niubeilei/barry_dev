@@ -1,0 +1,120 @@
+package servlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import org.apache.thrift.TException;
+import org.apache.thrift.protocol.TBinaryProtocol;
+import org.apache.thrift.protocol.TProtocol;
+import org.apache.thrift.transport.TSocket;
+import org.apache.thrift.transport.TTransport;
+
+import zykie.jimoapi.AosJimoAPI;
+import zykie.jimoapi.JmoCallData;
+import zykie.jimoapi.JmoRundata;
+
+public class LoginServlet extends HttpServlet {
+
+	/**
+	 * Constructor of the object.
+	 */
+	public LoginServlet() {
+		super();
+	}
+
+	/**
+	 * Destruction of the servlet. <br>
+	 */
+	public void destroy() {
+		super.destroy(); // Just puts "destroy" string in log
+		// Put your code here
+	}
+
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doPost(request, response);
+		
+	}
+
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		
+		//int passwd = Integer.parseInt(password);
+		//System.out.println(username+"---"+password);
+		 try {
+		      TTransport transport;
+		     
+		      transport = new TSocket("192.168.99.180", 2008);
+		      transport.open();
+
+		      TProtocol protocol = new  TBinaryProtocol(transport);
+		      AosJimoAPI.Client client = new AosJimoAPI.Client(protocol);
+
+		      JSONObject json = perform(client,request);
+		      PrintWriter write = response.getWriter();
+				write.write(json.toString());
+		      transport.close();
+		      
+		    } catch (TException x) {
+		      x.printStackTrace();
+		    } 
+//		JSONObject json = new JSONObject();
+//		json.put("status", 0);
+//		json.put("Token", "111111");
+//		request.setAttribute("json", json);
+		
+		response.sendRedirect("index.jsp");
+//		request.getRequestDispatcher("index.jsp").forward(request, response);
+	}
+
+	/**
+	 * Initialization of the servlet. <br>
+	 *
+	 * @throws ServletException if an error occurs
+	 */
+	public void init() throws ServletException {
+		// Put your code here
+	}
+	private static JSONObject perform(AosJimoAPI.Client client,HttpServletRequest request) throws TException
+	{
+		JSONObject json = new JSONObject();
+		String username = request.getParameter("username");
+		String password  = request.getParameter("passwd");	
+		String login_conf = "";
+		login_conf	+= "<obj opr=\"login\""
+					+ " container=\"zky_sysuser\""
+					+ " login_group=\"zky_sysuser\""
+					+ " zky_uname=\""+username+"\">"
+					+ "	<zky_passwd__n><![CDATA["+password+"]]></zky_passwd__n>"
+					+ "</obj>";
+		
+	    JmoRundata rdata = client.login(login_conf);
+	    JmoCallData call_data = new JmoCallData();
+	    call_data.session_id = rdata.session_id;
+	    String doc_str = "";
+	    client.executeQuery(call_data, doc_str);
+	    System.out.println("ssid : " + rdata.session_id);
+	    if(rdata.session_id!=null && !rdata.session_id.equals("")) {
+			json.put("status","0");
+			json.put("Token",rdata.session_id);
+			System.out.println(json);
+			JSONArray array = new JSONArray();
+//	    	array.add(json);
+	    	array.add("dd");
+	    	
+	    	System.out.println(array);
+	    } else {
+	    	json.put("status","1");
+	    }
+	    //request.setAttribute("json", json);
+	    return json;
+	}
+}

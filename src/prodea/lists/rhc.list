@@ -1,0 +1,11 @@
+ThirdPartyLibs/lib*
+src/rhcUtil/*[hc]
+src/rhcUtil/Makefile
+src/rhcConf/*.template
+src/rhcInclude/*.h
+src/rhcInclude/openssl/*.h
+src/tools/rhcinit
+src/tools/rhcInstall.sh
+src/rhcResMgrAPI/*[ch]
+src/rhcResMgrAPI/Makefile
+src/ParentCtrl/install/webwall.tar.gz

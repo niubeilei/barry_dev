@@ -1,0 +1,5 @@
+cvs up -A
+mv tmp/* .
+cvs add *.cpp *.h *.c Makefile
+cvs commit
+rm -rf tmp

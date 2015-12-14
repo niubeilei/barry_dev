@@ -1,0 +1,41 @@
+<config
+	base_dir="./"
+	trans_dir="./"
+	replic_dir = "./"
+	seserver_name = "seserver"
+	htmlserver_name = "htmlserver"
+	service_name = "AccessServer"
+	req_delinerator = "first_four_high"
+	max_proc_time = "10000"
+	max_conns = "1024"
+	remote_addr = "0.0.0.0"
+	remote_port = "6155"	
+	local_addr = "0.0.0.0"
+	local_port = "9008-9008">
+	<def record_num="200">
+		<body>
+			<recordlen>
+				<recordlength min="0"  max="10" weight="10"/>
+				<recordlength min="3"  max="34" weight="40"/>
+				<recordlength min="20" max="66" weight="50"/>
+			</recordlen>
+			<ranges>
+				<range begin="32" end="47"  weight="60"/> 
+				<range begin="47" end="57"  weight="30"/> 
+				<range begin="65" end="124" weight="30"/>
+			</ranges>
+		</body>
+		<pre>
+			<prestr str="iuueddp0_85"/>
+			<prelength min="0" max="10" weight="60"/>
+			<prelength min="6" max="12" weight="90"/>
+			<prelength min="1" max="5"  weight="30"/>
+		</pre>
+		<post>
+			<poststr str="ijjkkld998_3"/>
+			<postlength min="0" max="8"  weight="40"/>
+			<postlength min="4" max="10" weight="49"/>
+			<postlength min="3" max="6"  weight="30"/>
+		</post>
+	</def>
+</config>

@@ -1,0 +1,65 @@
+#		FileName: runTestcase14Gen
+#		Created by Hugo 11/10/2005
+#		Modified by
+#		Comments: this script file is for genrator
+#
+
+#Testcase 14
+#Virtual Services:10
+
+#
+# Conns.5	Repeat.100	Length.1000
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8001 -r 100 -conn 5 -len 1000 -sec 180& 
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8002 -r 100 -conn 5 -len 1000 -sec 180&
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8003 -r 100 -conn 5 -len 1000 -sec 180&
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8004 -r 100 -conn 5 -len 1000 -sec 180&
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8005 -r 100 -conn 5 -len 1000 -sec 180&
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8006 -r 100 -conn 5 -len 1000 -sec 180&
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8007 -r 100 -conn 5 -len 1000 -sec 180&
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8008 -r 100 -conn 5 -len 1000 -sec 180&
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8009 -r 100 -conn 5 -len 1000 -sec 180&
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8010 -r 100 -conn 5 -len 1000 -sec 180&
+#./TcpTrafficGen.exe -a 192.168.1.81 -s -p 8001 -r 100 -conn 5 -len 1000 
+#./TcpTrafficGen.exe -a 192.168.1.81 -s -p 8002 -r 100 -conn 5 -len 1000
+#./TcpTrafficGen.exe -a 192.168.1.81 -s -p 8003 -r 100 -conn 5 -len 1000
+
+#
+# Conns.20   Repeat.100  Length.1000
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8001 -r 100 -conn 20 -len 1000 -sec 240&
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8002 -r 100 -conn 20 -len 1000 -sec 240&
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8003 -r 100 -conn 20 -len 1000 -sec 240&
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8004 -r 100 -conn 20 -len 1000 -sec 240&
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8005 -r 100 -conn 20 -len 1000 -sec 240&
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8006 -r 100 -conn 20 -len 1000 -sec 240&
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8007 -r 100 -conn 20 -len 1000 -sec 240&
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8008 -r 100 -conn 20 -len 1000 -sec 240&
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8009 -r 100 -conn 20 -len 1000 -sec 240&
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8010 -r 100 -conn 20 -len 1000 -sec 240&
+
+#test
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8001 -r 100 -conn 15 -len 10 -sec 40&
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8002 -r 100 -conn 15 -len 10 -sec 40&
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8003 -r 100 -conn 15 -len 10 -sec 40&
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8004 -r 100 -conn 15 -len 10 -sec 40&
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8005 -r 100 -conn 15 -len 10 -sec 40&
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8006 -r 100 -conn 15 -len 10 -sec 40&
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8007 -r 100 -conn 15 -len 10 -sec 40&
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8008 -r 100 -conn 15 -len 10 -sec 40&
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8009 -r 100 -conn 15 -len 10 -sec 40&
+#./TcpTrafficGen.exe -a 192.168.1.81 -p 8010 -r 100 -conn 15 -len 10 -sec 40&
+
+#
+# Conns.50   Repeat.100  Length.1000
+./TcpTrafficGen.exe -a 192.168.1.181 -p 8001 -r 100 -conn 20 -len 1000 -sec 240&
+./TcpTrafficGen.exe -a 192.168.1.181 -p 8002 -r 100 -conn 20 -len 1000 -sec 240&
+./TcpTrafficGen.exe -a 192.168.1.181 -p 8003 -r 100 -conn 20 -len 1000 -sec 240&
+./TcpTrafficGen.exe -a 192.168.1.181 -p 8004 -r 100 -conn 20 -len 1000 -sec 240&
+./TcpTrafficGen.exe -a 192.168.1.181 -p 8005 -r 100 -conn 20 -len 1000 -sec 240&
+./TcpTrafficGen.exe -a 192.168.1.181 -p 8006 -r 100 -conn 20 -len 1000 -sec 240&
+./TcpTrafficGen.exe -a 192.168.1.181 -p 8007 -r 100 -conn 20 -len 1000 -sec 240&
+./TcpTrafficGen.exe -a 192.168.1.181 -p 8008 -r 100 -conn 20 -len 1000 -sec 240&
+./TcpTrafficGen.exe -a 192.168.1.181 -p 8009 -r 100 -conn 20 -len 1000 -sec 240&
+./TcpTrafficGen.exe -a 192.168.1.181 -p 8010 -r 100 -conn 20 -len 1000 -sec 240&
+
+
+

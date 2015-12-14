@@ -1,0 +1,39 @@
+#!/bin/bash
+#
+# Init file for OpenSSH server daemon
+#
+# chkconfig: 2345 55 25
+# description: OpenSSH server daemon
+#
+# processname: sshd
+# config: /etc/ssh/ssh_host_key
+# config: /etc/ssh/ssh_host_key.pub
+# config: /etc/ssh/ssh_random_seed
+# config: /etc/ssh/sshd_config
+# pidfile: /var/run/sshd.pid
+
+# source function library
+. /etc/rc.d/init.d/functions
+
+# pull in sysconfig settings
+[ -f /etc/sysconfig/sshd ] && . /etc/sysconfig/sshd
+
+RETVAL=0
+prog="utf82gb"
+BIN="/usr/local/AOS/Bin/utf82gb"
+
+# Some functions to make the below more readable
+
+start()
+{
+	echo -n $"Starting $prog:"
+	initlog -c "$BIN" 
+	echo
+}
+
+case "$1" in
+	start)
+		start
+		;;
+esac
+exit $RETVAL

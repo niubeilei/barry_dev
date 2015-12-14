@@ -1,0 +1,52 @@
+#!/bin/bash
+
+LINES=100000
+LOGFILE=/var/log/messages
+GZFILE=/var/log/msg.gz
+SAVEFILE=/var/log/msg
+TMPFILE=/var/log/messages.old
+
+if ! [ -f $LOGFILE ]
+then
+	> $LOGFILE
+fi
+
+mv -f $LOGFILE $TMPFILE
+>$LOGFILE
+
+if [ -f $GZFILE ]
+then
+	if [ -f $SAVEFILE ]
+	then
+		rm -f $SAVEFILE
+	fi
+	gzip -d $GZFILE
+fi
+
+newlines=`cat $TMPFILE|wc -l`
+
+oldlines=0
+if [ -f $SAVEFILE ]
+then
+	oldlines=`cat $SAVEFILE|wc -l`
+fi
+
+cutlines=$(($newlines+$oldlines-$LINES))
+
+if [ $cutlines -gt 0 ]
+then
+	if [ $cutlines -lt $oldlines ]
+	then
+		echo -e "1,${cutlines}d\nw $SAVEFILE\nq" | ed - $SAVEFILE
+	else
+		> $SAVEFILE
+		newcutlines=$(($cutlines-$oldlines))
+		echo -e "1,${newcutlines}d\nw $TMPFILE\nq" | ed - $TMPFILE
+	fi
+fi
+
+cat $TMPFILE >> $SAVEFILE
+rm -f $TMPFILE
+gzip $SAVEFILE
+
+

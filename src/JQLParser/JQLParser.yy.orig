@@ -1,0 +1,3097 @@
+/*
+ this is commnet 
+*/
+
+%language "C++" //create C++ files
+%defines        //create head files
+%locations
+
+%define parser_class_name "SQLParse" //define your class name
+
+
+%{
+#ifndef YYDEBUG
+#define YYDEBUG 1
+#endif
+
+#include <stdlib.h>
+#include <stdarg.h>
+#include <string.h>
+#include <iostream>
+
+using namespace std;
+
+//include your head files or define vars
+//#include "cppcalc-ctx.hh"
+
+
+#include "SQLParse/sql_insert/SQLUtil.h"
+#include "SQLParse/sql_insert/SQLExpr.h"
+#include "SQLParse/sql_insert/SQLStmt.h"
+#include "SQLParse/sql_insert/SQLCommon.h"
+
+#include "SQLParse/sql_insert/SQLParse.tab.hh"
+
+//AosSQLStmtParam sql_param;
+
+void yyerror(const char *s, ...);
+void emit(const char *s, ...);
+%}
+
+%initial-action {
+    @$.begin.filename = @$.end.filename = new std::string("stdin");
+}
+
+//%parse-param { cppcalc_ctx &ctx } //pass param(s) to SQLParse::SQLParse(...);
+//%lex-param   { cppcalc_ctx &ctx }
+
+%union {
+	int intval;
+	double floatval;
+	char *strval;
+	int subtok;
+
+    AosSQLExpr                 *AosPSQLExprValue;
+	AosSQLExprList             *AosPSQLExprListValue;
+	AosSQLExprListList         *AosPSQLExprListlistValue;
+    AosSQLStmtInsertOptionList *AosPSQLStmtInsertOptionList;
+	AosSQLStmtSelectOptionList *AosPSQLStmtSelectOptionList;
+	AosStringList              *AosPSQLStringListValue;
+	AosSQLGroupBy              *AosPSQLGroupByValue;
+	AosSQLGroupByExpr          *AosPSQLGroupByExprValue;
+	AosSQLGroupByExprList      *AosPSQLGroupByExprListValue;
+	AosSQLTableFactor          *AosPSQLTableFactorValue;
+	AosSQLJoinTable            *AosPSQLJoinTableValue;
+	AosSQLTableReference       *AosPSQLTableReferenceValue;
+	AosSQLTableReferenceList   *AosPSQLTableReferenceListValue;
+	AosSQLIndexHint            *AosPSQLIndexHintValue;
+	AosSQLJoinCondition        *AosPSQLJoinConditionValue;
+	AosSQLJoinType             AosSQLJoinTypeValue;
+	AosSQLStmtParam            *AosPSQLStmtParamValue;
+	AosSQLCheckExists          AosSQLCheckExistsValue;
+	AosSQLColumnAtt            *AosPSQLColumnAttValue;
+	AosSQLColumnAttList        *AosPSQLColumnAttListValue;
+	AosSQLUnSignedZeroFillType AosSQLUnSignedZeroFillTypeValue;
+	AosSQLSetOrCollate         *AosPSQLSetOrCollateValue;
+	AosSQLSetOrCollateList     *AosPSQLSetOrCollateListValue;
+	AosSQLData                 *AosPSQLDataValue;
+	AosSQLTableColumn          *AosPSQLTableColumnValue;
+	AosSQLTableColumnList      *AosPSQLTableColumnListValue;
+	AosSQLStringTrimType       AosSQLStringTrimTypeValue;
+	AosSQLCreateBySelectStmt   *AosPSQLCreateBySelectStmtValue;
+	AosSQLIgnoreReplace        AosSQLIgnoreReplaceValue;
+}
+	
+	/* names and literal values */
+
+%token <strval> NAME
+%token <strval> STRING
+%token <intval> INTNUM
+%token <intval> BOOL
+%token <floatval> APPROXNUM
+       /* user @abc names */
+
+%token <strval> USERVAR
+
+       /* operators and precedence levels */
+
+%right ASSIGN
+%left OR
+%left XOR
+%left ANDOP
+%nonassoc IN IS LIKE REGEXP
+%left NOT '!'
+%left BETWEEN
+%left <subtok> COMPARISON /* = <> < > <= >= <=> */
+%left '|'
+%left '&'
+%left <subtok> SHIFT /* << >> */
+%left '+' '-'
+%left '*' '/' '%' MOD
+%left '^'
+%nonassoc UMINUS
+
+%token ADD
+%token ALL
+%token ALTER
+%token ANALYZE
+%token AND
+%token ANY
+%token AS
+%token ASC
+%token AUTO_INCREMENT
+%token BEFORE
+%token BETWEEN
+%token BIGINT
+%token BINARY
+%token BIT
+%token BLOB
+%token BOTH
+%token BY
+%token CALL
+%token CASCADE
+%token CASE
+%token CHANGE
+%token CHAR
+%token CHECK
+%token COLLATE
+%token COLUMN
+%token COMMENT_C
+%token CONDITION
+%token CONSTRAINT
+%token CONTINUE
+%token CONVERT
+%token CREATE
+%token CROSS
+%token CURRENT_DATE
+%token CURRENT_TIME
+%token CURRENT_TIMESTAMP
+%token CURRENT_USER
+%token CURSOR
+%token DATABASE
+%token DATABASES
+%token DATE
+%token DATETIME
+%token DAY_HOUR
+%token DAY_MICROSECOND
+%token DAY_MINUTE
+%token DAY_SECOND
+%token DECIMAL
+%token DECLARE
+%token DEFAULT
+%token DELAYED
+%token DELETE
+%token DESC
+%token DESCRIBE
+%token DETERMINISTIC
+%token DISTINCT
+%token DISTINCTROW
+%token DIV
+%token DOUBLE
+%token DROP
+%token DUAL
+%token EACH
+%token ELSE
+%token ELSEIF
+%token ENCLOSED
+%token END
+%token ENUM
+%token ESCAPED
+%token <subtok> EXISTS
+%token EXIT
+%token EXPLAIN
+%token FETCH
+%token FLOAT
+%token FOR
+%token FORCE
+%token FOREIGN
+%token FROM
+%token FULLTEXT
+%token GRANT
+%token GROUP
+%token HAVING
+%token HIGH_PRIORITY
+%token HOUR_MICROSECOND
+%token HOUR_MINUTE
+%token HOUR_SECOND
+%token IF
+%token IGNORE
+%token IN
+%token INDEX
+%token INFILE
+%token INNER
+%token INOUT
+%token INSENSITIVE
+%token INSERT
+%token INT
+%token INTEGER
+%token INTERVAL
+%token INTO
+%token ITERATE
+%token JOIN
+%token KEY
+%token KEYS
+%token KILL
+%token LEADING
+%token LEAVE
+%token LEFT
+%token LIKE
+%token LIMIT
+%token LINES
+%token LOAD
+%token LOCALTIME
+%token LOCALTIMESTAMP
+%token LOCK
+%token LONG
+%token LONGBLOB
+%token LONGTEXT
+%token LOOP
+%token LOW_PRIORITY
+%token MATCH
+%token MEDIUMBLOB
+%token MEDIUMINT
+%token MEDIUMTEXT
+%token MINUTE_MICROSECOND
+%token MINUTE_SECOND
+%token MOD
+%token MODIFIES
+%token NATURAL
+%token NOT
+%token NO_WRITE_TO_BINLOG
+%token NULLX
+%token NUMBER
+%token ON
+%token ONDUPLICATE
+%token OPTIMIZE
+%token OPTION
+%token OPTIONALLY
+%token OR
+%token ORDER
+%token OUT
+%token OUTER
+%token OUTFILE
+%token PRECISION
+%token PRIMARY
+%token JOB
+%token PURGE
+%token QUICK
+%token READ
+%token READS
+%token REAL
+%token REFERENCES
+%token REGEXP
+%token RELEASE
+%token RENAME
+%token REPEAT
+%token REPLACE
+%token REQUIRE
+%token RESTRICT
+%token RETURN
+%token REVOKE
+%token RIGHT
+%token ROLLUP
+%token SCHEMA
+%token SCHEMAS
+%token SECOND_MICROSECOND
+%token SELECT
+%token SENSITIVE
+%token SEPARATOR
+%token SET
+%token SHOW
+%token SMALLINT
+%token SOME
+%token SONAME
+%token SPATIAL
+%token SPECIFIC
+%token SQL
+%token SQLEXCEPTION
+%token SQLSTATE
+%token SQLWARNING
+%token SQL_BIG_RESULT
+%token SQL_CALC_FOUND_ROWS
+%token SQL_SMALL_RESULT
+%token SSL
+%token STARTING
+%token STRAIGHT_JOIN
+%token TABLE
+%token TEMPORARY
+%token TEXT
+%token TERMINATED
+%token THEN
+%token TIME
+%token TIMESTAMP
+%token TINYBLOB
+%token TINYINT
+%token TINYTEXT
+%token TO
+%token TRAILING
+%token TRIGGER
+%token UNDO
+%token UNION
+%token UNIQUE
+%token UNLOCK
+%token UNSIGNED
+%token UPDATE
+%token USAGE
+%token USE
+%token USING
+%token UTC_DATE
+%token UTC_TIME
+%token UTC_TIMESTAMP
+%token VALUES
+%token VARBINARY
+%token VARCHAR
+%token VARYING
+%token WHEN
+%token WHERE
+%token WHILE
+%token WITH
+%token WRITE
+%token XOR
+%token YEAR
+%token YEAR_MONTH
+%token ZEROFILL
+
+ /* functions with special syntax */
+%token FSUBSTRING
+%token FTRIM
+%token FDATE_ADD FDATE_SUB
+%token FCOUNT
+
+%type <AosPSQLStmtSelectOptionList > select_opts
+%type <strval> opt_as_alias
+%type <AosPSQLExprListValue> val_list opt_val_list select_expr_list opt_limit set_list
+%type <AosPSQLGroupByValue> opt_groupby
+%type <AosPSQLGroupByExprListValue> opt_orderby groupby_list
+%type <intval> opt_with_rollup opt_asc_desc
+%type <AosPSQLTableFactorValue> table_factor
+%type <AosPSQLJoinTableValue> join_table
+%type <AosPSQLTableReferenceValue> table_reference
+%type <AosPSQLTableReferenceListValue> table_references
+%type <AosPSQLIndexHintValue> index_hint
+%type <intval> opt_inner_cross opt_outer
+%type <AosPSQLStringListValue> column_list opt_col_names opt_into_list index_list delete_list enum_list
+%type <AosSQLJoinTypeValue> opt_left_or_right_outer
+%type <intval> left_or_right
+%type <intval> opt_for_join
+%type <AosPSQLJoinConditionValue> join_condition opt_join_condition
+%type <intval> opt_dot_star
+
+%type <AosPSQLStmtInsertOptionList > insert_opts update_opts delete_opts
+%type <AosPSQLExprValue> expr select_expr opt_where opt_having set_expr interval_exp
+%type <AosPSQLExprListValue> insert_vals insert_asgn_list opt_ondupupdate update_asgn_list case_list
+%type <AosPSQLExprListlistValue> insert_vals_list table_subquery
+%type <AosPSQLStmtParamValue> select_stmt insert_stmt replace_stmt update_stmt delete_stmt create_database_stmt set_stmt create_table_stmt
+%type <AosSQLCheckExistsValue> opt_if_not_exists 
+%type <intval> opt_temporary opt_length opt_binary
+%type <AosSQLUnSignedZeroFillTypeValue> opt_uz
+%type <AosPSQLDataValue> data_type
+%type <AosPSQLColumnAttListValue> column_atts
+%type <AosPSQLSetOrCollateListValue> opt_csc_list
+%type <AosPSQLTableColumnValue> create_table_col
+%type <AosPSQLTableColumnListValue> create_table_col_list
+%type <AosSQLStringTrimTypeValue>  trim_ltb
+%type <AosPSQLCreateBySelectStmtValue> create_select_statement
+%type <AosSQLIgnoreReplaceValue> opt_ignore_replace 
+
+%{
+  extern int yylex(yy::SQLParse::semantic_type *yylval, 
+                   yy::SQLParse::location_type *yylloc);
+%}
+
+//*****************************************************************************************
+%start stmt_list
+
+%%
+
+stmt_list: stmt ';'
+  | stmt_list stmt ';'
+  ;
+
+   /* statements: select statement */
+
+stmt: 
+	      select_stmt 
+		  { 
+		      //operation D
+		      sql_exec_stmt(*$1);
+			  //Release($1);
+		  }
+        ;
+
+select_stmt:
+		  SELECT select_opts select_expr_list
+          {
+		      $$ = new AosSQLStmtParam;
+		      $$->type = eStmtType_SelectDataNoFrom;
+
+              $$->select_no_from.options = *($2);
+			  $$->select_no_from.expr_list = *($3);
+
+              delete $2;
+			  delete $3;
+		  }
+        | 
+		  SELECT select_opts select_expr_list FROM table_references opt_where opt_groupby opt_having opt_orderby opt_limit opt_into_list 
+	      { 
+		      $$ = new AosSQLStmtParam;
+	          $$->type = eStmtType_SelectDataByFrom;
+              $$->select_by_from.options = *($2);
+			  $$->select_by_from.expr_list = *($3);
+			  $$->select_by_from.table_reference_list = *($5);
+			  $$->select_by_from.opt_where_expr = $6;
+			  $$->select_by_from.opt_groupby = *($7);
+			  $$->select_by_from.opt_having_expr = $8;
+			  $$->select_by_from.opt_orderby = *($9);
+			  $$->select_by_from.opt_limit = *($10);
+			  $$->select_by_from.opt_into_list = *($11);
+			  
+			  delete $2;
+			  delete $3;
+			  delete $5;
+			  delete $7;
+			  delete $9;
+			  delete $10;
+			  delete $11;
+	      }
+        ;
+
+opt_where: 
+		  /* nil */
+		  {
+		      $$ = NULL;
+		  }
+        | WHERE expr 
+		  {
+		      $$ = $2;
+		  };
+
+opt_groupby: 
+		  /* nil */
+		  {
+		      $$ = new AosSQLGroupBy;
+		  }
+        | GROUP BY groupby_list opt_with_rollup
+          { 
+		      $$ = new AosSQLGroupBy;
+			  $$->groupby_list = *($3);
+			  $$->with_rollup = ($4==1 ? true : false);
+
+              delete $3;
+		  }
+        ;
+
+groupby_list: 
+		  expr opt_asc_desc
+          {
+		      $$ = new AosSQLGroupByExprList;
+
+              AosSQLGroupByExpr *pExpr = new AosSQLGroupByExpr;
+			  pExpr->pExpr = $1;
+			  pExpr->desc = ($2==1 ? true : false); 
+
+              $$->push_back(*pExpr);
+
+              delete pExpr;
+		  }
+        | groupby_list ',' expr opt_asc_desc
+          {
+		      AosSQLGroupByExpr *pExpr = new AosSQLGroupByExpr;
+			  pExpr->pExpr = $3;
+			  pExpr->desc = ($4==1 ? true : false);
+
+              $$->push_back(*pExpr);
+
+              delete pExpr;
+		  }
+        ;
+
+opt_asc_desc: 
+		  /* nil */ 
+		  { 
+		      $$ = 0; 
+		  }
+        | ASC                
+		  { 
+		      $$ = 0; 
+		  }
+        | DESC               
+		  { 
+		      $$ = 1; 
+		  }
+        ;
+
+opt_with_rollup: 
+		  /* nil */  
+		  { 
+		      $$ = 0; 
+		  }
+        | WITH ROLLUP  
+		  { 
+		      $$ = 1; 
+		  }
+        ;
+
+opt_having: 
+		  /* nil */
+		  {
+		      $$ = NULL;
+		  }
+		| HAVING expr 
+		  { 
+		      $$ = $2; 
+		  };
+
+opt_orderby: 
+		  /* nil */
+		  {
+		      $$ = new AosSQLGroupByExprList;
+		  }
+		| ORDER BY groupby_list 
+		  { 
+		      $$ =  $3; 
+		  }
+        ;
+
+opt_limit: 
+		/* nil */ 
+		  {
+		      $$ = new AosSQLExprList;
+		  }
+		| LIMIT expr 
+		  {
+		      $$ = new AosSQLExprList;
+			  $$->push_back($2);
+		  }
+        | LIMIT expr ',' expr             
+		  {
+		      $$ = new AosSQLExprList;
+			  $$->push_back($2);
+			  $$->push_back($4);
+		  }
+        ;
+
+opt_into_list: 
+		  /* nil */ 
+		  {
+		      $$ = new AosStringList;
+		  }
+        | INTO column_list 
+		  { 
+		      $$ = $2; 
+		  }
+        ;
+
+
+column_list: 
+          NAME 
+          {
+              $$ = new AosStringList;
+	          $$->push_back($1);
+
+	          delete []$1; 
+          }
+        | column_list ',' NAME  
+          { 
+              $$->push_back($3);
+		
+		      delete []$3; 
+          }
+        ;
+
+select_opts:
+		  /* nil */
+		  { 
+		      $$ = new AosSQLStmtSelectOptionList; 
+		  }
+        | select_opts ALL                 
+		  { 
+		      $$->push_back(eSelectOpt_SelectAll); 
+		  }
+        | select_opts DISTINCT            
+		  {
+		      $$->push_back(eSelectOpt_Distinct);
+		  }
+        | select_opts DISTINCTROW         
+		  {
+		      $$->push_back(eSelectOpt_DistinctRow);
+		  }
+        | select_opts HIGH_PRIORITY       
+		  {
+		      $$->push_back(eSelectOpt_HighPriority);
+		  }
+        | select_opts STRAIGHT_JOIN       
+		  {
+		      $$->push_back(eSelectOpt_StraightJoin);
+		  }
+        | select_opts SQL_SMALL_RESULT    
+		  {
+		      $$->push_back(eSelectOpt_SmallResult);
+		  }
+        | select_opts SQL_BIG_RESULT      
+		  {
+		      $$->push_back(eSelectOpt_BigResult);
+		  }
+        | select_opts SQL_CALC_FOUND_ROWS 
+		  {
+		      $$->push_back(eSelectOpt_CallFoundRows);
+		  }
+        ;
+
+select_expr_list: 
+	      select_expr 
+		  { 
+		      $$ = new AosSQLExprList;
+			  $$->push_back($1);
+		  }
+        | select_expr_list ',' select_expr 
+		  {
+		      $$->push_back($3); 
+		  }
+        | '*' 
+		  {
+		      $$ = new AosSQLExprList;
+
+		      AosSQLExprPtr pExpr = new AosSQLExpr;
+			  pExpr->setOperType(eOper_All);
+
+              $$->push_back(pExpr);
+		  }
+        ;
+
+select_expr: 
+		  expr opt_as_alias 
+		  {
+		      $1->setAlias($2);
+			  $$ = $1;
+              
+			  if ($2) delete []$2;
+		  }
+		;
+
+table_references:    
+	      table_reference 
+		  { 
+		      $$ = new AosSQLTableReferenceList;
+			  $$->push_back(*$1);
+
+              delete $1;
+		  }
+        | table_references ',' table_reference 
+		  { 
+		      $$->push_back(*$3); 
+
+              delete $3;
+		  }
+        ;
+
+table_reference:  
+		  table_factor
+		  {
+		      $$ = new AosSQLTableReference;
+			  $$->type = eTRef_TableFactor;
+			  $$->table_factor = *$1;
+
+              delete $1;
+		  }
+        | join_table
+		  {
+		      $$ = new AosSQLTableReference;
+			  $$->type = eTRef_JoinTable;
+			  $$->join_table = *$1;
+
+              delete $1;
+		  }
+        ;
+
+table_factor:
+          NAME opt_as_alias index_hint 
+		  {
+		      $$ = new AosSQLTableFactor;
+			  $$->type = eTRef_TableFactorByTable;
+
+			  $$->table_factor_by_table.name = $1;
+			  $$->table_factor_by_table.alias = $2;
+		      $$->table_factor_by_table.index_hint = *$3;
+
+		      delete []$1;
+			  delete []$2;
+			  delete $3;
+		  }
+        | NAME '.' NAME opt_as_alias index_hint 
+		  { 
+		      $$ = new AosSQLTableFactor;
+			  $$->type = eTRef_TableFactorByTable;
+
+			  $$->table_factor_by_table.name << $1 << "." << $3;
+			  $$->table_factor_by_table.alias = $4;
+		      $$->table_factor_by_table.index_hint = *$5;
+
+              delete []$1; 
+			  delete []$3;
+			  delete $5;
+		  }
+        | table_subquery opt_as NAME 
+		  {
+		      $$ = new AosSQLTableFactor;
+			  $$->type = eTRef_TableFactorBySubQuery;
+
+              $$->table_factor_by_subQuery.subquery_listlist = *$1;
+			  $$->table_factor_by_subQuery.name = $3;
+              
+			  delete $1;
+		      delete []$3; 
+		  }
+        | '(' table_references ')' 
+		  {
+		      $$ = new AosSQLTableFactor;
+			  $$->type = eTRef_TableFactorByReference;
+
+			  $$->pTable_factor_by_reference_list = $2;
+		  }
+        ;
+
+opt_as:  
+          /* nil */
+		| AS
+        ;
+
+opt_as_alias: 
+		  AS NAME 
+		  { 
+		      $$ = $2;
+		  }
+        | NAME              
+		  { 
+		      $$ = $1; 
+		  }
+        | 
+		/* nil */
+		  {
+		      $$ = NULL;
+		  }
+        ;
+
+join_table:
+          table_reference opt_inner_cross JOIN table_factor opt_join_condition
+          {
+		      $$ = new AosSQLJoinTable;
+              $$->type = eTRef_JoinTableFactorOptcondition;
+
+			  $$->join_table_factor_Optcondition.pTableReference = $1;
+			  if ($2 == 1)
+			  {
+			      $$->join_table_factor_Optcondition.join_type = eJoin_InnerJoin;
+			  }
+			  else if ($2 == 2)
+			  {
+			      $$->join_table_factor_Optcondition.join_type = eJoin_CrossJoin;
+			  }
+			  else
+			  {
+			      $$->join_table_factor_Optcondition.join_type = eJoin_No;
+			  }
+			  $$->join_table_factor_Optcondition.pFactor = $4;
+			  $$->join_table_factor_Optcondition.pJoinCondition = $5;
+		  }
+        | table_reference STRAIGHT_JOIN table_factor
+          {
+		      $$ = new AosSQLJoinTable;
+			  $$->type = eTRef_JoinTableFactorStraight;
+
+              $$->join_table_factor_straight.pTableReference = $1;
+			  $$->join_table_factor_straight.join_type = eJoin_StraightJoin;
+			  $$->join_table_factor_straight.pFactor = $3;
+		  }
+        | table_reference STRAIGHT_JOIN table_factor ON expr
+          { 
+		      $$ = new AosSQLJoinTable;
+			  $$->type = eTRef_JoinTableFactorExpr;
+
+              $$->join_table_factor_expr.pTableReference = $1;
+			  $$->join_table_factor_expr.join_type = eJoin_StraightJoin;
+			  $$->join_table_factor_expr.pFactor = $3;
+			  $$->join_table_factor_expr.pExpr = $5;
+		  }
+        | table_reference left_or_right opt_outer JOIN table_factor join_condition
+          { 
+		      $$ = new AosSQLJoinTable;
+			  $$->type = eTRef_JoinTableFactorCondition;
+
+              $$->join_table_factor_condition.pTableReference = $1;
+			  if ($2 == 1)//left
+			  {
+			      if ($3 == 1)
+				  {
+				      $$->join_table_factor_condition.join_type = eJoin_LeftOuterJoin;
+				  }
+				  else
+				  {
+				      $$->join_table_factor_condition.join_type = eJoin_LeftJoin;
+				  }
+			  }
+			  else //right
+			  {
+			      if ($3 == 1)
+				  {
+				      $$->join_table_factor_condition.join_type = eJoin_RightOuterJoin;
+				  }
+				  else
+				  {
+				      $$->join_table_factor_condition.join_type = eJoin_RightJoin;
+				  }
+			  }
+			  $$->join_table_factor_condition.pFactor = $5;
+			  $$->join_table_factor_condition.pJoinCondition = $6;
+		  }
+        | table_reference NATURAL opt_left_or_right_outer JOIN table_factor
+          {
+		      $$ = new AosSQLJoinTable;
+			  $$->type = eTRef_JoinTableFactorNatural;
+
+              $$->join_table_factor_natural.pTableReference = $1;
+			  $$->join_table_factor_natural.join_type = $3;
+			  $$->join_table_factor_natural.pFactor = $5;
+		  }
+        ;
+
+opt_inner_cross: 
+		  /* nil */ 
+		  { 
+		      $$ = 0; 
+		  }
+        | INNER 
+		  { 
+		      $$ = 1; 
+		  }
+        | CROSS  
+		  { 
+		      $$ = 2; 
+		  }
+        ;
+
+opt_outer: 
+		  /* nil */  
+		  { 
+		      $$ = 0; 
+		  }
+        | OUTER 
+		  {
+		      $$ = 1; 
+		  }
+        ;
+
+left_or_right: 
+		  LEFT 
+		  { 
+		      $$ = 1; 
+		  }
+        | RIGHT 
+		  { 
+		      $$ = 2; 
+		  }
+        ;
+
+opt_left_or_right_outer: 
+          LEFT opt_outer 
+		  { 
+		      if ($2 == 1)
+			  {
+			      $$ = eJoin_LeftOuterJoin;
+			  }
+			  else
+			  {
+			      $$ = eJoin_LeftJoin;
+			  }
+		  }
+        | RIGHT opt_outer  
+		  {
+		      if ($2 == 1)
+			  {
+			      $$ = eJoin_RightOuterJoin;
+			  }
+			  else
+			  {
+			      $$ = eJoin_RightJoin;
+			  }
+		  }
+        | /* nil */ 
+		  { 
+		      $$ = eJoin_No; 
+		  }
+        ;
+
+opt_join_condition: 
+		  /* nil */
+		  {
+		      $$ = NULL;
+		  }
+		|
+		  join_condition
+		  {
+		      $$ = $1;
+		  }
+		;
+
+join_condition:
+          ON expr 
+		  {
+		      $$ = new AosSQLJoinCondition;
+			  $$->type = eJoinCondition_Expr;
+
+              $$->pExpr = $2; 
+		  }
+        | USING '(' column_list ')' 
+		  { 
+		      $$ = new AosSQLJoinCondition;
+			  $$->type = eJoinCondition_ColumnList;
+
+              $$->column_list = *($3);
+
+              delete $3;
+		  }
+        ;
+
+index_hint:
+          USE KEY opt_for_join '(' index_list ')'
+          {
+		      $$ = new AosSQLIndexHint;
+			  $$->type = eIndex_UseIndex;
+			  $$->forjoin = $3;
+			  $$->index_list = *$5;
+
+              delete $5;
+		  }
+        | IGNORE KEY opt_for_join '(' index_list ')'
+          {
+		      $$ = new AosSQLIndexHint;
+			  $$->type = eIndex_IgnoreIndex;
+			  $$->forjoin = $3;
+			  $$->index_list = *$5;
+
+              delete $5;
+		  }
+        | FORCE KEY opt_for_join '(' index_list ')'
+          { 
+		      $$ = new AosSQLIndexHint;
+			  $$->type = eIndex_ForceIndex;
+			  $$->forjoin = $3;
+			  $$->index_list = *$5;
+
+              delete $5;
+		  }
+        | 
+		  /* nil */
+		  {
+		      $$ = new AosSQLIndexHint;
+		  }
+        ;
+
+opt_for_join: 
+	      FOR JOIN 
+		  { 
+		      $$ = 1; 
+		  }
+        | 
+		  /* nil */ 
+		  { 
+		      $$ = 0; 
+		  }
+        ;
+
+index_list: 
+		  NAME  
+		  {
+		      $$ = new AosStringList;
+			  $$->push_back($1);
+
+		      delete []$1; 
+		  }
+        | index_list ',' NAME 
+		  { 
+		      $$->push_back($3);
+
+			  delete []$3; 
+		  }
+        ;
+
+table_subquery: '(' select_stmt ')' 
+		  { 
+		      //$$ = $2;; 
+		  }
+        ;
+
+   /* statements: delete statement */
+
+stmt: 
+	      delete_stmt 
+		  { 
+		      //emit("STMT"); 
+		      sql_exec_stmt(*$1);
+		  }
+        ;
+
+delete_stmt: 
+		  DELETE delete_opts FROM NAME opt_where opt_orderby opt_limit
+          {
+		      $$ = new AosSQLStmtParam;
+			  $$->type = eStmtType_DeleteDataFromTableName;
+
+              $$->delete_from_table_name.options = *$2;
+			  $$->delete_from_table_name.table_name = $4;
+			  $$->delete_from_table_name.opt_where_expr = $5;
+			  $$->delete_from_table_name.opt_orderby = *$6;
+			  $$->delete_from_table_name.opt_limit = *$7;
+
+              delete $2;
+			  delete []$4;
+			  delete $6;
+			  delete $7;
+		  }
+        ;
+
+delete_opts:
+		  /* nil */ 
+		  {
+		      $$ = new AosSQLStmtDeleteOptionList;
+		  }
+		| delete_opts LOW_PRIORITY 
+		  { 
+		      $$->push_back(eStmtOper_LowPriority);
+		  }
+        | delete_opts QUICK 
+		  { 
+		      $$->push_back(eStmtOper_Quick);
+		  }
+        | delete_opts IGNORE 
+		  { 
+		      $$->push_back(eStmtOper_Ignore);
+		  }
+        ;
+
+delete_stmt: 
+		  DELETE delete_opts delete_list FROM table_references opt_where
+          {
+		      $$ = new AosSQLStmtParam;
+			  $$->type = eStmtType_DeleteDataFromTableReferences;
+
+              $$->delete_from_table_references.options = *$2;
+			  $$->delete_from_table_references.delete_list = *$3;
+			  $$->delete_from_table_references.table_reference_list = *$5;
+			  $$->delete_from_table_references.opt_where_expr = $6;
+
+              delete $2;
+			  delete $3;
+			  delete $5;
+		  }
+
+delete_list: 
+		  NAME opt_dot_star 
+		  {
+             $$ = new AosStringList;
+
+             OmnString rslt($1);
+			  if ($2 == 1)
+			  {
+			      rslt += ".*";
+			  }
+ 
+              $$->push_back(rslt);
+
+              delete []$1;
+		  }
+        | delete_list ',' NAME opt_dot_star
+          {
+		      OmnString rslt($3);
+			  if ($4 == 1)
+			  {
+			      rslt += ".*";
+			  }
+
+              $$->push_back(rslt);
+
+              delete []$3;
+		  }
+        ;
+
+opt_dot_star: 
+		  /* nil */ 
+		  {
+		      $$ = 0;
+		  }
+		| '.' '*' 
+		  {
+		      $$ = 1;
+		  }
+		;
+
+delete_stmt: 
+		  DELETE delete_opts FROM delete_list USING table_references opt_where
+          {
+		      $$ = new AosSQLStmtParam;
+			  $$->type = eStmtType_DeleteDataUsingTableReferences;
+
+              $$->delete_using_table_references.options = *$2;
+			  $$->delete_using_table_references.delete_list = *$4;
+			  $$->delete_using_table_references.table_reference_list = *$6;
+			  $$->delete_using_table_references.opt_where_expr = $7;
+
+              delete $2;
+			  delete $4;
+			  delete $6;
+		  }
+        ;
+
+   /* statements: insert statement */
+
+stmt: 
+	      insert_stmt 
+	      {
+		      sql_exec_stmt(*$1);
+		  }
+        ;
+
+insert_stmt: 
+		  INSERT insert_opts opt_into NAME opt_col_names VALUES insert_vals_list opt_ondupupdate 
+	      {
+		      $$ = new AosSQLStmtParam;
+	          $$->type = eStmtType_InsertDataByValues;  
+
+              $$->insert_by_values.options = *$2;
+		      $$->insert_by_values.table_name = $4;
+              $$->insert_by_values.colname_list = *$5;
+              $$->insert_by_values.value_listlist = *$7;
+              $$->insert_by_values.on_dup_key_update_asgn_list = *$8;
+		      
+			  delete $2;
+			  delete []$4;
+		      delete $5;
+			  delete $7;
+			  delete $8;
+	      }
+        ;
+
+
+opt_ondupupdate: 
+		  /* nil */
+		  {
+		      $$ = new AosSQLExprList;
+		  }
+        | ONDUPLICATE KEY UPDATE insert_asgn_list 
+		  {
+		      $$ = new AosSQLExprList;
+		      $$ = $4;
+		  }
+        ;
+
+insert_opts: 
+		  /* nil */ 
+          {  
+		      $$ = new AosSQLStmtInsertOptionList;
+	      }
+        | insert_opts LOW_PRIORITY 
+		  {
+		      $$->push_back(eStmtOper_LowPriority); 
+		  }
+        | insert_opts DELAYED 
+		  { 
+		      $$->push_back(eStmtOper_Delayed); 
+		  }
+        | insert_opts HIGH_PRIORITY 
+		  { 
+		      $$->push_back(eStmtOper_HighPriority); 
+		  }
+        | insert_opts IGNORE 
+		  { 
+		      $$->push_back(eStmtOper_Ignore); 
+		  }
+        ;
+
+opt_into: 
+		  INTO 
+		  {
+		  }
+		| 
+		  /* nil */
+		  {
+		  }
+        ;
+
+opt_col_names: 
+		  /* nil */ 
+		  {
+
+		      $$ = new AosStringList;
+		  }
+        | '(' column_list ')' 
+		  { 
+		      $$ = $2; 
+		  }
+        ;
+
+insert_vals_list: 
+		  '(' insert_vals ')' 
+	      { 
+		      $$ = new AosSQLExprListList;
+              $$->push_back(*$2);
+
+			  delete $2;
+		  }
+          | insert_vals_list ',' '(' insert_vals ')' 
+		  { 
+		      $$->push_back(*$4);
+
+			  delete $4;
+		  }
+
+insert_vals:
+          expr 
+		  { 
+		      $$ = new AosSQLExprList;
+			  $$->push_back($1); 
+		  }
+        | DEFAULT 
+		  { 
+		      $$ = new AosSQLExprList;
+
+			  AosSQLExprPtr pExpr = new AosSQLExpr;
+			  pExpr->setOperType(eOper_Default);
+			  $$->push_back(pExpr);
+		  }
+        | insert_vals ',' expr 
+		  { 
+		      $$->push_back($3); 
+		  }
+        | insert_vals ',' DEFAULT 
+		  { 
+		      AosSQLExprPtr pExpr = new AosSQLExpr;
+			  pExpr->setOperType(eOper_Default);
+			  $$->push_back(pExpr);
+		  }
+        ;
+
+insert_stmt: 
+		  INSERT insert_opts opt_into NAME SET insert_asgn_list opt_ondupupdate
+	      {
+		      $$ = new AosSQLStmtParam;
+			  $$->type = eStmtType_InsertDataBySet;
+
+              $$->insert_by_set.options = *$2;
+			  $$->insert_by_set.table_name = $4;
+			  $$->insert_by_set.asgn_list = *$6;
+			  $$->insert_by_set.on_dup_key_update_asgn_list = *$7;
+
+              delete $2;
+			  delete []$4;
+			  delete $6;
+			  delete $7;
+	      }
+        ;
+
+insert_stmt: 
+		  INSERT insert_opts opt_into NAME opt_col_names select_stmt opt_ondupupdate 
+		  { 
+		      $$ = new AosSQLStmtParam;
+			  $$->type = eStmtType_InsertDataBySelect;
+
+              $$->insert_by_select.options = *$2;
+			  $$->insert_by_select.table_name = $4;
+			  $$->insert_by_select.colname_list = *$5;
+			//$$->insert_by_select.sub_select_rslt = do($6); //sql_exec_stmt(*6);
+              $$->insert_by_select.on_dup_key_update_asgn_list = *$7;
+              
+              delete $2;
+			  delete []$4;
+			  delete $5;
+			  delete $7;
+		  }
+        ;
+
+insert_asgn_list:
+          NAME COMPARISON expr 
+          { 
+		      if ($2 != eOper_Assign) yyerror("bad insert assignment to %s", $1);
+			  
+			  $$ = new AosSQLExprList; 
+
+              AosSQLExprPtr pExpr1  = new AosSQLExpr;
+			  pExpr1->setOperType(eOper_No);
+			  pExpr1->setValue($1);
+
+			  AosSQLExprPtr pExpr = new AosSQLExpr;
+			  pExpr->setOperType(eOper_Assign);
+			  pExpr->setExpr(pExpr1, 1);
+			  pExpr->setExpr($3, 2);
+
+              $$->push_back(pExpr);
+
+			  delete []$1; 
+		  }
+        | NAME COMPARISON DEFAULT
+          {
+		      if ($2 != eOper_Assign) yyerror("bad insert assignment to %s", $1);
+			  $$ = new AosSQLExprList; 
+
+              AosSQLExprPtr pExpr1  = new AosSQLExpr;
+			  pExpr1->setOperType(eOper_No);
+			  pExpr1->setValue($1);
+
+              AosSQLExprPtr pExpr2  = new AosSQLExpr;
+			  pExpr2->setOperType(eOper_Default);
+
+			  AosSQLExprPtr pExpr = new AosSQLExpr;
+			  pExpr->setOperType(eOper_Assign);
+			  pExpr->setExpr(pExpr1, 1);
+			  pExpr->setExpr(pExpr2, 2);
+
+              $$->push_back(pExpr);
+
+			  delete []$1; 
+		  }
+        | insert_asgn_list ',' NAME COMPARISON expr
+          {
+		      if ($4 != eOper_Assign) yyerror("bad insert assignment to %s", $3);
+              
+              AosSQLExprPtr pExpr1  = new AosSQLExpr;
+			  pExpr1->setOperType(eOper_No);
+			  pExpr1->setValue($3);
+
+			  AosSQLExprPtr pExpr = new AosSQLExpr;
+			  pExpr->setOperType(eOper_Assign);
+			  pExpr->setExpr(pExpr1, 1);
+			  pExpr->setExpr($5, 2);
+
+              $$->push_back(pExpr);
+              
+			  delete []$3;
+		  }
+        | insert_asgn_list ',' NAME COMPARISON DEFAULT
+          { 
+		      if ($4 != eOper_Assign) yyerror("bad insert assignment to %s", $3);
+              
+              AosSQLExprPtr pExpr1  = new AosSQLExpr;
+			  pExpr1->setOperType(eOper_No);
+			  pExpr1->setValue($3);
+
+              AosSQLExprPtr pExpr2  = new AosSQLExpr;
+			  pExpr2->setOperType(eOper_Default);
+
+			  AosSQLExprPtr pExpr = new AosSQLExpr;
+			  pExpr->setOperType(eOper_Assign);
+			  pExpr->setExpr(pExpr1, 1);
+			  pExpr->setExpr(pExpr2, 2);
+
+              $$->push_back(pExpr);
+              
+			  delete []$3; 
+		  }
+        ;
+
+   /** replace just like insert **/
+stmt: 
+	      replace_stmt 
+		  { 
+		      sql_exec_stmt(*$1);
+		  }
+        ;
+
+replace_stmt: 
+		  REPLACE insert_opts opt_into NAME opt_col_names VALUES insert_vals_list opt_ondupupdate 
+		  {
+		      $$ = new AosSQLStmtParam;
+			  $$->type = eStmtType_ReplaceDataByValues;
+
+              $$->replace_by_values.options = *$2;
+			  $$->replace_by_values.table_name = $4;
+			  $$->replace_by_values.colname_list = *$5;
+              $$->replace_by_values.value_listlist = *$7;
+			  $$->replace_by_values.on_dup_key_update_asgn_list = *$8;
+
+              delete $2;
+			  delete []$4;
+              delete $5;
+			  delete $7;
+			  delete $8;
+		  }
+        ;
+
+replace_stmt: 
+		  REPLACE insert_opts opt_into NAME SET insert_asgn_list opt_ondupupdate
+          {
+		      $$ = new AosSQLStmtParam;
+			  $$->type = eStmtType_ReplaceDataBySet;
+
+              $$->replace_by_set.options = *$2;
+			  $$->replace_by_set.table_name = $4;
+			  $$->replace_by_set.insert_asgn_list = *$6;
+			  $$->replace_by_set.on_dup_key_update_asgn_list = *$7;
+
+              delete $2;
+			  delete []$4;
+			  delete $6;
+			  delete $7;
+		  }
+        ;
+
+replace_stmt: 
+		  REPLACE insert_opts opt_into NAME opt_col_names select_stmt opt_ondupupdate 
+		  {
+		      $$ = new AosSQLStmtParam;
+			  $$->type = eStmtType_ReplaceDataBySelect;
+
+              $$->replace_by_select.options = *$2;
+			  $$->replace_by_select.table_name = $4;
+			  $$->replace_by_select.colname_list = *$5;
+			//$$->replace_by_select.sub_select_rslt = sql_exec_stmt($6);
+			  $$->replace_by_select.on_dup_key_update_asgn_list = *$7;
+
+              delete $2;
+			  delete []$4;
+			  delete $5;
+			  delete $7;
+		  }
+        ;
+
+
+/** update **/
+stmt: 
+	      update_stmt 
+		  { 
+		      sql_exec_stmt(*$1); 
+		  }
+        ;
+
+update_stmt: 
+		  UPDATE update_opts table_references SET update_asgn_list opt_where opt_orderby opt_limit 
+		  {
+		      $$ = new AosSQLStmtParam;
+			  $$->type = eStmtType_UpdateData;
+
+              $$->update.options = *$2;
+			  $$->update.table_reference_list = *$3;
+              $$->update.asgn_list = *$5;
+              $$->update.opt_where_expr = $6;
+			  $$->update.opt_orderby = *$7;
+			  $$->update.opt_limit = *$8;
+
+              delete $2;
+			  delete $3;
+			  delete $5;
+			  delete $7;
+			  delete $8;
+		  }
+        ;
+
+/*
+update_opts: 
+		  // nil  
+		  { 
+		      $$ = 0; 
+		  }
+        | insert_opts LOW_PRIORITY 
+		  { 
+		      $$ = $1 | 01 ; 
+		  }
+        | insert_opts IGNORE 
+		  { 
+		      $$ = $1 | 010 ; 
+		  }
+        ;
+*/
+
+update_opts:
+		  insert_opts
+		  {
+		     $$ = $1;
+		  }
+		;
+
+update_asgn_list:
+          NAME COMPARISON expr 
+          { 
+		      if ($2 != eOper_Assign) yyerror("bad insert assignment to %s", $1);
+	          
+			  $$ = new AosSQLExprList;
+
+              AosSQLExprPtr pExpr1 = new AosSQLExpr;
+			  pExpr1->setOperType(eOper_No);
+			  pExpr1->setValue($1);
+
+              AosSQLExprPtr pExpr = new AosSQLExpr;
+			  pExpr->setOperType(eOper_Assign);
+			  pExpr->setExpr(pExpr1, 1);
+			  pExpr->setExpr($3, 2);
+
+              $$->push_back(pExpr);
+
+			  delete []$1;
+		  }
+        | NAME '.' NAME COMPARISON expr 
+          { 
+		      if ($4 != eOper_Assign) yyerror("bad insert assignment to %s.%s", $1, $3);
+	          
+			  $$ = new AosSQLExprList;
+
+              AosSQLExprPtr pExpr1 = new AosSQLExpr;
+			  pExpr1->setOperType(eOper_No);
+			  pExpr1->setValue((OmnString($1) << "." << $3).data());
+
+              AosSQLExprPtr pExpr = new AosSQLExpr;
+			  pExpr->setOperType(eOper_Assign);
+			  pExpr->setExpr(pExpr1, 1);
+			  pExpr->setExpr($5, 2);
+
+              $$->push_back(pExpr);
+
+			  delete []$1;
+			  delete []$3;
+		  }
+        | update_asgn_list ',' NAME COMPARISON expr
+          { 
+		      if ($4 != eOper_Assign) yyerror("bad insert assignment to %s", $3);
+	          
+              AosSQLExprPtr pExpr1 = new AosSQLExpr;
+			  pExpr1->setOperType(eOper_No);
+			  pExpr1->setValue($3);
+
+              AosSQLExprPtr pExpr = new AosSQLExpr;
+			  pExpr->setOperType(eOper_Assign);
+			  pExpr->setExpr(pExpr1, 1);
+			  pExpr->setExpr($5, 2);
+
+              $$->push_back(pExpr);
+
+			  delete []$3;
+		  }
+        | update_asgn_list ',' NAME '.' NAME COMPARISON expr
+          { 
+			  if ($6 != eOper_Assign) yyerror("bad insert assignment to %s.%s", $3, $5);
+	          
+              AosSQLExprPtr pExpr1 = new AosSQLExpr;
+			  pExpr1->setOperType(eOper_No);
+			  pExpr1->setValue((OmnString($3) << "." << $5).data());
+
+              AosSQLExprPtr pExpr = new AosSQLExpr;
+			  pExpr->setOperType(eOper_Assign);
+			  pExpr->setExpr(pExpr1, 1);
+			  pExpr->setExpr($7, 2);
+
+              $$->push_back(pExpr);
+
+			  delete []$3;
+			  delete []$5;
+		  }
+        ;
+
+
+   /** create database **/
+
+stmt: 
+	      create_database_stmt 
+		  { 
+		      sql_exec_stmt(*$1); 
+		  }
+        ;
+
+create_database_stmt: 
+          CREATE DATABASE opt_if_not_exists NAME 
+		  {
+		      $$ = new AosSQLStmtParam;
+			  $$->type = eStmtType_CreateDataBase;
+
+              $$->create_database.name = $4;
+			  $$->create_database.check_exists = $3;
+
+              delete []$4;
+		  }
+        | CREATE SCHEMA opt_if_not_exists NAME 
+		  {
+		      $$ = new AosSQLStmtParam;
+			  $$->type = eStmtType_CreateSchema;
+
+              $$->create_schema.name = $4;
+			  $$->create_schema.check_exists = $3;
+
+              delete []$4;
+		  }
+        ;
+
+
+opt_if_not_exists:  
+	      /* nil */ 
+		  { 
+		      $$ = eCheckExists_NoCheck; 
+		  }
+        | IF EXISTS           
+		  {
+		      if ($2 == 2)
+			  {
+			      $$ = eCheckExists_Exists;
+			  }
+			  else if ($2 == 1)
+			  {
+			      $$ = eCheckExists_NotExists;
+			  }
+			  else
+			  {
+			      $$ = eCheckExists_NoCheck;
+			  }
+		  }
+        ;
+
+
+   /** create table **/
+stmt: 
+	      create_table_stmt 
+		  { 
+		      sql_exec_stmt(*$1); 
+		  }
+        ;
+
+create_table_stmt: 
+	      CREATE opt_temporary TABLE opt_if_not_exists NAME '(' create_table_col_list ')' 
+		  {
+		      $$ = new AosSQLStmtParam;
+			  $$->type = eStmtType_CreateTableByColumnList;
+
+              $$->create_table_by_columnlist.table_name = $5;
+			  $$->create_table_by_columnlist.opt_temporary = $2;
+			  $$->create_table_by_columnlist.check_exists = $4;
+			  $$->create_table_by_columnlist.column_list = *$7;
+
+		      delete []$5; 
+			  delete $7;
+		  }
+        ;
+
+create_table_stmt: 
+		  CREATE opt_temporary TABLE opt_if_not_exists NAME '.' NAME '(' create_table_col_list ')' 
+		  { 
+		      $$ = new AosSQLStmtParam;
+			  $$->type = eStmtType_CreateTableByColumnList;
+
+              $$->create_table_by_columnlist.table_name = (OmnString($5) << "." << $7).data();
+			  $$->create_table_by_columnlist.opt_temporary = $2;
+			  $$->create_table_by_columnlist.check_exists = $4;
+			  $$->create_table_by_columnlist.column_list = *$9;
+
+		      delete []$5;
+			  delete []$7;
+			  delete $9;
+		  }
+        ;
+
+create_table_stmt: 
+		  CREATE opt_temporary TABLE opt_if_not_exists NAME '(' create_table_col_list ')'create_select_statement 
+		  { 
+		      $$ = new AosSQLStmtParam;
+			  $$->type = eStmtType_CreateTableByColumnListSelectStmt;
+
+              $$->create_table_by_columnlist_selectstmt.table_name = $5;
+			  $$->create_table_by_columnlist_selectstmt.opt_temporary = $2;
+			  $$->create_table_by_columnlist_selectstmt.check_exists = $4;
+			  $$->create_table_by_columnlist_selectstmt.column_list = *$7;
+			  $$->create_table_by_columnlist_selectstmt.selectstmt_rslt = $9->selectstmt_rslt;
+			  $$->create_table_by_columnlist_selectstmt.type = $9->type;
+
+		      delete []$5;
+			  delete $7;
+			  delete $9;
+		  }
+        ;
+
+create_table_stmt: 
+		  CREATE opt_temporary TABLE opt_if_not_exists NAME create_select_statement
+		  { 
+		      $$ = new AosSQLStmtParam;
+			  $$->type = eStmtType_CreateTableBySelectStmt;
+
+              $$->create_table_by_selectstmt.table_name = $5;
+			  $$->create_table_by_selectstmt.opt_temporary = $2;
+			  $$->create_table_by_selectstmt.check_exists = $4;
+			  $$->create_table_by_selectstmt.selectstmt_rslt = $6->selectstmt_rslt;
+			  $$->create_table_by_selectstmt.type = $6->type;
+
+		      delete []$5;
+			  delete $6;
+		  }
+        ;
+
+create_table_stmt: 
+		  CREATE opt_temporary TABLE opt_if_not_exists NAME '.' NAME '(' create_table_col_list ')' create_select_statement  
+		  { 
+		      $$ = new AosSQLStmtParam;
+			  $$->type = eStmtType_CreateTableByColumnListSelectStmt;
+
+              $$->create_table_by_columnlist_selectstmt.table_name = (OmnString($5) << "." << $7).data();
+			  $$->create_table_by_columnlist_selectstmt.opt_temporary = $2;
+			  $$->create_table_by_columnlist_selectstmt.check_exists = $4;
+			  $$->create_table_by_columnlist_selectstmt.column_list = *$9;
+			  $$->create_table_by_columnlist_selectstmt.selectstmt_rslt = $11->selectstmt_rslt;
+			  $$->create_table_by_columnlist_selectstmt.type = $11->type;
+
+		      delete []$5;
+			  delete []$7;
+			  delete $9;
+			  delete $11;
+		  }
+        ;
+
+create_table_stmt: 
+		  CREATE opt_temporary TABLE opt_if_not_exists NAME '.' NAME create_select_statement 
+          { 
+		      $$ = new AosSQLStmtParam;
+			  $$->type = eStmtType_CreateTableBySelectStmt;
+
+              $$->create_table_by_selectstmt.table_name = (OmnString($5) << "." << $7).data();
+			  $$->create_table_by_selectstmt.opt_temporary = $2;
+			  $$->create_table_by_selectstmt.check_exists = $4;
+			  $$->create_table_by_selectstmt.selectstmt_rslt = $8->selectstmt_rslt;
+			  $$->create_table_by_selectstmt.type = $8->type;
+
+		      delete []$5;
+			  delete []$7;
+			  delete $8;
+		  }
+        ;
+
+create_table_col_list: 
+		  create_table_col 
+		  { 
+		      $$ = new AosSQLTableColumnList;
+
+			  $$->push_back(*$1);
+
+			  delete $1;
+		  }
+        | create_table_col_list ',' create_table_col 
+		  {
+		      $$->push_back(*$3);
+
+              delete $3;
+		  }
+        ;
+
+create_table_col: 
+		  //{ emit("STARTCOL"); } 
+		  NAME data_type column_atts
+          { 
+		      $$ = new AosSQLTableColumn;
+			  $$->type = eColumnType_None;
+
+              $$->column_name = $1;
+			  $$->data_type = *$2;
+			  $$->att_list = *$3;
+
+              delete []$1;
+			  delete $2;
+			  delete $3;
+		  }
+        | PRIMARY KEY '(' column_list ')'    
+		  { 
+		      $$ = new AosSQLTableColumn;
+			  $$->type = eColumnType_PrimaryKey;
+
+              $$->column_list = *$4;
+
+			  delete $4;
+		  }
+        | KEY '(' column_list ')'            
+		  { 
+		      $$ = new AosSQLTableColumn;
+			  $$->type = eColumnType_Key;
+
+              $$->column_list = *$3;
+
+			  delete $3;
+		  }
+        | INDEX '(' column_list ')'          
+		  { 
+		      $$ = new AosSQLTableColumn;
+			  $$->type = eColumnType_Index;
+
+              $$->column_list = *$3;
+
+			  delete $3;
+		  }
+        | FULLTEXT INDEX '(' column_list ')' 
+		  { 
+		      $$ = new AosSQLTableColumn;
+			  $$->type = eColumnType_FullTextIndex;
+
+              $$->column_list = *$4;
+
+			  delete $4;
+		  }
+        | FULLTEXT KEY '(' column_list ')'   
+		  { 
+		      $$ = new AosSQLTableColumn;
+			  $$->type = eColumnType_FullTextKey;
+
+              $$->column_list = *$4;
+
+			  delete $4;
+		  }
+        ;
+
+column_atts: 
+		  /* nil */ 
+		  { 
+		      $$ = new AosSQLColumnAttList; 
+		  }
+        | column_atts NOT NULLX             
+		  {
+		      AosSQLColumnAtt att;
+			  att.type = eColumnAtt_NotNull;
+			  
+			  $$->push_back(att);
+		  }
+        | column_atts NULLX
+		  {
+		      AosSQLColumnAtt att;
+			  att.type = eColumnAtt_Null;
+			  
+			  $$->push_back(att);
+		  }
+        | column_atts DEFAULT STRING        
+		  { 
+		      AosSQLColumnAtt att;
+			  att.type = eColumnAtt_DefaultString;
+			  att.value.setValue($3);
+
+			  $$->push_back(att);
+		      delete []$3; 
+		  }
+        | column_atts DEFAULT INTNUM        
+		  { 
+		      AosSQLColumnAtt att;
+			  att.type = eColumnAtt_DefaultIntNum;
+			  //att.value.setValue($3);
+
+			  $$->push_back(att);
+		  }
+        | column_atts DEFAULT APPROXNUM     
+		  { 
+		      AosSQLColumnAtt att;
+			  att.type = eColumnAtt_DefaultApproxNum;
+			  att.value.setValue($3);
+
+			  $$->push_back(att);
+		  }
+        | column_atts DEFAULT BOOL          
+		  { 
+		      AosSQLColumnAtt att;
+			  att.type = eColumnAtt_DefaultBool;
+			  //att.value.setValue($3);
+
+			  $$->push_back(att);
+		  }
+        | column_atts AUTO_INCREMENT        
+		  { 
+		      AosSQLColumnAtt att;
+			  att.type = eColumnAtt_AutoIncrement;
+
+			  $$->push_back(att);
+		  }
+        | column_atts UNIQUE '(' column_list ')' 
+		  { 
+		      AosSQLColumnAtt att;
+			  att.type = eColumnAtt_UniqueColumnList;
+			  att.column_list = *$4;
+
+			  $$->push_back(att);
+
+              delete $4;
+		  }
+        | column_atts UNIQUE KEY 
+		  { 
+		      AosSQLColumnAtt att;
+			  att.type = eColumnAtt_UniqueKey;
+
+			  $$->push_back(att);
+		  }
+        | column_atts PRIMARY KEY 
+		  { 
+		      AosSQLColumnAtt att;
+			  att.type = eColumnAtt_PrimaryKey;
+
+			  $$->push_back(att);
+		  }
+        | column_atts KEY 
+		  { 
+		      AosSQLColumnAtt att;
+			  att.type = eColumnAtt_Key;
+
+			  $$->push_back(att);
+		  }
+        | column_atts COMMENT_C STRING 
+		  { 
+		      AosSQLColumnAtt att;
+			  att.type = eColumnAtt_CommentString;
+			  att.value.setValue($3);
+
+			  $$->push_back(att);
+
+              delete []$3;
+		  }
+        ;
+
+opt_length: 
+		  /* nil */ 
+		  { 
+		      $$ = 0; 
+		  }
+        | '(' INTNUM ')' 
+		  { 
+		      $$ = $2; 
+		  }
+        | '(' INTNUM ',' INTNUM ')' 
+		  { 
+		      $$ = $2 + ($4 << 16); 
+		  }
+        ;
+
+opt_binary: 
+		  /* nil */ 
+		  { 
+		      $$ = 0; 
+		  }
+        | BINARY 
+		  { 
+		      $$ = 1; 
+		  }
+        ;
+
+opt_uz: 
+	      /* nil */ 
+		  { 
+		      $$ = eUZ_None; 
+	      }
+        | opt_uz UNSIGNED 
+		  { 
+		      if ($1 == eUZ_None)
+			  {
+			      $$ = eUZ_UnSigned;
+			  }
+			  else if ($1 == eUZ_UnSigned)
+			  {
+			      $$ = eUZ_UnSigned;
+			  }
+			  else if ($1 == eUZ_ZeroFill)
+			  {
+			      $$ = eUZ_UnSignedAndZeroFill;
+			  }
+			  else if ($1 == eUZ_UnSignedAndZeroFill)
+			  {
+			      $$ = eUZ_UnSignedAndZeroFill;
+			  }
+			  else
+			  {
+			      $$ = $1;//maybe Error
+			  }
+		  }
+        | opt_uz ZEROFILL 
+		  { 
+		      if ($1 == eUZ_None)
+			  {
+			      $$ = eUZ_ZeroFill;
+			  }
+			  else if ($1 == eUZ_UnSigned)
+			  {
+			      $$ = eUZ_UnSignedAndZeroFill;
+			  }
+			  else if ($1 == eUZ_ZeroFill)
+			  {
+			      $$ = eUZ_ZeroFill;
+			  }
+			  else if ($1 == eUZ_UnSignedAndZeroFill)
+			  {
+			      $$ = eUZ_UnSignedAndZeroFill;
+			  }
+			  else
+			  {
+			      $$ = $1;//maybe Error
+			  }
+		  }
+        ;
+
+opt_csc_list: 
+	      /* nil */
+		  {
+		      $$ = new AosSQLSetOrCollateList;
+		  }
+        | opt_csc_list CHAR SET STRING 
+		  {
+		      AosSQLSetOrCollate csc;
+			  csc.type = eCSC_Set;
+			  csc.value = $4;
+
+              $$->push_back(csc);
+
+		      delete []$4; 
+		  }
+        | opt_csc_list COLLATE STRING 
+		  { 
+		      AosSQLSetOrCollate csc;
+			  csc.type = eCSC_Collate;
+			  csc.value = $3;
+
+              $$->push_back(csc);
+
+		      delete []$3; 
+		  }
+        ;
+
+data_type:
+          BIT opt_length 
+		  { 
+		      $$ = new AosSQLData; 
+		      $$->type = eDataType_Bit;
+		      
+		      $$->opt_length = $2;
+		  }
+        | TINYINT opt_length opt_uz 
+		  { 
+		      $$ = new AosSQLData; 
+		      $$->type = eDataType_TinyInt;
+		      
+		      $$->opt_length = $2;
+		      $$->opt_uz = $3;
+		  }
+        | SMALLINT opt_length opt_uz 
+		  { 
+		      $$ = new AosSQLData; 
+		      $$->type = eDataType_SmallInt;
+		      
+		      $$->opt_length = $2;
+		      $$->opt_uz = $3;
+		  }
+        | MEDIUMINT opt_length opt_uz 
+		  { 
+		      $$ = new AosSQLData; 
+		      $$->type = eDataType_MediumInt;
+		      
+		      $$->opt_length = $2;
+		      $$->opt_uz = $3;
+		  }
+        | INT opt_length opt_uz  
+		  { 
+		      $$ = new AosSQLData; 
+		      $$->type = eDataType_Int;
+		      
+		      $$->opt_length = $2;
+		      $$->opt_uz = $3;
+		  }
+        | INTEGER opt_length opt_uz  
+		  { 
+		      $$ = new AosSQLData; 
+		      $$->type = eDataType_Interger;
+		      
+		      $$->opt_length = $2;
+		      $$->opt_uz = $3;
+		  }
+        | BIGINT opt_length opt_uz   
+		  { 
+		      $$ = new AosSQLData; 
+		      $$->type = eDataType_BigInt;
+		      
+		      $$->opt_length = $2;
+		      $$->opt_uz = $3;
+		  }
+        | REAL opt_length opt_uz    
+		  { 
+		      $$ = new AosSQLData; 
+		      $$->type = eDataType_Real;
+		      
+		      $$->opt_length = $2;
+		      $$->opt_uz = $3;
+		  }
+        | DOUBLE opt_length opt_uz   
+		  { 
+		      $$ = new AosSQLData; 
+		      $$->type = eDataType_Double;
+		      
+		      $$->opt_length = $2;
+		      $$->opt_uz = $3;
+		  }
+        | FLOAT opt_length opt_uz    
+		  { 
+		      $$ = new AosSQLData; 
+		      $$->type = eDataType_Float;
+		      
+		      $$->opt_length = $2;
+		      $$->opt_uz = $3;
+		  }
+        | DECIMAL opt_length opt_uz    
+		  { 
+		      $$ = new AosSQLData; 
+		      $$->type = eDataType_Decimal;
+		      
+		      $$->opt_length = $2;
+		      $$->opt_uz = $3;
+		  }
+        | DATE     
+		  { 
+		      $$ = new AosSQLData; 
+		      $$->type = eDataType_Date;
+		  }
+        | TIME     
+		  { 
+		      $$ = new AosSQLData; 
+		      $$->type = eDataType_Time;
+		  }
+        | TIMESTAMP    
+		  { 
+		      $$ = new AosSQLData; 
+		      $$->type = eDataType_TimeStamp;
+		  }
+        | DATETIME    
+		  { 
+		      $$ = new AosSQLData; 
+		      $$->type = eDataType_DateTime;
+		  }
+        | YEAR    
+		  { 
+		      $$ = new AosSQLData; 
+		      $$->type = eDataType_Year;
+		  }
+        | CHAR opt_length opt_csc_list    
+		  { 
+		      $$ = new AosSQLData; 
+		      $$->type = eDataType_Char;
+		      
+		      $$->opt_length = $2;
+		      $$->opt_csc_list = *$3;
+		      
+		      delete $3;
+		  }
+        | VARCHAR '(' INTNUM ')' opt_csc_list  
+		  { 
+		      $$ = new AosSQLData; 
+		      $$->type = eDataType_VarChar;
+		      
+		      $$->int_num = $3;
+		      $$->opt_csc_list = *$5;
+		      
+		      delete $5;
+		  }
+        | BINARY opt_length   
+		  { 
+		      $$ = new AosSQLData; 
+		      $$->type = eDataType_Binary;
+		      
+		      $$->opt_length = $2;
+		  }
+        | VARBINARY '(' INTNUM ')'   
+		  { 
+		      $$ = new AosSQLData; 
+		      $$->type = eDataType_VarBinary;
+		      
+		      $$->int_num = $3;
+		  }
+        | TINYBLOB   
+		  { 
+		      $$ = new AosSQLData; 
+		      $$->type = eDataType_TinyBlob;
+		  }
+        | BLOB  
+		  { 
+		      $$ = new AosSQLData; 
+		      $$->type = eDataType_Blob;
+		  }
+        | MEDIUMBLOB  
+		  { 
+		      $$ = new AosSQLData; 
+		      $$->type = eDataType_MediumBlob;
+		  }
+        | LONGBLOB  
+		  { 
+		      $$ = new AosSQLData; 
+		      $$->type = eDataType_LongBlob;
+		  }
+        | TINYTEXT opt_binary opt_csc_list  
+		  { 
+		      $$ = new AosSQLData; 
+		      $$->type = eDataType_TinyText;
+		      
+		      $$->opt_binary = $2;
+		      $$->opt_csc_list = *$3;
+		      
+		      delete $3;
+		  }
+        | TEXT opt_binary opt_csc_list  
+		  { 
+		      $$ = new AosSQLData; 
+		      $$->type = eDataType_Text;
+		      
+		      $$->opt_binary = $2;
+		      $$->opt_csc_list = *$3;
+		      
+		      delete $3;
+		  }
+        | MEDIUMTEXT opt_binary opt_csc_list   
+		  { 
+		      $$ = new AosSQLData; 
+		      $$->type = eDataType_MediumText;
+		      
+		      $$->opt_binary = $2;
+		      $$->opt_csc_list = *$3;
+		      
+		      delete $3;
+		  }
+        | LONGTEXT opt_binary opt_csc_list   
+		  { 
+		      $$ = new AosSQLData; 
+		      $$->type = eDataType_LongText;
+		      
+		      $$->opt_binary = $2;
+		      $$->opt_csc_list = *$3;
+		      
+		      delete $3;
+		  }
+        | ENUM '(' enum_list ')' opt_csc_list   
+		  { 
+		      $$ = new AosSQLData; 
+		      $$->type = eDataType_Enum;
+		      
+		      $$->enum_list = *$3;
+		      $$->opt_csc_list = *$5;
+		      
+		      delete $3;
+		      delete $5;
+		  }
+        | SET '(' enum_list ')' opt_csc_list  
+		  { 
+		      $$ = new AosSQLData; 
+		      $$->type = eDataType_Set;
+		      
+		      $$->enum_list = *$3;
+		      $$->opt_csc_list = *$5;
+		      
+		      delete $3;
+		      delete $5;
+		  }
+        ;
+
+enum_list: 
+		  STRING 
+		  { 
+		      $$ = new AosStringList;
+			  $$->push_back($1);
+		      
+			  delete []$1; 
+		  }
+        | enum_list ',' STRING 
+		  { 
+		      $$->push_back($3);
+			  
+			  delete []$3; 
+		  }
+        ;
+
+create_select_statement: 
+	      opt_ignore_replace opt_as select_stmt 
+		  { 
+		      $$ = new AosSQLCreateBySelectStmt;
+
+              $$->type = $1;
+			  //$$->selectstmt_rslt = *$3;
+		  }
+        ;
+
+opt_ignore_replace: 
+		  /* nil */ 
+		  { 
+		      $$ = eIgnoreReplace_None; 
+		  }
+        | IGNORE 
+		  { 
+		      $$ = eIgnoreReplace_Ignore; 
+		  }
+        | REPLACE 
+		  { 
+		      $$ = eIgnoreReplace_Replace; 
+		  }
+        ;
+
+opt_temporary:   
+		  /* nil */ 
+		  { 
+		      $$ = 0; 
+		  }
+        | TEMPORARY 
+		  { 
+		      $$ = 1;
+		  }
+        ;
+
+
+   /**** set user variables ****/
+
+stmt: 
+	      set_stmt 
+		  { 
+		      sql_exec_stmt(*$1); 
+		  }
+        ;
+
+set_stmt: 
+		  SET set_list
+		  {
+		      $$ = new AosSQLStmtParam;
+			  $$->type = eStmtType_SetVar;
+
+              $$->set_var = *$2;
+
+              delete $2;
+		  }
+		;
+
+set_list: 
+		  set_expr 
+		  {
+		      $$ = new AosSQLExprList;
+			  $$->push_back($1);
+		  }
+		| set_list ',' set_expr 
+		  {
+		      $$->push_back($3);
+		  }
+		;
+
+set_expr:
+          USERVAR COMPARISON expr 
+		  {
+		      if ($2 != eOper_Assign) yyerror("bad set to @%s", $1);
+		
+		      $$ = new AosSQLExpr;
+
+              AosSQLExprPtr pExpr1 = new AosSQLExpr;
+			  pExpr1->setOperType(eOper_No);
+			  pExpr1->setValue($1);
+              
+			  $$->setOperType(eOper_Assign);
+			  $$->setExpr(pExpr1, 1);
+			  $$->setExpr($3, 2);
+
+              delete []$1;
+		  }
+        | USERVAR ASSIGN expr 
+		  { 
+		      $$ = new AosSQLExpr;
+
+              AosSQLExprPtr pExpr1 = new AosSQLExpr;
+			  pExpr1->setOperType(eOper_No);
+			  pExpr1->setValue($1);
+
+              $$->setOperType(eOper_Assign);
+			  $$->setExpr(pExpr1, 1);
+			  $$->setExpr($3, 2);
+
+              delete []$1;
+		  }
+        ;
+
+/**** expressions ****/
+expr: 
+	NAME          
+	{
+    	$$ = new AosSQLExpr;
+		$$->setOperType(eOper_No);
+		$$->setValue($1);
+		if ($1) delete []$1; 
+	}
+    | 
+	USERVAR         
+	{ 
+        $$ = new AosSQLExpr;
+		$$->setOperType(eOper_No);
+		$$->setValue($1);
+		if ($1) delete []$1; 
+	}
+    | 
+	NAME '.' NAME 
+	{ 
+        $$ = new AosSQLExpr;
+		$$->setOperType(eOper_No);
+		$$->setValue((OmnString($1) << OmnString(".") << OmnString($3)).data());
+
+		if ($1) delete []$1;
+		if ($3) delete []$3;
+	}
+    | 
+	STRING        
+	{ 
+        $$ = new AosSQLExpr;
+		$$->setOperType(eOper_No);
+		$$->setValue($1);
+		delete($1); 
+	}
+    | 
+	INTNUM        
+	{ 
+        $$ = new AosSQLExpr;
+		$$->setOperType(eOper_No);
+		$$->setValue($1);
+	}
+    | 
+	APPROXNUM     
+	{ 
+        $$ = new AosSQLExpr;
+		$$->setOperType(eOper_No);
+		$$->setValue($1);
+	}
+    | 
+	BOOL          
+	{ 
+        $$ = new AosSQLExpr;
+		$$->setOperType(eOper_No);
+		$$->setValue($1);
+	}
+    ;
+
+expr: 
+	expr '+' expr 
+	{ 
+        $$ = new AosSQLExpr;
+		$$->setOperType(eOper_Add);
+		$$->setExpr($1, 1);
+		$$->setExpr($3, 2);
+	}
+    | 
+	expr '-' expr
+	{ 
+        $$ = new AosSQLExpr;
+		$$->setOperType(eOper_Sub);
+		$$->setExpr($1, 1);
+		$$->setExpr($3, 2);
+	}
+    | 
+	expr '*' expr
+	{ 
+        $$ = new AosSQLExpr;
+		$$->setOperType(eOper_Mul);
+		$$->setExpr($1, 1);
+		$$->setExpr($3, 2);
+	}
+    | 
+	expr '/' expr
+	{ 
+        $$ = new AosSQLExpr;
+		$$->setOperType(eOper_Div);
+		$$->setExpr($1, 1);
+		$$->setExpr($3, 2);
+	}
+    | 
+	expr '%' expr
+	{ 
+        $$ = new AosSQLExpr;
+		$$->setOperType(eOper_Mod);
+		$$->setExpr($1, 1);
+		$$->setExpr($3, 2);
+	}
+    | 
+	expr MOD expr
+	{ 
+        $$ = new AosSQLExpr;
+		$$->setOperType(eOper_Mod);
+		$$->setExpr($1, 1);
+		$$->setExpr($3, 2);
+	}
+    | 
+	'-' expr %prec UMINUS 
+	{ 
+        $$ = new AosSQLExpr;
+		$$->setOperType(eOper_Neg);
+		$$->setExpr($2, 1);
+	}
+    | 
+	expr ANDOP expr
+	{ 
+        $$ = new AosSQLExpr;
+		$$->setOperType(eOper_And);
+		$$->setExpr($1, 1);
+		$$->setExpr($3, 2);
+	}
+    | 
+	expr OR expr
+	{ 
+        $$ = new AosSQLExpr;
+		$$->setOperType(eOper_Or);
+		$$->setExpr($1, 1);
+		$$->setExpr($3, 2);
+	}
+    | 
+	expr XOR expr
+	{ 
+        $$ = new AosSQLExpr;
+		$$->setOperType(eOper_Xor);
+		$$->setExpr($1, 1);
+		$$->setExpr($3, 2);
+	}
+    | 
+	expr COMPARISON expr
+	{ 
+        $$ = new AosSQLExpr;
+		$$->setOperType((AosSQLOperType)$2);
+		$$->setExpr($1, 1);
+		$$->setExpr($3, 2);
+	}
+    | 
+	expr COMPARISON '(' select_stmt ')'
+	{
+		$$ = new AosSQLExpr;
+        $$->setOperType((AosSQLOperType)$2);
+		$$->setRegion(eRegion_No);
+		$$->setExpr($1, 1);
+		//$$->setExprListList(do($4));
+	}
+    | 
+	expr COMPARISON ANY '(' select_stmt ')' 
+	{ 
+		$$ = new AosSQLExpr;
+        $$->setOperType((AosSQLOperType)$2);
+		$$->setRegion(eRegion_Any);
+		$$->setExpr($1, 1);
+		//$$->setExprListList(do($5));
+	}
+    | 
+	expr COMPARISON SOME '(' select_stmt ')'
+	{ 
+		$$ = new AosSQLExpr;
+        $$->setOperType((AosSQLOperType)$2);
+		$$->setRegion(eRegion_Some);
+		$$->setExpr($1, 1);
+		//$$->setExprListList(do($5));
+	}
+    | 
+	expr COMPARISON ALL '(' select_stmt ')'
+	{ 
+		$$ = new AosSQLExpr;
+        $$->setOperType((AosSQLOperType)$2);
+		$$->setRegion(eRegion_All);
+		$$->setExpr($1, 1);
+		//$$->setExprListList(do($5));
+	}
+    | 
+	expr '|' expr
+	{ 
+        $$ = new AosSQLExpr;
+		$$->setOperType(eOper_BitOr);
+		$$->setExpr($1, 1);
+		$$->setExpr($3, 2);
+	}
+    | 
+	expr '&' expr
+	{ 
+        $$ = new AosSQLExpr;
+		$$->setOperType(eOper_BitAnd);
+		$$->setExpr($1, 1);
+		$$->setExpr($3, 2);
+	}
+    | 
+	expr '^' expr 
+	{ 
+        $$ = new AosSQLExpr;
+		$$->setOperType(eOper_BitXor);
+		$$->setExpr($1, 1);
+		$$->setExpr($3, 2);
+	}
+    | 
+	expr SHIFT expr
+	{ 
+        $$ = new AosSQLExpr;
+		$$->setOperType( $2==1 ? eOper_LeftShift : eOper_RightShift);
+		$$->setExpr($1, 1);
+		$$->setExpr($3, 2);
+	}
+    | 
+	NOT expr
+	{ 
+        $$ = new AosSQLExpr;
+		$$->setOperType(eOper_Not);
+		$$->setExpr($2, 1);
+	}
+    | 
+	'!' expr
+	{ 
+        $$ = new AosSQLExpr;
+		$$->setOperType(eOper_Not);
+		$$->setExpr($2, 1);
+	}
+    | 
+	USERVAR ASSIGN expr
+	{ 
+        $$ = new AosSQLExpr;
+		$$->setOperType(eOper_Assign);
+		$$->setValue($1);
+		$$->setExpr($3, 1);
+		delete($1);
+	}
+    ;    
+
+expr:  
+	expr IS NULLX
+	{ 
+        $$ = new AosSQLExpr;
+		$$->setOperType(eOper_IsNull);
+		$$->setExpr($1, 1);
+	}
+    | 
+	expr IS NOT NULLX
+	{ 
+        $$ = new AosSQLExpr;
+		$$->setOperType(eOper_IsNotNull);
+		$$->setExpr($1, 1);
+	}
+    | 
+	expr IS BOOL
+	{ 
+        $$ = new AosSQLExpr;
+		$$->setOperType(eOper_IsBool);
+		$$->setExpr($1, 1);
+	}
+    | 
+	expr IS NOT BOOL
+	{ 
+        $$ = new AosSQLExpr;
+		$$->setOperType(eOper_IsNotBool);
+		$$->setExpr($1, 1);
+	}
+    ;
+
+expr: 
+	expr BETWEEN expr AND expr %prec BETWEEN
+	{
+        $$ = new AosSQLExpr;
+		$$->setOperType(eOper_BetweenAnd);
+		$$->setExpr($1, 1);
+		$$->setExpr($3, 2);
+		$$->setExpr($5, 3);
+	}
+    ;
+
+
+val_list: 
+	expr 
+	{ 
+		$$ = new AosSQLExprList;
+		$$->push_back($1);
+	}
+    | 
+	expr ',' val_list 
+	{ 
+		$$->push_back($1);
+	}
+    ;
+
+opt_val_list: 
+	/* nil */ 
+	{ 
+		$$ = 0; 
+	}
+    | 
+	val_list 
+	{
+		$$ = $1;
+	}
+    ;
+
+expr: 
+	expr IN '(' val_list ')'
+	{
+		$$ = new AosSQLExpr;
+		$$->setOperType(eOper_InValList);
+		$$->setExpr($1);
+		$$->setExprList($4);
+		
+		delete $4;
+	}
+    | 
+	expr NOT IN '(' val_list ')'
+	{
+		$$ = new AosSQLExpr;
+		$$->setOperType(eOper_NotInValList);
+		$$->setExpr($1);
+		$$->setExprList($5);
+			  
+		delete $5;
+	}
+    | 
+	expr IN '(' select_stmt ')'     
+	{
+		$$ = new AosSQLExpr;
+		$$->setOperType(eOper_InValListList);
+
+        $$->setExpr($1, 1);
+		//$$->setExprListList($4);
+	}
+    | 
+	expr NOT IN '(' select_stmt ')' 
+	{ 
+		$$ = new AosSQLExpr;
+		$$->setOperType(eOper_NotInValListList);
+
+        $$->setExpr($1, 1);
+		//$$->setExprListList($5);
+	}
+    | 
+	EXISTS '(' select_stmt ')'      
+	{ 
+		$$ = new AosSQLExpr;
+		$$->setOperType(eOper_CheckExists);
+
+        //$$->setExprListList($3);
+	}
+    ;
+
+expr: 
+	NAME '(' opt_val_list ')' 
+	{  
+		$$ = new AosSQLExpr;
+		$$->setOperType(eOper_Call);
+               
+		AosSQLExprPtr pExpr1 = new AosSQLExpr;
+        pExpr1->setValue($1);
+
+        $$->setExpr(pExpr1, 1);
+        //$$->setExprListList($3);
+		delete []$1; 
+	}
+    ;
+
+  /* functions with special syntax */
+expr: 
+	FCOUNT '(' '*' ')' 
+	{ 
+		$$ = new AosSQLExpr;
+		$$->setOperType(eOper_CountAll);
+	}
+    | 
+	FCOUNT '(' expr ')' 
+	{ 
+		$$ = new AosSQLExpr;
+		$$->setOperType(eOper_CountExpr);
+
+        $$->setExpr($3, 1);
+	} 
+
+expr: 
+	FSUBSTRING '(' val_list ')' 
+	{  
+		$$ = new AosSQLExpr;
+		$$->setOperType(eOper_FSubStringByValList);
+
+        $$->setExprList($3);
+
+        delete $3;
+	}
+    | 
+	FSUBSTRING '(' expr FROM expr ')' 
+	{  
+		$$ = new AosSQLExpr;
+		$$->setOperType(eOper_FSubStringByExprFromExpr);
+
+        $$->setExpr($3, 1);
+		$$->setExpr($5, 2);
+	}
+    | 
+	FSUBSTRING '(' expr FROM expr FOR expr ')' 
+	{  
+		$$ = new AosSQLExpr;
+		$$->setOperType(eOper_FSubStringByExprFromExprForExpr);
+
+        $$->setExpr($3, 1);
+		$$->setExpr($5, 2);
+		$$->setExpr($7, 3);
+	}
+    | 
+	FTRIM '(' val_list ')' 
+	{ 
+		$$ = new AosSQLExpr;
+		$$->setOperType(eOper_FTRIMByValList);
+
+        $$->setExprList($3);
+          
+		delete $3;
+	}
+    | 
+	FTRIM '(' trim_ltb expr FROM val_list ')' 
+	{
+		$$ = new AosSQLExpr;
+		if ($3 == eTrimType_Leading)
+		{
+		    $$->setOperType(eOper_TrimLeading);
+		}
+		else if ($3 == eTrimType_Trailing)
+		{
+		    $$->setOperType(eOper_TrimTrailing);
+		}
+		else if ($3 == eTrimType_Both)
+		{
+		    $$->setOperType(eOper_TrimBoth);
+		}
+		else
+		{
+		    //never come here
+		}
+
+        $$->setExpr($4, 1);
+		$$->setExprList($6);
+
+        delete $6;
+	}
+    ;
+
+trim_ltb: 
+	LEADING 
+	{ 
+		$$ = eTrimType_Leading; 
+	}
+    | 
+	TRAILING 
+	{ 
+		$$ = eTrimType_Trailing;
+	}
+    | 
+	BOTH 
+	{ 
+		$$ = eTrimType_Both;
+	}
+    ;
+
+expr: 
+	FDATE_ADD '(' expr ',' interval_exp ')' 
+	{
+		$$ = new AosSQLExpr;
+		$$->setOperType(eOper_FDateAdd);
+              
+		$$->setExpr($3, 1);
+		$$->setExpr($5, 2);
+	}
+    | 
+	FDATE_SUB '(' expr ',' interval_exp ')' 
+	{ 
+		$$ = new AosSQLExpr;
+		$$->setOperType(eOper_FDateSub);
+              
+		$$->setExpr($3, 1);
+		$$->setExpr($5, 2);
+	}
+    ;
+
+interval_exp: 
+	INTERVAL expr DAY_HOUR 
+	{
+		$$ = $2;
+		$$->setOperType(eOper_IntervalDayHour);
+	}
+    | 
+	INTERVAL expr DAY_MICROSECOND 
+	{ 
+		$$ = $2;
+		$$->setOperType(eOper_IntervalDayMicroSecond);
+	}
+    | 
+	INTERVAL expr DAY_MINUTE 
+	{ 
+		$$ = $2;
+		$$->setOperType(eOper_IntervalDayMinute);
+	}
+    | 
+	INTERVAL expr DAY_SECOND 
+	{ 
+		$$ = $2;
+		$$->setOperType(eOper_IntervalDaySecond);
+	}
+    | 
+	INTERVAL expr YEAR_MONTH 
+	{ 
+		$$ = $2;
+		$$->setOperType(eOper_IntervalYearMonth);
+	}
+    | 
+	INTERVAL expr YEAR       
+	{ 
+		$$ = $2;
+		$$->setOperType(eOper_IntervalYear);
+	}
+    | 
+	INTERVAL expr HOUR_MICROSECOND 
+	{ 
+		$$ = $2;
+		$$->setOperType(eOper_IntervalHourMicroSecond);
+	}
+    | 
+	INTERVAL expr HOUR_MINUTE 
+	{ 
+		$$ = $2;
+		$$->setOperType(eOper_IntervalHourMinute);
+	}
+    | 
+	INTERVAL expr HOUR_SECOND 
+	{ 
+		$$ = $2;
+		$$->setOperType(eOper_IntervalHourSecond);
+	}
+    ;
+
+expr: 
+	CASE expr case_list END           
+	{
+		$$->setOperType(eOper_CaseExprExprListEnd);
+
+        $$->setExpr($2, 1);
+		$$->setExprList($3);
+             
+		delete $3;
+	}
+    | 
+	CASE expr case_list ELSE expr END 
+	{ 
+		$$->setOperType(eOper_CaseExprExprListElseEnd);
+              
+		$$->setExpr($2, 1);
+		$$->setExpr($5, 2);
+		$$->setExprList($3);
+
+        delete $3;
+	}
+    | 
+	CASE case_list END                
+	{ 
+		$$->setOperType(eOper_CaseExprListEnd);
+
+		$$->setExprList($2);
+
+        delete $2;
+	}
+    | 
+	CASE case_list ELSE expr END      
+	{ 
+		$$->setOperType(eOper_CaseExprListElseEnd);
+
+        $$->setExpr($4, 1);
+		$$->setExprList($2);
+
+        delete $2;
+	}
+    ;
+
+case_list: 
+	WHEN expr THEN expr     
+	{
+		$$ = new AosSQLExprList;
+
+        AosSQLExprPtr pExpr = new AosSQLExpr;
+		pExpr->setOperType(eOper_WhenThen);
+
+        pExpr->setExpr($2, 1);
+		pExpr->setExpr($4, 2);
+
+        $$->push_back(pExpr);
+	}
+    | 
+	case_list WHEN expr THEN expr 
+	{ 
+        AosSQLExprPtr pExpr = new AosSQLExpr;
+		pExpr->setOperType(eOper_WhenThen);
+
+        pExpr->setExpr($3, 1);
+		pExpr->setExpr($5, 2);
+
+        $$->push_back(pExpr);
+	} 
+    ;
+
+expr: 
+	expr LIKE expr 
+	{
+		$$->setOperType(eOper_Like);
+
+        $$->setExpr($1, 1);
+		$$->setExpr($3, 2);
+	}
+    | 
+	expr NOT LIKE expr 
+	{
+		$$->setOperType(eOper_NotLike);
+              
+		$$->setExpr($1, 1);
+		$$->setExpr($4, 2);
+	}
+    ;
+
+expr: 
+	expr REGEXP expr 
+	{
+		$$->setOperType(eOper_Regexp);
+		      
+		$$->setExpr($1, 1);
+		$$->setExpr($3, 2);
+	}
+    | 
+	expr NOT REGEXP expr 
+	{ 
+		$$->setOperType(eOper_NotRegexp);
+		      
+		$$->setExpr($1, 1);
+		$$->setExpr($4, 2);
+	}
+    ;
+
+expr: 
+	CURRENT_TIMESTAMP 
+	{
+		$$ = new AosSQLExpr;
+        $$->setOperType(eOper_CurrentTimeStamp);
+	};
+    | 
+	CURRENT_DATE	
+	{ 
+		$$ = new AosSQLExpr;
+        $$->setOperType(eOper_CurrentDate);
+	};
+    | 
+	CURRENT_TIME	
+	{ 
+		$$ = new AosSQLExpr;
+        $$->setOperType(eOper_CurrentTime);
+	};
+    ;
+
+expr: 
+	BINARY expr %prec UMINUS 
+	{ 
+        $$->setOperType(eOper_BinaryPrecUminus);
+	}
+    ;
+
+%%
+//*****************************************************************************************
+/*
+int 
+main(int argc, char** argv)
+{
+    cout << "> ";
+  
+    extern FILE *yyin;
+    yy::SQLParse sqlParser;  // create a SQL Parser
+
+    for(int i=1; i<argc; i++)
+    {
+        if (strcmp(argv[i], "-d") == 0)
+        {
+      	    sqlParser.set_debug_level(1);
+        }
+        if (strcmp(argv[i], "-f") == 0)
+        {
+      	    yyin = fopen(argv[i+1], "r");
+        }
+    }
+  
+  char *str = new char[100];
+  yy_scan_bytes(str, 10);
+
+    int v = sqlParser.parse();  // and run it
+
+    cout << "Leave main v : " << v << endl;
+    return v;
+}
+*/
+
+// Bison not create this function, so i create it
+namespace yy {
+void
+SQLParse::error(location const &loc, const std::string& s)
+{
+  std::cerr << "error at " << loc << ": " << s << std::endl;
+};
+
+}
+
+
+
+
+
+ 

@@ -1,0 +1,135 @@
+<apis>
+	<module>pppoe</module>
+	<api>
+		<api_name>aos_api_pppoe_start</api_name>
+		<protype>
+		</protype>
+		<prefix>pppoe start</prefix>
+		<description>start pppoe service</description>
+		<testcases>
+			<testcase>
+				<testcaseid>1</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_api_pppoe_stop</api_name>
+		<protype>
+		</protype>
+		<prefix>pppoe stop</prefix>
+		<description>stop pppoe servic</description>
+		<testcases>
+			<testcase>
+				<testcaseid>2</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_api_pppoe_retrieve_config</api_name>
+		<protype>
+			<param>
+				<type>outdata</type>
+				<var>str1</var>
+			</param>
+		</protype>
+		<prefix>pppoe show config</prefix>
+		<description>show current configure</description>
+		<testcases>
+			<testcase>
+				<testcaseid>3</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_api_pppoe_save_config</api_name>
+		<protype>
+		<!--<param>
+				<type>char*</type>
+				<var>str1</var>
+			</param>-->
+		</protype>
+		<prefix>pppoe save config</prefix>
+		<description>save current config</description>
+		<testcases>
+			<testcase>
+				<testcaseid>4</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_api_pppoe_clear_config</api_name>
+		<protype>
+		</protype>
+		<prefix>pppoe clear config</prefix>
+		<description>clear current config</description>
+		<testcases>
+			<testcase>
+				<testcaseid>5</testcaseid>
+				<expected>0</expected>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_api_pppoe_username_set</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>str1</var>
+			</param>
+		</protype>
+		<prefix>pppoe username set</prefix>
+		<description>set account username</description>
+		<testcases>
+			<testcase>
+				<testcaseid>6</testcaseid>
+				<expected>0</expected>
+				<param>"adlstest"</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_api_pppoe_password_set</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>str1</var>
+			</param>
+		</protype>
+		<prefix>pppoe password set</prefix>
+		<description>set account password</description>
+		<testcases>
+			<testcase>
+				<testcaseid>7</testcaseid>
+				<expected>0</expected>
+				<param>"adlpasswd"</param>
+			</testcase>
+		</testcases>
+	</api>
+	<api>
+		<api_name>aos_api_pppoe_dns_set</api_name>
+		<protype>
+			<param>
+				<type>char*</type>
+				<var>str1</var>
+			</param>
+			<param>
+				<type>char*</type>
+				<var>str2</var>
+			</param>
+		</protype>
+		<prefix>pppoe dns set</prefix>
+		<description>set dns used by dns</description>
+		<testcases>
+			<testcase>
+				<testcaseid>8</testcaseid>
+				<expected>0</expected>
+				<param>"192.168.0.1"</param>
+				<param>"172.22.0.1"</param>
+			</testcase>
+		</testcases>
+	</api>
+</apis>

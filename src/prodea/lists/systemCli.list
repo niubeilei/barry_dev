@@ -1,0 +1,4 @@
+src/KernelConfMgr/*.h
+src/KernelConfMgr/*.cpp
+src/KernelConfMgr/Makefile
+src/KernelConfMgr/config.txt

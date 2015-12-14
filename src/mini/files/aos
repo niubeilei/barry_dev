@@ -1,0 +1,15 @@
+/usr/local/AOS
+/etc/init.d/aos-script
+/etc/init.d/jmk-init-script
+
+/etc/rc2.d/S96aos-script
+/etc/rc3.d/S96aos-script
+#/etc/rc0.d/K04aos-script
+#/etc/rc1.d/K04aos-script
+#/etc/rc6.d/K04aos-script
+
+#/etc/rc0.d/K90jmk-init-script 
+#/etc/rc1.d/K90jmk-init-script 
+#/etc/rc6.d/K90jmk-init-script 
+/etc/rc2.d/S10jmk-init-script 
+/etc/rc3.d/S10jmk-init-script 

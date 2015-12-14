@@ -1,0 +1,728 @@
+////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) 2005
+// Packet Engineering, Inc. All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification is not permitted unless authorized in writing by a duly
+// appointed officer of Packet Engineering, Inc. or its derivatives
+//
+// Description:
+//
+// Modification History:
+// 2014/12/15 Created by Arvin Jiang
+////////////////////////////////////////////////////////////////////////////
+#if 0
+#include "Value/ValueDouble.h"
+
+#include "alarm_c/alarm.h"
+#include "Alarm/Alarm.h"
+#include "API/AosApi.h"
+#include "Config/ConfigMgr.h"
+#include "Util/Buff.h"
+#include "Util/UtUtil.h"
+#include "XmlUtil/XmlTag.h"
+#include <limits.h>
+#include "Value/ValueInt8.h"
+#include "Value/ValueInt16.h"
+#include "Value/ValueInt.h"
+#include "Value/ValueInt64.h"
+#include "Value/ValueU8.h"
+#include "Value/ValueU16.h"
+#include "Value/ValueU32.h"
+#include "Value/ValueU64.h"
+#include "Value/ValueFloat.h"
+#include "Value/ValueDouble.h"
+
+
+AosValueDouble::~AosValueDouble()
+{
+}
+
+AosValueImp *
+AosValueDouble::getAosValue(const double value)
+{
+	long long int iValue = value;
+	AosValueImp *rslt;
+	if (iValue == value)
+	{
+		if (value >= CHAR_MIN && value <= CHAR_MAX)
+		{
+			rslt = new AosValueInt8(value);
+		}
+		else if (value >= 0 && value <= UCHAR_MAX)
+		{
+			rslt = new AosValueU8(value);
+		}
+		else if (value >= SHRT_MIN && value <= SHRT_MAX)
+		{
+			rslt = new AosValueInt16(value);
+		}
+		else if (value >= 0 && value <= USHRT_MAX)
+		{
+			rslt = new AosValueU16(value);
+		}
+		else if (value >= INT_MIN && value <= INT_MAX)
+		{
+			rslt = new AosValueInt(value);
+		}
+		else if (value >= 0 && value <= UINT_MAX)
+		{
+			rslt = new AosValueU32(value);
+		}
+		else if (value >= LLONG_MIN && value <= LLONG_MAX)
+		{
+			rslt = new AosValueInt64(value);
+		}
+		else if (value >= 0 && value <= ULLONG_MAX)
+		{
+			rslt = new AosValueU64(value);
+		}
+	}
+	else
+	{
+		rslt = new AosValueDouble(value);
+	}
+	return rslt;
+}
+
+OmnString 
+AosValueDouble::toString() const
+{
+	OmnString str;
+	str << "double ";
+	if (mIsNull) 
+	{
+		str << "(null)";
+	}
+	else
+	{
+		str << mValue;
+	}
+	return str;
+}
+
+
+AosValueImp&
+AosValueDouble::operator +(const AosValueImp &rhs)
+{
+	AosDataType::E dataType = rhs.getDataType();
+	AosValueImp *rslt;
+	switch(dataType)
+	{
+		case AosDataType::eDouble:
+		case AosDataType::eFloat:
+		case AosDataType::eInt8:
+		case AosDataType::eInt16:
+		case AosDataType::eInt32:
+		case AosDataType::eInt64:
+		case AosDataType::eU8:
+		case AosDataType::eU16:
+		case AosDataType::eU32:
+		case AosDataType::eU64:
+		{
+			double value = (double)mValue + rhs.getDouble();
+			rslt = getAosValue(value);
+			break;
+		}
+		default:
+		{
+			OmnAlarm << "Data type mismatch" << enderr;
+			return *this;
+		}
+	}
+	return *rslt;
+}
+
+
+AosValueImp&
+AosValueDouble::operator -(const AosValueImp &rhs)
+{
+	AosDataType::E dataType = rhs.getDataType();
+	AosValueImp *rslt;
+	switch(dataType)
+	{
+		case AosDataType::eDouble:
+		case AosDataType::eFloat:
+		case AosDataType::eInt8:
+		case AosDataType::eInt16:
+		case AosDataType::eInt32:
+		case AosDataType::eInt64:
+		case AosDataType::eU8:
+		case AosDataType::eU16:
+		case AosDataType::eU32:
+		case AosDataType::eU64:
+		{
+			double value = (double)mValue - rhs.getDouble();
+			rslt = getAosValue(value);
+			break;
+		}
+		default:
+		{
+			OmnAlarm << "Data type mismatch" << enderr;
+			return *this;
+		}
+	}
+	return *rslt;
+}
+
+
+AosValueImp&
+AosValueDouble::operator *(const AosValueImp &rhs)
+{
+	AosDataType::E dataType = rhs.getDataType();
+	AosValueImp *rslt;
+	switch(dataType)
+	{
+		case AosDataType::eDouble:
+		case AosDataType::eFloat:
+		case AosDataType::eInt8:
+		case AosDataType::eInt16:
+		case AosDataType::eInt32:
+		case AosDataType::eInt64:
+		case AosDataType::eU8:
+		case AosDataType::eU16:
+		case AosDataType::eU32:
+		case AosDataType::eU64:
+		{
+			double value = (double)mValue * rhs.getDouble();
+			rslt = getAosValue(value);
+			break;
+		}
+		default:
+		{
+			OmnAlarm << "Data type mismatch" << enderr;
+			return *this;
+		}
+	}
+	return *rslt;
+}
+
+
+AosValueImp&
+AosValueDouble::operator /(const AosValueImp &rhs)
+{
+	AosDataType::E dataType = rhs.getDataType();
+	AosValueImp *rslt;
+	switch(dataType)
+	{
+		case AosDataType::eDouble:
+		case AosDataType::eFloat:
+		case AosDataType::eInt8:
+		case AosDataType::eInt16:
+		case AosDataType::eInt32:
+		case AosDataType::eInt64:
+		case AosDataType::eU8:
+		case AosDataType::eU16:
+		case AosDataType::eU32:
+		case AosDataType::eU64:
+		{
+			double value = (double)mValue / rhs.getDouble();
+			rslt = getAosValue(value);
+			break;
+		}
+		default:
+		{
+			OmnAlarm << "Data type mismatch" << enderr;
+			return *this;
+		}
+	}
+	return *rslt;
+}
+
+
+bool 
+AosValueDouble::operator ==(const AosValueImp &rhs)
+{
+	AosDataType::E dataType = rhs.getDataType();
+	switch(dataType)
+	{
+		case AosDataType::eDouble:
+		case AosDataType::eFloat:
+		case AosDataType::eInt8:
+		case AosDataType::eInt16:
+		case AosDataType::eInt32:
+		case AosDataType::eInt64:
+		case AosDataType::eU8:
+		case AosDataType::eU16:
+		case AosDataType::eU32:
+		case AosDataType::eU64:
+			return(double)mValue == rhs.getDouble();
+		default:
+			OmnAlarm << "Datatype mismatch" << enderr;
+			return false;		
+	}
+
+}
+
+
+bool 
+AosValueDouble::operator !=(const AosValueImp &rhs)
+{
+	AosDataType::E dataType = rhs.getDataType();
+	switch(dataType)
+	{
+		case AosDataType::eDouble:
+		case AosDataType::eFloat:
+		case AosDataType::eInt8:
+		case AosDataType::eInt16:
+		case AosDataType::eInt32:
+		case AosDataType::eInt64:
+		case AosDataType::eU8:
+		case AosDataType::eU16:
+		case AosDataType::eU32:
+		case AosDataType::eU64:
+			return (double)mValue != rhs.getDouble();
+		default:
+			OmnAlarm << "Datatype mismatch" << enderr;
+			return false;		
+	}
+	
+}
+
+
+bool 
+AosValueDouble::operator >(const AosValueImp &rhs)
+{
+	AosDataType::E dataType = rhs.getDataType();
+	switch(dataType)
+	{
+		case AosDataType::eDouble:
+		case AosDataType::eFloat:
+		case AosDataType::eInt8:
+		case AosDataType::eInt16:
+		case AosDataType::eInt32:
+		case AosDataType::eInt64:
+		case AosDataType::eU8:
+		case AosDataType::eU16:
+		case AosDataType::eU32:
+		case AosDataType::eU64:
+			return (double)mValue > rhs.getDouble();
+		default:
+			OmnAlarm << "Datatype mismatch" << enderr;
+			return false;		
+	}
+}
+
+
+bool 
+AosValueDouble::operator >=(const AosValueImp &rhs)
+{
+	AosDataType::E dataType = rhs.getDataType();
+	switch(dataType)
+	{
+		case AosDataType::eDouble:
+		case AosDataType::eFloat:
+		case AosDataType::eInt8:
+		case AosDataType::eInt16:
+		case AosDataType::eInt32:
+		case AosDataType::eInt64:
+		case AosDataType::eU8:
+		case AosDataType::eU16:
+		case AosDataType::eU32:
+		case AosDataType::eU64:
+			return (double)mValue >= rhs.getDouble();
+		default:
+			OmnAlarm << "Datatype mismatch" << enderr;
+			return false;		
+	}
+}
+
+
+bool 
+AosValueDouble::operator <(const AosValueImp &rhs)
+{
+	AosDataType::E dataType = rhs.getDataType();
+	switch(dataType)
+	{
+		case AosDataType::eDouble:
+		case AosDataType::eFloat:
+		case AosDataType::eInt8:
+		case AosDataType::eInt16:
+		case AosDataType::eInt32:
+		case AosDataType::eInt64:
+		case AosDataType::eU8:
+		case AosDataType::eU16:
+		case AosDataType::eU32:
+		case AosDataType::eU64:
+			return(double) mValue < rhs.getDouble();
+		default:
+			OmnAlarm << "Datatype mismatch" << enderr;
+			return false;		
+	}
+}
+
+
+bool 
+AosValueDouble::operator <=(const AosValueImp &rhs)
+{
+	AosDataType::E dataType = rhs.getDataType();
+	switch(dataType)
+	{
+		case AosDataType::eDouble:
+		case AosDataType::eFloat:
+		case AosDataType::eInt8:
+		case AosDataType::eInt16:
+		case AosDataType::eInt32:
+		case AosDataType::eInt64:
+		case AosDataType::eU8:
+		case AosDataType::eU16:
+		case AosDataType::eU32:
+		case AosDataType::eU64:
+			return (double)mValue <= rhs.getDouble();
+		default:
+			OmnAlarm << "Datatype mismatch" << enderr;
+			return false;		
+	}
+}
+/*
+ostream & operator<<(ostream &os,const AosValueDouble &rhs)
+{
+    os << rhs.mValue;
+    return os;
+}
+
+istream & operator>>(istream &is,const AosValueDouble &rhs)
+{
+    is >> rhs.mValue;
+    return is;
+}
+*/
+bool 
+AosValueDouble::check(const AosOpr opr, const AosValueImp &rhs) const
+{
+	OmnNotImplementedYet;
+	return false;
+}
+
+
+bool
+AosValueDouble::setU8(const u8 vv)
+{
+	mIsNull = false;
+	mValue  = vv;
+	return true;
+}
+
+bool
+AosValueDouble::setU16(const u16 vv)
+{
+	mIsNull = false;
+	mValue  = vv;
+	return true;
+}
+
+bool
+AosValueDouble::setInt8(const i8 vv)
+{
+	mIsNull = false;
+	mValue  = vv;
+	return true;
+}
+
+bool
+AosValueDouble::setInt16(const i16 vv)
+{
+	mIsNull = false;
+	mValue  = vv;
+	return true;
+}
+
+bool
+AosValueDouble::setFloat(const float vv)
+{
+	mIsNull = false;
+	mValue  = vv;
+	return true;
+}
+
+bool
+AosValueDouble::setU64(const u64 vv)
+{
+	mIsNull = false;
+	mValue = vv;
+	return true;
+}
+
+
+bool
+AosValueDouble::setU32(const u32 vv)
+{
+	mIsNull = false;
+	mValue = vv;
+	return true;
+}
+
+
+bool 
+AosValueDouble::setInt64(const int64_t vv)
+{
+	mIsNull = false;
+	mValue = vv;
+	return true;
+}
+
+
+bool 
+AosValueDouble::setInt(const int vv)
+{
+	mIsNull = false;
+	mValue = vv;
+	return true;
+}
+
+
+bool 
+AosValueDouble::setDouble(const double vv)
+{
+	mIsNull = false;
+	mValue = vv;
+	return true;
+}
+
+
+bool 
+AosValueDouble::setOmnStr(const OmnString &vv)
+{
+	OmnAlarm << "Data types imcompatible: OmnStr to double" << enderr;
+	return false;
+}
+
+bool 
+AosValueDouble::setChar(const char vv)
+{
+	mIsNull = false;
+	mValue = vv;
+	return true;
+}
+
+bool 
+AosValueDouble::setCharStr(const char *data, const int len, const bool copy_flag)
+{
+	OmnAlarm << "Data types imcompatible: char str to double" << enderr;
+	return false;
+}
+
+
+bool 
+AosValueDouble::setXml(const AosXmlTagPtr &vv)
+{
+	OmnAlarm << "Setting an XML to int not allowed!" << enderr;
+	return false;
+}
+
+
+bool 
+AosValueDouble::setBuff(const AosBuffPtr &vv)
+{
+	OmnAlarm << "Setting an XML to int not allowed!" << enderr;
+	return false;
+}
+
+
+u8
+AosValueDouble::getU8()const
+{
+	if(mIsNull)
+	{
+		OmnAlarm << "Value is null" << enderr;
+		return 0;
+	}
+	if(mValue < 0)
+	{
+		OmnAlarm << "Getting negative value to u8: " << mValue << enderr;
+		return 0;
+	}
+	return (u8)mValue;
+}
+
+u16
+AosValueDouble::getU16()const
+{
+	if(mIsNull)
+	{
+		OmnAlarm << "Value is null" << enderr;
+		return 0;
+	}
+	if(mValue < 0)
+	{
+		OmnAlarm << "Getting negative value to u16: " << mValue << enderr;
+		return 0;
+	}
+	return (u16)mValue;
+}
+
+i8
+AosValueDouble::getInt8()const
+{
+	if(mIsNull)
+	{
+		OmnAlarm << "Value is null" << enderr;
+		return -1;
+	}
+	return (i8)mValue;
+}
+
+i16
+AosValueDouble::getInt16()const
+{
+	if(mIsNull)
+	{
+		OmnAlarm << "Value is null" << enderr;
+		return -1;
+	}
+	return (i16)mValue;
+}
+
+float
+AosValueDouble::getFloat()const
+{
+	if(mIsNull)
+	{
+		OmnAlarm << "Value is null" << enderr;
+		return 0.0;
+	}
+	return (float)mValue;
+}
+
+
+
+OmnString 
+AosValueDouble::getOmnStr() const
+{
+	OmnString ss;
+	ss << mValue;
+	return ss;
+}
+
+
+const char *
+AosValueDouble::getCharStr(int &len) const
+{
+	if (mIsNull) 
+	{
+		OmnAlarm << "Value is null" << enderr;
+		return 0;
+	}
+	return 0;
+}
+
+
+AosQueryRsltObjPtr 
+AosValueDouble::getQueryRslt(const AosRundataPtr &rdata) const
+{
+	if (mIsNull) 
+	{
+		OmnAlarm << "Value is null" << enderr;
+		return 0;
+	}
+	return 0;
+}
+
+
+AosXmlTagPtr 
+AosValueDouble::getXml() const
+{
+	if (mIsNull) 
+	{
+		OmnAlarm << "Value is null" << enderr;
+		return 0;
+	}
+	return 0;
+}
+
+
+double 	
+AosValueDouble::getDouble() const
+{
+	if (mIsNull) 
+	{
+		OmnAlarm << "Value is null" << enderr;
+		return 0.0;
+	}
+	return mValue;
+}
+
+
+int 	
+AosValueDouble::getInt() const
+{
+	if (mIsNull) 
+	{
+		OmnAlarm << "Value is null" << enderr;
+		return -1;
+	}
+	return mValue;
+}
+
+
+i64 	
+AosValueDouble::getInt64() const
+{
+	if (mIsNull) 
+	{
+		OmnAlarm << "Value is null" << enderr;
+		return -1;
+	}
+	return mValue;
+}
+
+
+u64 	
+AosValueDouble::getU64() const
+{
+	if (mIsNull) 
+	{
+		OmnAlarm << "Value is null" << enderr;
+		return 0;
+	}
+	if (mValue < 0) 
+	{
+		OmnAlarm << "Getting negative value to u64: " << mValue << enderr;
+		return 0;
+	}
+	return (u64)mValue;
+}
+
+
+u32 	
+AosValueDouble::getU32() const
+{
+	if (mIsNull) 
+	{
+		OmnAlarm << "Value is null" << enderr;
+		return 0;
+	}
+	if (mValue < 0) 
+	{
+		OmnAlarm << "Getting negative value to u32: " << mValue << enderr;
+		return 0;
+	}
+	return (u32)mValue;
+}
+
+
+char 	
+AosValueDouble::getChar() const
+{
+	if (mIsNull)
+	{
+		OmnAlarm << "Value is null" << enderr;
+		return 0;
+	}
+	return mValue;
+}
+
+
+bool 	
+AosValueDouble::getBool() const
+{
+	if (mIsNull)
+	{
+		OmnAlarm << "Value is null" << enderr;
+		return 0;
+	}
+	return mValue;
+}
+
+#endif

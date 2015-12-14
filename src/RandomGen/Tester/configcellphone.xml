@@ -1,0 +1,27 @@
+<config
+	base_dir="./"
+	trans_dir="./"
+	replic_dir = "./"
+	seserver_name = "seserver"
+	htmlserver_name = "htmlserver"
+	service_name = "AccessServer"
+	req_delinerator = "first_four_high"
+	max_proc_time = "10000"
+	max_conns = "1024"
+	remote_addr = "0.0.0.0"
+	remote_port = "6155"	
+	local_addr = "0.0.0.0"
+	local_port = "9008-9008">
+	<def record_num="200" len="11">
+		<recrod2  str="3" weight="33">
+			<record3  str="0123456789"/>
+		</record2>  	
+		<record2  str="5" weight="33">
+			<record3  str="012356789"/>
+		</record2>
+		<record2  str="8" weight="33">
+			<record3  str="01235679"/>
+		</record2>
+		<recordlast str="0123456789"/>		  
+	</def>
+</config>

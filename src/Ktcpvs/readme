@@ -1,0 +1,8 @@
+
+For all the services, the limits are:
+ - tcp_vs_def.h:#define MAX_CONCURRENT_CONNECTIONS 2048
+
+For each service, the limits are:
+ - tcp_vs.h:#define KTCPVS_CHILD_HARD_LIMIT                1024
+
+
