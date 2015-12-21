@@ -97,8 +97,11 @@ AosStatTimeArea::parseTimeCond(
 
 	if (epoch_time != -1)
 	{
-		epoch_time = AosStatTimeUnit::parseTimeValue(epoch_time, 
-				AosStatTimeUnit::eEpochTime, time_unit);
+		//2015-12-15 wumeng JIMODB-1363
+		AosValueRslt time(epoch_time);
+		bool rslt= AosStatTimeUnit::convertToTimeUnit(time, time_unit);
+		aos_assert_r(rslt,false);
+		epoch_time = time.getI64();
 	}
 
 	bool rslt;

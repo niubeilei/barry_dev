@@ -18,7 +18,7 @@
 #include "JQLStatement/JqlStatement.h"
 #include "Util/String.h"
 
-#include "HBase/HBaselib/Hbase.h" 
+//#include "HBase/HBaselib/Hbase.h" 
 #include <boost/lexical_cast.hpp>
 #include <boost/make_shared.hpp>
 #include <boost/shared_ptr.hpp>
@@ -28,9 +28,11 @@
 
 
 using namespace std;
+/*
 using boost::shared_ptr;
 using namespace apache::thrift::transport;
 using namespace apache::hadoop::hbase::thrift;
+*/
 
 
 class AosJqlStmtHBase : public AosJqlStatement
@@ -100,11 +102,13 @@ public:
 	bool conn(OmnString addr, int prot);
 
 	bool read_data_from_hbase();
+	/*
 	bool write_data_to_file(
 		AosJqlStmtHBase::Table &table,
 		const std::vector<TRowResult> &rowResult,
 		FILE *ff,
 		int &offset);
+	*/
 
 	virtual void dump();
 	virtual AosJqlStatement *clone();

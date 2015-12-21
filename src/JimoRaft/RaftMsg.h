@@ -21,7 +21,8 @@
 
 class AosRaftServer;
 
-class AosRaftMsg : virtual public OmnRCObject
+class AosRaftMsg : virtual public OmnRCObject,
+				   virtual public AosMemoryCheckerObj
 {
 	OmnDefineRCObject;
 
@@ -57,9 +58,9 @@ protected:
 public:
 	AosRaftMsg(
 			RaftMsgType msgType,
-			AosRaftServer *server);
+			AosRaftServer *server AosMemoryCheckDecl);
 
-	AosRaftMsg();
+	AosRaftMsg(AosMemoryCheckDeclBegin);
 	~AosRaftMsg();
 
 	virtual bool serializeTo(

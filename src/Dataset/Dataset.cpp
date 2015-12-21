@@ -67,7 +67,7 @@ AosDataset::nextRecordset(
 bool 
 AosDataset::stop (
 		const AosRundataPtr &rdata, 
-		AosRecordsetObjPtr &recordset)
+		const AosRecordsetObjPtr &recordset)
 {
 	OmnShouldNeverComeHere;
 	return false;

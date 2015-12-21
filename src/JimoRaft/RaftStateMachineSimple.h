@@ -57,6 +57,10 @@ public:
 		return "RaftStateMachineSimple";
 	}
 
+	OmnString toString()
+	{
+		return "";
+	}
 };
 
 #endif

@@ -146,7 +146,7 @@ AosAllActions::init()
 	static AosActSetRundataValue    sgAosActSetRundataValue(true);
 	static AosActDeleteDoc			sgActDeleteDoc(true);		// Jackie zhao, 08/09/2012
 	//static AosActRunQuery			sgActRunQuery(true);
-	static AosActSqlServerToDb		sgActSqlServerToDb(true);
+	//static AosActSqlServerToDb		sgActSqlServerToDb(true);
 	static AosActModifyQuery		sgActModifyQuery(true);
 	static AosActRunJob				sgActRunJob(true);
 	static AosActAddCounter2IILEntry sgActAddCounter2IILEntry(true);

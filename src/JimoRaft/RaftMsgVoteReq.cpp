@@ -20,7 +20,7 @@
 
 AosRaftMsgVoteReq::AosRaftMsgVoteReq(AosRaftServer *server)
 :
-AosRaftMsg(eMsgVoteReq, server)
+AosRaftMsg(eMsgVoteReq, server AosMemoryCheckerArgs)
 {
 	aos_assert(server);
 	mLastLogTerm = server->getLastLogTerm(server->getRundata());
@@ -28,6 +28,8 @@ AosRaftMsg(eMsgVoteReq, server)
 
 //all the members will be set later on
 AosRaftMsgVoteReq::AosRaftMsgVoteReq()
+:
+AosRaftMsg(AosMemoryCheckerArgsBegin)
 {
 }
 

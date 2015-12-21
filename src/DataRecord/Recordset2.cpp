@@ -182,12 +182,6 @@ AosRecordset2::nextRecord(
 		
 		status = mSchemaRaw->nextRecord(rdata,data, mDataBuffRaw->dataLen()-mDataBuffRaw->getCrtIdx(), mMetaDataRaw, record, (int&)parsed_len);
 
-		if (mMetaDataRaw && status != -1)
-		{
-			mMetaDataRaw->moveToNext();
-			mMetaDataRaw->setRecordLength(parsed_len);
-		}
-		
 		switch(status)
 		{
 			case 0:   		//valid

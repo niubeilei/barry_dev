@@ -26,7 +26,7 @@ AosRaftMsgAppendEntryReq::AosRaftMsgAppendEntryReq(
 		u64 firstLogId,
 		u32 prevLogTermId)
 :
-AosRaftMsg(msgType, server),
+AosRaftMsg(msgType, server AosMemoryCheckerArgs),
 mPrevLogTermId(prevLogTermId),
 mFirstLogId(firstLogId)
 {
@@ -37,7 +37,7 @@ mFirstLogId(firstLogId)
 //all the members will be set later on
 AosRaftMsgAppendEntryReq::AosRaftMsgAppendEntryReq()
 :
-AosRaftMsg()
+AosRaftMsg(AosMemoryCheckerArgsBegin)
 {
 	mLogList.clear();
 	mBuff = NULL;

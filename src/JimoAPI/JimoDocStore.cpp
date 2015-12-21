@@ -40,6 +40,7 @@ static OmnString sgJimoDocStorePackage_Delete = "AosDeleteDataletProc";
 static OmnString sgJimoDocStorePackage_Get = "AosGetDataletProc";
 static OmnString sgJimoDocStorePackage_Modify = "AosModifyDataletProc";
 static OmnString sgJimoDocStorePackage_Create = "AosCreateDataletProc";
+static OmnString sgDocStoreClusterName = "doc_store_cluster_";
 //static u64 sgOprID = 10000;
 //static OmnMutex sgLock;
 
@@ -50,9 +51,10 @@ extern bool jimoStoreCreateSE(
 						AosRundata *rdata, 
 						const AosDfmConfig &config)
 {
-	AosClusterObj *cluster = jimoGetDocStoreClusterAsync(rdata);
+	OmnString name = sgDocStoreClusterName;
+	name << config.mModuleId;                                   
+	AosClusterObj *cluster = jimoGetCluster(rdata, name);
 	aos_assert_rr(cluster, rdata, false);
-	//u32 distr_id = cluster->getDistrID(rdata, docid);
 	u32 distr_id = 0;
 
 	AosJimoCallPtr jimo_call = OmnNew AosJimoCallAsync(rdata,         
@@ -86,9 +88,10 @@ bool jimoStoreCreateDatalets(
 		const u64 aseid,			
 		AosBuffPtr &buff)
 {
-		
 	buff->reset();
-	AosClusterObj *cluster = jimoGetDocStoreClusterAsync(rdata);
+	OmnString name = sgDocStoreClusterName;
+	name << aseid;                        
+	AosClusterObj *cluster = jimoGetCluster(rdata, name);
 	aos_assert_rr(cluster, rdata, false);
 
 	int crtidx = 0;
@@ -167,7 +170,9 @@ bool jimoStoreCreateDatalet(
 		AosBuffPtr custom_data)
 {
 	aos_assert_rr(docid != 0, rdata, false);                                
-	AosClusterObj *cluster = jimoGetDocStoreClusterAsync(rdata);
+	OmnString name = sgDocStoreClusterName;
+	name << aseid;                                   
+	AosClusterObj *cluster = jimoGetCluster(rdata, name); 
 	aos_assert_rr(cluster, rdata, false);
 	u32 distr_id = cluster->getDistrID(rdata, docid);
 
@@ -218,7 +223,9 @@ bool jimoStoreCreateDataletSafe(AosRundata *rdata,
 {
     //xuqi 2015/10/21
 	aos_assert_rr(docid != 0, rdata, false);
-	AosClusterObj *cluster = jimoGetDocStoreClusterAsync(rdata);
+	OmnString name = sgDocStoreClusterName;
+	name << aseid;                                   
+	AosClusterObj *cluster = jimoGetCluster(rdata, name); 
 	aos_assert_rr(cluster, rdata, false);
 	u32 distr_id = cluster->getDistrID(rdata, docid);
 
@@ -251,7 +258,9 @@ bool jimoStoreDeleteDataletByDocid(
 		AosBuffPtr custom_data)
 {
 	aos_assert_rr(docid != 0, rdata, false);
-	AosClusterObj *cluster = jimoGetDocStoreClusterAsync(rdata);
+	OmnString name = sgDocStoreClusterName;
+	name << aseid;                                   
+	AosClusterObj *cluster = jimoGetCluster(rdata, name); 
 	aos_assert_rr(cluster, rdata, false);
 	u32 distr_id = cluster->getDistrID(rdata, docid);
 
@@ -1142,7 +1151,9 @@ bool jimoStoreGetDataletByDocid(
 		AosBuffPtr &custom_data)
 {
 	aos_assert_rr(docid!= 0, rdata, false);
-	AosClusterObj *cluster = jimoGetDocStoreClusterAsync(rdata);
+	OmnString name = sgDocStoreClusterName;
+	name << aseid;
+	AosClusterObj *cluster = jimoGetCluster(rdata, name);
 	aos_assert_rr(cluster, rdata, false);
 	u32 distr_id = cluster->getDistrID(rdata, docid);
 

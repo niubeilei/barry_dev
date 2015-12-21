@@ -13,6 +13,7 @@
 // Modification History:
 // 2014/08/10 Chen Ding
 ////////////////////////////////////////////////////////////////////////////
+#if 0
 #include "Util/Tester/VarUnintTester.h"
 
 #include "alarm_c/alarm.h"
@@ -647,4 +648,4 @@ AosVarUnintTester::performanceTest()
 	}
 	return true;
 }
-
+#endif

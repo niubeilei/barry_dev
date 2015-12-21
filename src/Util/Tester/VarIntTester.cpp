@@ -13,6 +13,7 @@
 // Modification History:
 // 2014/12/28 Rain
 ////////////////////////////////////////////////////////////////////////////
+#if 0
 #include "Util/Tester/VarIntTester.h"
 
 #include "alarm_c/alarm.h"
@@ -522,3 +523,4 @@ AosVarIntTester::performanceTest()
 	return true;
 }
 */
+#endif

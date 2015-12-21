@@ -27,16 +27,19 @@
 #include "Util/BuffArrayVar.h"
 #include "Util/CompareFun.h"
 //#include "Util/SortNew.h"
+
 #include <limits.h>
 #include <string.h>
 #include <stdlib.h>
 #include <arpa/inet.h>
 #include <set>
 #include <vector>
+
 #include "SEInterfaces/Ptrs.h"
 #include "SEInterfaces/TaskObj.h"  
 #include "SEInterfaces/DataFieldObj.h"
 #include "SEInterfaces/DataRecordObj.h"
+#include "API/AosApiS.h"
 
 using namespace std;
 
@@ -112,7 +115,7 @@ AosBuffArrayVarTester::basicTest()
 			 break;
 
 		case 2:
-			 rslt = addRecordEntry();
+			 rslt = addRecordEntry2();
 			 break;
 		
 		//case 1:
@@ -214,13 +217,14 @@ OmnScreen << "appendEntry: field1= " << field1 << ", value2 = " << field2 << end
 		key="aaa";
 		index++;
 		cout << key << "=" << value << endl;
-		AosDataRecordObjPtr recordobj = AosDataRecordObj::createDataRecordStatic(rcd_xml, 0, rdata);
+		AosDataRecordObjPtr recordobj = AosDataRecordObj::createDataRecordStatic(rcd_xml, 0, rdata AosMemoryCheckerArgs);
 		aos_assert_r(recordobj, false);
 		AosBuffPtr buff = OmnNew AosBuff(1000 AosMemoryCheckerArgs); 
 		buff->setDataLen(1000);
 		char * data = buff->data();
 		int length = buff->dataLen();
-		recordobj->setData(data+4, length-4, 0, 0);
+		int status = 0;
+		recordobj->setData(data+4, length-4, 0, status);
 		AosValueRslt valuerslt1;
 		AosValueRslt valuerslt2;
 		valuerslt1.setStr(key);
@@ -428,6 +432,155 @@ AosBuffArrayVarTester::testcase1()
 	mBuffArrayVar->appendEntry("237387575721861615533518327084415025881261368217778137060548080402768886701620207108603668547365", 96, rdata);
 	mBuffArrayVar->appendEntry("42311708641750", 14, rdata);
 	checkSort();
+
+	return true;
+}
+
+bool
+AosBuffArrayVarTester::addRecordEntry2()
+{
+	AosRundata* rdata = OmnApp::getRundata().getPtr();
+	OmnString config = "<datarecord type=\"buff\" zky_name=\"t1_schm_zt4g_idxmgr_idx_t1_key_field1__new_idx\"><datafields><datafield type=\"str\" zky_name=\"value\"></datafield><datafield type=\"bin_u64\" zky_name=\"key\" ></datafield></datafields></datarecord>";
+	AosXmlParser parser; 
+	AosXmlTagPtr rcd_xml = parser.parse(config, "" AosMemoryCheckerArgs);;
+
+	OmnString str;
+	str << "<zky_buffarray zky_stable = \"false\" >"
+		<< "<CompareFun record_fields_num=\"2\" cmpfun_reserve=\"false\" cmpfun_size=\"108\" cmpfun_type=\"custom\" record_type=\"buff\"><cmp_fields><field cmp_size=\"-1\" cmp_datatype=\"record\" cmp_pos=\"1\" field_type=\"u64\"/></cmp_fields><aggregations><aggregation agr_pos=\"0\" agr_type=\"record\" field_type=\"agrstr\" agr_fun=\"sum\"/></aggregations></CompareFun>"
+		<< 	"</zky_buffarray>";
+
+	AosXmlTagPtr cmp_tag = AosXmlParser::parse(str AosMemoryCheckerArgs);
+	aos_assert_r(cmp_tag, false);
+
+	mBuffArrayVar = AosBuffArrayVar::create(cmp_tag, rdata);
+
+	map<u64, vector<OmnString> >  maps;
+	map<u64, vector<OmnString> >::iterator itr;
+	vector<OmnString> v;
+	u64 key;
+	OmnString value;
+	int num = 5000;
+	vector<u64> keys;
+	keys.push_back(OmnRandom::nextU64());
+	for(int i=0; i<num; i++)
+	{
+		switch (rand() %2)
+		{
+		case 0:
+			key = OmnRandom::nextU64();
+			keys.push_back(key);
+			break;
+		case 1:
+			{
+				int i = rand() % keys.size();
+				key = keys[i];
+			}
+			break;
+		}
+		value = OmnRandom::digitStr(0, 20);
+		/*
+		key = i%10;
+		value = "";
+		value << "aaa" << i;
+		*/
+
+OmnScreen << "appendEntry: key = " << key << ", value = " << value << endl;
+
+		itr = maps.find(key);
+		if (itr == maps.end())
+		{
+			v.clear();
+			v.push_back(value);
+			maps[key] = v;
+		}
+		else
+		{
+			itr->second.push_back(value);
+		}
+
+		AosDataRecordObjPtr recordobj = AosDataRecordObj::createDataRecordStatic(rcd_xml, 0, rdata AosMemoryCheckerArgs);
+		aos_assert_r(recordobj, false);
+		AosBuffPtr buff = OmnNew AosBuff(1000 AosMemoryCheckerArgs); 
+		buff->setDataLen(1000);
+		char * data = buff->data();
+		int length = buff->dataLen();
+		int status = 0;
+		recordobj->setData(data+4, length-4, 0, status);
+		AosValueRslt valuerslt1;
+		AosValueRslt valuerslt2;
+		if (value == "")
+			valuerslt1.setNull();
+		else
+		{
+			valuerslt1.setStr(value);
+		}
+		valuerslt2.setU64(key);
+		bool outofmem = false;
+		recordobj->setFieldValue(0,valuerslt1, outofmem, rdata);
+		recordobj->setFieldValue(1,valuerslt2, outofmem, rdata);
+		mBuffArrayVar->appendEntry(recordobj.getPtr(), rdata);
+	}
+
+	mBuffArrayVar->sort();
+	mBuffArrayVar->mergeData();
+
+	//check
+	AosBuffPtr buff = mBuffArrayVar->getHeadBuff();
+	const char * entry = buff->data();
+	const char * record = NULL;
+	i64 field_offset;
+	const char * data = NULL;
+	int len = 0;
+	//OmnString result;
+
+	i64 numRcds = mBuffArrayVar->getNumEntries();
+	i64 cmpSize = mBuffArrayVar->getCompareFunc()->size;
+OmnScreen << "check..............." << endl;
+OmnScreen << "append entry num:" << num << ", after merge numRcds:" << numRcds << endl;
+	for (int i=0; i<numRcds; i++)
+	{
+		record = (const char *)(*(i64*)(entry+sizeof(int))) + (*(int*)entry);
+
+		field_offset = sizeof(int) + sizeof(i64) + sizeof(u16) * 0;
+		data = (record + *(u16*)(entry+field_offset) + sizeof(u32));
+		len = *(int*)(record + *(u16*)(entry+field_offset) + sizeof(u32) - sizeof(int));
+		OmnString value(data, len);
+
+		field_offset = sizeof(int) + sizeof(i64) + sizeof(u16) * 1;
+		data = (record + *(u16*)(entry+field_offset) + sizeof(u32));
+		key = *(u64*)data;
+		entry = &entry[cmpSize];
+
+OmnScreen << "key:" << key << ", value:" << value << endl;
+		itr = maps.find(key);
+		aos_assert_r(itr != maps.end(), false);
+		if (value == "")
+		{
+			aos_assert_r(itr->second.size() == 1, false);
+			aos_assert_r(itr->second[0] == "", false);
+		}
+		else
+		{
+
+			OmnString split;
+			split <<  '\001';
+			vector<OmnString> values;
+			AosSplitStr(value, split.data(), values, 1000);
+			aos_assert_r(values.size() == itr->second.size(), false);
+		}
+
+		/*
+		result = "";
+		for (size_t i = 0; i < itr->second.size(); i++)
+		{
+			if(i>0)
+				result << char(0x01);
+			result << itr->second[i];
+		}
+		*/
+//OmnScreen << "value:" << value << ", result:" << result << endl;
+		//aos_assert_r(value == result, false);
+	}
 
 	return true;
 }

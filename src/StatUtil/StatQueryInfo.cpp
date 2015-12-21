@@ -345,15 +345,21 @@ AosStatQueryInfo::config(const AosXmlTagPtr &conf)
 		}
 	}
 
+	//get Shuffle_fields
+	AosXmlTagPtr shuffleField = conf->getFirstChild("hit_shuffle");
+	if(shuffleField)
+	{
+		OmnString meetShuffleFields = shuffleField->getAttrStr("hit_shuffle_fields");
+		if(meetShuffleFields == "true")
+		mHitShuffleFields = true;
+	}
+
 	//get Having cond
 	mHavingCond = "";
 	AosXmlTagPtr havingNode = conf->getFirstChild("having_conds");	
 	if (havingNode)
 	{
 		mHavingCond = havingNode->getAttrStr("zky_having_expr");
-		OmnString meetShuffleFields = havingNode->getAttrStr("hit_shuffle_fields");
-		if(meetShuffleFields == "true")
-			mHitShuffleFields = true;
 	}
 	//arvin 2015.09.02
 	AosXmlTagPtr statkey_fields = conf->getFirstChild("stat_key_fields");
@@ -453,14 +459,18 @@ AosStatQueryInfo::toXmlString(OmnString &str)
 		
 		str << "</orderby_fields>";
 	}
+	OmnString hitShuffleFields = "false";
+	if(mHitShuffleFields)
+	{
+		hitShuffleFields = "true";
+		str << "<hit_shuffle hit_shuffle_fields=\"" << hitShuffleFields << "\" >"
+			<< "</hit_shuffle>";
+	}
 
 	if (mHavingCond != "")
 	{
-		OmnString hitShuffleFields = "false";
-		if(mHitShuffleFields)
-			hitShuffleFields = "true";
 
-		str << "<having_conds zky_having_expr=\"" << mHavingCond << "\" hit_shuffle_fields=\"" << hitShuffleFields <<"\" >"
+		str << "<having_conds zky_having_expr=\"" << mHavingCond << "\" >"
 		    << "</having_conds>";
 	}
 

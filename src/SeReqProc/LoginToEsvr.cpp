@@ -85,6 +85,7 @@ AosLoginToEsvr::proc(const AosRundataPtr &rdata)
 		return false;
 	}
 	
+#if 0
 	bool rslt = AosEmailClient::getSelf()->login(uname, passwd, emldir, rdata);
 	if (!rslt)
 	{
@@ -93,6 +94,7 @@ AosLoginToEsvr::proc(const AosRundataPtr &rdata)
 		AOSLOG_LEAVE(rdata);
 		return false;
 	}
+#endif
 	
 	rdata->setOk();
 	AOSLOG_LEAVE(rdata);

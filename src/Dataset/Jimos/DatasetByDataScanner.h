@@ -83,7 +83,7 @@ public:
 
 	virtual bool	stop(
 						const AosRundataPtr &rdata, 
-						AosRecordsetObjPtr &recordset);
+						const AosRecordsetObjPtr &recordset);
 
 	virtual bool	addDataConnector(
 						const AosRundataPtr &rdata, 

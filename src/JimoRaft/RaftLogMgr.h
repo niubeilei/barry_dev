@@ -18,9 +18,9 @@
 #include "JimoRaft/RaftStateMachine.h"
 #include "Util/RCObject.h"
 #include "Util/String.h"
+#include "Util/File.h"
 #include "Jimo/Jimo.h"
 #include "Rundata/Rundata.h"
-#include "ReliableFile/ReliableFile.h"
 
 #include <hash_map>
 #include <deque>
@@ -39,7 +39,7 @@ using namespace std;
 //All the non applied log entries will be saved
 //in the log queue
 #define RAFT_LOG_QUEUE_SIZE 1000
-#define RAFT_APPLIED_LOG_QUEUE_SIZE 200
+#define RAFT_APPLIED_LOG_QUEUE_SIZE 1000
 
 //Every time, we read into this number of history
 //log entries from the applied log history file
@@ -108,23 +108,21 @@ private:
 	AosRaftServer*				mServer;
 	AosRaftStateMachinePtr		mStatMach;
 	AosRaftStateMachine*		mStatMachRaw;
-	u64							mCubeId;
 
 	u32							mCurTermId;
 	u64 						mLastLogId;
 	u64 						mLastLogIdApplied;
 	u64 						mCommitIndex;
 
+	OmnString					mLogDir;
 	//
 	//Log file for non-applied log entries 
 	//The file name is:
 	//  raftlog_<cube_id>_nonapplied
 	//
-	AosReliableFilePtr			mLogFile;
-	AosReliableFile*  			mLogFileRaw;
-	u64							mFileId;
-	u64							mFileSize;
-	bool						mIsGood;
+	OmnString					mLogFileName;
+	OmnFilePtr					mLogFile;
+	OmnFile*					mLogFileRaw;
 
 	//
 	//For non-applied log entries 
@@ -156,8 +154,8 @@ private:
 	//  At the beginning of the file, there is a number:
 	//     CompactedLogs: 4Bytes
 	OmnString 					mCurAppliedLogFileName;
-	AosReliableFilePtr			mCurAppliedLogFile;
-	AosReliableFile*  			mCurAppliedLogFileRaw;
+	OmnFilePtr					mCurAppliedLogFile;
+	OmnFile*					mCurAppliedLogFileRaw;
 
 	//
 	//For caching applied log entries:
@@ -176,6 +174,7 @@ public:
 	~AosRaftLogMgr();
 
 	void init(AosRundata*				rdata,
+			  AosRaftServer*			server,
 		 	  AosRaftStateMachinePtr	stateMachine);
 
 	//raft protocol methods
@@ -194,6 +193,8 @@ public:
 	AosRaftLogEntryPtr getLog(
 			AosRundata* 	rdata,
 			const u64			logId);
+
+	bool notifyJimoCall(AosRundata *rdata);
 
 	//disk operations
 	bool writeLogFile(AosRundata* rdata);
@@ -225,7 +226,7 @@ public:
 	AosRaftStateMachine *getStatMach() { return mStatMachRaw; }
 
 	//methods to handle applied log history data
-	u64 getAppliedLogFileInfo( u64 logId, OmnString &name);
+	OmnString getAppliedLogFileName(u64 logId);
 	AosRaftLogEntryPtr getAppliedLog(AosRundata *rdata, u64 logId);
 	bool createAppliedLogFile(AosRundata *rdata, u64 logId);
 

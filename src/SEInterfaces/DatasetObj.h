@@ -61,7 +61,7 @@ public:
 
 	virtual bool stop(
 					const AosRundataPtr &rdata, 
-					AosRecordsetObjPtr &recordset) = 0;
+					const AosRecordsetObjPtr &recordset) = 0;
 
 	virtual bool addDataConnector(const AosRundataPtr &rdata, 
 	 				const AosDataConnectorObjPtr &data_connector) = 0;
@@ -126,6 +126,9 @@ public:
 	// Young, 2015/10/10
 	virtual bool nextRecord(AosRundata* rdata, AosDataRecordObj *& record) = 0;
 	virtual bool setData(AosRundata *rdata, const AosBuffPtr &buff);
+
+	// jimodb-1375
+	virtual void    setPageSize(u64 num) = 0;
 };
 #endif
 

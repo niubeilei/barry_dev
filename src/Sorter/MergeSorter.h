@@ -177,6 +177,8 @@ OmnScreen << " ============================= " << endl;
 		char *new_crt = new_buff->data();
 	//	u64 lhs_docid = 0;
 	//	u64 rhs_docid = 0;
+		char *data = NULL;
+		int  len = 0;
 		while (num_rcds < total_rcds)
 		{
 			int rr = mCmpRaw->cmp(lhs_crt, rhs_crt);
@@ -223,7 +225,7 @@ OmnScreen << " ============================= " << endl;
 			else
 			{
 				memcpy(new_crt, lhs_crt, record_len); 
-				mCmpRaw->mergeData(new_crt, rhs_crt);
+				mCmpRaw->mergeData(new_crt, rhs_crt, data, len);
 				lhs_crt = mLhs->move(lhs_crt, record_len);
 				rhs_crt = mRhs->move(rhs_crt, record_len);
 				new_crt += record_len; 

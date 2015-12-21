@@ -13,6 +13,7 @@
 // Modification History:
 // 2013/02/12	Created by Chen Ding
 ////////////////////////////////////////////////////////////////////////////
+#if 0
 #include "Util/Tester/BuffArrayTester.h"
 
 #include "Debug/Debug.h"
@@ -117,3 +118,4 @@ AosBuffArrayTester::testInsert()
 	return true;
 }
 
+#endif

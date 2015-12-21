@@ -11,6 +11,7 @@
 // Modification History:
 // 04/12/2012 Created by Chen Ding
 ////////////////////////////////////////////////////////////////////////////
+#if 0
 #ifndef Aos_SdocAction_ActSqlServerToDb_h
 #define Aos_SdocAction_ActSqlServerToDb_h
 
@@ -60,5 +61,6 @@ public:
 private:
 	bool toImport(const AosRundataPtr &rdata);
 };
+#endif
 #endif
 

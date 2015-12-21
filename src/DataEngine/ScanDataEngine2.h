@@ -32,7 +32,6 @@ private:
 		eRunFinished,
 		eProcFailed,
 		eFinished,
-		eStop,     		//barry 2015/12/13
 	};
 
 	struct StatisticsInfo
@@ -136,10 +135,13 @@ private:
 
 	bool 	tryFinish();
 	bool	clean();
-	bool 	procFailed(const char *fname, const int line);
-	bool 	runFinished(const AosRundataPtr &rdata);
-	bool 	stop(const AosRundataPtr &rdata, AosRecordsetObjPtr &record_set);
+	bool 	procFailed(
+			const AosRundataPtr &rdata, 
+			const AosRecordsetObjPtr &record_set,
+			const char *fname, 
+			const int line);
 
+	bool 	runFinished(const AosRundataPtr &rdata, AosRecordsetObjPtr &record_set);
 
 	void 	logProcEntry(const u64 num);
 	void 	logProcOne(

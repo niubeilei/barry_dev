@@ -31,6 +31,8 @@ public:
 		eAosRundata,
 		eAosTrans,
 		eAosXmlTag,
+		eAosRaftLogEntry,
+		eAosRaftMsg,
 
 		eMax
 	};
@@ -46,6 +48,8 @@ public:
 		case eAosRundata:   	return "AosRundata";
 		case eAosTrans:			return "AosTrans";
 		case eAosXmlTag:		return "AosXmlTag";
+		case eAosRaftLogEntry:	return "AosRaftLogEntry";
+		case eAosRaftMsg:		return "AosRaftMsg";
 		default: break;
 		}
 		return "InvalidClass";

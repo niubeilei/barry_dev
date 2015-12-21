@@ -258,6 +258,7 @@ AosSvrMonitor::getSendMsg()
 bool
 AosSvrMonitor::isHeartBeatTimeout(const SvrStatusInfoPtr &svr_info)
 {
+	return false;
 	if(svr_info->mLastHeartbeatRecvTime == 0) return false;
 
 	u64 time_sec = (OmnGetTimestamp() - svr_info->mLastHeartbeatRecvTime) / 1000 / 1000;
@@ -278,6 +279,7 @@ AosSvrMonitor::isHeartBeatTimeout(const SvrStatusInfoPtr &svr_info)
 bool
 AosSvrMonitor::isSockRecvTimeout(const SvrStatusInfoPtr &svr_info)
 {
+	return false;
 	if (svr_info->mSockLastRecvTime == 0) return false;
 
 	u64 time_sec = (OmnGetTimestamp() - svr_info->mSockLastRecvTime) / 1000 / 1000;

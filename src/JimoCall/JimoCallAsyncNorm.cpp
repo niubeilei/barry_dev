@@ -112,6 +112,7 @@ AosJimoCallAsyncNorm::makeCall(AosRundata *rdata)
 	// and returns immediately.
 	while (mCrtEndpointIdx < mEndpointIDs.size())
 	{
+		OmnScreen << "jimocall id:" << mJimoCallID << " is sending msg to No. " << mCrtEndpointIdx << " endpoint." << endl;
 		//rslt = mCluster->makeJimoCall(rdata, mEndpointIDs[mCrtEndpointIdx], thisptr, buff);
 		rslt = mCluster->makeJimoCall(rdata, mCrtEndpointIdx, thisptr, buff);
 		if (rslt) return true;
@@ -163,6 +164,7 @@ AosJimoCallAsyncNorm::callResponded(
 	AosBuff *buff = mBSON.getBuffRaw();
 	while (++mCrtEndpointIdx < mEndpointIDs.size())
 	{
+		OmnScreen << "jimocall id:" << mJimoCallID << " failed, resend msg to No. " << mCrtEndpointIdx << " endpoint." << endl;
 		mCallTime = OmnGetTimestamp();
 		//if (mCluster->makeJimoCall(rdata, mEndpointIDs[mCrtEndpointIdx], thisptr, buff)) return true;
 		if (mCluster->makeJimoCall(rdata, mCrtEndpointIdx, thisptr, buff)) return true;

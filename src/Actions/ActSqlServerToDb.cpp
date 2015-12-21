@@ -13,6 +13,7 @@
 // Modification History:
 // 04/12/2012 Created by Chen Ding
 ////////////////////////////////////////////////////////////////////////////
+#if 0
 #include "Actions/ActSqlServerToDb.h"
 
 #include "Alarm/Alarm.h"
@@ -236,3 +237,4 @@ AosActSqlServerToDb::toImport(const AosRundataPtr &rdata)
 
 	return true;
 }
+#endif

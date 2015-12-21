@@ -90,10 +90,10 @@ AosJimoCallWaiter::wait(
 		AosJimoCall &jimo_call,
 		const int timer_sec)
 {
-	if (!tsSem)
-	{
-		tsSem = OmnNew OmnSem(0);
-	}
+//	if (!tsSem)
+//	{
+//		tsSem = OmnNew OmnSem(0);
+//	}
 
 	// Chen Ding, 2015/08/11
 	// OmnSem *sem = jimo_call.getSem();
@@ -102,7 +102,8 @@ AosJimoCallWaiter::wait(
 	// 	sem = tsSem;
 	// 	jimo_call.setSem(sem);
 	// }
-	OmnSem *sem = tsSem;
+//	OmnSem *sem = tsSem;
+	OmnSem *sem = OmnNew OmnSem(0);
 	jimo_call.setSem(sem);
 
 	bool is_timeout;

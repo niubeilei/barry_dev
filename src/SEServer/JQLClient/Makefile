@@ -53,7 +53,6 @@ DLIBS = \
 		$(LIBDIR)/libDataEngine.a \
 		$(LIBDIR)/libFmtMgr.a \
 		$(LIBDIR)/libStoreQuery.a \
-		$(LIBDIR)/libINotifyMgr.a \
 		$(LIBDIR)/libSystemMonitor.a \
 		$(LIBDIR)/libMsgProc.a \
 		$(LIBDIR)/libSEServer.a \
@@ -61,7 +60,6 @@ DLIBS = \
 		$(LIBDIR)/libDfmUtil.a \
 		$(LIBDIR)/libReliableFile.a \
 		$(LIBDIR)/libAosApi.a \
-		$(LIBDIR)/libEmailClt.a \
 		$(LIBDIR)/libAppVar.a \
 		$(LIBDIR)/libHtmlLayout.a \
 		$(LIBDIR)/libHtmlModules.a \
@@ -77,7 +75,6 @@ DLIBS = \
 		$(LIBDIR)/libLogTrans.a \
 		$(LIBDIR)/libUtilHash.a \
 		$(LIBDIR)/libSQLClient.a \
-		$(LIBDIR)/libEmailClt.a \
 		$(LIBDIR)/libDocSelector.a \
 		$(LIBDIR)/libSmartDoc.a \
 		$(LIBDIR)/libMediaData.a \
@@ -142,7 +139,6 @@ DLIBS = \
 		$(LIBDIR)/libRemoteConvertData.a \
 		$(LIBDIR)/libActions.a \
 		$(LIBDIR)/libCounterUtil.a \
-		$(LIBDIR)/libSyBaseMgr.a \
 		$(LIBDIR)/libIILEntryMap.a \
 		$(LIBDIR)/libGroupby.a \
 		$(LIBDIR)/libIILScanner.a \

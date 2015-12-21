@@ -29,7 +29,6 @@ class AosRaftStateMachine : virtual public AosJimo
 
 protected:
 	AosBuffPtr		mBuff;
-	int				mCubeId;
 
 public:
 	//construtor/destructors
@@ -118,19 +117,22 @@ public:
 	//getter/setters
 	AosBuffPtr	&getBuff() { return mBuff; }
 	void setBuff(AosBuffPtr &buff) { mBuff = buff; }
-	void setCubeId(int cubeId) { mCubeId = cubeId; }
-	int getCubeId() { return mCubeId; }
 
-	OmnString getDir() { return ""; }
+	virtual int getCubeId() { return 0; }
+	virtual u32 getAseId() { return 0; }
+	virtual OmnString getBaseDir() { return ""; }
 
 	//methods to get info from stat machine
-	bool isLogExisting(u64 logId, 
+	virtual bool isLogExisting(u64 logId, 
 					   AosBuffPtr &hint) { return true; }
 
-	bool isLogApplied(u64 logId,
+	virtual bool isLogApplied(u64 logId,
 			          AosBuffPtr &hint) { return true; }
 
-	bool getHintSize() { return RAFT_MAX_STATMACH_HINT_SIZE; }
+	virtual bool getHintSize() { return RAFT_MAX_STATMACH_HINT_SIZE; }
+
+	virtual u64 getLastLogIdAppended() { return 0; }
+	virtual u64 getLastLogIdApplied() { return 0; }
 
 };
 

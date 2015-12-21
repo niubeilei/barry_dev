@@ -22,12 +22,14 @@ AosRaftMsgAppendEntryRsp::AosRaftMsgAppendEntryRsp(
 		AosRaftServer *server,
 		bool result)
 :
-AosRaftMsg(eMsgAppendEntryRsp, server),
+AosRaftMsg(eMsgAppendEntryRsp, server AosMemoryCheckerArgs),
 mResult(result)
 {
 }
 
 AosRaftMsgAppendEntryRsp::AosRaftMsgAppendEntryRsp()
+:
+AosRaftMsg(AosMemoryCheckerArgsBegin)
 {
 }
 

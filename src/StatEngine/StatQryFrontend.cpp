@@ -119,14 +119,21 @@ AosStatQryEngine::mergeStatRecord(vector<StatRecordList* > recordList,
 				targetList = mergeStatRecord(recordList[i],recordList[i+1],inOrder);
 				mMergeNum++;
 				mergeList.push_back(targetList);
-				merged++;
 			}
-			else if((i + 1 == size))
-				mergeList.push_back(recordList[i]);
+			else
+			{
+				targetList = new StatRecordList;
+				*targetList = *recordList[i];
+				mergeList.push_back(targetList);
+			}
 		}
 		vector<StatRecordList *>::iterator itr = recordList.begin();
 		for(; itr != recordList.end();itr++)
+		{
+			aos_assert_r(*itr, 0);
 			delete *itr;
+		}
+
 		recordList = mergeList;
 		mergeList.clear();
 	}

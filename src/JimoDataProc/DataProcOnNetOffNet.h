@@ -38,6 +38,9 @@ private:
 	AosDataRecordObj*			mRawOffNetOutputRecord;
 	AosXmlTagPtr				mDatasetConf;
 
+	vector<AosDataRecordObjPtr>			mInputRecords;
+	map<OmnString, AosDataFieldObjPtr> 	mInputRecordsMap;
+
 public:
 	AosDataProcOnNetOffNet(const int ver);
 	AosDataProcOnNetOffNet(const AosDataProcOnNetOffNet &proc);
@@ -63,16 +66,10 @@ private:
 
 	int     getMaxThreads() const {return 1;}
 
+	virtual void 	setInputDataRecords(vector<AosDataRecordObjPtr> &records);
+	bool 			createInputRecordsMap();
+
 	bool 	createOutput(
-				const OmnString &dp_name,
-				const JSONValue &json_conf,
-				const AosRundataPtr &rdata);
-	bool 	createOnNetOutput(
-				const OmnString &dp_name,
-				const JSONValue &json_conf,
-				const AosRundataPtr &rdata);
-	bool 	createOffNetOutput(
-				const OmnString &dp_name,
 				const JSONValue &json_conf,
 				const AosRundataPtr &rdata);
 

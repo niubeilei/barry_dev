@@ -13,6 +13,7 @@
 // 2015/04/30 Created by Phil Pei
 ////////////////////////////////////////////////////////////////////////////
 #include "JimoRaft/RaftStateMachineSimple.h"
+#include "JimoRaft/RaftServer.h"
 
 #include "alarm_c/alarm.h"
 #include "Alarm/Alarm.h"
@@ -101,7 +102,7 @@ AosRaftStateMachineSimple::getEntry(
 		const AosBuffPtr &hint,
 		AosBuffPtr &buff)
 {
-	OmnScreen << "entering getEntry" << endl;
+	RAFT_OmnScreen << "entering getEntry" << endl;
 
 	u64 hintLogId;
 	u32 hintTermId;

@@ -70,7 +70,7 @@ public:
 	
 	virtual bool stop(
 					const AosRundataPtr &rdata, 
-					AosRecordsetObjPtr &recordset){ return false;}
+					const AosRecordsetObjPtr &recordset){ return false;}
 	
 	virtual int64_t getTotalSize() const{return -1;}
 	
@@ -154,6 +154,9 @@ public:
 		OmnShouldNeverComeHere;
 		return false;
 	}
+
+	// jimodb-1375
+	virtual void setPageSize(u64 num) {};
 };
 #endif
 

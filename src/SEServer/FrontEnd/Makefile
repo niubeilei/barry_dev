@@ -37,7 +37,7 @@ CREATEOBJDIR = $(shell if [ -d $(OBJDIR) ]; then echo ""; else mkdir $(OBJDIR); 
 OUTPUTDIR = ../../../bin
 
 LIBS = -lnsl -lpthread -lstdc++ -lscws -lboost_thread \
-	   -lboost_system -lboost_date_time  -lssl -lboost_regex -lcrypto -ldl -lz -lutil -lrt \
+	   -lboost_system -lboost_filesystem -lboost_date_time  -lssl -lboost_regex -lcrypto -ldl -lz -lutil -lrt \
 	   -L ../../../Runtime_lib -lQueryCacher -lQueryProc -lQueryEngine -lBitmapEngine \
 	   -L../../../obj -lQueryTermJimos -lDatasetJimos -lFuncJimos -lDataCubicJimos \
 	   -lJimoDataProc -lJimoJob -lJimoDataset -lJimoParser -lJimoProg -lJimoLogicNew \
@@ -63,12 +63,10 @@ DLIBS = \
 		$(LIBDIR)/libCubeComm.a \
 		$(LIBDIR)/libBSON.a \
 		$(LIBDIR)/libGroupQuery.a \
-		$(LIBDIR)/libHBaselib.a \
 		$(LIBDIR)/libVector2DQryRslt.a \
 		$(LIBDIR)/libJSON.a \
 		$(LIBDIR)/libDataEngine.a \
 		$(LIBDIR)/libStoreQuery.a \
-		$(LIBDIR)/libINotifyMgr.a \
 		$(LIBDIR)/libSystemMonitor.a \
 		$(LIBDIR)/libMsgProc.a \
 		$(LIBDIR)/libSEServer.a \
@@ -78,7 +76,6 @@ DLIBS = \
 		$(LIBDIR)/libReliableFile.a \
 		$(LIBDIR)/libFmtMgr.a \
 		$(LIBDIR)/libAosApi.a \
-		$(LIBDIR)/libEmailClt.a \
 		$(LIBDIR)/libAppVar.a \
 		$(LIBDIR)/libHtmlLayout.a \
 		$(LIBDIR)/libHtmlModules.a \
@@ -93,7 +90,6 @@ DLIBS = \
 		$(LIBDIR)/libLogTrans.a \
 		$(LIBDIR)/libUtilHash.a \
 		$(LIBDIR)/libSQLClient.a \
-		$(LIBDIR)/libEmailClt.a \
 		$(LIBDIR)/libDocSelector.a \
 		$(LIBDIR)/libSmartDoc.a \
 		$(LIBDIR)/libMediaData.a \
@@ -162,7 +158,6 @@ DLIBS = \
 		$(LIBDIR)/libActions.a \
 		$(LIBDIR)/libJimoAgentMonitor.a \
 		$(LIBDIR)/libAdminTrans.a \
-		$(LIBDIR)/libSyBaseMgr.a \
 		$(LIBDIR)/libFuncs.a \
 		$(LIBDIR)/libIILEntryMap.a \
 		$(LIBDIR)/libGroupby.a \

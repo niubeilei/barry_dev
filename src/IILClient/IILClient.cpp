@@ -4016,11 +4016,13 @@ AosIILClient::rebuildBitmap(
 
 	// Ketty 2014/10/17
 	//return addTrans(trans, rdata);
-	AosBuffPtr resp;
-	bool rslt = addTrans(trans, resp, rdata);
-	aos_assert_r(rslt && resp, false);
-	rslt = resp->getU8(0);
-	return rslt;
+//	AosBuffPtr resp;
+//	bool rslt = addTrans(trans, resp, rdata);
+//	aos_assert_r(rslt && resp, false);
+//	rslt = resp->getU8(0);
+	bool timeout = false;
+	//AosBuffPtr resp;
+	return AosSendTrans(rdata, trans, timeout);
 }
 
 

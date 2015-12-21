@@ -236,16 +236,19 @@ AosDatasetByStatQuerySingle::initStatQryProcers(
 		}
 	}
 
+	// Add by Pay, 2015-12-14
+	AosXmlTagPtr shuffleNode = conf->getFirstChild("hit_shuffle");
+	OmnString meetShuffleFields = shuffleNode->getAttrStr("hit_shuffle_fields");
+	if(meetShuffleFields == "true")
+		hitShuffleFields = true;
+	
+
 	// Add by Gavin, 2015/1/4
 	OmnString havingCond = "";
 	AosXmlTagPtr havingNode = conf->getFirstChild("having_conds");	
 	if (havingNode)
-	{
 		havingCond = havingNode->getAttrStr("zky_having_expr");
-		OmnString meetShuffleFields = havingNode->getAttrStr("hit_shuffle_fields");
-		if(meetShuffleFields == "true")
-			hitShuffleFields = true;
-	}
+
 	// Add by Gavin, 2014/12/19
 	AosJqlLimitPtr limitPtr = OmnNew AosJqlLimit();
 	AosXmlTagPtr limitNode = conf->getFirstChild("limit");

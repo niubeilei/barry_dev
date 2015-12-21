@@ -523,8 +523,12 @@ AosStatCube::retrieve(
 	tmp_sdocid = ((tmp_sdocid << 32) + stat_docids[0]);
 	//resp->setU64(stat_docids[0]);	// temp. DataCube stat_doc_opr will use this.
 	resp->setU64(tmp_sdocid);	// temp. DataCube stat_doc_opr will use this.
-	//having cond
-	mEngine->applyHavingCond();
+
+	//get the key of StatRecordMap into StatRecordList
+	//apply having, order by key or not and limit in the cube
+	//and sort the StatRecordList
+	rslt = mEngine->checkShuffle();
+	aos_assert_r(rslt, false);
 	
 	tStart = OmnGetTimestamp();
 	rslt = mEngine->serializeTo(rdata, resp.getPtr());

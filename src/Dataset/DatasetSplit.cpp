@@ -29,7 +29,7 @@
 #include "Util/BuffArrayVar.h"
 
 
-static int64_t sgMaxLengthPreTask = 2000000000LL;
+static int64_t sgMaxLengthPreTask = 2000000000000LL;
 //test
 //static int64_t sgMaxLengthPreTask = 200000LL;
 

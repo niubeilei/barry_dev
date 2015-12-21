@@ -8,7 +8,7 @@ OBJDIR = ../../obj/$(LIBNAME)
 LIBDIR = ../../obj
 EXLIBDIR = ../../Lib
 
-DDOBJ += -lnsl -lpthread -lstdc++ -lscws -lpython2.6 -lMagick++ -lboost_system -lboost_date_time  -lssl -lboost_regex -lcrypto -ldl -lz -lutil -lrt -lboost_thread
+DDOBJ += -lnsl -lpthread -lstdc++ -lscws -lboost_system -lboost_date_time  -lssl -lboost_regex -lcrypto -ldl -lz -lutil -lrt -lboost_thread
 
 DOBJ += -L ../../Runtime_lib -lQueryCacher -lQueryProc -lQueryEngine -lBitmapEngine -L../../obj -lQueryTermJimos -lDatasetJimos -lFuncJimos -lDataCubicJimos -lJimoDataProc -lJimoJob -lJimoDataset -lJimoParser -lJimoProg -lJimoLogicNew -lStreamEngine -lStatisticsJimos -lJimoDataReceiver
 
@@ -76,7 +76,6 @@ OBJ+=$(LIBDIR)/libDocSelector.a
 OBJ+=$(LIBDIR)/libDocServer.a
 OBJ+=$(LIBDIR)/libDocTrans.a
 OBJ+=$(LIBDIR)/libDocUtil.a
-OBJ+=$(LIBDIR)/libEmailClt.a
 OBJ+=$(LIBDIR)/libErrorMgr.a
 OBJ+=$(LIBDIR)/libEventMgr.a
 OBJ+=$(LIBDIR)/libFmtMgr.a
@@ -194,7 +193,6 @@ OBJ+=$(LIBDIR)/libStoreQuery.a
 OBJ+=$(LIBDIR)/libStreamFS.a
 OBJ+=$(LIBDIR)/libSvrProxyMgr.a
 OBJ+=$(LIBDIR)/libSvrProxyUtil.a
-OBJ+=$(LIBDIR)/libSyBaseMgr.a
 OBJ+=$(LIBDIR)/libSysMsg.a
 OBJ+=$(LIBDIR)/libSystemMonitor.a
 OBJ+=$(LIBDIR)/libSysTrans.a

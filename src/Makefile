@@ -320,3 +320,6 @@ allexe:
 	cd SvrProxyExe && make clean&&make -j2 && cd .. && cd SEServer/FrontEnd && make clean && make -j2 && cd ../.. && cd SEServer/Task && make clean && make -j2 && cd ../.. && \
 		cd SEServer/Cube && make clean&&make -j2 && cd ../.. && cd SEServer/Admin && make clean&&make -j2 && cd ../.. && cd SEServer/JQLClient && make clean&&make -j2 && cd ../.. && \
 		cd HtmlServer/Exe/ && make clean && make -j2 && cd ../..
+
+3.2:
+	cd ../JimoCallPackages && make clean && make -j && cd ../IILPackage && make clean && make -j && cd ../DocPackage && make clean && make -j 

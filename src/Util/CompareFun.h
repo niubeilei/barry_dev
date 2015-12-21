@@ -76,6 +76,7 @@ public:
 		eDouble,
 		eRecord,
 		eNumber,
+		eAgrStr,
 
 		eMaxDataType
 
@@ -92,12 +93,14 @@ public:
 	bool 	mReverse;
 	int 	size;
 	AosDataRecordType::E	mRecordType;
+	bool	mHasAgrStr;
 
 	//AosDataType::E	mDataType;
 	vector<AosAgr> 	mAosAgrs;
 	int (*mCmpFuncs[15])(const char *lhs, const char* rhs, const int cmp_pos);
 
 	AosCompareFun(int s, bool reverse):mReverse(reverse), size(s){
+		mHasAgrStr = false;		//barry 2015/12/17
 	};
 
 	~AosCompareFun(){
@@ -122,14 +125,16 @@ public:
 
 	virtual void setReverse(const bool flag){mReverse = flag;}
 
-	bool mergeData(char *v1, char *v2);
+	bool mergeData(char *v1, char *v2, char *data, int &len);
 	bool hasMerge() {return !mAosAgrs.empty();}
+	bool hasAgrStr() {return mHasAgrStr;}
 
 private:
 	virtual int cmpPriv(const char* lhs, const char* rhs) = 0;
 	bool agrU64(char *v1, char *v2, AosDataColOpr::E agr_fun, u32 agr_pos);
 	bool agrInt64(char *v1, char *v2, AosDataColOpr::E agr_fun, u32 agr_pos);
 	bool agrDouble(char *v1, char *v2, AosDataColOpr::E agr_fun, u32 agr_pos);
+	bool agrStr(char *r1, char *r2, const int f1_offset, const int f2_offset, char *data, int &len);
 
 public:
 	virtual void setSize(const int &sz)
@@ -171,6 +176,8 @@ public:
 			return "double";
 		case eRecord:
 			return "record";
+		case eAgrStr:
+			return "agrstr";
 		default:
 			return "";
 		}
@@ -216,6 +223,9 @@ public:
 		case 'r':
 			 if (name == "record")
 				 return eRecord;
+		case 'a':
+			 if (name == "agrstr")
+				 return eAgrStr;
 
 		default:
 			 break;

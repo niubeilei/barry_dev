@@ -312,6 +312,7 @@ AosJqlStmtHBase::read_data_from_hbase()
 }
 
 
+/*
 bool
 AosJqlStmtHBase::write_data_to_file(
 		AosJqlStmtHBase::Table &table,
@@ -319,7 +320,7 @@ AosJqlStmtHBase::write_data_to_file(
 		FILE *ff,
 		int &offset)
 {
-	/*
+
 	vector<string> fields = table.mFields;
 	if (!ff) {
 		cerr << "ERROR : fiel is null." << endl;
@@ -375,9 +376,10 @@ AosJqlStmtHBase::write_data_to_file(
 		std::cout << "ERROR: " << std::endl;
 	}
 	offset +=  buff.length();
-	*/
+
 	return true;
 }
+*/
 
 
 AosJqlStmtHBase::Table::Table()

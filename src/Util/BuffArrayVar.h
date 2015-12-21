@@ -88,6 +88,11 @@ private:
 				const int len,
 				AosRundata *rdata);
 
+	bool buildNewHeaderBuff(
+		const int rcd_offset,
+		const i64 new_body_addr,
+		char *body);
+
 public:
 	static AosBuffArrayVarPtr create(
 				const AosXmlTagPtr &def,

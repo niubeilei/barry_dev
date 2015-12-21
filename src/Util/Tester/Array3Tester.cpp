@@ -14,6 +14,7 @@
 // Modification History:
 // 
 ////////////////////////////////////////////////////////////////////////////
+#if 0
 #include "Util/Tester/Array3Tester.h"
 
 #include "Debug/Debug.h"
@@ -111,3 +112,4 @@ OmnArray3Tester::testInsert()
 
 	return true;
 }
+#endif

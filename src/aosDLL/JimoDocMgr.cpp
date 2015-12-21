@@ -182,7 +182,7 @@ AosJimoDocMgr::createJimoDocs(AosRundata *rdata)
 	createJimoDoc(rdata, "AosJimoLogicIf","libJimoLogicNew.so",1);  			// arvin, 2015/07/07
 	createJimoDoc(rdata, "AosJimoLogicDataProcDoc","libJimoLogicNew.so",1);  	// Arvin  2015/06/02
 	createJimoDoc(rdata, "AosJimoLogicDataProcSyncher","libJimoLogicNew.so",1);   // Andy, 2015/11/06
-	createJimoDoc(rdata, "AosJimoLogicDataProcOnNetOffNet","libJimoLogicNew.so",1);   // Barry, 2015/12/13
+	createJimoDoc(rdata, "AosJimoLogicDataProcOnNetOffNet", "libJimoLogicNew.so", 1);   // Barry, 2015/12/13
 	createJimoDoc(rdata, "AosDatasetConverterMatrix","libDatasetConverters.so",
 			                1, "dataset_converter", "matrix");                      // Chen Ding, 2015/09/11
 	createJimoDoc(rdata, "AosJPSCCheckIndexesAndDocs","libJimoProgCheckers.so",1);  	// Arvin  2015/08/21

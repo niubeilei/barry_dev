@@ -25,7 +25,7 @@ AosRaftMsgVoteRsp::AosRaftMsgVoteRsp(
 		u32 votedFor,
 		u32 votedForTermId)
 :
-AosRaftMsg(eMsgVoteRsp, server),
+AosRaftMsg(eMsgVoteRsp, server AosMemoryCheckerArgs),
 mResult(result),
 mVotedFor(votedFor),
 mVotedForTermId(votedForTermId)
@@ -34,6 +34,8 @@ mVotedForTermId(votedForTermId)
 
 //all the member values will be set later on
 AosRaftMsgVoteRsp::AosRaftMsgVoteRsp()
+:
+AosRaftMsg(AosMemoryCheckerArgsBegin)
 {
 }
 

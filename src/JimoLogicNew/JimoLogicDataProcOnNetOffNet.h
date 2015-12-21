@@ -10,13 +10,13 @@
 // Description:
 //
 // Modification History:
-// 2015/05/18 Created by Chen Ding
+// 2015/12/13 Created by Barry
 ////////////////////////////////////////////////////////////////////////////
-#ifndef AOS_JimoLogicNew_JimoLogicDataProcIndex_h
-#define AOS_JimoLogicNew_JimoLogicDataProcIndex_h
+#ifndef AOS_JimoLogicNew_JimoLogicDataProcOnNetOffNet_h
+#define AOS_JimoLogicNew_JimoLogicDataProcOnNetOffNet_h
 
 #include "JimoLogicNew/JimoLogicDataProc.h"
-#include "JimoParser/JimoParser.h"
+
 
 class AosJimoLogicDataProcOnNetOffNet : public AosJimoLogicDataProc
 {
@@ -73,4 +73,3 @@ private:
 			AosJimoProgObj *prog);
 };
 #endif
-

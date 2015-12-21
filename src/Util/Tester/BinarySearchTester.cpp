@@ -13,6 +13,7 @@
 // Modification History:
 // 04/12/2012 Created by Chen Ding
 ////////////////////////////////////////////////////////////////////////////
+#if 0
 #include "Util/Tester/BinarySearchTester.h"
 
 #include "alarm_c/alarm.h"
@@ -81,3 +82,4 @@ bool AosBinarySearchTester::test1()
 
 
 
+#endif

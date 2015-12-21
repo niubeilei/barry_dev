@@ -46,6 +46,7 @@ public:
 					const AosRundataPtr &rdata,
 					const AosXmlTagPtr &worker_doc);
 
+
 private:
 	virtual bool checkIsIndexQuery(
 					const AosRundataPtr &rdata,

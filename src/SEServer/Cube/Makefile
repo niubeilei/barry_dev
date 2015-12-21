@@ -37,7 +37,7 @@ CREATEOBJDIR = $(shell if [ -d $(OBJDIR) ]; then echo ""; else mkdir $(OBJDIR); 
 
 OUTPUTDIR = ../../../bin
 
-LIBS = -lnsl -lpthread -lstdc++ -lscws -lboost_system -lboost_date_time \
+LIBS = -lnsl -lpthread -lstdc++ -lscws -lboost_system -lboost_date_time -lboost_filesystem \
 	   -lssl -lboost_regex -lcrypto -ldl -lz -lutil -lboost_thread -lBitmapEngine -lStreamEngine -lJimoDataProc \
 	   -L../../../Runtime_lib -L../../../obj -lStatisticsJimos -lDatasetConverters -lQueryInto -lQueryFormat \
 	   -lJimoProg -lFuncJimos -lJimoDataReceiver \
@@ -53,7 +53,6 @@ DLIBS = \
 		$(LIBDIR)/libVector2DQryRslt.a \
 		$(LIBDIR)/libDataCollector.a \
 		$(LIBDIR)/libDataEngine.a \
-		$(LIBDIR)/libHBaselib.a \
 		$(LIBDIR)/libStoreQuery.a \
 		$(LIBDIR)/libSystemMonitor.a \
 		$(LIBDIR)/libDocFileMgr.a \

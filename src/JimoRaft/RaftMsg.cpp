@@ -24,7 +24,7 @@ static u32 sgTotal = 0;
 
 AosRaftMsg::AosRaftMsg(
 		RaftMsgType msgType,
-		AosRaftServer *server)
+		AosRaftServer *server AosMemoryCheckDecl)
 {
 	aos_assert(server);
 
@@ -42,24 +42,36 @@ AosRaftMsg::AosRaftMsg(
 
 	sgTotal++;
 	//if (sgTotal % 100 == 10)
-	//	OmnScreen << "Total messages: " << sgTotal << endl;
+	//	RAFT_OmnScreen << "Total messages: " << sgTotal << endl;
+	if (AosMemoryChecker::getCheckOpen())                          
+	{                                                              
+		    AosMemoryCheckerObjCreated(AosClassName::eAosRaftMsg);
+	}                                                              
 }
 
 //all the member values will be set later on
-AosRaftMsg::AosRaftMsg()
+AosRaftMsg::AosRaftMsg(AosMemoryCheckDeclBegin)
 {
 	mServer = NULL;
 
 	sgTotal++;
 	//if (sgTotal % 100 == 10)
-	//	OmnScreen << "Total messages: " << sgTotal << endl;
+	//	RAFT_OmnScreen << "Total messages: " << sgTotal << endl;
+	if (AosMemoryChecker::getCheckOpen())                          
+	{                                                              
+		    AosMemoryCheckerObjCreated(AosClassName::eAosRaftMsg);
+	}                                                              
 }
 
 AosRaftMsg::~AosRaftMsg()
 {
 	sgTotal--;
 	//if (sgTotal % 100 == 10)
-	//	OmnScreen << "Total messages: " << sgTotal << endl;
+	//	RAFT_OmnScreen << "Total messages: " << sgTotal << endl;
+	if (AosMemoryChecker::getCheckOpen())                            
+	{                                                                
+		    AosMemoryCheckerObjDeleted(AosClassName::eAosRaftMsg);  
+	}                                                                
 }
 
 bool

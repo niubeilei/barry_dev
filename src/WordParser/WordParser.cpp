@@ -18,9 +18,9 @@
 
 
 // static scws_t mScws;
-static OmnString sgScwsDictFname = "/usr/local/scws/etc/dict.utf8.xdb";
-static OmnString sgScwsIniFname = "/usr/local/scws/etc/rules.utf8.ini";
-static OmnString sgScwsCustFname = "/usr/local/scws/etc/keyword.txt";
+static OmnString sgScwsDictFname = "Runtime_lib/dict.utf8.xdb";
+static OmnString sgScwsIniFname = "Runtime_lib/rules.utf8.ini";
+static OmnString sgScwsCustFname = "Runtime_lib/keyword.txt";
 
 /*
 bool

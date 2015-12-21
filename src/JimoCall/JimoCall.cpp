@@ -63,6 +63,9 @@ mCrtEndpointIdx(0),
 mTimerMs(eDftTimerMs)
 {
 	mConnBuff = buff;
+	OmnTcpClientPtr conn = buff->getConn();
+	aos_assert(conn);
+	mWebReq = OmnNew AosWebRequest(conn, buff);
 	mCallServer = server;
 	AosBuffPtr buffptr = OmnNew AosBuff(buff AosMemoryCheckerArgs);
 	setBSON(buffptr);
@@ -89,6 +92,15 @@ mCluster(cluster),
 mCrtEndpointIdx(0),
 mTimerMs(eDftTimerMs)
 {
+}
+
+
+AosJimoCall::~AosJimoCall()
+{
+	if(mSem)
+	{
+		OmnDelete mSem;
+	}
 }
 
 
@@ -188,7 +200,7 @@ AosJimoCall::sendResp(AosRundata *rdata)
 	buff->appendU64((u64)OmnMsgId::eJimoCallResp);
 	buff->appendU64(mJimoCallID);
 	buff->append((char)mStatus);
-
+	rdata->setRequest(mWebReq);
 	mCallServer->JimoCallBack(rdata, *this, buff);
 	aos_assert_r(rslt, false);
 

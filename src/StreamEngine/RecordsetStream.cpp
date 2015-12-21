@@ -348,9 +348,12 @@ AosRecordsetStream::runByJql(
 
 	int record_len = 0;
 	int status = 0;
+	AosMetaData* meta_data = NULL;
 	while(offset < data_len)
 	{
-		recordContainer->determineRecordLen(&data[offset], data_len - offset, record_len, status);
+		//recordContainer->determineRecordLen(&data[offset], data_len - offset, record_len, status);
+		recordContainer->setData(&data[offset], data_len - offset, meta_data, status);
+		record_len = recordContainer->getRecordLen();
 		const char * cData = data.data();
 		OmnString dataRecord = "";
 		for(int i= 0; i<record_len; i++)

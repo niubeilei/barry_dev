@@ -136,6 +136,8 @@ AosMergeFileSorter::buildLosterTree()
 		mLosterTree[i] = mDataSourcesRaw.size()-1;
 	}
 
+	char *data = NULL;
+	int  len = 0;
 	for (int i = mDataSourcesRaw.size() - 2; i >= 0; i--)
 	{
 		int win = i;
@@ -148,7 +150,7 @@ AosMergeFileSorter::buildLosterTree()
 				{
 					//mCmpRaw->mergeData(mDataSources[win]->getData(), mDataSources[mLosterTree[p_idx]]->getData());
 					mMergeTotal++;
-					mCmpRaw->mergeData(mDataSourcesRaw[mLosterTree[p_idx]]->getHeadBuff(), mDataSourcesRaw[win]->getHeadBuff());
+					mCmpRaw->mergeData(mDataSourcesRaw[mLosterTree[p_idx]]->getHeadBuff(), mDataSourcesRaw[win]->getHeadBuff(), data, len);
 					mDataSourcesRaw[win]->moveNext();
 					p_idx = (win + mDataSourceNum - 1)/2;
 					continue;
@@ -176,6 +178,8 @@ AosMergeFileSorter::sort()
 	bool rslt = false;
 	vector<int> v;
 	DataSource *value = NULL;
+	char *data = NULL;
+	int  len = 0;
 	if (mCmpRaw->mRecordType == AosDataRecordType::eBuff)
 	{
 		AosBuffPtr tmp_buff = OmnNew AosBuff(1000 AosMemoryCheckerArgs);
@@ -240,7 +244,7 @@ tag:
 				if (*(mDataSourcesRaw[idx]) == *value)
 				{
 					mMergeTotal++;
-					mCmpRaw->mergeData(mDataSourcesRaw[idx]->getHeadBuff(), value->getHeadBuff());
+					mCmpRaw->mergeData(mDataSourcesRaw[idx]->getHeadBuff(), value->getHeadBuff(), data, len);
 					value->mBuff->clear();
 					goto tag;
 				}
@@ -275,7 +279,7 @@ tag:
 				{
 					//mCmpRaw->mergeData(mDataSources[win]->getData(), mDataSources[mLosterTree[p_idx]]->getData());
 					mMergeTotal++;
-					mCmpRaw->mergeData(mDataSourcesRaw[mLosterTree[p_idx]]->getHeadBuff(), mDataSourcesRaw[win]->getHeadBuff());
+					mCmpRaw->mergeData(mDataSourcesRaw[mLosterTree[p_idx]]->getHeadBuff(), mDataSourcesRaw[win]->getHeadBuff(), data, len);
 					mDataSourcesRaw[win]->moveNext();
 					p_idx = (win + mDataSourceNum - 1)/2;
 					continue;

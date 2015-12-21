@@ -65,6 +65,7 @@ protected:
 	Status				mStatus;
 	AosBSON	 			mBSON;		// Used to compose call data and results
 	OmnSem *			mSem;
+	AosWebRequestPtr	mWebReq;
 	AosJimoCallServer *	mCallServer; // Used by response only to send msg back
 	OmnConnBuffPtr      mConnBuff;      // The buff that holds the response data
 	u64					mStartTime;
@@ -89,6 +90,8 @@ public:
 	AosJimoCall(
 		const OmnConnBuffPtr &buff,
 		AosJimoCallServer *server);
+
+	~AosJimoCall();
 
 	virtual bool makeCall(AosRundata *rdata);
 	virtual bool callResponded(AosRundata *rdata, AosJimoCall &jimo_call);

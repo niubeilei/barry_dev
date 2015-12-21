@@ -102,7 +102,9 @@ AosDatasetByQueryNest::config(
 #endif
 	mScanDataset = mInputDataset;
 	aos_assert_r(mScanDataset, false);
-
+	
+	// jimodb-1373
+	mScanDataset->setPageSize(mPageSize); 
 #if 0
 	rslt = mScanDataset->config(rdata, table);
 	aos_assert_r(rslt, false);
@@ -122,7 +124,12 @@ AosDatasetByQueryNest::checkIsIndexQuery(
 	if (!mIsIndexQuery)
 	{
 		def->setAttr("start_idx", "0");
-		def->setAttr("psize", "10000000");
+		// jimodb-1372
+		if (def->getAttrStr("psize") == AOSTAG_NOT_A_NUMBER)
+		{
+			def->setAttr("psize", "10000000");
+		}
+		//def->setAttr("psize", "10000000");
 	}
 
 	bool rslt = AosDatasetByQuery::initUnIndexQuery(rdata, def);
@@ -201,6 +208,7 @@ AosDatasetByQueryNest::nextRecordsetNoIndex(const AosRundataPtr &rdata)
 	AosValueRslt value_rslt;
 	bool outofmem = false;
 	bool rslt = true;
+	bool flag = false;
 
 	mNumValues = 0;
 	mTotalValues = 0;
@@ -254,9 +262,13 @@ AosDatasetByQueryNest::nextRecordsetNoIndex(const AosRundataPtr &rdata)
 
 			if (mNumValues >= mPageSize && !mGetTotal)
 			{
+				// jimodb-1372
+				flag = 1;
 				break;
 			}
 		}
+		if (flag)
+			break;
 	}
 
 	return true;
@@ -279,6 +291,7 @@ AosDatasetByQueryNest::nextRecordsetUsingFieldValues(const AosRundataPtr &rdata)
 	AosValueRslt value_rslt;
 	bool outofmem = false;
 	bool rslt = true;
+	bool flag =false;
 
 	mNumValues = 1;
 	mTotalValues = 1;
@@ -324,7 +337,17 @@ AosDatasetByQueryNest::nextRecordsetUsingFieldValues(const AosRundataPtr &rdata)
 				v.push_back(value_rslt);
 			}
 			mFieldValues.push_back(v);
+
+			// jimodb-1372
+			mNumValues ++;
+			if (mNumValues > mPageSize) 
+			{
+				flag = 1;
+				break;
+			}
 		}
+		if(flag)
+			break;
 	}
 
 	rslt = groupby(rdata);

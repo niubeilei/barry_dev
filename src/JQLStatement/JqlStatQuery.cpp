@@ -1129,20 +1129,23 @@ AosJqlStatQuery::generateStatQryInfoConf(const AosRundataPtr &rdata, OmnString &
 		str << "</orderby_fields>";
 	}
 
+	OmnString meetShuffleFields = "false";
+	if(hitShuffleFields(rdata))
+	{
+		meetShuffleFields = "true";	
+	}
+	str << "<hit_shuffle "
+		<< "hit_shuffle_fields=\""<< meetShuffleFields <<"\">"
+		<< "</hit_shuffle>";
+
 	if(mHavingPtr)
 	{
 		OmnString having_conds = mHavingPtr->getHavingConf();	
 		having_conds.escape();
-		OmnString meetShuffleFields = "false";
-		if(hitShuffleFields(rdata))
-		{
-			meetShuffleFields = "true";	
-		}
 		//convert count0x28_rec_count0x29 to count0x280x2a0x29
 		having_conds.replace("_rec_count","0x2a",true);
 		having_conds << ";";
-		str << "<having_conds zky_having_expr=\"" << having_conds << "\" " 
-			<< "hit_shuffle_fields=\""<< meetShuffleFields <<"\">"
+		str << "<having_conds zky_having_expr=\"" << having_conds << "\">" 
 		    << "</having_conds>";
 	}
 

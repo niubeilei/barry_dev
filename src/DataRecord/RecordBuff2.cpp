@@ -180,8 +180,8 @@ AosRecordBuff2::setData(
 		//const int64_t offset)
 {
 	int record_len = 0;
-	bool rslt = parseData(data, len, record_len, status);
-	aos_assert_r(rslt, false);
+	//bool rslt = parseData(data, len, record_len, status);
+	//aos_assert_r(rslt, false);
 
 	aos_assert_r(data && len > 0, false);
 	mMemory = data;

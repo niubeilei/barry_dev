@@ -1278,8 +1278,8 @@ AosJqlStatement::rebuildBitmap(
 {
 	AosTransPtr trans = OmnNew AosIILTransRebuildBitmap(iilname, false, true, 0);
 	bool timeout = false;
-	AosBuffPtr resp;
-	return AosSendTrans(rdata, trans, timeout, resp);
+	//AosBuffPtr resp;
+	return AosSendTrans(rdata, trans, timeout);
 }
 
 

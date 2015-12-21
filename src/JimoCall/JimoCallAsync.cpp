@@ -125,7 +125,7 @@ AosJimoCallAsync::makeCall(AosRundata *rdata)
 	while (mCrtEndpointIdx < mEndpointIDs.size())
 	{
 		int endpoint_id = mEndpointIDs[mCrtEndpointIdx].physical_id;
-		OmnScreen << "sending msg to No. " << mCrtEndpointIdx << " endpoint." << endl;
+		OmnScreen << "jimocall id:" << mJimoCallID << " is sending msg to No. " << mCrtEndpointIdx << " endpoint." << endl;
 
 		//Gavin 2015/09/14
 		if (rdata->getJPID() == 0)
@@ -203,10 +203,10 @@ AosJimoCallAsync::callResponded(
 		return true;
 	}
 	mStatus = jimo_call.getStatus();
-	OmnScreen << "Call failed, id: " << jimo_call.getJimoCallID() << endl;
 	// Check whether the leader changed.
 	OmnString errmsg = jimo_call.getOmnStr(rdata, AosFN::eErrmsg, "");
-	OmnScreen << "errmsg responded:'" << errmsg << "'" << endl;
+	OmnScreen << "Call failed, id: " << jimo_call.getJimoCallID() 
+				<< " errmsg responded:'" << errmsg << "'" << endl;
 	if (errmsg == "not_leader")
 	{
 		// The endpoint is not the leader.
@@ -232,7 +232,7 @@ AosJimoCallAsync::callResponded(
 		while (mCrtEndpointIdx < mEndpointIDs.size())
 		{
 			int endpoint_id = mEndpointIDs[mCrtEndpointIdx].physical_id;
-			OmnScreen << "sending msg to No. " << mCrtEndpointIdx << " endpoint." << endl;
+			OmnScreen << "jimocall id:" << mJimoCallID << " is resending msg to leader, i.e. No. " << mCrtEndpointIdx << " endpoint." << endl;
 			if (mCluster->makeJimoCall(rdata, endpoint_id, thisptr, mBuffInitialSend.getPtrNoLock()))
 			{
 				if (0 < mRetryTimesThreshold)
@@ -341,7 +341,7 @@ AosJimoCallAsync::threadFunc(OmnThrdStatus::E &state, const OmnThreadPtr &thread
 	while (mCrtEndpointIdx < mEndpointIDs.size())
 	{
 		int endpoint_id = mEndpointIDs[mCrtEndpointIdx].physical_id;
-		OmnScreen << "sending msg to No. " << mCrtEndpointIdx << " endpoint." << endl;
+		OmnScreen << "jimocall id:" << mJimoCallID << " is sending msg for timeout No." << mTimeoutCount << " to No. " << mCrtEndpointIdx << " endpoint." << endl;
 		if (mCluster->makeJimoCall(mRdata.getPtrNoLock(), endpoint_id, thisptr, mBuffInitialSend.getPtrNoLock()))
 		{
 			state = OmnThrdStatus::eStop;
@@ -376,7 +376,7 @@ AosJimoCallAsync::timeout(
 		void			*parm)
 {
 	OmnScreen << "timeout No." << mTimeoutCount << " with id:" << timerId << " name:" << timerName
-			<< " delay:" << mCallTimeoutThreshold << " in AosJimoCallAsync." << endl;
+			<< " delay:" << mCallTimeoutThreshold << " in AosJimoCallAsync, jimocall id:" << mJimoCallID << endl;
 	if (mCallSucceeded)
 	{
 		return;

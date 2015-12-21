@@ -37,7 +37,7 @@ CREATEOBJDIR = $(shell if [ -d $(OBJDIR) ]; then echo ""; else mkdir $(OBJDIR); 
 
 OUTPUTDIR = ../../../bin
 
-LIBS = -lnsl -lpthread -lstdc++ -lscws \
+LIBS = -lnsl -lpthread -lstdc++ -lscws -lboost_filesystem \
 	   -lboost_system -lboost_date_time  -lssl -lboost_regex -lcrypto -ldl -lz -lutil -lrt \
 	   -L../../../Runtime_lib -lDatasetJimos \
 	   -lDataCubicJimos -lJimoDataProc -lSchemaJimos -lSchemaPickerJimos -lStreamEngine \
@@ -60,7 +60,6 @@ DLIBS = \
 		$(LIBDIR)/libJSON.a \
 		$(LIBDIR)/libSequence.a \
 		$(LIBDIR)/libGroupQuery.a \
-		$(LIBDIR)/libHBaselib.a \
 		$(LIBDIR)/libVector2DQryRslt.a \
 		$(LIBDIR)/libDataEngine.a \
 		$(LIBDIR)/libStoreQuery.a \
@@ -143,7 +142,6 @@ DLIBS = \
 		$(LIBDIR)/libReqDistr.a \
 		$(LIBDIR)/libProggieUtil.a \
 		$(LIBDIR)/libAdminTrans.a \
-		$(LIBDIR)/libSyBaseMgr.a \
 		$(LIBDIR)/libIILEntryMap.a \
 		$(LIBDIR)/libGroupby.a \
 		$(LIBDIR)/libIILScanner.a \

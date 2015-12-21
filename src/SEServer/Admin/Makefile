@@ -52,7 +52,6 @@ endif
 
 DLIBS = \
 		$(LIBDIR)/libJimoAPI.a \
-		$(LIBDIR)/libHBaselib.a \
 		$(LIBDIR)/libDataEngine.a \
 		$(LIBDIR)/libFmtMgr.a \
 		$(LIBDIR)/libJimoAgentMonitor.a \
@@ -65,7 +64,6 @@ DLIBS = \
 		$(LIBDIR)/libDfmSnapshot.a \
 		$(LIBDIR)/libReliableFile.a \
 		$(LIBDIR)/libAosApi.a \
-		$(LIBDIR)/libEmailClt.a \
 		$(LIBDIR)/libAppVar.a \
 		$(LIBDIR)/libHtmlLayout.a \
 		$(LIBDIR)/libHtmlModules.a \
@@ -81,7 +79,6 @@ DLIBS = \
 		$(LIBDIR)/libLogTrans.a \
 		$(LIBDIR)/libUtilHash.a \
 		$(LIBDIR)/libSQLClient.a \
-		$(LIBDIR)/libEmailClt.a \
 		$(LIBDIR)/libDocSelector.a \
 		$(LIBDIR)/libSmartDoc.a \
 		$(LIBDIR)/libMediaData.a \

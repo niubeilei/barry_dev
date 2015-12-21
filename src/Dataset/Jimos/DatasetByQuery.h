@@ -114,6 +114,9 @@ public:
 	
 	void setScanDataset(AosDatasetObjPtr inputDataset){mInputDataset = inputDataset;};
 
+	// jimodb-1375
+	void    setPageSize(u64 num) { mPageSize = num; }
+
 protected:
 	virtual bool	config(
 						const AosRundataPtr &rdata,

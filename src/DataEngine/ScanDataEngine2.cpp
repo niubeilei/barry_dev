@@ -63,23 +63,23 @@ AosScanDataEngine2::config(
 		const AosRundataPtr &rdata)
 {
 	AosTaskObjPtr task = AosTask::getTaskStatic(task_docid, rdata);
-	if(!task)	procFailed(__FILE__, __LINE__);
+	if(!task)	procFailed(rdata, 0, __FILE__, __LINE__);
 	if(!conf)
 	{
 		AosSetEntityError(rdata, "miss_config", "ScanDataEngine2", "Root conf") << conf << enderr;
-		return procFailed(__FILE__, __LINE__);
+		return procFailed(rdata, 0, __FILE__, __LINE__);
 	}
 	
 	mTaskDocid = task_docid;
 
 	bool rslt = configDataset(task, conf, rdata);
-	if(!rslt)	return procFailed(__FILE__, __LINE__);
+	if(!rslt)	return procFailed(rdata, 0, __FILE__, __LINE__);
 
 	rslt = configEngineProc(rdata, conf);
-	if(!rslt)	return procFailed(__FILE__, __LINE__);
+	if(!rslt)	return procFailed(rdata, 0, __FILE__, __LINE__);
 
 	rslt = configDataCollector(rdata, conf);
-	if(!rslt)	return procFailed(__FILE__, __LINE__);
+	if(!rslt)	return procFailed(rdata, 0, __FILE__, __LINE__);
 	
 	mStatistics.clear();
 	return true;
@@ -97,13 +97,13 @@ AosScanDataEngine2::initAction(
 	showDataEngineInfo(__FILE__, __LINE__, "start");
 
 	bool rslt = notifyAssemblerStart(rdata);
-	if (!rslt) return procFailed(__FILE__, __LINE__);
+	if (!rslt) return procFailed(rdata, 0, __FILE__, __LINE__);
 
 	rslt = notifyDatasetStart(rdata);
-	if (!rslt) return procFailed(__FILE__, __LINE__);
+	if (!rslt) return procFailed(rdata, 0, __FILE__, __LINE__);
 
 	rslt = notifyDataProcStart(rdata);
-	if (!rslt) return procFailed(__FILE__, __LINE__);
+	if (!rslt) return procFailed(rdata, 0, __FILE__, __LINE__);
 	return true;
 }
 
@@ -125,18 +125,18 @@ AosScanDataEngine2::runAction(const AosRundataPtr &rdata, void *data)
 	if (record_set)
 	{
 		rslt = mDataset->nextRecordset(rdata, record_set);
-		if (!rslt) return procFailed(__FILE__, __LINE__);
+		if (!rslt) return procFailed(rdata, record_set,  __FILE__, __LINE__);
 
 		if (AosRecordsetObj::checkEmpty(record_set)) 
-			return runFinished(rdata);
+			return runFinished(rdata, record_set);
 	}
 	else
 	{
 		rslt = mDataset->nextRecordset(rdata, record_set);
-		if (!rslt) return procFailed(__FILE__, __LINE__);
+		if (!rslt) return procFailed(rdata, record_set, __FILE__, __LINE__);
 
 		if (AosRecordsetObj::checkEmpty(record_set)) 
-			return runFinished(rdata);
+			return runFinished(rdata, record_set);
 
 		mLock->lock();
 		vector<AosDataRecordObjPtr> records = record_set->getRecords();
@@ -173,13 +173,8 @@ AosScanDataEngine2::runAction(const AosRundataPtr &rdata, void *data)
 	AosScanDataEngine2::Status exitStatus;
 	exitStatus = procRecordSet(rdata_raw, record_set_raw, data);
 
-	if (exitStatus == eRunFinished) return runFinished(rdata);
-	if (exitStatus == eProcFailed) return procFailed(__FILE__, __LINE__);
-	if (exitStatus == eStop) 
-	{
-		stop(rdata, record_set);
-		return runFinished(rdata);
-	}
+	if (exitStatus == eRunFinished) return runFinished(rdata, record_set);
+	if (exitStatus == eProcFailed) return procFailed(rdata, record_set, __FILE__, __LINE__);
 	return true;
 }
 
@@ -308,13 +303,13 @@ AosScanDataEngine2::notifyAssemblerFinish(const AosRundataPtr &rdata)
 	for(u32 i = 0; i < mRawAssemblers.size(); i++)
 	{
 		rslt = mRawAssemblers[i]->sendFinish(rdata_raw);	
-		if (!rslt) return procFailed(__FILE__, __LINE__);
+		if (!rslt) return procFailed(rdata, 0, __FILE__, __LINE__);
 	}
 
 	for(u32 i = 0; i < mRawAssemblers.size(); i++)
 	{
 		rslt = mRawAssemblers[i]->waitFinish(rdata_raw);	
-		if (!rslt) return procFailed(__FILE__, __LINE__);
+		if (!rslt) return procFailed(rdata, 0, __FILE__, __LINE__);
 	}
 
 	return true;
@@ -493,7 +488,7 @@ AosScanDataEngine2::notifyAssemblerStart(const AosRundataPtr &rdata)
 	{
 		mRawAssemblers[i]->setTargetReporter(this);
 		rslt = mRawAssemblers[i]->sendStart(rdata_raw);
-		if (!rslt) return procFailed(__FILE__, __LINE__);
+		if (!rslt) return procFailed(rdata, 0, __FILE__, __LINE__);
 	}
 	return true;
 }
@@ -578,9 +573,6 @@ AosScanDataEngine2::processRecord(
 			 OmnAlarm << rdata_raw->getErrmsg() << enderr;
 		     return eRunning;
 
-		case AosDataProcStatus::eStop:
-			 return eStop;
-
 		default:
 		 	 logProcError(rdata_raw, input_record);
 		 	 AosSetError(rdata_raw, "internal error") << status << enderr;
@@ -593,8 +585,14 @@ AosScanDataEngine2::processRecord(
 
 
 bool
-AosScanDataEngine2::procFailed(const char *fname, const int line)
+AosScanDataEngine2::procFailed(
+		const AosRundataPtr &rdata,
+		const AosRecordsetObjPtr &record_set,
+		const char *fname, 
+		const int line)
 {
+	if (record_set)
+		mDataset->stop(rdata, record_set);
 	mEngineStatus = eProcFailed;
 	mEndTime = OmnGetSecond();
 	OmnAlarm << "error! fname:" << fname 
@@ -604,8 +602,13 @@ AosScanDataEngine2::procFailed(const char *fname, const int line)
 
 
 bool
-AosScanDataEngine2::runFinished(const AosRundataPtr &rdata)
+AosScanDataEngine2::runFinished(
+		const AosRundataPtr &rdata,
+		AosRecordsetObjPtr &record_set)
 {
+	if (record_set)
+		mDataset->stop(rdata, record_set);
+
 	AosTaskObjPtr task = AosTask::getTaskStatic(mTaskDocid, rdata);
 	aos_assert_r(task, false);
 	mEngineStatus = eRunFinished;
@@ -616,16 +619,6 @@ AosScanDataEngine2::runFinished(const AosRundataPtr &rdata)
 	mEndTime = OmnGetSecond();
 	
 	OmnScreen << "One DataEngine thrd run finish." << endl;
-	return true;
-}
-
-
-bool
-AosScanDataEngine2::stop(
-		const AosRundataPtr &rdata,
-		AosRecordsetObjPtr &record_set)
-{
-	mDataset->stop(rdata, record_set);
 	return true;
 }
 

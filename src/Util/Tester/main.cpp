@@ -48,6 +48,7 @@
 #include "DataField/DataFieldBool.h"
 #include "DataField/DataFieldStr.h"
 using namespace std;
+int gAosShowNetTraffic = 1;
   
  
 int test111(const bool dd)
@@ -1105,10 +1106,10 @@ main(int argc, char **argv)
 		index++;
 	}
 
-//	AosDataFieldObj::setCreator(OmnNew AosDataFieldBool(false));
-//	AosDataFieldObj::setCreator(OmnNew AosDataFieldStr(false));
-//	AosDataField::init();
-	//AosDataRecordObj::setCreator(OmnNew AosRecordFixBin(false AosMemoryCheckerArgs));
+	AosDataFieldObj::setCreator(OmnNew AosDataFieldBool(false));
+	AosDataFieldObj::setCreator(OmnNew AosDataFieldStr(false));
+	AosDataField::init();
+	AosDataRecordObj::setCreator(OmnNew AosRecordFixBin(false AosMemoryCheckerArgs));
 
 	// This is the application part
 	OmnTestMgrPtr testMgr = OmnNew OmnTestMgr("Util/Tester", "Try", "Chen Ding");

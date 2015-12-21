@@ -377,8 +377,8 @@ AosRecordCSV::setFieldValue(
 		}
 	}
 
-	if (idx == (i64)(mNumFields - 1) && mRowDelimiter != "")
-	//if (idx == (i64)(mFieldsNum - 1) && mRowDelimiter != "")
+	//if (idx == (i64)(mNumFields - 1) && mRowDelimiter != "")
+	if (idx == (i64)(mFieldsNum - 1) && mRowDelimiter != "")
 	{                                          
 		if (offset + mRowDelimiter.length() >= mMemLen)
 		{
@@ -1269,8 +1269,8 @@ AosRecordCSV::serializeToXmlDoc(
 void
 AosRecordCSV::flush(const bool clean_memory)
 {
-	//aos_assert(mCrtFieldIdx == (int)mFieldsNum); 
-	aos_assert(mCrtFieldIdx == (int)mNumFields); 
+	aos_assert(mCrtFieldIdx == (int)mFieldsNum); 
+	//aos_assert(mCrtFieldIdx == (int)mNumFields); 
 	
 }
 

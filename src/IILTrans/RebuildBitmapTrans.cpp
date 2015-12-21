@@ -37,7 +37,7 @@ AosIILTransRebuildBitmap::AosIILTransRebuildBitmap(
 		const u64 snap_id)
 :
 AosIILTrans(AosTransType::eRebuildBitmap, iilname,
-	false, snap_id, need_save, true AosMemoryCheckerArgs)
+	false, snap_id, need_save, false AosMemoryCheckerArgs)
 {
 }
 
@@ -87,12 +87,13 @@ AosIILTransRebuildBitmap::proc(
 {	
 	aos_assert_rr(iilobj, rdata, false);
 
+	OmnScreen << "=======complete iil :" << mIILName << endl;
 	bool rslt = AosIILMgrObj::getIILMgr()->rebuildBitmap(
 		iilobj, rdata);
-
+	OmnScreen << "=======complete iil finished :" << mIILName << endl;
 	aos_assert_rr(rslt, rdata, false);
-	resp_buff = OmnNew AosBuff(10 AosMemoryCheckerArgs);
-	resp_buff->setU8(rslt);
+	//resp_buff = OmnNew AosBuff(10 AosMemoryCheckerArgs);
+	//resp_buff->setU8(rslt);
 	return true;
 }
 

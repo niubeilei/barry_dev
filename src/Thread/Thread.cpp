@@ -84,6 +84,7 @@ mCondVar(OmnNew OmnCondVar()),
 mMutexWait(OmnNew OmnMutex()),
 mCondVarWait(OmnNew OmnCondVar()),
 mThreadId(threadid),
+mHighPriority(false),		// Phil, 2015/12/14
 mName(name),
 mThreadObj(NULL),
 mThreadStatus(OmnThrdStatus::eActive),

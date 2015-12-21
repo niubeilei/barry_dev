@@ -578,6 +578,7 @@ AosExprGenFunc::funcNamesMapInit()
 	sgFuncNamesMap["to_char"] = "AosToChar";
 	sgFuncNamesMap["to_date"] = "AosToDate";
 	sgFuncNamesMap["to_number"] = "AosToNumber";
+	sgFuncNamesMap["to_double"] = "AosToDouble";
 	sgFuncNamesMap["tz_offset"] = "AosTzOffset";
 	sgFuncNamesMap["trim"] = "AosTrim";
 	sgFuncNamesMap["trunc"] = "AosTrunc";

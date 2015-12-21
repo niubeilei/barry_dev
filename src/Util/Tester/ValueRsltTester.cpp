@@ -14,6 +14,7 @@
 // Modification History:
 // 
 ////////////////////////////////////////////////////////////////////////////
+#if 0
 #include "Util/ValueRslt.h"
 
 const int sgNumElems = 1000 * 1000 * 10;		// 10 Millions
@@ -277,4 +278,4 @@ void AosTestValueRslt()
 	// AosValueRsltTesterValueWrapU64();
 }
 
-
+#endif

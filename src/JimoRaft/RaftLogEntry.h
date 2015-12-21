@@ -19,6 +19,8 @@
 #include "Util/String.h"
 #include "JimoRaft/RaftStateMachine.h"
 #include "JimoRaft/Ptrs.h"
+#include "JimoCall/Ptrs.h"
+#include "JimoCall/JimoCall.h"
 #include "JimoRaft/RaftLogMgr.h"
 //#include "JimoRaft/RaftStateMachineBlobSE.h"
 #include "Jimo/Jimo.h"
@@ -27,6 +29,7 @@
 
 
 class AosRaftLogMgr;
+//class AosJimoCall;
 class AosRaftLogEntry: virtual public OmnRCObject,
 					   virtual public AosMemoryCheckerObj
 {
@@ -44,6 +47,7 @@ private:
 	AosBuffPtr				mDataBuff;
 
 	OmnString				mTag;
+	AosJimoCallPtr			mCall;
 
 public:
 	//constructor and destructor
@@ -78,12 +82,27 @@ public:
 	void	setCompactFlag(bool flag) { mCompactFlag = flag; }
 	bool	isCompacted() { return mCompactFlag; }
 
+	AosJimoCall *getJimoCall()
+	{ 
+		if (mCall)
+		{
+			return mCall.getPtrNoLock(); 
+		}
+
+		return NULL;
+	}
+
+	void	setJimoCall(AosJimoCall* call)
+	{
+		mCall = call;
+	}
+
 	//for debugging purpose
 	void	setTag(OmnString file, int line) 
 	{
 		mTag = file;
-		mTag << ":" << line;
-		OmnScreen << "Create log entry by tag: " << mTag << endl;
+		//mTag << ":" << line;
+		//RAFT_OmnScreen << "Create log entry by tag: " << mTag << endl;
 	}
 	
 	//data methods
@@ -97,10 +116,24 @@ public:
 
 	void setData(AosBuffPtr &buff);
 
+	bool notifyJimoCall(AosRundata* rdata, u32 leaderId);
+
 	u32 incReceivedCount() 
 	{
 		mServerRecved++; 
 		return mServerRecved;
+	}
+
+	OmnString toString()
+	{
+		OmnString str = "";
+
+		str <<"(Timestamp=" << OmnGetTimestamp() 
+			<<" LogId=" << mLogId
+			<<" TermId=" << mTermId
+			<<") ";
+
+		return str;
 	}
 
 };

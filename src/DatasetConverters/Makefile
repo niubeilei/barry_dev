@@ -11,7 +11,7 @@ CC = g++
 FLAGS = -g -Wall -DOMN_PLATFORM_UNIX $(Optimize) -DAOS_USERLAND
 
 ROOTDIR = ../..
-INCDIRS = -I$(ROOTDIR)/src -I/usr/local/scws/include
+INCDIRS = -I$(ROOTDIR)/src -I$(ROOTDIR)/Include -I/usr/local/scws/include
 
 OBJDIR = $(ROOTDIR)/obj/$(LIBNAME)
 

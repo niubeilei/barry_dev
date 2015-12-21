@@ -64,6 +64,7 @@ public:
 
 	OmnString getDirName() const {return mDirName;}
 	static bool dirExist(const OmnString &dirname);
+	static bool createDir(const OmnString &dirname);
 
 };
 #endif

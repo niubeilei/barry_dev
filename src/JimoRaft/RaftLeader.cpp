@@ -18,6 +18,8 @@
 #include "Porting/Sleep.h"
 #include "alarm_c/alarm.h"
 #include "Alarm/Alarm.h"
+#include "JimoCall/JimoCall.h"
+#include "JimoCall/Ptrs.h"
 
 
 void
@@ -44,9 +46,8 @@ AosRaftServer::leaderInit()
     }
 
 	mLeaderId = mServerId;
+	mHeartBeatSent = 0;
 
-	//clear old client data
-	mDataQueue.clear();
 }
 
 bool
@@ -60,6 +61,11 @@ AosRaftServer::leaderMain()
 
 	while(mRole == eLeader)
 	{
+		if (RAFT_DEBUG)
+		{
+			RAFT_OmnScreen << "Start a new heartbeat round. " << endl;
+		}
+
 		//send heartbeat message
 		broadcastHeartbeat(mRundataRaw);
 
@@ -70,8 +76,7 @@ AosRaftServer::leaderMain()
 	}
 
 	str = timeout ? " Timed out." : "Not timed out.";
-	OmnScreen << toString() << "leader run completed. "
-		<< str << endl;
+	RAFT_OmnScreen << "leader run completed. " << str << endl;
 	return true;
 }
 
@@ -124,11 +129,11 @@ AosRaftServer::sendAppendEntryReq(
 	}
 
 	//send the message
-	if (RAFT_DEBUG)
-	{
-		OmnScreen << toString() << "Start to sync Log data with server " 
+	//if (RAFT_DEBUG)
+	//{
+		RAFT_OmnScreen << "Start to sync Log data with slow server " 
 			<< recvId << " from " << logId << " to " << maxLogId << endl;
-	}
+	//}
 
 	rslt = sendMsg(rdata, &msg, recvId);
 	if (rslt)
@@ -136,12 +141,14 @@ AosRaftServer::sendAppendEntryReq(
 		//update next to replicate number
 		AosRaftPeer *peer = getPeer(recvId);
 		aos_assert_r(peer, false);
-		peer->setNextToReplicate(maxLogId + 1);
+		//RAFT_OmnScreen << "Set next to replicate to " 
+		//	<< maxLogId + 1 << " on peer " << recvId << endl;
+		//peer->setNextToReplicate(maxLogId + 1);
 	}
 
 	if (RAFT_DEBUG)
 	{
-		OmnScreen << toString() << "Finished syncing Log data with server " 
+		RAFT_OmnScreen << "Finished syncing Log data with server " 
 			<< recvId << " from " << logId << " to " << maxLogId << endl;
 	}
 
@@ -159,11 +166,16 @@ AosRaftServer::broadcastHeartbeat(AosRundata*  rdata)
 	u64 logId = getLastLogId();
 	u32 prevLogTermId = 0;
 	AosRaftLogEntryPtr prevLog;
+
 	if (logId > 1)
 	{
 		prevLog = mLogMgr.getLog(rdata, logId - 1);
 		prevLogTermId = prevLog->getTermId();
 	}
+
+	mHeartBeatSent++;
+	if (mHeartBeatSent % 200 == 0)
+		RAFT_OmnScreen << "Broadcast heartbeat times=" << mHeartBeatSent << endl;
 
 	//build the message without any log entry which means
 	//a heartbeat message only
@@ -210,27 +222,25 @@ AosRaftServer::broadcastAppendEntryReq(
 	buildMsg(rdata, &msg, buff);
 
 	if (RAFT_DEBUG)
-		OmnScreen << toString() << "Start to broadcast new Log data " << logId << endl;
+		RAFT_OmnScreen << "Start to broadcast new Log data " << logId << endl;
 
 	while (itr != mPeerMap.end())
 	{
 		peer = &(itr->second);
 		if (peer->getNextToReplicate() == logId)
 		{
-			//Not sending new data to a follower
-			//???This logic need more testing
-
-			//send the message
+			//Not sending new data to a follower in piggy-back mode
+			//send the heartbeat message only
 			rslt = sendMsg(rdata, &msg, peer->getServerId(), buff);
 			aos_assert_r(rslt, false);
-			peer->setNextToReplicate(logId + 1);
+			//peer->setNextToReplicate(logId + 1);
 		}
 
 		itr++;
 	}
 
 	if (RAFT_DEBUG)
-		OmnScreen << toString() << "Finished broadcasting new Log data " << logId << endl;
+		RAFT_OmnScreen << "Finished broadcasting new Log data " << logId << endl;
 	return true;
 }
 
@@ -260,14 +270,14 @@ AosRaftServer::leaderHandleMsg(
 			break;
 
 		default:
-			OmnScreen << toString() << "Got " << 
+			RAFT_OmnScreen << "Got " << 
 				AosRaftMsg::getMsgStr(msgType) << " message and don't care. " << endl;
 			break;
 	}
 
 	if (!rslt)
 	{
-		OmnAlarm << toString() << 
+		RAFT_OmnAlarm << 
 			"Failed to handle message: " << msg->toString() <<enderr;
 	}
 
@@ -284,7 +294,7 @@ AosRaftServer::leaderHandleAppendEntryReq(
 		AosRaftMsgAppendEntryReq *msg)
 {
     //we've found a leader who is legitimate
-	OmnScreen << toString() << "Multiple leaders --- me:" << 
+	RAFT_OmnScreen << "Multiple leaders --- me:" << 
 		getServerId() << " and peer:" << msg->getSenderId() << endl;
 
 	//If I am more qualified due to term Id, send response
@@ -300,7 +310,7 @@ AosRaftServer::leaderHandleAppendEntryReq(
 	//Actually, it is nearly impossible to happen, since the 
 	//different leader must be elected in different terms therefore
 	//have different termid. But in case that ....... 
-	OmnScreen << toString() << 
+	RAFT_OmnScreen << 
 		"Multiple leaders with the same term id!" << endl;
 	return RAFT_ChangeRole(eCandidate);
 }
@@ -314,7 +324,7 @@ AosRaftServer::leaderHandleAppendEntryRsp(
 	u32 peerId = msg->getSenderId();
 	AosRaftPeer *peer = getPeer(peerId);
 	if (RAFT_DEBUG)
-		OmnScreen << "dumping peer info:" << peer->toString() << endl;
+		RAFT_OmnScreen << "dumping peer info:" << peer->toString() << endl;
 
 	u64 logId = msg->getLastLogId();
 	AosRaftLogEntryPtr log = NULL;
@@ -328,7 +338,7 @@ AosRaftServer::leaderHandleAppendEntryRsp(
 	{
 		//this should not be an alarm since when system is busy, out
 		//of order packet is pretty frequent
-		OmnScreen << "Peer:" << peerId <<
+		RAFT_OmnScreen << "Peer:" << peerId <<
 			" sent back an out-of-order appendEntryRsp with lastLogId: " <<
 			logId << endl;
 
@@ -336,8 +346,8 @@ AosRaftServer::leaderHandleAppendEntryRsp(
 	}
 
 	//get the peer node
-	if (msg->getResult() == true)
-	{
+	//if (msg->getResult() == true)
+	//{
 		//the receiver get an old logId successfully
 		if (logId > peer->getLastAgreed())
 		{
@@ -366,18 +376,29 @@ AosRaftServer::leaderHandleAppendEntryRsp(
 
 			//set nextIndex accordingly
 			//commented out for now. Need more testing ???
-			//peer->setNextToReplicate(logId + 1);
+			peer->setNextToReplicate(logId + 1);
+
+			if (logId % RAFT_SAMPLE_PRINT == 0)
+			{
+				RAFT_OmnScreen << "Sync log " << logId 
+					<< " to peer " << peerId 
+					<< " successfully (every "  
+					<< RAFT_SAMPLE_PRINT << ")" << endl;
+			}
 		}
-	}
-	else
+	//}
+	//else
+	if (msg->getResult() == false)
 	{
 		//failed to replicate the log
 		//Do nothing for now and just add a log message
-		OmnScreen << "The follower's last agreed logId is " << logId
+		RAFT_OmnScreen << "Failed to replicate log: The follower's last agreed logId is " << logId
 				<< " on peer " << peerId << endl;
 
 		//reset peer's nextIndex
-		peer->setNextToReplicate(logId + 1);
+		//RAFT_OmnScreen << "Set next to replicate to " 
+		//	<< logId + 1 << " on peer " << peerId << endl;
+		//peer->setNextToReplicate(logId + 1);
 	}
 
 	//check if need to send subsequent logId
@@ -405,7 +426,7 @@ AosRaftServer::leaderHandleVoteReq(
 
 	//send deny voteRsp message
 	sendVoteRsp(rdata, msg, false);
-	OmnScreen << "I am a more qualified leader" << endl;
+	RAFT_OmnScreen << "I am a more qualified leader" << endl;
 
 	return true;
 }
@@ -416,32 +437,64 @@ AosRaftServer::leaderHandleVoteReq(
 bool
 AosRaftServer::handleClientData(
 		AosRundata* rdata,
+		AosJimoCall& jimocall,
 		AosBuffPtr &buff)
 {
-	OmnScreen << toString() << "Get user data to append"
-			<< endl;
-	AosRaftLogEntryPtr log;
+#if 0
+	//It is in a role change stage. Do not
+	//process the client requests and contineu to
+	//process in the new role
+	if (mRole != eLeader)
+	{
+		return false;
+	}
+#endif
 
+	//Clone the jimocall parameter
+	AosJimoCallPtr call;
+	call = OmnNew AosJimoCall(jimocall);
+
+	//Lock the data queue
 	mDataLock->lock();
-	log = OmnNew AosRaftLogEntry(AosMemoryCheckerArgsBegin);
+
+	//Create a new log entry and set data
+	AosRaftLogEntryPtr log = OmnNew AosRaftLogEntry(AosMemoryCheckerArgsBegin);
 	RAFT_LOG_TAG(log);
 	log->setData(buff);
+	log->setJimoCall(call.getPtrNoLock());
+
+	//Get the new log entry in the queue
 	mDataQueue.push_back(log);
+
+	//Release the data queue lock and notify data
+	//handlig thread to handle the new data
 	mDataLock->unlock();
 	mDataSem->post();
 
+	u64 logId = getLastLogId();
+	if (logId % RAFT_SAMPLE_PRINT == 0)
+	{
+		RAFT_OmnScreen << "Append user data " 
+			<< logId << " (every "  
+			<< RAFT_SAMPLE_PRINT << ")" << endl;
+	}
+
+#if 0
 	//wait until the data is committed
-	//set a timeout to be 10 seconds
-	u32 count = 10000000;
-	while (count > 0)
+	//set a timeout to be 5 seconds
+	u32 count = 5000000;
+	while (count > 0 && mRole == eLeader)
 	{
 		if (log->isApplied()) return true;
 
 		OmnUsSleep(10);
 		count--;
 	}
-	OmnAlarm << "wait time out but log is still not applied" << enderr;
-	return false;
+
+	RAFT_OmnAlarm << "wait time out but log is still not applied" << enderr;
+#endif
+
+	return true;
 }
 
 //
@@ -452,7 +505,7 @@ AosRaftServer::dataThreadFunc(
 		OmnThrdStatus::E &state,
 		const OmnThreadPtr &thread)
 {
-	OmnScreen << "Client data thread started." << endl;
+	RAFT_OmnScreen << "Client data thread started." << endl;
 
 	bool rslt;
 	AosRaftLogEntryPtr log;
@@ -492,7 +545,7 @@ AosRaftServer::dataThreadFunc(
 		}
 	}
 
-	OmnScreen << "Client data thread ended." << endl;
+	RAFT_OmnScreen << "Client data thread ended." << endl;
 	return true;
 }
 
@@ -502,13 +555,15 @@ AosRaftServer::dataThreadFunc(
 void
 AosRaftServer::clearClientData()
 {
-	OmnScreen << "Start to clear unhandled client data:" 
+	RAFT_OmnScreen << "Start to clear unhandled client data:" 
 		<< mDataQueue.size() << endl;
 
+	int num = mDataQueue.size();
 	mDataLock->lock();
 	for (u32 i = 0; i < mDataQueue.size(); i++)
 		mDataQueue.pop_back();
 	mDataLock->unlock();
 
-	OmnScreen << "Cleared unhandled client data." << endl;
+	RAFT_OmnScreen << "Cleared unhandled client data:" 
+		<< num << endl;
 }

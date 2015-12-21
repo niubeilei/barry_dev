@@ -14,14 +14,10 @@
 ////////////////////////////////////////////////////////////////////////////
 #include "JimoRaft/RaftLogMgr.h"
 
-//#include "JimoRaft/RaftLogEntry.h"
-#include "SEInterfaces/VfsMgrObj.h"
-#include "SEInterfaces/RlbFileType.h"
-#include "StorageMgr/VirtualFileSys.h"
-#include "StorageMgr/VirtualFileSysMgr.h"
 #include "StorageMgr/StorageMgr.h"
 #include "JimoRaft/RaftServer.h"
 #include "JimoRaft/RaftStateMachineSimple.h"
+#include "Util/DirDesc.h"
 
 AosRaftLogMgr::AosRaftLogMgr()
 {
@@ -34,23 +30,21 @@ AosRaftLogMgr::~AosRaftLogMgr()
 void
 AosRaftLogMgr::init(
 		AosRundata*				rdata,
+		AosRaftServer*			server,
 		AosRaftStateMachinePtr	stateMachine)
 {
-	//create the log entry reliable file
-	AosVfsMgrObjPtr vfsMgr = AosVfsMgrObj::getVfsMgr();
-	aos_assert(vfsMgr);
 	bool rslt;
 
 	mLogQueue.clear();
 	mAppliedLogQueue.clear();
 
 	//init member values
+	mServer = server;
 	mCurTermId = 0;
 	mLastLogId = 0;
 	mCommitIndex = 0;
 	mLastLogIdApplied = 0;
 	mLock = OmnNew OmnMutex();
-	//mCubeId = cubeId;
 
 	//init the applied log cache
 	mAppliedLogCache.clear();
@@ -60,66 +54,46 @@ AosRaftLogMgr::init(
 	mStatMach = stateMachine;
 
 	if (RAFT_USE_STATMACH_SIMPLE)
-		loadRaftStatMach(rdata, 1, 12); 
-
-	mStatMachRaw = mStatMach.getPtrNoLock();
-	//mStatMachRaw->setCubeId(mCubeId);
-
-	//
-	// Set the reliable file for this class. Each reliable
-	// file (vctxxx file) has a file_id
-	//
-	mLogFile = 0;
-	mLogFileRaw = 0;
-	//AosVirtualFileSysPtr vfs = getVirtualFileSys(cubeId);
-	//aos_assert_r(vfs, 0);
-
-	OmnString fileName = mStatMachRaw->getDir();
-	fileName << "/raftlog";
-	//mLogFile = vfsMgr->openRlbFileByStrKey(rdata.getPtr(),
-	//		cubeId, fileName, AosRlbFileType::eNormal);
-	//
-	//mLogFile = vfsMgr->openRlbFile(fileName,
-	//AosRlbFileType::eNormal, rdata.getPtr());
-	u64 rlbFileId = RAFT_LOG_FILEID_START;
-	mLogFile = vfsMgr->openRlbFile(rdata, 0,
-			rlbFileId, fileName, 0, false, AosRlbFileType::eNormal, false);
-
-	if (!mLogFile)
 	{
-		OmnScreen << "First time. Create a new raft log file "
-			<< fileName << endl;
-		//must be a new file, create and open it
-		mLogFile = vfsMgr->createRlbFileById(rdata,
-				0, rlbFileId, fileName, 0, AosRlbFileType::eNormal, false);
-		//mLogFile = vfsMgr->createRlbFileById( rdata,
-		//		cubeId, rlbFileId, fileName, 0, AosRlbFileType::eNormal, false);
-		//mLogFile = vfsMgr->createRlbFileByStrKey(rdata.getPtr(), cubeId,
-		//		fileName, AosRlbFileType::eNormal, 0, false);
-
-		//AosStorageFileInfo file_info;
-		//bool rslt = vfs->addNewFileByStrKey(rdata.getPtr(), fileName, 0, false, file_info);
-		//aos_assert_r(rslt, 0);
-
-		//call writeLogFile to save initial data
-		aos_assert(mLogFile);
-		mLogFileRaw = mLogFile.getPtr();
-
-		//need to write initial data
-		writeLogFile(rdata);
+		loadRaftStatMach(rdata, 1, 12); 
 	}
 
-	aos_assert(mLogFile);
-	mLogFileRaw = mLogFile.getPtr();
+	mStatMachRaw = mStatMach.getPtrNoLock();
+	mLogDir = mStatMachRaw->getBaseDir();
+	aos_assert(!mLogDir.isEmpty());
 
-	mFileSize = mLogFileRaw->getFileCrtSize();
-	mFileId = mLogFile->getFileId();
-	//mIsGood = init(rdata);
+	//create raft log sub-directory
+	mLogDir << "/raft/";
+	//Verify if the dir existing or not. If
+	//not, we need to create the directory
+	if (!OmnDirDesc::dirExist(mLogDir.data()))
+	{
+		rslt = OmnDirDesc::createDir(mLogDir.data());
+		aos_assert(rslt);
+	}
+
+	mLogFileName << mLogDir << "raftlog";
+	mLogFile = OmnNew OmnFile(mLogFileName, OmnFile::eReadWrite AosMemoryCheckerArgs);
+	if (!mLogFile->isGood())
+	{
+		RAFT_OmnScreen << "First time. Create a new raft log file "
+			<< mLogFileName << endl;
+
+		//must be a new file, create and open it
+		mLogFile = OmnNew OmnFile(mLogFileName, OmnFile::eReadWriteCreate AosMemoryCheckerArgs);
+
+		//call writeLogFile to save initial data
+		aos_assert(mLogFile && mLogFile->isGood());
+
+		//need to write initial data
+		mLogFileRaw = mLogFile.getPtrNoLock();
+		aos_assert(mLogFileRaw);
+		writeLogFile(rdata);
+	}
 
 	//read log data to memory at the beginning
 	rslt = readLogFile(rdata);
 	aos_assert(rslt);
-
 }
 
 ///////////////////////////////////////
@@ -138,7 +112,7 @@ AosRaftLogMgr::init(
 bool
 AosRaftLogMgr::writeLogFile(AosRundata* rdata)
 {
-	AosBuffPtr buff = OmnNew AosBuff(8 * 1000 AosMemoryCheckerArgs);
+	AosBuffPtr buff = OmnNew AosBuff(8 * 10000 AosMemoryCheckerArgs);
 
 	//Nonapply log file contains the following
 	//4 fields at the beginning
@@ -166,6 +140,8 @@ AosRaftLogMgr::writeLogFile(AosRundata* rdata)
 		for (u32 i = 0; i < mLogQueue.size(); i++)
 		{
 			log = mLogQueue[i];
+			aos_assert_r(log, false);
+
 			buff->setU32(log->getTermId());
 			buff->setBuff(log->getStatMachHint());
 		}
@@ -177,6 +153,15 @@ AosRaftLogMgr::writeLogFile(AosRundata* rdata)
 	bool rslt = mLogFileRaw->write(0,
 			buff->data(), buff->dataLen(), true);
 	aos_assert_r(rslt, false);
+
+	if (mLastLogId % RAFT_SAMPLE_PRINT == 0)
+	{
+		RAFT_OmnScreen << "Write log file " 
+			<< mLogFileName << " with lastLogId="
+			<< mLastLogId << " (every "  
+			<< RAFT_SAMPLE_PRINT << ")" << endl;
+	}
+
 	return true;
 }
 
@@ -212,15 +197,19 @@ AosRaftLogMgr::writeLogFile(AosRundata* rdata)
 bool
 AosRaftLogMgr::readLogFile(AosRundata*	rdata)
 {
-	AosBuffPtr buff = OmnNew AosBuff(8 * 1000 AosMemoryCheckerArgs);
+	//non-applied log should not be too many
+	//Therefore the buff needs not be very big
+	u32 buffSize = 8*10000;
+	AosBuffPtr buff = OmnNew AosBuff(buffSize AosMemoryCheckerArgs);
 
 	//read all the data to memory at once
 	//assume log history is not big
-	bool rslt = mLogFileRaw->readToBuff(
-			0, mFileSize, buff->data(), rdata);
+	u64 fileSize = OmnFile::getFileLengthStatic(mLogFileName);
+	aos_assert_r(fileSize < buffSize, false); 
+	bool rslt = mLogFileRaw->readToBuff(0, fileSize, buff->data());
 
 	aos_assert_rr(rslt, rdata, false);
-	buff->setDataLen(mFileSize);
+	buff->setDataLen(fileSize);
 	buff->reset();
 
 	//set log entry data based on buff data
@@ -231,9 +220,16 @@ AosRaftLogMgr::readLogFile(AosRundata*	rdata)
 	mLastLogIdApplied = buff->getU64(0);
 	mCommitIndex = buff->getU64(0);
 		
+	//get the log file name
+	RAFT_OmnScreen << "Read log file: "
+		<< mLogFileName << endl;
+
 	//get total number of terms
-	OmnScreen << "Current Term from log history file is: "
-		<< mCurTermId << endl;
+	RAFT_OmnScreen << "Current data in log history file is: "
+		<< "TermId=" << mCurTermId 
+		<< ", logId=" << mLastLogId
+		<< ", logIdApplied=" << mLastLogIdApplied  
+		<< ", commitIndex=" << mCommitIndex << endl;
 
 	AosRaftLogEntryPtr log;
 	u32 termId;
@@ -252,7 +248,7 @@ AosRaftLogMgr::readLogFile(AosRundata*	rdata)
 #if 0
 		if (mLogQueue.size() > 100)
 		{
-			OmnScreen << "Too many logs in mLogQueue: "
+			RAFT_OmnScreen << "Too many logs in mLogQueue: "
 				<< mLogQueue.size() << endl;
 		}
 #endif
@@ -272,7 +268,7 @@ AosRaftLogMgr::removeLogs(
 	aos_assert_r(startLogId <= mLastLogId, false);
 	aos_assert_r(startLogId > mCommitIndex, false);
 
-	OmnScreen << toString() << "Remove conflict logs from logId: "
+	RAFT_OmnScreen << "Remove conflict logs from logId: "
 		<< startLogId << endl;
 
 	bool rslt;
@@ -288,7 +284,7 @@ AosRaftLogMgr::removeLogs(
 				mLastLogId, log->getStatMachHint());
 		if (!rslt)
 		{
-			OmnAlarm << "Failed to remove log entry from statmachine:"
+			RAFT_OmnAlarm << "Failed to remove log entry from statmachine:"
 				<< mLastLogId << enderr;
 
 			mLock->unlock();
@@ -317,7 +313,7 @@ AosRaftLogMgr::appendLog(
 	//refuse to append the log
 	if (mLastLogId - mLastLogIdApplied > RAFT_LOG_QUEUE_SIZE)
 	{
-		OmnAlarm << toString() << "Failed to append logId:"
+		RAFT_OmnAlarm << "Failed to append logId:"
 			<< mLastLogId + 1 << " because too many non-applied logs." << enderr;
 		mLock->unlock();
 		return false;
@@ -342,18 +338,19 @@ AosRaftLogMgr::appendLog(
 			rdata, logId, termId, log->getData(rdata, mStatMachRaw));
 	if (!hint) 
 	{
-		OmnAlarm << toString() << "Failed to append logId: "
-			<< mLastLogId + 1 << enderr;
+		RAFT_OmnAlarm << "Failed to append logId: "
+			<< log->getLogId() << enderr;
 		mLock->unlock();
 		return false;
 	}
 
 	log->setStatMachHint(hint);
+
 	//update counters
 	mLastLogId++;
 	if (logId != mLastLogId)
 	{
-		OmnAlarm << "Append log with wrong log id: " <<
+		RAFT_OmnAlarm << "Append log with wrong log id: " <<
 			"logId:" << logId << " mLastLogId:" << mLastLogId << enderr;
 
 		return false;
@@ -364,13 +361,17 @@ AosRaftLogMgr::appendLog(
 #if 0
 	if (mLogQueue.size() > 100)
 	{
-		OmnScreen << "Too many logs in mLogQueue: "
+		RAFT_OmnScreen << "Too many logs in mLogQueue: "
 			<< mLogQueue.size() << endl;
 	}
 #endif
 	
-	//update log history using writeLogFile
-	writeLogFile(rdata);
+	//
+	//StateMachine will save appended data in real
+	//time, Raft will not write in real time
+	//
+	//Raft will save the data when the data is applied
+	//writeLogFile(rdata);
 	mLock->unlock();
 	return true;
 }
@@ -402,7 +403,7 @@ AosRaftLogMgr::getLog(
 	if (0 == logId || logId > mLastLogId)
 	{
 		//For a new entry, the log Id is Ok to be non-existing
-		//OmnAlarm << toString() << "Requested log id out of range: " 
+		//RAFT_OmnAlarm << "Requested log id out of range: " 
 		//	<< logId << enderr;
 		mLock->unlock();
 		return NULL;
@@ -423,6 +424,28 @@ AosRaftLogMgr::getLog(
 
 	mLock->unlock();
 	return log;
+}
+
+bool
+AosRaftLogMgr::notifyJimoCall(AosRundata *rdata)
+{
+	aos_assert_r(mServer, false);
+
+	//1. Get jimocall from the logs in the
+	//log queue which are not applied yet
+	//
+	//2. Send false result to the jimocall clients and 
+	//clear the jimocalls
+	AosRaftLogEntryPtr log;
+	for (u32 i = 0; i < mLogQueue.size(); i++)
+	{
+		log = mLogQueue[i];
+		aos_assert_r(log, false);
+
+		log->notifyJimoCall(rdata, mServer->getLeaderId());
+	}
+
+	return true;
 }
 
 bool
@@ -481,7 +504,7 @@ AosRaftLogMgr::setLastLogIdAppliedNoLock(AosRundata *rdata, u64 logId)
 #if 0
 		if (mAppliedLogQueue.size() > 100)
 		{
-			OmnScreen << "Too many logs in mAppliedLogQueue: "
+			RAFT_OmnScreen << "Too many logs in mAppliedLogQueue: "
 				<< mAppliedLogQueue.size() << endl;
 		}
 #endif
@@ -497,19 +520,18 @@ AosRaftLogMgr::setLastLogIdAppliedNoLock(AosRundata *rdata, u64 logId)
 //Get an log history file based on a logId
 //If the file doesn't exist, create a new one
 //
-u64
-AosRaftLogMgr::getAppliedLogFileInfo(
-		u64 logId,
-		OmnString &name)
+OmnString
+AosRaftLogMgr::getAppliedLogFileName(u64 logId)
 {
 	aos_assert_r(logId, 0);
 
 	//Get the file Id
+	OmnString name = mLogDir;
 	int fileId = (logId - 1)/RAFT_LOG_PER_FILE;
 	OmnString prefix = "raftlog_";
 	name << prefix << fileId;
 
-	return fileId + RAFT_LOG_FILEID_START;
+	return name;
 }
 
 //
@@ -521,18 +543,15 @@ AosRaftLogMgr::createAppliedLogFile(
 		AosRundata *rdata,
 		u64 logId)
 {
-	AosVfsMgrObjPtr vfsMgr = AosVfsMgrObj::getVfsMgr();
-	aos_assert_r(vfsMgr, 0);
-
 	bool rslt;
-	OmnString name;
-	u64 rlbFileId = getAppliedLogFileInfo(logId, name);
-	aos_assert_r(rlbFileId, false);
+	mCurAppliedLogFileName = getAppliedLogFileName(logId);
 
-	mCurAppliedLogFile	= vfsMgr->createRlbFileById( rdata,
-				0, rlbFileId, name, 0, AosRlbFileType::eNormal, false);
+	RAFT_OmnScreen << "Create an applied log file:" << mCurAppliedLogFileName << endl;
+	mCurAppliedLogFile = OmnNew OmnFile(mCurAppliedLogFileName, OmnFile::eReadWriteCreate AosMemoryCheckerArgs);
+	
 	aos_assert_r(mCurAppliedLogFile, false);
-	mCurAppliedLogFileRaw = mCurAppliedLogFile.getPtr();
+	mCurAppliedLogFileRaw = mCurAppliedLogFile.getPtrNoLock();
+	aos_assert_r(mCurAppliedLogFileRaw, false);
 	
 	int totalCompacted = 0;
 	rslt = mCurAppliedLogFileRaw->
@@ -575,21 +594,15 @@ AosRaftLogMgr::getAppliedLog(AosRundata *rdata, u64 logId)
 		//history file firstly, first clear cache
 		mAppliedLogCache.clear();
 
-		AosVfsMgrObjPtr vfsMgr = AosVfsMgrObj::getVfsMgr();
-		aos_assert_r(vfsMgr, 0);
-		u64 startLogId = logId;
-
 		//Since the prevLog term is also needed, need to
 		//get the log from logId - 1
 		//if (logId > 1) startLogId = logId - 1;
 
-		OmnString name;
-		AosReliableFilePtr logFile;
-		u64 rlbFileId = getAppliedLogFileInfo(startLogId, name);
-		aos_assert_r(rlbFileId, NULL);
+		OmnString name = getAppliedLogFileName(logId);
+		RAFT_OmnScreen << "Get log from applied log file:" << name << endl;
 
-		logFile = vfsMgr->openRlbFile(rdata, 0,
-				rlbFileId, name, 0, false, AosRlbFileType::eNormal, false);
+		OmnFilePtr logFile;
+		logFile = OmnNew OmnFile(name, OmnFile::eReadOnly AosMemoryCheckerArgs);
 		aos_assert_r(logFile, NULL);
 
 		//Read data from the file to cache
@@ -598,6 +611,7 @@ AosRaftLogMgr::getAppliedLog(AosRundata *rdata, u64 logId)
 		//   TermId: 4 bytes
 		//   StatMach_Hint: 24 bytes
 		//
+		u64 startLogId = logId;
 		int entrySize = sizeof(AppliedLogFileEntry);
 		int logOffset = (startLogId - 1) % RAFT_LOG_PER_FILE;
 		int byteOffset = sizeof(AppliedLogFileHeader) + logOffset * entrySize;
@@ -615,7 +629,7 @@ AosRaftLogMgr::getAppliedLog(AosRundata *rdata, u64 logId)
 
 		//Read a group of history log data
 		bool rslt = logFile->readToBuff(
-				byteOffset, readSize, buff->data(), rdata);
+				byteOffset, readSize, buff->data());
 
 		aos_assert_rr(rslt, rdata, NULL);
 		buff->setDataLen(readSize);
@@ -642,18 +656,18 @@ AosRaftLogMgr::getAppliedLog(AosRundata *rdata, u64 logId)
 #if 0
 			if (mAppliedLogCache.size() > 100)
 			{
-				OmnScreen << "Too many logs in mAppliedLogCache: "
+				RAFT_OmnScreen << "Too many logs in mAppliedLogCache: "
 					<< mAppliedLogCache.size() << endl;
 			}
 #endif
 		}
 
 		mAppliedLogCacheStart = startLogId;
-		//OmnScreen << "Get Applied log from disk: startLogId=" 
-		//	<< mAppliedLogCacheStart << " totalCachedLog=" << readLogNum << endl;
+		RAFT_OmnScreen << "Get Applied log from disk: startLogId=" 
+			<< mAppliedLogCacheStart << " totalCachedLog=" << readLogNum << endl;
 	}
 	
-	//OmnScreen << "Get Applied log" << endl;
+	//RAFT_OmnScreen << "Get Applied log" << endl;
 	//Return the cache value
 	return mAppliedLogCache[logId - mAppliedLogCacheStart];
 }
@@ -674,7 +688,7 @@ AosRaftLogMgr::loadRaftStatMach(
 	mStatMachRaw = mStatMach.getPtrNoLock();
 	if (!mStatMachRaw->init(rdata, mLastLogIdApplied))
 	{
-		OmnAlarm << toString() << 
+		RAFT_OmnAlarm << 
 			"mStatMach->init failed, mLastLogIdApplied:" << mLastLogIdApplied << enderr;
 
 		return false;

@@ -68,6 +68,7 @@ public:
 
 	virtual bool	getRecords(vector<AosDataRecordObjPtr> &records);
 	
+	
 };
 #endif
 

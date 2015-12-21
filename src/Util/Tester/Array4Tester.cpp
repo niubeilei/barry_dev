@@ -14,6 +14,7 @@
 // Modification History:
 // 
 ////////////////////////////////////////////////////////////////////////////
+#if 0
 #include "Util/Tester/Array4Tester.h"
 
 #include "Debug/Debug.h"
@@ -166,3 +167,4 @@ OmnArray4Tester::verify(int **** array,
 
 	return true;
 }
+#endif

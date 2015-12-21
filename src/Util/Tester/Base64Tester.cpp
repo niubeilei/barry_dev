@@ -13,6 +13,7 @@
 // Modification History:
 // 01/24/2010:	Created by Chen Ding
 ////////////////////////////////////////////////////////////////////////////
+#if 0
 #include "Util/Tester/Base64Tester.h"
 
 #include "Base64/Base64.h"
@@ -55,3 +56,4 @@ AosBase64Tester::torturer()
 	return true;
 }
 
+#endif

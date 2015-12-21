@@ -645,16 +645,23 @@ AosStatTimeUnit::convertToTimeUnit(
 				AosValueRslt &time,
 				const AosStatTimeUnit::E timeUnit)
 {
-	//arvin 2015.11.12
-	//JIMODB-1089
-	aos_assert_r(time.getType() == AosDataType::eDateTime,false);
-	AosDateTime dt = time.getDateTime();
-	if(dt.isNotADateTime())
-		return false;
+	AosDataType::E type = time.getType();
+	if(type == AosDataType::eDateTime)
+	{
+		AosDateTime dt = time.getDateTime();
+		if(dt.isNotADateTime())
+			return false;
+	}
+	else if(type != AosDataType::eInt64)
+	{
+		OmnAlarm << "unsupport type" << enderr;
+	}
 	i64 epochTime = time.getI64();
 	i64 new_time;
 	i64 time_zone = timezone;
-	epochTime -= time_zone;
+	if(type == AosDataType::eDateTime )
+		epochTime -= time_zone;
+	
 	switch (timeUnit)
 	{
 		case AosStatTimeUnit::eEpochTime:

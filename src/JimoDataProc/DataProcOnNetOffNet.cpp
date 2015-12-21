@@ -15,8 +15,9 @@
 #include "JimoDataProc/DataProcOnNetOffNet.h"
 
 #include "API/JimoCreators.h"
-
 #include "boost/date_time/gregorian/gregorian.hpp"   
+
+
 using namespace boost::gregorian;
 
 
@@ -91,6 +92,13 @@ mRawOffNetOutputRecord(0)
 	}
 	if (proc.mDatasetConf)
 		mDatasetConf = proc.mDatasetConf->clone(AosMemoryCheckerArgsBegin);
+	AosDataRecordObjPtr rcd = NULL;
+	for (size_t i = 0; i < proc.mInputRecords.size(); i++)
+	{
+		rcd = proc.mInputRecords[i]->clone(0 AosMemoryCheckerArgs);
+		mInputRecords.push_back(rcd);
+	}
+	mInputRecordsMap = proc.mInputRecordsMap;
 }
 
 
@@ -158,8 +166,10 @@ AosDataProcOnNetOffNet::config(
 		mLastDay = AosDateTime(end_day, mTimeUnit);
 		aos_assert_r(!(mLastDay.isNotADateTime()), false);
 
+		rslt = createInputRecordsMap();
+		aos_assert_r(rslt, false);
 		//create output record
-		rslt = createOutput(mName, json, rdata);
+		rslt = createOutput(json, rdata);
 		aos_assert_r(rslt, false);
 
 		aos_assert_r(mTaskDocid, false);
@@ -170,8 +180,7 @@ AosDataProcOnNetOffNet::config(
 		AosXmlTagPtr dataset_conf = datasets_conf->getFirstChild("dataset");
 		aos_assert_r(dataset_conf, false);
 
-		mDatasetConf = dataset_conf->clone(AosMemoryCheckerArgsBegin);
-
+		mDatasetConf = dataset_conf;
 		return true;
 	}
 	catch (...)
@@ -184,81 +193,55 @@ AosDataProcOnNetOffNet::config(
 
 bool
 AosDataProcOnNetOffNet::createOutput(
-		const OmnString &dpname,
 		const JSONValue &json_conf,
 		const AosRundataPtr &rdata)
 {
-	bool rslt = createOnNetOutput(dpname, json_conf, rdata);
-	aos_assert_r(rslt, false);
-
-	rslt = createOffNetOutput(dpname, json_conf, rdata);
-	aos_assert_r(rslt, false);
-	return true;
-}
-
-
-bool
-AosDataProcOnNetOffNet::createOnNetOutput(
-		const OmnString &dpname,
-		const JSONValue &json_conf,
-		const AosRundataPtr &rdata)
-{
-	OmnString name = "";
-	name << dpname << "_onnet_output";
-
-	int len = json_conf["max_keylen"].asInt();
-	if (len <= 0) len = 50;
+	OmnString user_id_field = json_conf["user_id_field"].asString();
+	OmnString time_field = json_conf["time_field"].asString();
 
 	OmnString type_str = json_conf["record_type"].asString();
 	if (type_str == "")
 		type_str = AOSRECORDTYPE_FIXBIN;
+	AosDataRecordType::E record_type = AosDataRecordType::toEnum(type_str);
 
-	OmnString user_id_field = json_conf["user_id_field"].asString();
-	OmnString time_field = json_conf["time_field"].asString();
+	AosDataFieldType::E user_id_type = convertToDataFieldType(rdata.getPtr(), mUserIdExpr, mInputRecords[0]);
+	aos_assert_r(user_id_type != AosDataFieldType::eInvalid, false);
+	map<OmnString, AosDataFieldObjPtr>::iterator itr = mInputRecordsMap.find(user_id_field);
+	aos_assert_r(itr != mInputRecordsMap.end(), false);
+	AosDataFieldObjPtr field = itr->second;
+	aos_assert_r(field, false);
+	int user_id_len = field->mFieldInfo.field_data_len;
 
-	AosDataRecordType::E type = AosDataRecordType::toEnum(type_str);
-	boost::shared_ptr<Output> output = boost::make_shared<Output>(name, type);
-	output->setField(time_field, AosDataFieldType::eStr, len);
-	output->setField(user_id_field, AosDataFieldType::eStr, len);
+	AosDataFieldType::E time_field_type = convertToDataFieldType(rdata.getPtr(), mTimeExpr, mInputRecords[0]);
+	aos_assert_r(time_field_type != AosDataFieldType::eInvalid, false);
+	itr = mInputRecordsMap.find(time_field);
+	aos_assert_r(itr != mInputRecordsMap.end(), false);
+	field = itr->second;
+	aos_assert_r(field, false);
+	int time_field_len = field->mFieldInfo.field_data_len;
 
+	OmnString output_name = "";
+	output_name << mName << "_onnet_output";
+
+	boost::shared_ptr<Output> output = boost::make_shared<Output>(output_name, record_type);
+	output->setField(time_field, time_field_type, time_field_len);
+	output->setField(user_id_field, user_id_type, user_id_len);
 	output->init(mTaskDocid, rdata);
 	mOnNetOutputRecord = output->getRecord();
 	mRawOnNetOutputRecord = mOnNetOutputRecord.getPtr();
 	mOutputs.push_back(output);
-	return true;
-}
 
-
-bool
-AosDataProcOnNetOffNet::createOffNetOutput(
-		const OmnString &dpname,
-		const JSONValue &json_conf,
-		const AosRundataPtr &rdata)
-{
-	OmnString name = "";
-	name << dpname << "_offnet_output";
-
-	int len = json_conf["max_keylen"].asInt();
-	if (len <= 0) len = 50;
-
-	OmnString type_str = json_conf["record_type"].asString();
-	if (type_str == "")
-		type_str = AOSRECORDTYPE_FIXBIN;
-
-	OmnString user_id_field = json_conf["user_id_field"].asString();
-	OmnString time_field = json_conf["time_field"].asString();
-
-	AosDataRecordType::E type = AosDataRecordType::toEnum(type_str);
-	boost::shared_ptr<Output> output = boost::make_shared<Output>(name, type);
-	output->setField(time_field, AosDataFieldType::eStr, len);
-	output->setField(user_id_field, AosDataFieldType::eStr, len);
-
+	output_name = "";
+	output_name << mName << "_offnet_output";
+	output = boost::make_shared<Output>(output_name, record_type);
+	output->setField(time_field, time_field_type, time_field_len);
+	output->setField(user_id_field, user_id_type, user_id_len);
 	output->init(mTaskDocid, rdata);
 	mOffNetOutputRecord = output->getRecord();
 	mRawOffNetOutputRecord = mOffNetOutputRecord.getPtr();
 	mOutputs.push_back(output);
 	return true;
-}		
+}
 
 
 AosDataProcStatus::E
@@ -270,7 +253,7 @@ AosDataProcOnNetOffNet::procData(
 	bool rslt = runJoin(rdata_raw);
 	aos_assert_r(rslt, AosDataProcStatus::eError);
 	
-	return AosDataProcStatus::eStop;
+	return AosDataProcStatus::eExit;
 }
 
 
@@ -382,11 +365,12 @@ AosDataProcOnNetOffNet::runJoin(const AosRundataPtr &rdata)
 }
 */
 
+
 bool
 AosDataProcOnNetOffNet::runJoin(
 		AosRundata *rdata)
 {
-	//OmnScreen << "mCrtDay:" << mCrtDay.toString() << endl;
+	OmnScreen << "mCrtDay:" << mCrtDay.toString() << endl;
 
 	map<OmnString, int> crt_map;
 	set<OmnString> begin_set, end_set;
@@ -480,11 +464,11 @@ AosDataProcOnNetOffNet::getNextKey(
 	day = "";
 
 	AosValueRslt value_rslt;
-	bool rslt = mTimeExpr->getValue(rdata.getPtr(), input_record, value_rslt);
+	bool rslt = mRawTimeExpr->getValue(rdata.getPtr(), input_record, value_rslt);
 	aos_assert_r(rslt, false);
 	day = value_rslt.getStr();
 
-	rslt = mUserIdExpr->getValue(rdata.getPtr(), input_record, value_rslt);
+	rslt = mRawUserIdExpr->getValue(rdata.getPtr(), input_record, value_rslt);
 	aos_assert_r(rslt, false);
 	key = value_rslt.getStr();
 	return true;
@@ -678,7 +662,6 @@ AosDataProcOnNetOffNet::addSet(
 			crt_map[key] = 1;
 		}
 	}
-	
 	return true;
 }
 
@@ -709,7 +692,6 @@ AosDataProcOnNetOffNet::removeSet(
 			crt_map.erase(map_itr);
 		}
 	}
-	
 	return true;
 }
 
@@ -794,5 +776,31 @@ AosDataProcOnNetOffNet::createByJql(
 	dp_str << " </jimodataproc>";
 
 	prog->saveLogicDoc(rdata, objid, dp_str);
+	return true;
+}
+
+
+void
+AosDataProcOnNetOffNet::setInputDataRecords(vector<AosDataRecordObjPtr> &records)
+{
+	mInputRecords = records;
+}
+
+
+bool
+AosDataProcOnNetOffNet::createInputRecordsMap()
+{
+	aos_assert_r(mInputRecords.size() > 0, false);
+
+	AosDataRecordObjPtr inputrcd = mInputRecords[0];
+	aos_assert_r(inputrcd, false);
+
+	vector<AosDataFieldObjPtr> input_fields = inputrcd->getFields();
+	OmnString name = "";
+	for(size_t i = 0; i < input_fields.size(); i++)
+	{
+		name = input_fields[i]->getName();
+		mInputRecordsMap.insert(make_pair(name, input_fields[i]));
+	}
 	return true;
 }

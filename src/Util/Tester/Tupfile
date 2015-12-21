@@ -1,0 +1,67 @@
+LIBNAME = Util_Tester
+
+EXENAME = utiltester.exe 
+
+CFLAGS += -g -Wall -DOMN_PLATFORM_UNIX 
+CFLAGS += -I../.. -I../../../Include -I../../../SyncEngine
+
+OBJDIR = ../../../obj/$(LIBNAME)
+LIBDIR = ../../../obj
+EXLIBDIR = ../../../Lib
+
+
+DDOBJ += -lboost_system -lboost_date_time  -lssl -lboost_regex -lboost_thread -L/usr/local/scws/lib -lnsl -lpthread -lstdc++ -lscws -lcrypto -ldl -lboost_filesystem
+
+DOBJ += -L../../../Runtime_lib -lQueryCacher -lQueryProc -lQueryEngine -lBitmapEngine -L../../../obj -lQueryTermJimos -lJimoProgCheckers -lDatasetJimos -lFuncJimos -lDataCubicJimos -lJimoDataProc -lJimoJob -lJimoDataset -lJimoParser -lJimoProg -lJimoLogicNew -lStreamEngine -lStatisticsJimos -lSchemaJimos -lSchemaPickerJimos -lDatasetConverters -lQueryInto -lQueryFormat -lJimoDataReceiver
+
+OBJ+=$(LIBDIR)/libDataCube.a
+OBJ+=$(LIBDIR)/libUtilTime.a
+OBJ+=$(LIBDIR)/libSEUtil.a
+OBJ+=$(LIBDIR)/libutil2.a
+OBJ+=$(LIBDIR)/libTester.a
+OBJ+=$(LIBDIR)/libAppMgr.a
+OBJ+=$(LIBDIR)/libRundata.a
+OBJ+=$(LIBDIR)/libMessage.a
+OBJ+=$(LIBDIR)/libSEBase.a
+OBJ+=$(LIBDIR)/libJimo.a
+OBJ+=$(LIBDIR)/libAPI.a
+OBJ+=$(LIBDIR)/libaosDLL.a
+OBJ+=$(LIBDIR)/libQueryRslt.a
+OBJ+=$(LIBDIR)/libQueryUtil.a
+OBJ+=$(LIBDIR)/libUserMgmt.a
+OBJ+=$(LIBDIR)/libDocUtil.a
+OBJ+=$(LIBDIR)/libThread.a
+OBJ+=$(LIBDIR)/libRandom.a
+OBJ+=$(LIBDIR)/libaosUtil.a
+OBJ+=$(LIBDIR)/libDataStore.a
+OBJ+=$(LIBDIR)/libUtilComm.a
+OBJ+=$(LIBDIR)/libutil_c.a
+OBJ+=$(LIBDIR)/libSEInterfaces.a
+OBJ+=$(LIBDIR)/libConfig.a
+OBJ+=$(LIBDIR)/libPorting.a
+OBJ+=$(LIBDIR)/libSingletonClass.a
+OBJ+=$(LIBDIR)/libSecurity.a
+OBJ+=$(LIBDIR)/libObj.a
+OBJ+=$(LIBDIR)/libalarm_c.a
+OBJ+=$(LIBDIR)/libAlarm.a
+OBJ+=$(LIBDIR)/libXmlParser.a
+OBJ+=$(LIBDIR)/libPorting.a
+OBJ+=$(LIBDIR)/libTracer.a
+OBJ+=$(LIBDIR)/libDebug.a  
+OBJ+=$(LIBDIR)/libUtil1.a
+OBJ+=$(LIBDIR)/libUtilComm.a
+OBJ+=$(LIBDIR)/librandom_c.a
+OBJ+=$(LIBDIR)/libJimoAPI.a
+OBJ+=$(LIBDIR)/libUtil.a
+OBJ+=$(LIBDIR)/libDataTypes.a
+OBJ+=$(LIBDIR)/libErrorMgr.a
+OBJ+=$(LIBDIR)/libXmlUtil.a
+OBJ+=$(LIBDIR)/libMultiLang.a
+OBJ+=$(LIBDIR)/libBase64.a
+OBJ+=$(LIBDIR)/libTransBasic.a
+OBJ+=$(LIBDIR)/libTransMgr.a 
+OBJ+=$(LIBDIR)/libTransUtil.a
+OBJ+=$(EXLIBDIR)/libsnappy.a 
+
+: foreach *.c *.cpp |> g++ $(CFLAGS) -c %f -o %o |> $(OBJDIR)/%B.o
+: $(OBJDIR)/*.o | ../../../<mod> |> g++ -rdynamic -Wl,--no-as-needed $(CFLAGS) %f $(DOBJ) -Xlinker --start-group $(OBJ) -Xlinker --end-group $(DOBJ) $(DDOBJ) -o %o  |> $(LIBDIR)/$(EXENAME)

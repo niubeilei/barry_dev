@@ -194,8 +194,10 @@ AosCompareFun(_size, reserve)
 			field = datafields->getNextChild();
 		}
 	}
-	mRcdFdsNum = mFieldsType.size();
-	//mRcdFdsNum = config->getAttrInt("record_fields_num", 0);
+	//mRcdFdsNum = mFieldsType.size();
+mFieldsType.push_back(AosDataFieldType::eStr);
+mFieldsType.push_back(AosDataFieldType::eBinU64);
+mRcdFdsNum = config->getAttrInt("record_fields_num", 0);	//for test barry
 	if (mRcdFdsNum != 0)
 	{
 		size = sizeof(int) + sizeof(i64) + sizeof(u16) * mRcdFdsNum;
@@ -257,8 +259,12 @@ AosCompareFun(_size, reserve)
 			agr_data.mAgrPos = agr->getAttrU32("agr_pos", 0);
 			agr_data.mAgrType = getDataType(agr->getAttrStr("agr_type"));
 			aos_assert(agr_data.mAgrType != eInvalidDataType);
+
 			typestr = agr->getAttrStr("field_type");
 			agr_data.mAgrFieldType = getDataType(typestr);
+			//barry 2015/12/17
+			if (agr_data.mAgrFieldType == eAgrStr)
+				mHasAgrStr = true;
 			agr_data.mAgrFun = AosDataColOpr::toEnum(agr->getAttrStr("agr_fun"));
 			mAosAgrs.push_back(agr_data);
 			agr = agrs->getNextChild();
@@ -492,7 +498,7 @@ AosFunCustom::cmpPriv(const char* lhs, const char* rhs)
 
 
 bool
-AosCompareFun::mergeData(char *v1, char *v2)
+AosCompareFun::mergeData(char *v1, char *v2, char *data, int &len)
 {
 	if (strncmp("manuf_name", v1,10) ==0 )
 	{
@@ -560,6 +566,10 @@ AosCompareFun::mergeData(char *v1, char *v2)
 					OmnAlarm << "DataType Invalid: " << mAosAgrs[i].mAgrFieldType << enderr;
 					break;
 				}
+				case eAgrStr:
+					rslt = agrStr(v1_rcd, v2_rcd, v1_offset+sizeof(u32), v2_offset+sizeof(u32), data, len);
+					aos_assert_r(rslt, false);
+					break;
 				default:
 					OmnAlarm << "DataType Invalid: " << mAosAgrs[i].mAgrFieldType << enderr;
 					break;
@@ -664,6 +674,53 @@ AosCompareFun::agrDouble(char *v1, char *v2, AosDataColOpr::E agr_fun, u32 agr_p
 			OmnAlarm << "AosDataColOpr Invalid: " << agr_fun << enderr;
 			break;
 	}
+	return true;
+}
+
+
+bool
+AosCompareFun::agrStr(char *r1, 
+				char *r2, 
+				const int f1_offset, 
+				const int f2_offset, 
+				char *data, 
+				int &len)
+{
+	int offset = f1_offset-sizeof(u32)-sizeof(i8);
+	memcpy(data, r1, offset);
+	data[offset] = 0; 
+	offset += sizeof(i8);
+
+	u32 f1_len = *((u32*)(r1+f1_offset-sizeof(u32)));
+	u32 f2_len = *((u32*)(r2+f2_offset-sizeof(u32)));
+
+	*(u32*)(data+offset) = f1_len+f2_len+sizeof(char);
+	offset += sizeof(u32);
+	if (f1_len != 0)
+	{
+		memcpy(data+offset, r1+f1_offset, f1_len);
+		offset += f1_len;
+	}
+	data[offset] = char(0x01);
+	offset += sizeof(char);
+
+	if (f2_len !=0 )
+	{
+		memcpy(data+offset, r2+f2_offset, f2_len);
+		offset += f2_len;
+	}
+
+	int decode_len = *(int*)r1;
+	bool rslt = AosBuff::decodeRecordBuffLength(decode_len);
+	aos_assert_r(rslt, false);
+
+	int remaining_len = decode_len + sizeof(u32) - f1_offset - f1_len;
+	memcpy(data+offset, r1+f1_offset+f1_len, remaining_len);
+	len = offset + remaining_len - sizeof(u32);
+	int encode_len = len;
+	rslt = AosBuff::encodeRecordBuffLength(encode_len);
+	aos_assert_r(rslt, false);
+	*(u32*)data = encode_len;
 	return true;
 }
 

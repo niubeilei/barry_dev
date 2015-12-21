@@ -662,7 +662,7 @@ AosDatasetByDataScanner::report(
 bool
 AosDatasetByDataScanner::stop(
 		const AosRundataPtr &rdata,
-		AosRecordsetObjPtr &recordset)
+		const AosRecordsetObjPtr &recordset)
 {
 	aos_assert_r(recordset, false);
 	AosBuffDataPtr buffdata;

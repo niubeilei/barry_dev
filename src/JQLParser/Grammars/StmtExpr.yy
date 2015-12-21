@@ -403,8 +403,9 @@ expr:
 		if (fname.toLower() == "avg" && $3->size() == 1)
 		{
 			AosExprObjPtr lhs = OmnNew AosExprGenFunc("sum", (*$3)[0]);
+			AosExprObjPtr lhs1 = OmnNew AosExprGenFunc("to_double", lhs);
 			AosExprObjPtr rhs = OmnNew AosExprGenFunc("count", (*$3)[0]);
-			$$ = new AosExprArith(lhs, AosExprArith::eDivide, rhs);
+			$$ = new AosExprArith(lhs1, AosExprArith::eDivide, rhs);
 		}
 		else
 		{

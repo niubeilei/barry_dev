@@ -143,7 +143,7 @@ AosBlobSEAPI::appendEntry(
 	switch (pBlobSEReqEntry->getReqTypeAndResult())
 	{
 	case AosBlobSEReqEntry::eSave:
-		OmnScreen << "saving doc with oprid:" << ullOprID << " docid:" << pBlobSEReqEntry->getDocid() << " this@" << this << endl;
+		OmnScreen << "aseid:" << mBlobSE->getConfig().aseid << " saving doc with oprid:" << ullOprID << " docid:" << pBlobSEReqEntry->getDocid() << " this@" << this << endl;
 		iRet = mBlobSE->saveDoc(rdata, ulTermID, ullOprID, pBlobSEReqEntry.getPtrNoLock(), pHeader);
 		if (0 != iRet)
 		{
@@ -348,7 +348,7 @@ AosBlobSEAPI::readDoc(
 		}
 		else
 		{
-			OmnScreen << "mBlobSE->readDoc failed, iRet=" << iRet << " docid:" << pBlobSEReqEntry->getDocid()
+			OmnScreen << "aseid:" << mBlobSE->getConfig().aseid << " mBlobSE->readDoc failed, iRet=" << iRet << " docid:" << pBlobSEReqEntry->getDocid()
 					<< " timestamp:" << ullTimestamp << endl;
 			return true;
 		}
@@ -591,6 +591,8 @@ AosBlobSEAPI::needsSuppressReadError(u64 eAseID)
 	case AosModuleId::eGroupDoc:
 	case AosModuleId::eLocalBitmapStore:
 	case AosModuleId::eBitmapTree:
+	case AosModuleId::eBitmapBlockIndex:
+	case AosModuleId::eSectionedBitmap:
 	case 100:
 		return true;
 		break;

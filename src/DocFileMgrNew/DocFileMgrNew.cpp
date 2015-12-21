@@ -186,12 +186,14 @@ AosDocFileMgrNew::createDoc(
 		pHeaderCustomData = OmnNew AosBuff(mHeaderCustomSize AosMemoryCheckerArgs);
 		pHeaderCustomData->setDataLen(mHeaderCustomSize);
 	}
+
 	if (mHeaderCustomSize < pHeaderCustomData->dataLen())
 	{
 		OmnAlarm << "mHeaderCustomSize:" << mHeaderCustomSize
 				<< " < pHeaderCustomData->dataLen():"  << pHeaderCustomData->dataLen() << enderr;
 		return false;
 	}
+
 	if (pHeaderCustomData->dataLen() < mHeaderCustomSize)
 	{
 		//fill the blank
@@ -214,14 +216,19 @@ AosDocFileMgrNew::createDoc(
 	//AosRaftStateMachine *RaftStateMachine = AosRaftStateMachine::createRaftStateMachineStatic(rdata, "AosBlobSEAPI", 1);
 	//aos_assert_rr(RaftStateMachine, rdata, false);
 
-	if (!mRafts[cube_id]->handleClientData(rdata, buff))
+	if (!mRafts[cube_id]->handleClientData(rdata, jimo_call, buff))
 	{
 		// It is out believing that Raft SHALL never fail. If raft fail, 
 		// it is a serious system error.
 		jimo_call.setHardwareFail();
 		AosLogError(rdata, false, "failed_create_doc") << enderr;
 		OmnAlarm << "failed_create_doc" << enderr;
+
+		jimo_call.sendResp(rdata);
+		return true;
 	}
+
+#if 0
 	else
 	{
 		jimo_call.setSuccess();
@@ -229,6 +236,14 @@ AosDocFileMgrNew::createDoc(
 	}
 
 	jimo_call.sendResp(rdata);
+#endif
+
+	//Return without send response since this is 
+	//an async call. 
+	//
+	//However, if something failed, the jimocall
+	//needs to send back fail result right away
+	//as above code
 	return true;
 }
 
@@ -287,22 +302,28 @@ AosDocFileMgrNew::modifyDoc(AosRundata* rdata,
 	//AosRaftStateMachine *RaftStateMachine = AosRaftStateMachine::createRaftStateMachineStatic(rdata, "AosBlobSEAPI", 1);
 	//aos_assert_rr(RaftStateMachine, rdata, false);
 
-	if (!mRafts[cube_id]->handleClientData(rdata, buff)) 
+	if (!mRafts[cube_id]->handleClientData(rdata, jimo_call, buff)) 
 	{
 		jimo_call.setHardwareFail(); 
 		AosLogError(rdata, false, "failed_create_doc") << enderr;
+
+		jimo_call.sendResp(rdata);
+		return true;              
 	}
+#if 0	
 	else
 	{
 		jimo_call.setSuccess();
 	}
 
 	jimo_call.sendResp(rdata); 
+#endif
+
 	return true;
 }
 
 
-	bool 
+bool
 AosDocFileMgrNew::deleteDoc(
 		AosRundata *rdata, 
 		const u64 aseid,
@@ -356,17 +377,22 @@ AosDocFileMgrNew::deleteDoc(
 	//AosRaftStateMachine *RaftStateMachine = AosRaftStateMachine::createRaftStateMachineStatic(rdata, "AosBlobSEAPI", 1); 
 	//aos_assert_rr(RaftStateMachine, rdata, false);
 
-	if (!mRafts[cube_id]->handleClientData(rdata, buff))
+	if (!mRafts[cube_id]->handleClientData(rdata, jimo_call, buff))
 	{
 		jimo_call.setHardwareFail();
 		AosLogError(rdata, false, "failed_create_doc") << enderr;
+
+		jimo_call.sendResp(rdata);
+		return true;              
 	}
+#if 0	
 	else
 	{
 		jimo_call.setSuccess();
 	}
 
 	jimo_call.sendResp(rdata); 
+#endif	
 	return true;
 }
 
@@ -384,12 +410,16 @@ AosDocFileMgrNew::getDoc(
 
 	if (!checkLeader(rdata, docid, jimo_call))
 	{
+		OmnScreen << "checkLeader failed, docid:" << docid 
+				  << " jimocallid:" << jimo_call.getJimoCallID() << endl;
 		jimo_call.sendResp(rdata);
 		return true;
 	}
 
 	if (!checkId(docid, rdata, jimo_call))
 	{
+		OmnAlarm << "checkId failed, docid:" << docid 
+				 << " jimocallid:" << jimo_call.getJimoCallID() << enderr;
 		jimo_call.sendResp(rdata);
 		return true;
 	}
@@ -405,8 +435,14 @@ AosDocFileMgrNew::getDoc(
 	rslt = blob->readDoc(rdata, aseid, snap_id, docid, timestamp, body_data, pHeaderCustomData); 
 	if(!rslt)
 	{
+		OmnString errmsg;
+		errmsg << "getDoc failed, param:[" << " aseid:" << aseid 
+			   << " snap_id:" << snap_id << " docid:" << docid
+			   << " ]";
+		jimo_call.arg(AosFN::eErrmsg, errmsg);
 		jimo_call.setHardwareFail();
 		AosLogError(rdata, false, "failed_create_doc") << enderr;
+		OmnAlarm << errmsg << enderr;
 	}
 	else
 	{
@@ -504,7 +540,9 @@ AosDocFileMgrNew::checkLeader(AosRundata *rdata,
 		// This is not the leader. It needs to inform the caller
 		// the leader.
 		int leader_id = raft->getLeaderId();
-		OmnScreen << "My role is:" << raft->getRoleStr() << " leader_id =  " << leader_id << endl;
+		OmnScreen << "My id:" << raft->getServerId() << ", my role is:"
+			<< raft->getRoleStr() << " leader_id =  " << leader_id 
+			<< " jimocall id:" << jimo_call.getJimoCallID() << endl;
 		jimo_call.arg(AosFN::eLeader, leader_id);
 		jimo_call.arg(AosFN::eErrmsg, "not_leader");
 		jimo_call.setLogicalFail();

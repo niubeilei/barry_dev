@@ -46,6 +46,7 @@ private:
 	bool		testInsert();
 	bool		addEntries();
 	bool 		addRecordEntry();
+	bool 		addRecordEntry2();
 	bool		checkEntries();
 	bool		checkSort();
 	bool		checkmodifyEntries();

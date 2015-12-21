@@ -48,7 +48,7 @@ AosRaftServer::AosRaftServer(
 	mRundata = rdata;
 
 	//init log manager
-	mLogMgr.init(rdata, stateMachine);
+	mLogMgr.init(rdata, this, stateMachine);
 
 	//init peer map based on the configuration and cluster
 	aos_assert(peer_cubes.size() > 0);
@@ -67,22 +67,18 @@ AosRaftServer::AosRaftServer(
 	//init message handling objects
 	mMsgLock = OmnNew OmnMutex();
 	mMsgSem = OmnNew OmnSem(0);
-	//mMsgJoinSem = OmnNew OmnSem(0);
-	//mMsgQueue.clear();
 	mMsgThread = OmnNew OmnThread(thisPtr,
 			"MsgThread", 2, true, true, __FILE__, __LINE__);
 
 	//init message handling objects
 	mDataLock = OmnNew OmnMutex();
 	mDataSem = OmnNew OmnSem(0);
-	//mDataJoinSem = OmnNew OmnSem(0);
 	mDataQueue.clear();
 	mDataThread = OmnNew OmnThread(thisPtr,
 			"DataThread", 3, true, true, __FILE__, __LINE__);
 
 	//default role is follower
 	mRole = eFollower;
-	//init();
 }
 
 AosRaftServer::~AosRaftServer()
@@ -97,6 +93,14 @@ AosRaftServer::init()
 
 	//clear old messages
 	mMsgQueue.clear();
+
+	//Clear old client data
+	mDataQueue.clear();
+
+	//For non-replied log entry, need to 
+	//send failure message
+	mLogMgr.notifyJimoCall(mRundataRaw);
+
 }
 
 //////////////////////////////////////////////////
@@ -107,7 +111,6 @@ AosRaftServer::start()
 {
 	mMainThread->start();
 	mMsgThread->start();
-	//if (mRole == eLeader)
 	mDataThread->start();
 
 	return true;
@@ -218,7 +221,7 @@ AosRaftServer::msgThreadFunc(
 {
 	AosRaftMsgPtr msg;
 
-	OmnScreen << "Message thread started." << endl;
+	RAFT_OmnScreen << "Message thread started." << endl;
 	while (state == OmnThrdStatus::eActive)
 	{
 		mMsgLock->lock();
@@ -244,7 +247,7 @@ AosRaftServer::msgThreadFunc(
 	//clear all the unhandled messages
 	//clearMessages();	
 
-	OmnScreen << "Message thread ended." << endl;
+	RAFT_OmnScreen << "Message thread ended." << endl;
 	return true;
 }
 
@@ -289,7 +292,7 @@ AosRaftServer::recvMsg(
 			break;
 
 		default:
-			OmnScreen << "get an invalid message" << endl;
+			RAFT_OmnScreen << "get an invalid message" << endl;
 			//mLock->unlock();
 			return false;
 	}
@@ -298,7 +301,7 @@ AosRaftServer::recvMsg(
 	msg->serializeFrom(rdata, buff);
 	if (RAFT_DEBUG)
 	{
-		OmnScreen << toString() <<
+		RAFT_OmnScreen <<
 			"Received new message: " << msg->toString() << endl;
 	}
 
@@ -309,7 +312,7 @@ AosRaftServer::recvMsg(
 	{
 		if (mMsgQueue.size() > 15)
 		{
-			OmnScreen << "Too many messages to handle: " <<
+			RAFT_OmnScreen << "Too many messages to handle: " <<
 				mMsgQueue.size() << endl;
 		}
 	}
@@ -333,18 +336,6 @@ AosRaftServer::handleMsg(
 	if (getCurTermId() < termId)
 	{
 		stepDown(termId);
-#if 0
-		mLogMgr.setCurTermId(termId);
-		rslt = RAFT_ChangeRole(eFollower);
-		if (rslt)
-		{
-			//don't continue to handle the message 
-			//if role changed
-			return true;
-		}
-
-		//coming here, role not changed
-#endif
 	}
 
 	rslt = true;
@@ -368,7 +359,7 @@ AosRaftServer::handleMsg(
 
 	if (!rslt)
 	{
-		OmnAlarm << toString() << 
+		RAFT_OmnAlarm << 
 			"Failed to handle message: " << msg->toString() <<enderr;
 	}
 
@@ -381,15 +372,17 @@ AosRaftServer::handleMsg(
 void
 AosRaftServer::clearMessages()
 {
-	OmnScreen << "Start to clear unhandled messages:" 
+	RAFT_OmnScreen << "Start to clear unhandled messages:" 
 		<< mMsgQueue.size() << endl;
 
+	int num = mMsgQueue.size();
 	mMsgLock->lock();
 	for (u32 i = 0; i < mMsgQueue.size(); i++)
 		mMsgQueue.pop_back();
 	mMsgLock->unlock();
 
-	OmnScreen << "Cleared unhandled messages." << endl;
+	RAFT_OmnScreen << "Cleared unhandled messages:" 
+		<< num << endl;
 }
 
 ////////////////////////////////////////////////////
@@ -435,11 +428,10 @@ AosRaftServer::sendMsg(
 	//send message. Try at most 3 times if not succeeded already
 	if (RAFT_DEBUG)
 	{
-		OmnScreen << toString() << 
+		RAFT_OmnScreen << 
 			"Start to send message to peer " << 
 			recvId << msg->toString() << endl;
 	}
-
 
 	for (int i = 0; i < tries; i++)
 	{
@@ -447,14 +439,14 @@ AosRaftServer::sendMsg(
 		{
 			if (RAFT_DEBUG)
 			{
-				OmnScreen << toString() << "finished sending message " 
+				RAFT_OmnScreen << "finished sending message " 
 					<< msg->getMsgStr() << " to peer " << recvId << endl;
 			}
 			return true;
 		}
 
 		//log an sending failure message
-		OmnScreen << "Failed one time to send " 
+		RAFT_OmnScreen << "Failed one time to send " 
 			<< msg->getMsgStr() <<" to " << recvId << endl;
 
 		//sleep 10 millisecond for next try
@@ -481,7 +473,7 @@ AosRaftServer::buildMsg(
 	buff->setU64(mCubeId);
 
 	//append msg data into the buffer
-	//OmnScreen << toString() << msg->toString() << endl;
+	//RAFT_OmnScreen << msg->toString() << endl;
 	msg->serializeTo(rdata, buff.getPtr());
 	return buff;
 }
@@ -520,7 +512,7 @@ AosRaftServer::handleVoteReq(
 	aos_assert_r(msg, false);
 	if (getCurTermId() > msg->getCurTermId())
 	{
-		OmnScreen << "Got vote req from server:" << msg->getSenderId() << " and my current termid:"
+		RAFT_OmnScreen << "Got vote req from server:" << msg->getSenderId() << " and my current termid:"
 				<< getCurTermId() << " > msg->getCurTermId():" << msg->getCurTermId() << endl;
 
 		sendVoteRsp(rdata, msg, false);
@@ -531,7 +523,7 @@ AosRaftServer::handleVoteReq(
 	if (mVotedFor >= 0)
 	{
 		//already voted
-		OmnScreen << "Already voted for " << mVotedFor << endl;
+		RAFT_OmnScreen << "Already voted for " << mVotedFor << endl;
 		return true;
 	}
 
@@ -540,6 +532,9 @@ AosRaftServer::handleVoteReq(
 		//grant vote
 		mVotedFor = (int)(msg->getSenderId());
 		mVotedForTermId = msg->getCurTermId();
+
+		RAFT_OmnScreen << "Vote for " << mVotedFor
+				<< " for term " << mVotedForTermId << endl;
 		sendVoteRsp(rdata, msg, true);
 	}
 
@@ -588,7 +583,7 @@ AosRaftServer::changeRole(
 	if (mRole == role)
 	{
 		//if already in the right role, no need to change
-		OmnScreen << toString() 
+		RAFT_OmnScreen 
 			<< "Current role is already: " << getRoleStr(role) << endl;
 
 		return false;
@@ -599,12 +594,12 @@ AosRaftServer::changeRole(
 	{
 		//this should not be an alarm since when system is busy, out
 		//of order packet is pretty frequent
-		OmnScreen << toString() << "(" << file << ":" << line << ")Role changed from " 
+		RAFT_OmnScreen << "(" << file << ":" << line << ")Role changed from " 
 			<< getRoleStr(mRole) << " to " << getRoleStr(role) << endl;
 	}
 	else
 	{
-		OmnScreen << toString() << "(" << file << ":" << line << ")Role changed from " 
+		RAFT_OmnScreen << "(" << file << ":" << line << ")Role changed from " 
 			<< getRoleStr(mRole) << " to " << getRoleStr(role) << endl;
 	}
 
@@ -632,7 +627,7 @@ AosRaftServer::cmpLogUpToDateWithMe(
 
 	if (!msgVoteReq)
 	{
-		OmnAlarm << "Not a VoteReq message in log up-to-date comparison: "
+		RAFT_OmnAlarm << "Not a VoteReq message in log up-to-date comparison: "
 			<< msg->toString() << enderr;
 
 		return 1;
@@ -660,8 +655,16 @@ AosRaftServer::applyCommittedLogs(AosRundata* rdata)
 {
 	bool rslt;
 	AosRaftLogEntryPtr log;
+	u64 logApplyStart = getLastLogIdApplied() + 1;
 
-	for (u64 i = getLastLogIdApplied() + 1; i <= getCommitIndex(); i++)
+	if (logApplyStart > getCommitIndex())
+	{
+		//nothing to apply
+		return true;
+	}
+
+	//Apply the log 
+	for (u64 i = logApplyStart; i <= getCommitIndex(); i++)
 	{
 		log = mLogMgr.getLog(rdata, i);
 		aos_assert_r(log, false);
@@ -669,15 +672,14 @@ AosRaftServer::applyCommittedLogs(AosRundata* rdata)
 		rslt = log->apply(rdata, getStatMach());
 		if (!rslt)
 		{
-			OmnAlarm << toString() << "Failed to apply logid:" << i << enderr;
+			//Actually, State machine should never fail to apply!!!
+			RAFT_OmnAlarm << "Failed to apply logid:" << i << enderr;
 			return false;
 		}
 
-		OmnScreen << toString() << 
-			"Succeed to apply logid:" << i << endl; 
-		mLogMgr.setLastLogIdApplied(rdata, i);
 	}
 
+	mLogMgr.setLastLogIdApplied(rdata, getCommitIndex());
 	return true;
 }
 
@@ -685,6 +687,9 @@ AosRaftServer::applyCommittedLogs(AosRundata* rdata)
 void
 AosRaftServer::stepDown(const u32 termId)
 {
+	RAFT_OmnScreen << "Step down due to lower termId:"
+		<< "OldTermId=" << getCurTermId() << "NewTermId=" << termId << endl;
+
 	mLogMgr.setCurTermId(termId);
 	mVotedFor = -1;
 	mVotedForTermId = 0;
@@ -742,7 +747,7 @@ AosRaftServer::getPeers(
 		mPeerMap[phyid] = peer;
 	}
 
-	OmnScreen << "Get " << mPeerMap.size() << " peers. " << endl;
+	RAFT_OmnScreen << "Get " << mPeerMap.size() << " peers. " << endl;
 	return true;
 }
 
@@ -765,7 +770,7 @@ AosRaftServer::getPeer(u32 peerId)
 			{
 				s << itr->second.toString() << "\n";
 			}
-			OmnAlarm << toString() <<
+			RAFT_OmnAlarm <<
 				"there is something wrong with the peer map, dumping it...\n" << s << enderr;
 		}
 	}

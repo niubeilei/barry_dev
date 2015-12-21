@@ -9,7 +9,7 @@
 //
 // Description:
 // Statement Syntax:
-// 		DATASET mydataset
+// 		dataproc onnetoffnet mydpname
 // 		(
 // 		    name: value,
 // 		    name: value,
@@ -21,11 +21,6 @@
 // 2015/12/13 Created by Barry
 ////////////////////////////////////////////////////////////////////////////
 #include "JimoLogicNew/JimoLogicDataProcOnNetOffNet.h"
-#include "JQLStatement/JqlStatement.h"
-#include "SEUtil/JqlTypes.h"
-#include "API/AosApi.h"
-#include "JimoAPI/JimoProgAPI.h"
-#include "JimoAPI/JimoParserAPI.h"
 
 
 extern "C"
@@ -79,10 +74,10 @@ AosJimoLogicDataProcOnNetOffNet::parseJQL(
 	// 	dataproc onnetoffnet data_proc_name
 	// 	(
 	//		 inputs:"datasetiil01",
-	//		 user_id_field:"msisdn",
-	//		 time_field:"start_datetime",
-	//		 time_unit:"%Y-%m-%d",
-	//		 shreshold:90,
+	//		 user_id_field:"xxxx",
+	//		 time_field:"xxxxx",
+	//		 time_unit:"%Y-%m-%d", 		//optional default:"%Y-%m-%d"
+	//		 shreshold:90,				//optional default:90
 	//		 start_day:"2012-07-03",
 	//		 end_day:"2012-07-05"
 	// 	);
@@ -110,21 +105,21 @@ AosJimoLogicDataProcOnNetOffNet::parseJQL(
 	mInput = jimo_parser->getParmStr(rdata, "inputs", mNameValueList);
 	if(mInput == "")
 	{
-		setErrMsg(rdata,eMissingParm,"inputs",mErrmsg);
+		setErrMsg(rdata, eMissingParm, "inputs", mErrmsg);
 		return false;
 	}
 
 	mUserIdField = jimo_parser->getParmStr(rdata, "user_id_field", mNameValueList);
 	if(mUserIdField == "")
 	{
-		setErrMsg(rdata,eMissingParm,"user_id_field",mErrmsg);
+		setErrMsg(rdata, eMissingParm, "user_id_field", mErrmsg);
 		return false;
 	}
 
 	mTimeField = jimo_parser->getParmStr(rdata, "time_field", mNameValueList);
 	if(mTimeField == "")
 	{
-		setErrMsg(rdata,eMissingParm,"user_id_field",mErrmsg);
+		setErrMsg(rdata, eMissingParm, "time_field", mErrmsg);
 		return false;
 	}
 
@@ -143,7 +138,7 @@ AosJimoLogicDataProcOnNetOffNet::parseJQL(
 	mStartDay = jimo_parser->getParmStr(rdata, "start_day", mNameValueList);
 	if(mStartDay == "")
 	{
-		setErrMsg(rdata,eMissingParm,"start_day",mErrmsg);
+		setErrMsg(rdata, eMissingParm, "start_day", mErrmsg);
 		return false;
 	}
 	

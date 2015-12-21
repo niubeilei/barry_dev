@@ -38,7 +38,7 @@
 using namespace std;
 
 //define some constants
-#define RAFT_MAX_LOG_IN_MSG 	100
+#define RAFT_MAX_LOG_IN_MSG 	1000
 #define RAFT_DEBUG 	false
 #define RAFT_USE_STATMACH_SIMPLE false 
 
@@ -47,12 +47,18 @@ using namespace std;
 
 #define RAFT_LOG_TAG(log)		log->setTag(__FILE__, __LINE__)
 
+#define RAFT_OmnScreen	OmnScreen << "[JimoRaft]" << toString()
+#define RAFT_OmnAlarm	OmnAlarm << "[JimoRaft]"  << toString()
+#define RAFT_SAMPLE_PRINT	500  //sample print once per 500
+
+class AosJimoCall;
 class AosRaftServer : public OmnThreadedObj
 {
 	OmnDefineRCObject;
 
 public:
 	typedef map<u32, AosRaftPeer> RaftPeerMap;
+	//typedef hash_map<u64, AosJimoCallPtr, u64_hash, u64_cmp> JimoCallMap;
 
 	enum RaftTimer
 	{
@@ -117,6 +123,8 @@ protected:
 	//////////////////////////////////////////
 	//  leader members
 	//////////////////////////////////////////
+	int					mHeartBeatSent;
+	//JimoCallMap 		mCallMap;
 
 	//////////////////////////////////////////
 	//  Follower members
@@ -300,6 +308,7 @@ public:
 	//client data handling method
 	bool handleClientData(
 			AosRundata *rdata,
+			AosJimoCall &call,
 			AosBuffPtr &buff);
 
 	//networking methods

@@ -1740,7 +1740,7 @@ AosSockConn::smartSend(const AosAppMsgPtr &msg, bool &is_ignore, bool &bad_conn)
 	
 	if((u32)mSendQueueSize > mMaxCacheSize)
 	{
-		OmnAlarm << "!!!!!! Test Error!!!!!" << enderr;
+		OmnScreen << "!!!!!! Warning !!!!!" << endl;
 		if((u32)mSendQueueSize > mMaxCacheSize) checkWaitAckCacheLocked();
 		mLock->unlock();
 		is_ignore = true;

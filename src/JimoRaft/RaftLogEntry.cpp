@@ -13,6 +13,7 @@
 // 2015/04/30 Created by Phil Pei
 ////////////////////////////////////////////////////////////////////////////
 #include "JimoRaft/RaftLogEntry.h"
+#include "JimoRaft/RaftServer.h"
 
 #include "alarm_c/alarm.h"
 #include "Alarm/Alarm.h"
@@ -28,16 +29,17 @@ mLogId(0),
 mTermId(0),
 mServerRecved(0),
 mApplied(false),
-mDataBuff(NULL)
+mDataBuff(NULL),
+mCall(NULL)
 {
 	sgTotal++;
 	//if (sgTotal % 100 == 10)
-	//	OmnScreen << "Total log entry: " << sgTotal << endl;
+	//	RAFT_OmnScreen << "Total log entry: " << sgTotal << endl;
 
-	//if (AosMemoryChecker::getCheckOpen())
-	//{
-	//	AosMemoryCheckerObjCreated(AosClassName::eAosRaftLogEntry);
-	//}
+	if (AosMemoryChecker::getCheckOpen())
+	{
+		AosMemoryCheckerObjCreated(AosClassName::eAosRaftLogEntry);
+	}
 }
 
 AosRaftLogEntry::AosRaftLogEntry(
@@ -48,30 +50,31 @@ mLogId(logId),
 mTermId(termId),
 mServerRecved(0),
 mApplied(false),
-mDataBuff(NULL)
+mDataBuff(NULL),
+mCall(NULL)
 {
 	sgTotal++;
 	//if (sgTotal % 100 == 10)
-	//	OmnScreen << "Total log entry: " << sgTotal << endl;
+	//	RAFT_OmnScreen << "Total log entry: " << sgTotal << endl;
 
-	//if (AosMemoryChecker::getCheckOpen())
-	//{
-    //		AosMemoryCheckerObjCreated(AosClassName::eAosRaftLogEntry);
-	//}
+	if (AosMemoryChecker::getCheckOpen())
+	{
+    		AosMemoryCheckerObjCreated(AosClassName::eAosRaftLogEntry);
+	}
 }
 
 AosRaftLogEntry::~AosRaftLogEntry()
 {
 	sgTotal--;
 	//if (sgTotal % 100 == 10)
-	//	OmnScreen << "Total log entry: " << sgTotal << endl;
+	//	RAFT_OmnScreen << "Total log entry: " << sgTotal << endl;
 
-	//OmnScreen << "Release log entry by tag: " << mTag << endl;
+	//RAFT_OmnScreen << "Release log entry by tag: " << mTag << endl;
 
-	//if (AosMemoryChecker::getCheckOpen())
-	//{
-	//	AosMemoryCheckerObjDeleted(AosClassName::eAosRaftLogEntry);
-	//}
+	if (AosMemoryChecker::getCheckOpen())
+	{
+		AosMemoryCheckerObjDeleted(AosClassName::eAosRaftLogEntry);
+	}
 }
 
 bool 
@@ -145,12 +148,43 @@ AosRaftLogEntry::apply(
 	bool rslt = statMach->apply(rdata, mLogId, mStatMachHint);
 	if (!rslt)
 	{
-		OmnAlarm << "Failed to apply logid:" << mLogId << enderr;
+		RAFT_OmnAlarm << "Failed to apply logid:" << mLogId << enderr;
+
+		if (mCall)
+		{
+			mCall->reset();
+			mCall->arg(AosFN::eErrmsg, "Failed to apply the log");
+			mCall->setLogicalFail();
+			mCall->sendResp(rdata);
+
+			//Not need it in the future
+			mCall = NULL;
+		}
+
 		return false;
 	}
 
 	mApplied = true;
-	//OmnScreen << "apply data success" << endl;
+	if (mLogId % RAFT_SAMPLE_PRINT == 0)
+	{
+		RAFT_OmnScreen << "Apply user data "
+			<< mLogId << " successfully (every " 
+			<< RAFT_SAMPLE_PRINT << ")" << endl;
+	}
+
+	//Need to notify the JimoCall client for the result
+	if (mCall)
+	{
+		//This is for leader only
+		OmnScreen << "raft is sending resp, jimocall id:" << mCall->getJimoCallID() << endl;
+		mCall->reset();
+		mCall->setSuccess();
+		mCall->sendResp(rdata);
+		OmnScreen << "raft has sent resp, jimocall id:" << mCall->getJimoCallID() << endl;
+		//Not need it in the future
+		mCall = NULL;
+	}
+
 	return true;
 }
 
@@ -166,10 +200,13 @@ AosRaftLogEntry::getData(
 
 		mDataBuff = OmnNew AosBuff(1000 AosMemoryCheckerArgs);
 		rslt = statMach->getEntry(rdata, mLogId, mTermId, mStatMachHint, mDataBuff);
-		OmnScreen << "Get log data from state machine for: " << 
-			"logId:" << mLogId << ", termId:" << mTermId << ", rslt:" << rslt << endl;
+		if (RAFT_DEBUG)
+		{
+			RAFT_OmnScreen << "Get log data from state machine for: " << 
+				"logId:" << mLogId << ", termId:" << mTermId << ", rslt:" << rslt << endl;
+		}
 
-		if (!rslt) OmnAlarm << "Failed to get data from state machine!" << enderr;
+		if (!rslt) RAFT_OmnAlarm << "Failed to get data from state machine!" << enderr;
 	}
 
 	return mDataBuff;
@@ -181,3 +218,24 @@ AosRaftLogEntry::setData(AosBuffPtr &buff)
 	mDataBuff = buff; 
 }
 
+bool
+AosRaftLogEntry::notifyJimoCall(
+					AosRundata* rdata,
+					u32 leaderId)
+{
+	if (mCall)
+	{
+		//This is data kept from the previous
+		//term in which the server is the 
+		//leader
+		mCall->arg(AosFN::eLeader, leaderId);
+		mCall->arg(AosFN::eErrmsg, "not_leader");
+		mCall->setLogicalFail();
+		mCall->sendResp(rdata);
+
+		//Not need it in the future
+		mCall = NULL;
+	}
+
+	return true;
+}

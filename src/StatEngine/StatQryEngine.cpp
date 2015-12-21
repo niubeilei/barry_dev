@@ -938,6 +938,7 @@ AosStatQryEngine::serializeTo(
 	OmnString name;
 	AosStatRecord *rcd;
 	u32 pos;
+	bool rslt;
 
 	//save measure names firstly
 	num = mMeasureInfoList->size();
@@ -969,21 +970,8 @@ AosStatQryEngine::serializeTo(
 //		rcd->serializeTo(rdata, buff);
 //	}
 
-	aos_assert_r(mStatRecordList.empty(),false);
 	
-	//get the key of StatRecordMap into StatRecordList                            
-	StatRecordMap::iterator itrmap;
-	for(itrmap = mStatRecordMap.begin(); itrmap != mStatRecordMap.end(); itrmap++)
-	{
-		mStatRecordList.push_back(itrmap->first);
-	}
 
-	tStart = OmnGetTimestamp();
-	sort(mStatRecordList.begin(), mStatRecordList.end(), compareStatKey);
-	tEnd = OmnGetTimestamp();
-	mSingleSortTime += tEnd - tStart;
-	mSingleSortNum ++;	
-	
 	num = mStatRecordList.size();
 	buff->setU32(num);
 	for (u32 i = 0; i < num; i++)
@@ -1273,40 +1261,98 @@ AosStatQryEngine::removeOutPageRecords(StatRecordList & rcdList)
 	}
 	return true;
 }
-//apply Having in the cube
-bool 
-AosStatQryEngine::applyHavingCond()
+
+//check if hit shuffle key
+bool
+AosStatQryEngine::checkShuffle()
 {
-	if(!(mQryInfo->mHitShuffleFields))
-		return true;
+	u64 tStart, tEnd;
 	bool rslt;
 	AosValueRslt value;
 	StatRecordMap::iterator itr;
-	StatRecordMap rcdMap;
+	StatRecordList rcdList;
 	AosStatRecordPtr rcd;
 
-	if (!mHavingExpr)
-		return true;
+	aos_assert_r(mStatRecordList.empty(),false);
 
 	itr = mStatRecordMap.begin();
 	while(itr != mStatRecordMap.end())
 	{
 		rcd = itr->first;
-		rslt = mHavingExpr->getValue(mRundata, rcd.getPtr(), value);
+		mStatRecordList.push_back(rcd);
+		itr++;
+	}
+
+	if(!(mQryInfo->mHitShuffleFields))
+	{
+		sort(mStatRecordList.begin(), mStatRecordList.end(), compareStatKey);
+		return true;
+	}
+
+	rslt = applyHavingCond();
+	aos_assert_r(rslt, false);
+
+	tStart = OmnGetTimestamp();
+	sort(mStatRecordList.begin(), mStatRecordList.end(), compareStatKey);
+
+	//check order by measure or not
+	if(!mOrderByMeasureValue)
+	{
+		rslt = applyOrderBy();
 		aos_assert_r(rslt, false);
-		if (!value.getBool())
+	}
+	tEnd = OmnGetTimestamp();
+	mSingleSortTime += tEnd - tStart;
+	mSingleSortNum ++;	
+
+	return true;
+}
+
+//apply Having in the cube
+bool 
+AosStatQryEngine::applyHavingCond()
+{
+	if(!mHavingExpr)
+		return true;
+	bool rslt;
+	AosValueRslt value;
+	StatRecordList::iterator itr;
+	StatRecordList rcdList;
+	AosStatRecord *rcd;
+	itr = mStatRecordList.begin();
+	while(itr != mStatRecordList.end())
+	{
+		rcd = itr->getPtrNoLock();
+		rslt = mHavingExpr->getValue(mRundata, rcd, value);
+		aos_assert_r(rslt, false);
+		if (value.getBool())
 		{
-			//non-select record, release the space
-		//	delete rcd;
-		}
-		else
-		{
-			//save the matching records
-			rcdMap[rcd] = 1;
+			rcdList.push_back(rcd);
 		}
 		itr++;
 	}
-	mStatRecordMap = rcdMap;
+
+	mStatRecordList = rcdList;
+	return true;
+}
+
+//apply order by in the cube
+bool 
+AosStatQryEngine::applyOrderBy()
+{
+	StatRecordList rcdList;
+	u32 size = 0;
+
+	if(mStatRecordList.size() > mPageSize)
+		size = mPageSize;
+	else
+		size = mStatRecordList.size();
+
+	for (u32 i = 0; i < size; i++)
+		rcdList.push_back(mStatRecordList[i]);
+
+	mStatRecordList = rcdList;
+
 	return true;
 
 }
@@ -1613,7 +1659,6 @@ AosStatQryEngine::outputCounters()
 
 	OmnScreen << "(Statistics counters : Engine) Merge Stat Remove Out Page record --- Time : "
 			<< mRemoveOutPageRecordTime << ",Num: " << mRemoveOutPageRecordNum <<endl;
-
 
 	OmnScreen << "(Statistics counters : Engine) Sort Stat record --- Time : "
 		<< mSortTime << ", Num: " << mSortNum << endl;

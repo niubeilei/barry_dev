@@ -301,6 +301,7 @@ public:
 	bool dataFinished(const AosRundataPtr &rdata);
 	int sortStatRecord();
 	bool filterByHavingCond();
+	bool checkShuffle();
 	bool applyDistCount();
 	bool applyAccumulate();
 
@@ -361,6 +362,7 @@ public:
 				bool &mergeFlag,
 				StatRecordList::iterator &itr);
 	bool applyHaving();
+	bool applyOrderBy();
 	bool applyHavingCond();
 	bool pageFull();
 	bool noMoreRecordNeeded();

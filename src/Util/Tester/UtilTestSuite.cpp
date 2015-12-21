@@ -109,9 +109,9 @@ OmnUtilTestSuite::getSuite()
 //	suite->addTestPkg(OmnNew AosNewTester());
 //	suite->addTestPkg(OmnNew AosBuffArrayTester());
 //	suite->addTestPkg(OmnNew AosBuffArrayTesterNew());
-//	suite->addTestPkg(OmnNew AosBuffArrayVarTester());
+	suite->addTestPkg(OmnNew AosBuffArrayVarTester());
 //	suite->addTestPkg(OmnNew AosVarUnintTester());
 //	suite->addTestPkg(OmnNew AosVarIntTester());
-	suite->addTestPkg(OmnNew AosVectorTester());
+//	suite->addTestPkg(OmnNew AosVectorTester());
 	return suite;
 }

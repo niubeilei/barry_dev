@@ -50,7 +50,6 @@ public:
 		eContinue,
 		eExit,
 		eError,
-		eStop,
 
 		eMax
 	};

@@ -59,16 +59,16 @@ AosRaftServer::followerMain()
 
 		if (RAFT_DEBUG)
 		{
-			OmnScreen << toString() << " election timeout is: "
+			RAFT_OmnScreen << " election timeout is: "
 				<< nextElectionAt << endl;
-			OmnScreen << toString() << "follower start to sleep" << endl;
+			RAFT_OmnScreen << "follower start to sleep" << endl;
 		}
 
 		mSem->timedWait(nextElectionAt, timeout);
 
 		if (RAFT_DEBUG)
 		{
-			OmnScreen << toString() << "follower end sleeping. timeout is: "
+			RAFT_OmnScreen << "follower end sleeping. timeout is: "
 				<< timeout << endl;
 		}
 
@@ -80,8 +80,11 @@ AosRaftServer::followerMain()
 		}
 	}
 
+	RAFT_OmnScreen << "Message queue size is:"
+		<< mMsgQueue.size() << endl;
+
 	str = timeout ? " Timed out." : "Not timed out.";
-	OmnScreen << toString() << "follower run completed."
+	RAFT_OmnScreen << "follower run completed."
 		<< str << endl;
 	return true;
 }
@@ -111,7 +114,7 @@ AosRaftServer::followerHandleMsg(
 			break;
 
 		default:
-			OmnScreen << toString() << "Got " << 
+			RAFT_OmnScreen << "Got " << 
 				AosRaftMsg::getMsgStr(msgType) << " message and don't care. " << endl;
 			break;
 	}
@@ -130,7 +133,7 @@ AosRaftServer::followerHandleAppendEntryReq(
 	if (getCurTermId() > msg->getCurTermId())
 	{
 		//this could happen when network is busy
-		OmnScreen << toString() << "Got appendEntry request with term Id ("
+		RAFT_OmnScreen << "Got appendEntry request with term Id ("
 				<< msg->getCurTermId() << ") less than mine: " << getCurTermId() << endl;
 
 		//send deny response
@@ -155,7 +158,7 @@ AosRaftServer::followerHandleAppendEntryReq(
 	{
 		//this can't be an alarm since when system is busy, out
 		//of order packet is pretty frequent
-		OmnScreen << toString() << "Get log entries not in order: " << 
+		RAFT_OmnScreen << "Get log entries not in order: " << 
 			firstLogId << ". Wanted log entry: " << getLastLogId() + 1 << endl;
 
 		sendAppendEntryRsp(rdata, msg, false);
@@ -168,7 +171,7 @@ AosRaftServer::followerHandleAppendEntryReq(
 	{
 		//this can't be an alarm since when system is busy, out
 		//of order packet is pretty frequent
-		OmnScreen << toString() << "Get log entries already committed: " << 
+		RAFT_OmnScreen << "Get log entries already committed: " << 
 			firstLogId << ". Wanted log entry: " << getLastLogId() + 1 << endl;
 
 		sendAppendEntryRsp(rdata, msg, false);
@@ -191,7 +194,7 @@ AosRaftServer::followerHandleAppendEntryReq(
 		aos_assert_r(prevLog, false);
 		if (prevLogTermId != prevLog->getTermId())
 		{
-			OmnAlarm << "Previous log's termId not match:" << 
+			RAFT_OmnAlarm << "Previous log's termId not match:" << 
 				" local=" << prevLog->getTermId() << " remote=" <<
 				prevLog << enderr;
 
@@ -212,9 +215,9 @@ AosRaftServer::followerHandleAppendEntryReq(
 	AosRaftLogEntryPtr localLog = NULL;
 	if (msg->getNumLogs() > 0)
 	{
-		OmnScreen << toString() << "Log data received: "
-			<< msg->getNumLogs() << " entries. First logid is: " 
-			<< firstLogId << endl;
+		RAFT_OmnScreen << "Log data received to append. "
+			<< "NumLogs=" << msg->getNumLogs() 
+			<< "First logid=" << firstLogId << endl;
 
 		//append all entries to log
 		//1. if the log exists in the logMap with the 
@@ -234,6 +237,9 @@ AosRaftServer::followerHandleAppendEntryReq(
 				//ignore the log if existing and same
 				if (localLog->getTermId() == msgLog->getTermId())
 					continue;
+
+				RAFT_OmnScreen << "Remove out-of-sync logs from " 
+					<< firstLogId + i << endl;
 
 				//a conflict log, need to remove the log to the end
 				mLogMgr.removeLogs(rdata, firstLogId + i);
@@ -269,13 +275,13 @@ AosRaftServer::followerHandleAppendEntryReq(
 		timeDelay > eMaxMsgDelay)
 	{
 		//This means the leader needs to send me
-		//my missing logs
-		sendAppendEntryRsp(rdata, msg, false);
+		//my missing logs I expected
+		RAFT_OmnScreen << "Leader need to send me logs between "
+			<< getLastLogId() << " to " << msg->getLastLogId() << endl;
 	}
-	else
-	{
-		sendAppendEntryRsp(rdata, msg, true);
-	}
+
+	//Send a response anyway
+	sendAppendEntryRsp(rdata, msg, true);
 
 	//apply non-committed logs to state machine if any
 	applyCommittedLogs(rdata);

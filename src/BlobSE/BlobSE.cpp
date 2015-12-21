@@ -1247,7 +1247,7 @@ AosBlobSE::readDoc(
 			}
 			else
 			{
-				OmnScreen << "read header failed for docid:" << pReq->getDocid()
+				OmnScreen << "aseid:" << mConfig.aseid << " read header failed for docid:" << pReq->getDocid()
 						<< " timestamp:" << pReq->getTimestamp() << endl;
 			}
 			return -3;

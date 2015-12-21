@@ -62,18 +62,21 @@ AosRaftServer::candidateMain()
 		OmnRandom::init();
 		nextElectionAt = OmnRandom::nextU32(
 				eMinElectionTimeout, eMaxElectionTimeout);
-		OmnScreen << toString() << " election timeout is: "
+		RAFT_OmnScreen << " election timeout is: "
 			<< nextElectionAt << endl;
 		//mSem->timedWait(nextElectionAt * 1000, timeout);
 		mSem->timedWait(nextElectionAt, timeout);
 
 		str = timeout ? " Timed out." : "Not timed out.";
-		OmnScreen << toString() << "sleep completed, mVotedFor is: " 
+		RAFT_OmnScreen << "sleep completed, mVotedFor is: " 
 			<< mVotedFor << ", mNumVotedForMe is: " 
 			<< mNumVotedForMe << ", " << str << endl;
+
+		RAFT_OmnScreen << "Message queue size is:"
+			<< mMsgQueue.size() << endl;
 	}
 
-	OmnScreen << toString() << "candidate run completed." << endl;
+	RAFT_OmnScreen << "candidate run completed." << endl;
 	return true;
 }
 
@@ -122,7 +125,7 @@ AosRaftServer::candidateHandleMsg(
 			break;
 
 		default:
-			OmnScreen << toString() << "Got " << 
+			RAFT_OmnScreen << "Got " << 
 				AosRaftMsg::getMsgStr(msgType) << " message and don't care. " << endl;
 			break;
 	}
@@ -140,7 +143,7 @@ AosRaftServer::candidateHandleAppendEntryReq(
 	//check the msg's termid
 	if (getCurTermId() > msg->getCurTermId())
 	{
-		OmnScreen << "Get appendEntry request with term Id ("
+		RAFT_OmnScreen << "Get appendEntry request with term Id ("
 				<< msg->getCurTermId() << ") less than mine: " << getCurTermId() << endl;
 
 		//send a deny message
@@ -160,6 +163,10 @@ AosRaftServer::candidateHandleVoteRsp(
 		AosRundata*  rdata,
 		AosRaftMsgVoteRsp *msg)
 {
+	
+	RAFT_OmnScreen << "Get a vote from " << msg->getSenderId()
+		<< "for term " << msg->getVotedForTermId() << endl;
+
     if (msg->getVotedFor() == mServerId &&
 		msg->getVotedForTermId() == getCurTermId())
     {

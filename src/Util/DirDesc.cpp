@@ -20,6 +20,7 @@
 #include "alarm_c/alarm.h"
 #include "Debug/Debug.h"
 #include "Debug/Except.h"
+#include <boost/filesystem.hpp>
 
 OmnDirDesc::OmnDirDesc(const OmnString &dir)
 :
@@ -48,6 +49,21 @@ OmnDirDesc::dirExist(const OmnString &dirname)
 	return false;
 }
 
+bool
+OmnDirDesc::createDir(const OmnString &dirname)
+{
+	try
+	{
+		boost::filesystem::create_directories(dirname.data());
+	}
+	catch(...)
+	{
+		OmnAlarm << "Failed to create directory: " << dirname << enderr;
+		return false;
+	}
+
+	return true;
+}
 
 //realpath() to get the absolute path
 bool
