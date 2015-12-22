@@ -1632,14 +1632,13 @@ AosBuffArray::mergeData()
 	aos_assert_r(entry, false);
 
 	char *data = NULL;
-	int  len = 0;
 	u32 idx = 0;
 	u32 num_entries = mNumRcds;
 	for (u32 i=1; i<num_entries; i++)
 	{
 		if (mCompRaw->cmp(entry, crt_entry) == 0)
 		{
-			mCompRaw->mergeData(entry, crt_entry, data, len);
+			mCompRaw->mergeData(entry, crt_entry, 0, 0, data);
 		}
 		else
 		{

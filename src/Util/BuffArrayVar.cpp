@@ -585,14 +585,13 @@ AosBuffArrayVar::mergeData()
 	u32 num_entries = mNumRcds;
 
 	char *data = NULL;
-	int  len = 0;
 	if(!mCompRaw->hasAgrStr())
 	{
 		for (u32 i=1; i<num_entries; i++)
 		{
 			if (mCompRaw->cmp(entry, crt_entry) == 0)
 			{
-				mCompRaw->mergeData(entry, crt_entry, data, len);
+				mCompRaw->mergeData(entry, crt_entry, mHeadBuffRaw, mBodyAddr, data);
 			}
 			else
 			{
@@ -613,33 +612,15 @@ AosBuffArrayVar::mergeData()
 		memset(newBodyBuff->data(), 0, newBodyBuff->buffLen());
 		i64 newBodyAddr = (i64)newBodyBuff->data();
 		data = newBodyBuff->data();
-		int offset = 0;
 		char *data2 = 0;
 		int len2 = 0;
-		int lastEntryLen = 0;
 		bool rslt = false;
 
 		for (u32 i=1; i<num_entries; i++)
 		{
 			if (mCompRaw->cmp(entry, crt_entry) == 0)
 			{
-				mCompRaw->mergeData(entry, crt_entry, data+offset, len);
-				len += sizeof(u32);
-				if (i == 1)
-				{
-					buildNewHeaderBuff(offset, newBodyAddr, data);
-					offset += len;
-					lastEntryLen = len;
-				}
-				else
-				{
-					memmove(data+offset-lastEntryLen, data+offset, len);
-					offset -= lastEntryLen;
-					mHeadBuffRaw->setCrtIdx(mHeadBuffRaw->getCrtIdx() - mCompRaw->size);
-					buildNewHeaderBuff(offset, newBodyAddr, data);
-					offset += len;
-					lastEntryLen = len;
-				}
+				mCompRaw->mergeData(entry, crt_entry, mHeadBuffRaw, newBodyAddr, data);
 			}
 			else
 			{
@@ -652,12 +633,11 @@ AosBuffArrayVar::mergeData()
 					rslt = AosBuff::decodeRecordBuffLength(len2);
 					aos_assert_r(rslt, false);
 					len2 += sizeof(u32);
-					memcpy(data+offset, data2, len2);
+					memcpy(data, data2, len2);
 
-					buildNewHeaderBuff(offset, newBodyAddr, data);
+					buildNewHeaderBuff(newBodyAddr, data);
 					entry = mHeadBuffRaw->data() + idx * mCompRaw->size;
-					offset += len2;
-					lastEntryLen = len2;
+					data = data+len2;
 				}
 				else
 				{
@@ -668,9 +648,9 @@ AosBuffArrayVar::mergeData()
 						rslt = AosBuff::decodeRecordBuffLength(len2);
 						aos_assert_r(rslt, false);
 						len2 += sizeof(u32);
-						memcpy(data+offset, data2, len2);
-						buildNewHeaderBuff(offset, newBodyAddr, data);
-						offset += len2;
+						memcpy(data, data2, len2);
+						buildNewHeaderBuff(newBodyAddr, data);
+						data = data + len2;
 					}
 
 					data2 = (char*)(*(i64*)(crt_entry+sizeof(int))) + (*(int*)crt_entry);
@@ -678,11 +658,11 @@ AosBuffArrayVar::mergeData()
 					rslt = AosBuff::decodeRecordBuffLength(len2);
 					aos_assert_r(rslt, false);
 					len2 += sizeof(u32);
-					memcpy(data+offset, data2, len2);
-					buildNewHeaderBuff(offset, newBodyAddr, data);
+					memcpy(data, data2, len2);
+
+					buildNewHeaderBuff(newBodyAddr, data);
 					entry = mHeadBuffRaw->data() + idx * mCompRaw->size;
-					offset += len2;
-					lastEntryLen = len2;
+					data += len2;
 				}
 			}
 			crt_entry = &crt_entry[mCompRaw->size];
@@ -690,7 +670,7 @@ AosBuffArrayVar::mergeData()
 		mBodyBuff = newBodyBuff;
 		mBodyBuffRaw = mBodyBuff.getPtr();
 		mBodyAddr = newBodyAddr;
-		mBodyBuffRaw->setDataLen(offset);
+		mBodyBuffRaw->setDataLen(data-(char*)newBodyAddr);
 	}
 	mHeadBuffRaw->setDataLen((idx + 1) * mCompRaw->size);	
 	mNumRcds = idx + 1;
@@ -699,16 +679,16 @@ AosBuffArrayVar::mergeData()
 
 bool
 AosBuffArrayVar::buildNewHeaderBuff(
-		const int rcd_offset,
 		const i64 new_body_addr,
 		char *body)
 {
+	int rcd_offset = body-(char*)new_body_addr;
 	mHeadBuffRaw->setInt(rcd_offset);
 	mHeadBuffRaw->setI64(new_body_addr);
 	vector<AosDataFieldType::E> types;
 	mComp->getDataFieldsType(types);
 	aos_assert_r(types.size() < 65536, false);
-	buildHeaderBuff(types, mHeadBuffRaw, body + rcd_offset + sizeof(int));
+	buildHeaderBuff(types, mHeadBuffRaw, body + sizeof(int));
 	return true;
 }
 

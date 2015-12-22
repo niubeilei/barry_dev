@@ -3323,19 +3323,20 @@ namespace yy {
 		if (fname.toLower() == "avg" && (yystack_[1].value.AosExprListValue)->size() == 1)
 		{
 			AosExprObjPtr lhs = OmnNew AosExprGenFunc("sum", (*(yystack_[1].value.AosExprListValue))[0]);
+			AosExprObjPtr lhs1 = OmnNew AosExprGenFunc("to_double", lhs);
 			AosExprObjPtr rhs = OmnNew AosExprGenFunc("count", (*(yystack_[1].value.AosExprListValue))[0]);
-			(yylhs.value.AosExprValue) = new AosExprArith(lhs, AosExprArith::eDivide, rhs);
+			(yylhs.value.AosExprValue) = new AosExprArith(lhs1, AosExprArith::eDivide, rhs);
 		}
 		else
 		{
 			(yylhs.value.AosExprValue) = new AosExprGenFunc((yystack_[3].value.strval), (yystack_[1].value.AosExprListValue));
 		}
 	}
-#line 3335 "Parser.tab.cc" // lalr1.cc:847
+#line 3336 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 292:
-#line 2561 "Parser.yy" // lalr1.cc:847
+#line 2562 "Parser.yy" // lalr1.cc:847
     {
 		OmnString fname = (yystack_[4].value.strval);
 		AosValueRslt v;
@@ -3358,11 +3359,11 @@ namespace yy {
 		}
 		(yylhs.value.AosExprValue) = new AosExprGenFunc(fname, (yystack_[1].value.AosExprListValue));
 	}
-#line 3362 "Parser.tab.cc" // lalr1.cc:847
+#line 3363 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 293:
-#line 2585 "Parser.yy" // lalr1.cc:847
+#line 2586 "Parser.yy" // lalr1.cc:847
     {
 		OmnString fname = (yystack_[4].value.strval);
 		OmnString newFname = "accu_";
@@ -3378,11 +3379,11 @@ namespace yy {
 		aos_assert_r((yystack_[1].value.AosExprListValue)->size() == 1, false);
 		(yylhs.value.AosExprValue) = new AosExprGenFunc(newFname, (yystack_[1].value.AosExprListValue));
 	}
-#line 3382 "Parser.tab.cc" // lalr1.cc:847
+#line 3383 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 294:
-#line 2602 "Parser.yy" // lalr1.cc:847
+#line 2603 "Parser.yy" // lalr1.cc:847
     {
 		OmnString fname = (yystack_[4].value.strval);
 		OmnString newFname = "accu_";
@@ -3398,83 +3399,83 @@ namespace yy {
 
 		(yylhs.value.AosExprValue) = new AosExprGenFunc(newFname, exprList);
 	}
-#line 3402 "Parser.tab.cc" // lalr1.cc:847
+#line 3403 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 295:
-#line 2619 "Parser.yy" // lalr1.cc:847
+#line 2620 "Parser.yy" // lalr1.cc:847
     {
 		//max is an exception since there is 
 		//a token "MAX", therefore we need to
 		//add one explicit line for it
 		(yylhs.value.AosExprValue) = new AosExprGenFunc("max", (yystack_[1].value.AosExprListValue));
 	}
-#line 3413 "Parser.tab.cc" // lalr1.cc:847
+#line 3414 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 296:
-#line 2627 "Parser.yy" // lalr1.cc:847
+#line 2628 "Parser.yy" // lalr1.cc:847
     {
 		//cout << "Found expression" << endl;
 		(yylhs.value.AosExprValue) = new AosExprBrackets((yystack_[1].value.AosExprValue));
 	}
-#line 3422 "Parser.tab.cc" // lalr1.cc:847
+#line 3423 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 297:
-#line 2633 "Parser.yy" // lalr1.cc:847
+#line 2634 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosExprValue) = new AosExprBrackets(*((yystack_[1].value.AosExprListValue)));
 	}
-#line 3430 "Parser.tab.cc" // lalr1.cc:847
+#line 3431 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 298:
-#line 2638 "Parser.yy" // lalr1.cc:847
+#line 2639 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosExprValue) = new AosExprBrackets(*((yystack_[1].value.AosExprListValue)));
 	}
-#line 3438 "Parser.tab.cc" // lalr1.cc:847
+#line 3439 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 299:
-#line 2643 "Parser.yy" // lalr1.cc:847
+#line 2644 "Parser.yy" // lalr1.cc:847
     {
 		//cout << "Found case1............" << endl;
 		(yylhs.value.AosExprValue) = new AosExprCase((yystack_[2].value.AosExprSearchCaseValue), 0, (yystack_[1].value.AosExprValue));
 	}
-#line 3447 "Parser.tab.cc" // lalr1.cc:847
+#line 3448 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 300:
-#line 2649 "Parser.yy" // lalr1.cc:847
+#line 2650 "Parser.yy" // lalr1.cc:847
     {
 		//cout << "Found case2............" << endl;
 		(yylhs.value.AosExprValue) = new AosExprCase(0, (yystack_[2].value.AosExprSimpleCaseValue), (yystack_[1].value.AosExprValue));
 	}
-#line 3456 "Parser.tab.cc" // lalr1.cc:847
+#line 3457 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 301:
-#line 2655 "Parser.yy" // lalr1.cc:847
+#line 2656 "Parser.yy" // lalr1.cc:847
     {
 		//cout << "Found is not null ..." << endl;
 		(yylhs.value.AosExprValue) = new AosExprIsNotNull((yystack_[3].value.AosExprValue));
 	}
-#line 3465 "Parser.tab.cc" // lalr1.cc:847
+#line 3466 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 302:
-#line 2661 "Parser.yy" // lalr1.cc:847
+#line 2662 "Parser.yy" // lalr1.cc:847
     {
 		//cout << "Found is not null ..." << endl;
 		(yylhs.value.AosExprValue) = new AosExprIsNull((yystack_[2].value.AosExprValue));
 	}
-#line 3474 "Parser.tab.cc" // lalr1.cc:847
+#line 3475 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 303:
-#line 2669 "Parser.yy" // lalr1.cc:847
+#line 2670 "Parser.yy" // lalr1.cc:847
     {
 		AosExprSimpleCase::AosJqlWhenCaseExpr *aa = new AosExprSimpleCase::AosJqlWhenCaseExpr((yystack_[3].value.AosExprValue), (yystack_[1].value.AosExprValue));
 		(yystack_[0].value.AosExprSimpleCaseValue)->appendWhenCase(aa);
@@ -3482,162 +3483,162 @@ namespace yy {
 		(yystack_[0].value.AosExprSimpleCaseValue)->setCaseExpr((yystack_[5].value.AosExprValue));
 		(yylhs.value.AosExprSimpleCaseValue) = (yystack_[0].value.AosExprSimpleCaseValue);
 	 }
-#line 3486 "Parser.tab.cc" // lalr1.cc:847
+#line 3487 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 304:
-#line 2678 "Parser.yy" // lalr1.cc:847
+#line 2679 "Parser.yy" // lalr1.cc:847
     {
 	 	(yylhs.value.AosExprSimpleCaseValue) = new AosExprSimpleCase();
 	 }
-#line 3494 "Parser.tab.cc" // lalr1.cc:847
+#line 3495 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 305:
-#line 2683 "Parser.yy" // lalr1.cc:847
+#line 2684 "Parser.yy" // lalr1.cc:847
     {
 	 	//$1->appendPair($3, $5);
 		AosExprSimpleCase::AosJqlWhenCaseExpr *aa = new AosExprSimpleCase::AosJqlWhenCaseExpr((yystack_[2].value.AosExprValue), (yystack_[0].value.AosExprValue));
 		(yystack_[4].value.AosExprSimpleCaseValue)->appendWhenCase(aa);
 	 }
-#line 3504 "Parser.tab.cc" // lalr1.cc:847
+#line 3505 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 306:
-#line 2691 "Parser.yy" // lalr1.cc:847
+#line 2692 "Parser.yy" // lalr1.cc:847
     {
 		 (yylhs.value.AosExprSearchCaseValue) = new AosExprSearchCase((yystack_[0].value.AosExprSimpleCaseValue));
 	 }
-#line 3512 "Parser.tab.cc" // lalr1.cc:847
+#line 3513 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 307:
-#line 2697 "Parser.yy" // lalr1.cc:847
+#line 2698 "Parser.yy" // lalr1.cc:847
     {
 		 (yylhs.value.AosExprValue) = 0;
 	 }
-#line 3520 "Parser.tab.cc" // lalr1.cc:847
+#line 3521 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 308:
-#line 2702 "Parser.yy" // lalr1.cc:847
+#line 2703 "Parser.yy" // lalr1.cc:847
     {
 		 (yylhs.value.AosExprValue) = (yystack_[0].value.AosExprValue);
 	 }
-#line 3528 "Parser.tab.cc" // lalr1.cc:847
+#line 3529 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 309:
-#line 2708 "Parser.yy" // lalr1.cc:847
+#line 2709 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosExprListValue) = new AosExprList;
 		(yylhs.value.AosExprListValue)->push_back((yystack_[0].value.AosExprValue));
 	}
-#line 3537 "Parser.tab.cc" // lalr1.cc:847
+#line 3538 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 310:
-#line 2714 "Parser.yy" // lalr1.cc:847
+#line 2715 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosExprListValue) = (yystack_[2].value.AosExprListValue);
 		(yylhs.value.AosExprListValue)->push_back((yystack_[0].value.AosExprValue));
 	}
-#line 3546 "Parser.tab.cc" // lalr1.cc:847
+#line 3547 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 311:
-#line 2721 "Parser.yy" // lalr1.cc:847
+#line 2722 "Parser.yy" // lalr1.cc:847
     {
 		typedef vector<AosExprNameValuePtr> AosExprNameValues;
 		(yylhs.value.AosExprNameValuesValue) = new AosExprNameValues;
 	}
-#line 3555 "Parser.tab.cc" // lalr1.cc:847
+#line 3556 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 312:
-#line 2727 "Parser.yy" // lalr1.cc:847
+#line 2728 "Parser.yy" // lalr1.cc:847
     {
 		typedef vector<AosExprNameValuePtr> AosExprNameValues;
 		AosExprNameValue *expr = new AosExprNameValue((yystack_[2].value.strval), (yystack_[0].value.AosExprValue));
 		(yylhs.value.AosExprNameValuesValue) = new AosExprNameValues;
 		(yylhs.value.AosExprNameValuesValue)->push_back(expr);
 	}
-#line 3566 "Parser.tab.cc" // lalr1.cc:847
+#line 3567 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 313:
-#line 2735 "Parser.yy" // lalr1.cc:847
+#line 2736 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosExprNameValuesValue) = (yystack_[4].value.AosExprNameValuesValue);
 		AosExprNameValue *expr = new AosExprNameValue((yystack_[2].value.strval), (yystack_[0].value.AosExprValue));
 		(yylhs.value.AosExprNameValuesValue)->push_back(expr);
 	}
-#line 3576 "Parser.tab.cc" // lalr1.cc:847
+#line 3577 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 314:
-#line 2744 "Parser.yy" // lalr1.cc:847
+#line 2745 "Parser.yy" // lalr1.cc:847
     { 
 		(yylhs.value.AosExprValue) = new AosExprFieldName((yystack_[0].value.strval));  
 		if ((yystack_[0].value.strval)) free((yystack_[0].value.strval));            
   	}
-#line 3585 "Parser.tab.cc" // lalr1.cc:847
+#line 3586 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 315:
-#line 2750 "Parser.yy" // lalr1.cc:847
+#line 2751 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosExprValue) = new AosExprString((yystack_[0].value.strval));  
 		if ((yystack_[0].value.strval)) free((yystack_[0].value.strval));            
 	}
-#line 3594 "Parser.tab.cc" // lalr1.cc:847
+#line 3595 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 316:
-#line 2756 "Parser.yy" // lalr1.cc:847
+#line 2757 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosExprValue) = new AosExprString((yystack_[0].value.strval));  
 		if ((yystack_[0].value.strval)) free((yystack_[0].value.strval));            
 	}
-#line 3603 "Parser.tab.cc" // lalr1.cc:847
+#line 3604 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 317:
-#line 2762 "Parser.yy" // lalr1.cc:847
+#line 2763 "Parser.yy" // lalr1.cc:847
     { 
 		(yylhs.value.AosExprValue) = new AosExprFieldName((yystack_[0].value.strval));  
 		if ((yystack_[0].value.strval)) free((yystack_[0].value.strval));            
   	}
-#line 3612 "Parser.tab.cc" // lalr1.cc:847
+#line 3613 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 318:
-#line 2768 "Parser.yy" // lalr1.cc:847
+#line 2769 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosExprValue) = NULL;
   	}
-#line 3620 "Parser.tab.cc" // lalr1.cc:847
+#line 3621 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 319:
-#line 2775 "Parser.yy" // lalr1.cc:847
+#line 2776 "Parser.yy" // lalr1.cc:847
     {              
         (yylhs.value.AosJqlWhereValue) = 0;    
     }
-#line 3628 "Parser.tab.cc" // lalr1.cc:847
+#line 3629 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 320:
-#line 2780 "Parser.yy" // lalr1.cc:847
+#line 2781 "Parser.yy" // lalr1.cc:847
     {              
 		(yylhs.value.AosJqlWhereValue) = new AosJqlWhere();
 		(yylhs.value.AosJqlWhereValue)->setWhereExpr((yystack_[0].value.AosExprValue));
     }
-#line 3637 "Parser.tab.cc" // lalr1.cc:847
+#line 3638 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 321:
-#line 2788 "Parser.yy" // lalr1.cc:847
+#line 2789 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtGenericobj * statement = new AosJqlStmtGenericobj;
 		statement->setType((yystack_[5].value.AosExprValue));
@@ -3647,64 +3648,64 @@ namespace yy {
 		(yylhs.value.AosJqlStmtGenericobjValue) = statement;
 		(yylhs.value.AosJqlStmtGenericobjValue)->setOp(JQLTypes::eCreate);
 	}
-#line 3651 "Parser.tab.cc" // lalr1.cc:847
+#line 3652 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 322:
-#line 2800 "Parser.yy" // lalr1.cc:847
+#line 2801 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlGenericobjValuesValues) = NULL;
 	}
-#line 3659 "Parser.tab.cc" // lalr1.cc:847
+#line 3660 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 323:
-#line 2805 "Parser.yy" // lalr1.cc:847
+#line 2806 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlGenericobjValuesValues) = new vector<AosGenericValueObjPtr>();
 		(yylhs.value.AosJqlGenericobjValuesValues)->push_back((yystack_[0].value.AosJqlGenericobjValueValues));
 	}
-#line 3668 "Parser.tab.cc" // lalr1.cc:847
+#line 3669 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 324:
-#line 2811 "Parser.yy" // lalr1.cc:847
+#line 2812 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlGenericobjValuesValues) = (yystack_[2].value.AosJqlGenericobjValuesValues);
 		(yylhs.value.AosJqlGenericobjValuesValues)->push_back((yystack_[0].value.AosJqlGenericobjValueValues));
 	}
-#line 3677 "Parser.tab.cc" // lalr1.cc:847
+#line 3678 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 325:
-#line 2818 "Parser.yy" // lalr1.cc:847
+#line 2819 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlGenericobjValueValues) = NULL;
 	}
-#line 3685 "Parser.tab.cc" // lalr1.cc:847
+#line 3686 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 326:
-#line 2823 "Parser.yy" // lalr1.cc:847
+#line 2824 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlGenericobjValueValues) = new AosGenericValueObj();
 		(yylhs.value.AosJqlGenericobjValueValues)->mValue = (yystack_[0].value.AosExprValue);
 	}
-#line 3694 "Parser.tab.cc" // lalr1.cc:847
+#line 3695 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 327:
-#line 2829 "Parser.yy" // lalr1.cc:847
+#line 2830 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlGenericobjValueValues) = new AosGenericValueObj();
 		(yylhs.value.AosJqlGenericobjValueValues)->mName = (yystack_[4].value.AosExprValue);
 		(yylhs.value.AosJqlGenericobjValueValues)->mArrayValues = *(yystack_[1].value.AosExprListValue);
 	}
-#line 3704 "Parser.tab.cc" // lalr1.cc:847
+#line 3705 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 328:
-#line 2842 "Parser.yy" // lalr1.cc:847
+#line 2843 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtIF *stmt = new AosJqlStmtIF;
 		stmt->setNot((yystack_[6].value.bool_val));
@@ -3715,77 +3716,77 @@ namespace yy {
 		(yylhs.value.AosJqlStmtIFValue) = stmt;
 		(yylhs.value.AosJqlStmtIFValue)->setOp(JQLTypes::eRun);
 	}
-#line 3719 "Parser.tab.cc" // lalr1.cc:847
+#line 3720 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 329:
-#line 2855 "Parser.yy" // lalr1.cc:847
+#line 2856 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.bool_val) = false;
 	}
-#line 3727 "Parser.tab.cc" // lalr1.cc:847
+#line 3728 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 330:
-#line 2860 "Parser.yy" // lalr1.cc:847
+#line 2861 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.bool_val) = true;
 	}
-#line 3735 "Parser.tab.cc" // lalr1.cc:847
+#line 3736 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 331:
-#line 2866 "Parser.yy" // lalr1.cc:847
+#line 2867 "Parser.yy" // lalr1.cc:847
     {
 		typedef vector<AosJqlStatementPtr> AosJqlStatementList;
 		(yylhs.value.AosJqlStatementListValue) = new AosJqlStatementList; 
 		(yylhs.value.AosJqlStatementListValue)->push_back((yystack_[0].value.AosJqlStatementValue));
 		gAosJQLParser.finishParse();
 	}
-#line 3746 "Parser.tab.cc" // lalr1.cc:847
+#line 3747 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 332:
-#line 2874 "Parser.yy" // lalr1.cc:847
+#line 2875 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlStatementListValue) = (yystack_[1].value.AosJqlStatementListValue);
 		(yylhs.value.AosJqlStatementListValue)->push_back((yystack_[0].value.AosJqlStatementValue));
 		gAosJQLParser.finishParse();
 	}
-#line 3756 "Parser.tab.cc" // lalr1.cc:847
+#line 3757 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 333:
-#line 2882 "Parser.yy" // lalr1.cc:847
+#line 2883 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlStatementListValue) = NULL;
 	}
-#line 3764 "Parser.tab.cc" // lalr1.cc:847
+#line 3765 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 334:
-#line 2887 "Parser.yy" // lalr1.cc:847
+#line 2888 "Parser.yy" // lalr1.cc:847
     {
 		typedef vector<AosJqlStatementPtr> AosJqlStatementList;
 		(yylhs.value.AosJqlStatementListValue) = new AosJqlStatementList; 
 		(yylhs.value.AosJqlStatementListValue)->push_back((yystack_[0].value.AosJqlStatementValue));
 		gAosJQLParser.finishParse();
 	}
-#line 3775 "Parser.tab.cc" // lalr1.cc:847
+#line 3776 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 335:
-#line 2895 "Parser.yy" // lalr1.cc:847
+#line 2896 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlStatementListValue) = (yystack_[1].value.AosJqlStatementListValue);
 		(yylhs.value.AosJqlStatementListValue)->push_back((yystack_[0].value.AosJqlStatementValue));
 		gAosJQLParser.finishParse();
 	}
-#line 3785 "Parser.tab.cc" // lalr1.cc:847
+#line 3786 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 336:
-#line 2906 "Parser.yy" // lalr1.cc:847
+#line 2907 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtIndex* statement = new AosJqlStmtIndex;
 		statement->setIndexName((yystack_[8].value.strval));
@@ -3805,11 +3806,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtIndexValue) = statement;
 		(yylhs.value.AosJqlStmtIndexValue)->setOp(JQLTypes::eCreate);
 	}
-#line 3809 "Parser.tab.cc" // lalr1.cc:847
+#line 3810 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 337:
-#line 2929 "Parser.yy" // lalr1.cc:847
+#line 2930 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtIndex* statement = new AosJqlStmtIndex;
 		statement->setIndexName((yystack_[10].value.strval));
@@ -3820,11 +3821,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtIndexValue) = statement;
 		(yylhs.value.AosJqlStmtIndexValue)->setOp(JQLTypes::eCreate);
 	}
-#line 3824 "Parser.tab.cc" // lalr1.cc:847
+#line 3825 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 338:
-#line 2941 "Parser.yy" // lalr1.cc:847
+#line 2942 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtIndex* stmt = new AosJqlStmtIndex;
 		stmt->setIndexName((yystack_[4].value.strval));
@@ -3834,11 +3835,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtIndexValue) = stmt;
 		(yylhs.value.AosJqlStmtIndexValue)->setOp(JQLTypes::eCreate);
 	}
-#line 3838 "Parser.tab.cc" // lalr1.cc:847
+#line 3839 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 339:
-#line 2953 "Parser.yy" // lalr1.cc:847
+#line 2954 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtIndex* statement = new AosJqlStmtIndex;
 		gAosJQLParser.appendStatement(statement);
@@ -3848,11 +3849,11 @@ namespace yy {
 
 		cout << "Describe index: " << (yystack_[1].value.strval) << endl;
 	}
-#line 3852 "Parser.tab.cc" // lalr1.cc:847
+#line 3853 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 340:
-#line 2966 "Parser.yy" // lalr1.cc:847
+#line 2967 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtIndex* statement = new AosJqlStmtIndex;
 		gAosJQLParser.appendStatement(statement);
@@ -3863,38 +3864,38 @@ namespace yy {
 		(yylhs.value.AosJqlStmtIndexValue)->setLimit((yystack_[1].value.AosJqlLimitValue));
 		(yylhs.value.AosJqlStmtIndexValue)->setOp(JQLTypes::eList);
 	}
-#line 3867 "Parser.tab.cc" // lalr1.cc:847
+#line 3868 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 341:
-#line 2979 "Parser.yy" // lalr1.cc:847
+#line 2980 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosExprListValue) = NULL;
 	}
-#line 3875 "Parser.tab.cc" // lalr1.cc:847
+#line 3876 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 342:
-#line 2984 "Parser.yy" // lalr1.cc:847
+#line 2985 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosExprListValue) = (yystack_[1].value.AosExprListValue);
 	}
-#line 3883 "Parser.tab.cc" // lalr1.cc:847
+#line 3884 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 343:
-#line 2991 "Parser.yy" // lalr1.cc:847
+#line 2992 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtIndex *show_iil = new AosJqlStmtIndex();	
 		gAosJQLParser.appendStatement(show_iil);
 		(yylhs.value.AosJqlStmtIndexValue) = show_iil;
 		(yylhs.value.AosJqlStmtIndexValue)->setOp(JQLTypes::eShow); 
     }
-#line 3894 "Parser.tab.cc" // lalr1.cc:847
+#line 3895 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 344:
-#line 3001 "Parser.yy" // lalr1.cc:847
+#line 3002 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtIndex *drop_iil = new AosJqlStmtIndex();
 		drop_iil->setIndexName((yystack_[1].value.strval));
@@ -3903,29 +3904,29 @@ namespace yy {
 		(yylhs.value.AosJqlStmtIndexValue)->setOp(JQLTypes::eDrop); 
 		free((yystack_[1].value.strval));
 	}
-#line 3907 "Parser.tab.cc" // lalr1.cc:847
+#line 3908 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 345:
-#line 3013 "Parser.yy" // lalr1.cc:847
+#line 3014 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosExprListVecValue) = new vector<AosExprList *>;
 		(yylhs.value.AosExprListVecValue)->push_back((yystack_[1].value.AosExprListValue));
 	}
-#line 3916 "Parser.tab.cc" // lalr1.cc:847
+#line 3917 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 346:
-#line 3019 "Parser.yy" // lalr1.cc:847
+#line 3020 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosExprListVecValue) = (yystack_[4].value.AosExprListVecValue);
 		(yylhs.value.AosExprListVecValue)->push_back((yystack_[1].value.AosExprListValue));
 	}
-#line 3925 "Parser.tab.cc" // lalr1.cc:847
+#line 3926 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 347:
-#line 3027 "Parser.yy" // lalr1.cc:847
+#line 3028 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtInsert* insert = new AosJqlStmtInsert;
 		insert->table_name = (yystack_[4].value.strval);
@@ -3934,132 +3935,132 @@ namespace yy {
 		(yylhs.value.AosJqlStmtInsertItemValue) = new  AosJqlStmtInsertItem(insert);
 		gAosJQLParser.appendStatement((yylhs.value.AosJqlStmtInsertItemValue));
 	}
-#line 3938 "Parser.tab.cc" // lalr1.cc:847
+#line 3939 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 348:
-#line 3039 "Parser.yy" // lalr1.cc:847
+#line 3040 "Parser.yy" // lalr1.cc:847
     {  
 	}
-#line 3945 "Parser.tab.cc" // lalr1.cc:847
+#line 3946 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 349:
-#line 3043 "Parser.yy" // lalr1.cc:847
+#line 3044 "Parser.yy" // lalr1.cc:847
     {
 	}
-#line 3952 "Parser.tab.cc" // lalr1.cc:847
+#line 3953 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 350:
-#line 3047 "Parser.yy" // lalr1.cc:847
+#line 3048 "Parser.yy" // lalr1.cc:847
     { 
 	}
-#line 3959 "Parser.tab.cc" // lalr1.cc:847
+#line 3960 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 351:
-#line 3051 "Parser.yy" // lalr1.cc:847
+#line 3052 "Parser.yy" // lalr1.cc:847
     { 
 	}
-#line 3966 "Parser.tab.cc" // lalr1.cc:847
+#line 3967 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 352:
-#line 3055 "Parser.yy" // lalr1.cc:847
+#line 3056 "Parser.yy" // lalr1.cc:847
     { 
 	}
-#line 3973 "Parser.tab.cc" // lalr1.cc:847
+#line 3974 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 353:
-#line 3061 "Parser.yy" // lalr1.cc:847
+#line 3062 "Parser.yy" // lalr1.cc:847
     {
 	}
-#line 3980 "Parser.tab.cc" // lalr1.cc:847
+#line 3981 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 354:
-#line 3065 "Parser.yy" // lalr1.cc:847
+#line 3066 "Parser.yy" // lalr1.cc:847
     {
 	}
-#line 3987 "Parser.tab.cc" // lalr1.cc:847
+#line 3988 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 355:
-#line 3071 "Parser.yy" // lalr1.cc:847
+#line 3072 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosExprListValue) = new AosExprList;
 	}
-#line 3995 "Parser.tab.cc" // lalr1.cc:847
+#line 3996 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 356:
-#line 3076 "Parser.yy" // lalr1.cc:847
+#line 3077 "Parser.yy" // lalr1.cc:847
     { 
 		(yylhs.value.AosExprListValue) = (yystack_[1].value.AosExprListValue); 
 	}
-#line 4003 "Parser.tab.cc" // lalr1.cc:847
+#line 4004 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 357:
-#line 3083 "Parser.yy" // lalr1.cc:847
+#line 3084 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosExprListValue) = new AosExprList;
 		(yylhs.value.AosExprListValue)->push_back((yystack_[0].value.AosExprValue));
 	}
-#line 4012 "Parser.tab.cc" // lalr1.cc:847
+#line 4013 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 358:
-#line 3089 "Parser.yy" // lalr1.cc:847
+#line 3090 "Parser.yy" // lalr1.cc:847
     { 
 		(yylhs.value.AosExprListValue)->push_back((yystack_[0].value.AosExprValue));
 	}
-#line 4020 "Parser.tab.cc" // lalr1.cc:847
+#line 4021 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 359:
-#line 3096 "Parser.yy" // lalr1.cc:847
+#line 3097 "Parser.yy" // lalr1.cc:847
     { 
 		(yylhs.value.AosExprListValue) = (yystack_[1].value.AosExprListValue);
 	}
-#line 4028 "Parser.tab.cc" // lalr1.cc:847
+#line 4029 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 360:
-#line 3103 "Parser.yy" // lalr1.cc:847
+#line 3104 "Parser.yy" // lalr1.cc:847
     { 
 		(yylhs.value.AosExprListValue) = new AosExprList;
 		(yylhs.value.AosExprListValue)->push_back((yystack_[0].value.AosExprValue)); 
 	}
-#line 4037 "Parser.tab.cc" // lalr1.cc:847
+#line 4038 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 361:
-#line 3109 "Parser.yy" // lalr1.cc:847
+#line 3110 "Parser.yy" // lalr1.cc:847
     { 
 	}
-#line 4044 "Parser.tab.cc" // lalr1.cc:847
+#line 4045 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 362:
-#line 3113 "Parser.yy" // lalr1.cc:847
+#line 3114 "Parser.yy" // lalr1.cc:847
     { 
 		(yylhs.value.AosExprListValue)->push_back((yystack_[0].value.AosExprValue)); 
 	}
-#line 4052 "Parser.tab.cc" // lalr1.cc:847
+#line 4053 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 363:
-#line 3118 "Parser.yy" // lalr1.cc:847
+#line 3119 "Parser.yy" // lalr1.cc:847
     { 
 	}
-#line 4059 "Parser.tab.cc" // lalr1.cc:847
+#line 4060 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 364:
-#line 3128 "Parser.yy" // lalr1.cc:847
+#line 3129 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtJimoLogic *logic = new AosJqlStmtJimoLogic;
 		logic->setName((yystack_[14].value.strval));
@@ -4073,11 +4074,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtJimoLogicValue) = logic;
 		(yylhs.value.AosJqlStmtJimoLogicValue)->setOp(JQLTypes::eCreate);
 	}
-#line 4077 "Parser.tab.cc" // lalr1.cc:847
+#line 4078 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 365:
-#line 3149 "Parser.yy" // lalr1.cc:847
+#line 3150 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtJimoLogic *logic = new AosJqlStmtJimoLogic;
 		logic->setName((yystack_[17].value.strval));
@@ -4092,11 +4093,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtJimoLogicValue) = logic;
 		(yylhs.value.AosJqlStmtJimoLogicValue)->setOp(JQLTypes::eCreate);
 	}
-#line 4096 "Parser.tab.cc" // lalr1.cc:847
+#line 4097 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 366:
-#line 3167 "Parser.yy" // lalr1.cc:847
+#line 3168 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtJimoLogic *logic = new AosJqlStmtJimoLogic;
 		logic->setName((yystack_[1].value.strval));
@@ -4104,22 +4105,22 @@ namespace yy {
 		(yylhs.value.AosJqlStmtJimoLogicValue) = logic;
 		(yylhs.value.AosJqlStmtJimoLogicValue)->setOp(JQLTypes::eDrop);
 	}
-#line 4108 "Parser.tab.cc" // lalr1.cc:847
+#line 4109 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 367:
-#line 3178 "Parser.yy" // lalr1.cc:847
+#line 3179 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtJimoLogic *logic = new AosJqlStmtJimoLogic;
 		gAosJQLParser.appendStatement(logic);
 		(yylhs.value.AosJqlStmtJimoLogicValue) = logic;
 		(yylhs.value.AosJqlStmtJimoLogicValue)->setOp(JQLTypes::eShow);
 	}
-#line 4119 "Parser.tab.cc" // lalr1.cc:847
+#line 4120 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 368:
-#line 3188 "Parser.yy" // lalr1.cc:847
+#line 3189 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtJimoLogic *logic = new AosJqlStmtJimoLogic;
 		logic->setName((yystack_[1].value.strval));
@@ -4127,11 +4128,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtJimoLogicValue) = logic;
 		(yylhs.value.AosJqlStmtJimoLogicValue)->setOp(JQLTypes::eDescribe);
 	}
-#line 4131 "Parser.tab.cc" // lalr1.cc:847
+#line 4132 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 369:
-#line 3198 "Parser.yy" // lalr1.cc:847
+#line 3199 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtJob *stmt = new AosJqlStmtJob;
 		stmt->setJobName((yystack_[4].value.strval));
@@ -4140,11 +4141,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtJobValue) = stmt;
 		(yylhs.value.AosJqlStmtJobValue)->setOp(JQLTypes::eCreate);
 	}
-#line 4144 "Parser.tab.cc" // lalr1.cc:847
+#line 4145 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 370:
-#line 3209 "Parser.yy" // lalr1.cc:847
+#line 3210 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtJob *job = new AosJqlStmtJob;
 		job->setJobName((yystack_[6].value.strval));
@@ -4153,11 +4154,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtJobValue) = job;                             
 		(yylhs.value.AosJqlStmtJobValue)->setOp(JQLTypes::eCreate);               
 	}
-#line 4157 "Parser.tab.cc" // lalr1.cc:847
+#line 4158 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 371:
-#line 3232 "Parser.yy" // lalr1.cc:847
+#line 3233 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtJob *job = new AosJqlStmtJob;
 		job->setJobName((yystack_[3].value.strval));
@@ -4166,11 +4167,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtJobValue) = job;                             
 		(yylhs.value.AosJqlStmtJobValue)->setOp(JQLTypes::eRun);               
 	}
-#line 4170 "Parser.tab.cc" // lalr1.cc:847
+#line 4171 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 372:
-#line 3244 "Parser.yy" // lalr1.cc:847
+#line 3245 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtJob *job = new AosJqlStmtJob;
 		job->setJobName((yystack_[1].value.strval));
@@ -4178,11 +4179,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtJobValue) = job;                             
 		(yylhs.value.AosJqlStmtJobValue)->setOp(JQLTypes::eStop);               
 	}
-#line 4182 "Parser.tab.cc" // lalr1.cc:847
+#line 4183 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 373:
-#line 3255 "Parser.yy" // lalr1.cc:847
+#line 3256 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtJob *job = new AosJqlStmtJob;
 		job->setJobName((yystack_[1].value.strval));
@@ -4190,22 +4191,22 @@ namespace yy {
 		(yylhs.value.AosJqlStmtJobValue) = job;                             
 		(yylhs.value.AosJqlStmtJobValue)->setOp(JQLTypes::eDrop);               
 	}
-#line 4194 "Parser.tab.cc" // lalr1.cc:847
+#line 4195 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 374:
-#line 3266 "Parser.yy" // lalr1.cc:847
+#line 3267 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtJob *job = new AosJqlStmtJob;
 		gAosJQLParser.appendStatement(job);   
 		(yylhs.value.AosJqlStmtJobValue) = job;                             
 		(yylhs.value.AosJqlStmtJobValue)->setOp(JQLTypes::eShow);               
 	}
-#line 4205 "Parser.tab.cc" // lalr1.cc:847
+#line 4206 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 375:
-#line 3276 "Parser.yy" // lalr1.cc:847
+#line 3277 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtJob *job = new AosJqlStmtJob;
 		job->setJobName((yystack_[1].value.strval));
@@ -4213,11 +4214,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtJobValue) = job;                             
 		(yylhs.value.AosJqlStmtJobValue)->setOp(JQLTypes::eDescribe);               
 	}
-#line 4217 "Parser.tab.cc" // lalr1.cc:847
+#line 4218 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 376:
-#line 3287 "Parser.yy" // lalr1.cc:847
+#line 3288 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtJob *job = new AosJqlStmtJob;
 		/*job->setJobName($3);*/
@@ -4226,11 +4227,11 @@ namespace yy {
 		gAosJQLParser.appendStatement(job);   
 		(yylhs.value.AosJqlStmtJobValue) = job; 
 	}
-#line 4230 "Parser.tab.cc" // lalr1.cc:847
+#line 4231 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 377:
-#line 3298 "Parser.yy" // lalr1.cc:847
+#line 3299 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtJob *job = new AosJqlStmtJob;
 		job->setLimit((yystack_[1].value.AosJqlLimitValue));
@@ -4240,11 +4241,11 @@ namespace yy {
 		gAosJQLParser.appendStatement(job);   
 		(yylhs.value.AosJqlStmtJobValue) = job; 
 	}
-#line 4244 "Parser.tab.cc" // lalr1.cc:847
+#line 4245 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 378:
-#line 3311 "Parser.yy" // lalr1.cc:847
+#line 3312 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtJob *job = new AosJqlStmtJob;
 		job->setJobName((yystack_[1].value.strval));
@@ -4252,11 +4253,11 @@ namespace yy {
 		gAosJQLParser.appendStatement(job);   
 		(yylhs.value.AosJqlStmtJobValue) = job; 
 	}
-#line 4256 "Parser.tab.cc" // lalr1.cc:847
+#line 4257 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 379:
-#line 3321 "Parser.yy" // lalr1.cc:847
+#line 3322 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtJob *job = new AosJqlStmtJob;
 		job->setJobName((yystack_[1].value.strval));
@@ -4264,11 +4265,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtJobValue) = job;                             
 		(yylhs.value.AosJqlStmtJobValue)->setOp(JQLTypes::eRestart);               
 	}
-#line 4268 "Parser.tab.cc" // lalr1.cc:847
+#line 4269 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 380:
-#line 3335 "Parser.yy" // lalr1.cc:847
+#line 3336 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtJoinSyncher *stmt = new AosJqlStmtJoinSyncher;
 		stmt->setJoinType("inner_join");
@@ -4279,11 +4280,11 @@ namespace yy {
 		gAosJQLParser.appendStatement(stmt);
 		(yylhs.value.AosJqlStmtJoinSyncherValue) = stmt;
 	}
-#line 4283 "Parser.tab.cc" // lalr1.cc:847
+#line 4284 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 381:
-#line 3347 "Parser.yy" // lalr1.cc:847
+#line 3348 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtLoadData *stmt = new AosJqlStmtLoadData();
 		stmt->setLoadDataName((yystack_[4].value.strval));
@@ -4292,11 +4293,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtLoadDataValue) = stmt;
 		(yylhs.value.AosJqlStmtLoadDataValue)->setOp(JQLTypes::eCreate);
 	}
-#line 4296 "Parser.tab.cc" // lalr1.cc:847
+#line 4297 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 382:
-#line 3357 "Parser.yy" // lalr1.cc:847
+#line 3358 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtLoadData *load_data = new AosJqlStmtLoadData();
 		load_data->setVersionNum(2);
@@ -4310,11 +4311,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtLoadDataValue) = load_data;                           
 		(yylhs.value.AosJqlStmtLoadDataValue)->setOp(JQLTypes::eCreate);          
     }
-#line 4314 "Parser.tab.cc" // lalr1.cc:847
+#line 4315 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 383:
-#line 3373 "Parser.yy" // lalr1.cc:847
+#line 3374 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtLoadData *load_data = new AosJqlStmtLoadData();
 		load_data->setVersionNum(2);
@@ -4330,11 +4331,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtLoadDataValue) = load_data;                           
 		(yylhs.value.AosJqlStmtLoadDataValue)->setOp(JQLTypes::eCreate);
     }
-#line 4334 "Parser.tab.cc" // lalr1.cc:847
+#line 4335 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 384:
-#line 3390 "Parser.yy" // lalr1.cc:847
+#line 3391 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtLoadData *stmt = new AosJqlStmtLoadData();
 		stmt->setLoadDataName((yystack_[4].value.strval));
@@ -4343,11 +4344,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtLoadDataValue) = stmt;
 		(yylhs.value.AosJqlStmtLoadDataValue)->setOp(JQLTypes::eDrop);
 	}
-#line 4347 "Parser.tab.cc" // lalr1.cc:847
+#line 4348 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 385:
-#line 3400 "Parser.yy" // lalr1.cc:847
+#line 3401 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtLoadData *load_data = new AosJqlStmtLoadData();
 		load_data->setLoadDataName((yystack_[9].value.strval));
@@ -4360,11 +4361,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtLoadDataValue) = load_data;                           
 		(yylhs.value.AosJqlStmtLoadDataValue)->setOp(JQLTypes::eDrop);
     }
-#line 4364 "Parser.tab.cc" // lalr1.cc:847
+#line 4365 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 386:
-#line 3415 "Parser.yy" // lalr1.cc:847
+#line 3416 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtLoadData *load_data = new AosJqlStmtLoadData();
 		load_data->setLoadDataName((yystack_[16].value.strval));
@@ -4379,11 +4380,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtLoadDataValue) = load_data;                           
 		(yylhs.value.AosJqlStmtLoadDataValue)->setOp(JQLTypes::eDrop);
     }
-#line 4383 "Parser.tab.cc" // lalr1.cc:847
+#line 4384 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 387:
-#line 3434 "Parser.yy" // lalr1.cc:847
+#line 3435 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtHBase *hbase = new AosJqlStmtHBase();
 		hbase->setConfig((yystack_[1].value.strval));
@@ -4391,59 +4392,59 @@ namespace yy {
 		gAosJQLParser.appendStatement(hbase); 
 		(yylhs.value.AosJqlStmtHBaseValue)->setOp(JQLTypes::eRun);          
 	}
-#line 4395 "Parser.tab.cc" // lalr1.cc:847
+#line 4396 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 388:
-#line 3445 "Parser.yy" // lalr1.cc:847
+#line 3446 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.u32_value) = 1;
 	}
-#line 4403 "Parser.tab.cc" // lalr1.cc:847
+#line 4404 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 389:
-#line 3450 "Parser.yy" // lalr1.cc:847
+#line 3451 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.u32_value) = (yystack_[0].value.ll_value);
 	}
-#line 4411 "Parser.tab.cc" // lalr1.cc:847
+#line 4412 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 390:
-#line 3456 "Parser.yy" // lalr1.cc:847
+#line 3457 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.u32_value) = 1;
 	}
-#line 4419 "Parser.tab.cc" // lalr1.cc:847
+#line 4420 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 391:
-#line 3461 "Parser.yy" // lalr1.cc:847
+#line 3462 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.u32_value) = (yystack_[0].value.ll_value);
 	}
-#line 4427 "Parser.tab.cc" // lalr1.cc:847
+#line 4428 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 392:
-#line 3467 "Parser.yy" // lalr1.cc:847
+#line 3468 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosExprListValue) = new AosExprList; 
 	}
-#line 4435 "Parser.tab.cc" // lalr1.cc:847
+#line 4436 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 393:
-#line 3472 "Parser.yy" // lalr1.cc:847
+#line 3473 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosExprListValue) = (yystack_[1].value.AosExprListValue);
 	}
-#line 4443 "Parser.tab.cc" // lalr1.cc:847
+#line 4444 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 394:
-#line 3483 "Parser.yy" // lalr1.cc:847
+#line 3484 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtMap *map = new AosJqlStmtMap;
 		map->setMapName((yystack_[16].value.strval));
@@ -4458,11 +4459,11 @@ namespace yy {
 		gAosJQLParser.appendStatement(map);   
 		(yylhs.value.AosJqlStmtMapValues) = map;                             
 	}
-#line 4462 "Parser.tab.cc" // lalr1.cc:847
+#line 4463 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 395:
-#line 3500 "Parser.yy" // lalr1.cc:847
+#line 3501 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtMap *map = new AosJqlStmtMap;
 		map->setMapName((yystack_[1].value.strval));
@@ -4470,22 +4471,22 @@ namespace yy {
 		(yylhs.value.AosJqlStmtMapValues) = map;                             
 		(yylhs.value.AosJqlStmtMapValues)->setOp(JQLTypes::eDrop);               
 	}
-#line 4474 "Parser.tab.cc" // lalr1.cc:847
+#line 4475 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 396:
-#line 3511 "Parser.yy" // lalr1.cc:847
+#line 3512 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtMap *map = new AosJqlStmtMap;
 		gAosJQLParser.appendStatement(map);   
 		(yylhs.value.AosJqlStmtMapValues) = map;                             
 		(yylhs.value.AosJqlStmtMapValues)->setOp(JQLTypes::eShow);               
 	}
-#line 4485 "Parser.tab.cc" // lalr1.cc:847
+#line 4486 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 397:
-#line 3521 "Parser.yy" // lalr1.cc:847
+#line 3522 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtMap *map = new AosJqlStmtMap;
 		map->setMapName((yystack_[1].value.strval));
@@ -4493,11 +4494,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtMapValues) = map;                             
 		(yylhs.value.AosJqlStmtMapValues)->setOp(JQLTypes::eDescribe);               
 	}
-#line 4497 "Parser.tab.cc" // lalr1.cc:847
+#line 4498 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 398:
-#line 3533 "Parser.yy" // lalr1.cc:847
+#line 3534 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtMap *map = new AosJqlStmtMap;
 		map->setMapName((yystack_[1].value.strval));
@@ -4505,11 +4506,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtMapValues) = map;                             
 		(yylhs.value.AosJqlStmtMapValues)->setOp(JQLTypes::eList);               
 	}
-#line 4509 "Parser.tab.cc" // lalr1.cc:847
+#line 4510 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 399:
-#line 3544 "Parser.yy" // lalr1.cc:847
+#line 3545 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtNickField *stmt = new AosJqlStmtNickField;
 		stmt->setName((yystack_[4].value.strval));
@@ -4518,11 +4519,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtNickFieldValue) = stmt;
 		(yylhs.value.AosJqlStmtNickFieldValue)->setOp(JQLTypes::eCreate);
 	}
-#line 4522 "Parser.tab.cc" // lalr1.cc:847
+#line 4523 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 400:
-#line 3556 "Parser.yy" // lalr1.cc:847
+#line 3557 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtNickField *field = new AosJqlStmtNickField;
 		field->setName((yystack_[7].value.strval));
@@ -4533,11 +4534,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtNickFieldValue) = field;
 		(yylhs.value.AosJqlStmtNickFieldValue)->setOp(JQLTypes::eCreate);
 	}
-#line 4537 "Parser.tab.cc" // lalr1.cc:847
+#line 4538 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 401:
-#line 3570 "Parser.yy" // lalr1.cc:847
+#line 3571 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtRunScriptFile *stmt = new AosJqlStmtRunScriptFile;
 		stmt->setFileName((yystack_[3].value.strval));
@@ -4546,52 +4547,52 @@ namespace yy {
 		gAosJQLParser.appendStatement(stmt);   
 		(yylhs.value.AosJqlStmtRunScriptFileValue) = stmt;                             
 	}
-#line 4550 "Parser.tab.cc" // lalr1.cc:847
+#line 4551 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 402:
-#line 3581 "Parser.yy" // lalr1.cc:847
+#line 3582 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosExprListValue) = NULL;
 	}
-#line 4558 "Parser.tab.cc" // lalr1.cc:847
+#line 4559 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 403:
-#line 3586 "Parser.yy" // lalr1.cc:847
+#line 3587 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosExprListValue) = (yystack_[0].value.AosExprListValue);
 	}
-#line 4566 "Parser.tab.cc" // lalr1.cc:847
+#line 4567 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 404:
-#line 3592 "Parser.yy" // lalr1.cc:847
+#line 3593 "Parser.yy" // lalr1.cc:847
     {
 		/* nil  */
 		(yylhs.value.bool_val) = false;
 	}
-#line 4575 "Parser.tab.cc" // lalr1.cc:847
+#line 4576 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 405:
-#line 3598 "Parser.yy" // lalr1.cc:847
+#line 3599 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.bool_val) = true;
 	}
-#line 4583 "Parser.tab.cc" // lalr1.cc:847
+#line 4584 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 406:
-#line 3603 "Parser.yy" // lalr1.cc:847
+#line 3604 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.bool_val) = false;
 	}
-#line 4591 "Parser.tab.cc" // lalr1.cc:847
+#line 4592 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 407:
-#line 3610 "Parser.yy" // lalr1.cc:847
+#line 3611 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtSchedule *schedule = new AosJqlStmtSchedule;
 		schedule->setScheduleName((yystack_[4].value.strval));
@@ -4600,11 +4601,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtScheduleValue) = schedule;                             
 		(yylhs.value.AosJqlStmtScheduleValue)->setOp(JQLTypes::eCreate);               
 	}
-#line 4604 "Parser.tab.cc" // lalr1.cc:847
+#line 4605 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 408:
-#line 3624 "Parser.yy" // lalr1.cc:847
+#line 3625 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtSchedule *schedule = new AosJqlStmtSchedule;
 		schedule->setScheduleName((yystack_[16].value.strval));
@@ -4618,11 +4619,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtScheduleValue) = schedule;                             
 		(yylhs.value.AosJqlStmtScheduleValue)->setOp(JQLTypes::eCreate);               
 	}
-#line 4622 "Parser.tab.cc" // lalr1.cc:847
+#line 4623 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 409:
-#line 3643 "Parser.yy" // lalr1.cc:847
+#line 3644 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtSchedule *schedule = new AosJqlStmtSchedule;
 		schedule->setScheduleName((yystack_[14].value.strval));
@@ -4636,11 +4637,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtScheduleValue)->setOp(JQLTypes::eCreate);               
 
 	}
-#line 4640 "Parser.tab.cc" // lalr1.cc:847
+#line 4641 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 410:
-#line 3661 "Parser.yy" // lalr1.cc:847
+#line 3662 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtSchedule *schedule = new AosJqlStmtSchedule;
 		schedule->setScheduleName((yystack_[10].value.strval));
@@ -4652,27 +4653,27 @@ namespace yy {
 		(yylhs.value.AosJqlStmtScheduleValue) = schedule;                             
 		(yylhs.value.AosJqlStmtScheduleValue)->setOp(JQLTypes::eCreate);               
 	}
-#line 4656 "Parser.tab.cc" // lalr1.cc:847
+#line 4657 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 411:
-#line 3675 "Parser.yy" // lalr1.cc:847
+#line 3676 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.ll_value) = 0;
 	}
-#line 4664 "Parser.tab.cc" // lalr1.cc:847
+#line 4665 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 412:
-#line 3680 "Parser.yy" // lalr1.cc:847
+#line 3681 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.ll_value) = (yystack_[0].value.ll_value);
 	}
-#line 4672 "Parser.tab.cc" // lalr1.cc:847
+#line 4673 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 413:
-#line 3687 "Parser.yy" // lalr1.cc:847
+#line 3688 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtSchedule *schedule = new AosJqlStmtSchedule;
 		schedule->setScheduleName((yystack_[1].value.strval));
@@ -4680,11 +4681,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtScheduleValue) = schedule;                             
 		(yylhs.value.AosJqlStmtScheduleValue)->setOp(JQLTypes::eRun);               
 	}
-#line 4684 "Parser.tab.cc" // lalr1.cc:847
+#line 4685 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 414:
-#line 3698 "Parser.yy" // lalr1.cc:847
+#line 3699 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtSchedule *schedule = new AosJqlStmtSchedule;
 		schedule->setScheduleName((yystack_[1].value.strval));
@@ -4692,11 +4693,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtScheduleValue) = schedule;                             
 		(yylhs.value.AosJqlStmtScheduleValue)->setOp(JQLTypes::eStop);               
 	}
-#line 4696 "Parser.tab.cc" // lalr1.cc:847
+#line 4697 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 415:
-#line 3709 "Parser.yy" // lalr1.cc:847
+#line 3710 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtSchedule *schedule = new AosJqlStmtSchedule;
 		schedule->setScheduleName((yystack_[1].value.strval));
@@ -4704,11 +4705,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtScheduleValue) = schedule;                             
 		(yylhs.value.AosJqlStmtScheduleValue)->setOp(JQLTypes::eDrop);               
 	}
-#line 4708 "Parser.tab.cc" // lalr1.cc:847
+#line 4709 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 416:
-#line 3722 "Parser.yy" // lalr1.cc:847
+#line 3723 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtSchema* statement = new AosJqlStmtSchema;
 		statement->setName((yystack_[5].value.strval));
@@ -4719,11 +4720,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtSchemaValue) = statement;
 		(yylhs.value.AosJqlStmtSchemaValue)->setOp(JQLTypes::eCreate);
 	}
-#line 4723 "Parser.tab.cc" // lalr1.cc:847
+#line 4724 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 417:
-#line 3736 "Parser.yy" // lalr1.cc:847
+#line 3737 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtSchema* statement = new AosJqlStmtSchema;
 		OmnString type = "parser";
@@ -4736,11 +4737,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtSchemaValue) = statement;
 		(yylhs.value.AosJqlStmtSchemaValue)->setOp(JQLTypes::eCreate);
 	}
-#line 4740 "Parser.tab.cc" // lalr1.cc:847
+#line 4741 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 418:
-#line 3754 "Parser.yy" // lalr1.cc:847
+#line 3755 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtSchema* statement = new AosJqlStmtSchema;
 		statement->setName((yystack_[14].value.strval));
@@ -4755,11 +4756,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtSchemaValue) = statement;
 		(yylhs.value.AosJqlStmtSchemaValue)->setOp(JQLTypes::eCreate);
 	}
-#line 4759 "Parser.tab.cc" // lalr1.cc:847
+#line 4760 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 419:
-#line 3773 "Parser.yy" // lalr1.cc:847
+#line 3774 "Parser.yy" // lalr1.cc:847
     {
 	 	(yylhs.value.AosJqlRecordPicksValue) = new vector<AosJqlRecordPickerPtr>;
 		AosJqlRecordPickerPtr record_pick = OmnNew AosJqlRecordPicker;
@@ -4770,11 +4771,11 @@ namespace yy {
 		free((yystack_[2].value.strval));
 		(yylhs.value.AosJqlRecordPicksValue)->push_back(record_pick);
 	}
-#line 4774 "Parser.tab.cc" // lalr1.cc:847
+#line 4775 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 420:
-#line 3785 "Parser.yy" // lalr1.cc:847
+#line 3786 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlRecordPicksValue) = (yystack_[7].value.AosJqlRecordPicksValue);
 		AosJqlRecordPickerPtr record_pick = OmnNew AosJqlRecordPicker;
@@ -4785,11 +4786,11 @@ namespace yy {
 		free((yystack_[2].value.strval));
 		(yylhs.value.AosJqlRecordPicksValue)->push_back(record_pick);
 	}
-#line 4789 "Parser.tab.cc" // lalr1.cc:847
+#line 4790 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 421:
-#line 3799 "Parser.yy" // lalr1.cc:847
+#line 3800 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtSchema* statement = new AosJqlStmtSchema;
 
@@ -4799,11 +4800,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtSchemaValue)->setOp(JQLTypes::eShow);
 		//cout << "List all the Schema " << endl;
 	}
-#line 4803 "Parser.tab.cc" // lalr1.cc:847
+#line 4804 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 422:
-#line 3811 "Parser.yy" // lalr1.cc:847
+#line 3812 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtSchema* statement = new AosJqlStmtSchema;
 		gAosJQLParser.appendStatement(statement);
@@ -4812,11 +4813,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtSchemaValue)->setName((yystack_[1].value.strval));
 		(yylhs.value.AosJqlStmtSchemaValue)->setOp(JQLTypes::eDescribe);
 	}
-#line 4816 "Parser.tab.cc" // lalr1.cc:847
+#line 4817 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 423:
-#line 3822 "Parser.yy" // lalr1.cc:847
+#line 3823 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtSchema* statement = new AosJqlStmtSchema;
 		statement->setName((yystack_[1].value.strval));
@@ -4825,33 +4826,33 @@ namespace yy {
 		(yylhs.value.AosJqlStmtSchemaValue) = statement;
 		(yylhs.value.AosJqlStmtSchemaValue)->setOp(JQLTypes::eDrop);
 	}
-#line 4829 "Parser.tab.cc" // lalr1.cc:847
+#line 4830 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 424:
-#line 3833 "Parser.yy" // lalr1.cc:847
+#line 3834 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtQuery * select = new AosJqlStmtQuery();
 		gAosJQLParser.appendStatement(select);             
 		select->setExprs((yystack_[1].value.AosJqlSelectFieldListValue));
 		(yylhs.value.AosJqlStmtQueryValue) = select;   
 	}
-#line 4840 "Parser.tab.cc" // lalr1.cc:847
+#line 4841 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 425:
-#line 3841 "Parser.yy" // lalr1.cc:847
+#line 3842 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtQuery * select = new AosJqlStmtQuery((yystack_[1].value.AosJqlSelectValue));
 		gAosJQLParser.appendStatement(select);
 		(yylhs.value.AosJqlStmtQueryValue) = select;
 	//	$$->mQueryStr =gAosJQLParser.getCurrJQL();
 	}
-#line 4851 "Parser.tab.cc" // lalr1.cc:847
+#line 4852 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 426:
-#line 3855 "Parser.yy" // lalr1.cc:847
+#line 3856 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlSelectValue) =new AosJqlSelect;
 		//s1->mType = $2;
@@ -4866,100 +4867,100 @@ namespace yy {
 		(yylhs.value.AosJqlSelectValue)->mHackFormat = (yystack_[1].value.AosExprValue);
 		(yylhs.value.AosJqlSelectValue)->mHackIntoFile = (yystack_[0].value.AosExprValue);
     }
-#line 4870 "Parser.tab.cc" // lalr1.cc:847
+#line 4871 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 427:
-#line 3874 "Parser.yy" // lalr1.cc:847
+#line 3875 "Parser.yy" // lalr1.cc:847
     { 
 		(yylhs.value.AosJQLStmtSelectOptionListValue) = new AosJQLStmtSelectOptionList; 
 	}
-#line 4878 "Parser.tab.cc" // lalr1.cc:847
+#line 4879 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 428:
-#line 3879 "Parser.yy" // lalr1.cc:847
+#line 3880 "Parser.yy" // lalr1.cc:847
     { 
 		(yylhs.value.AosJQLStmtSelectOptionListValue)->push_back(eSelectOpt_SelectAll); 
 	}
-#line 4886 "Parser.tab.cc" // lalr1.cc:847
+#line 4887 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 429:
-#line 3884 "Parser.yy" // lalr1.cc:847
+#line 3885 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJQLStmtSelectOptionListValue)->push_back(eSelectOpt_Distinct);
 	}
-#line 4894 "Parser.tab.cc" // lalr1.cc:847
+#line 4895 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 430:
-#line 3889 "Parser.yy" // lalr1.cc:847
+#line 3890 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJQLStmtSelectOptionListValue)->push_back(eSelectOpt_DistinctRow);
 	}
-#line 4902 "Parser.tab.cc" // lalr1.cc:847
+#line 4903 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 431:
-#line 3894 "Parser.yy" // lalr1.cc:847
+#line 3895 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJQLStmtSelectOptionListValue)->push_back(eSelectOpt_HighPriority);
 	}
-#line 4910 "Parser.tab.cc" // lalr1.cc:847
+#line 4911 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 432:
-#line 3899 "Parser.yy" // lalr1.cc:847
+#line 3900 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJQLStmtSelectOptionListValue)->push_back(eSelectOpt_StraightJoin);
 	}
-#line 4918 "Parser.tab.cc" // lalr1.cc:847
+#line 4919 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 433:
-#line 3904 "Parser.yy" // lalr1.cc:847
+#line 3905 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJQLStmtSelectOptionListValue)->push_back(eSelectOpt_SmallResult);
 	}
-#line 4926 "Parser.tab.cc" // lalr1.cc:847
+#line 4927 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 434:
-#line 3909 "Parser.yy" // lalr1.cc:847
+#line 3910 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJQLStmtSelectOptionListValue)->push_back(eSelectOpt_BigResult);
 	}
-#line 4934 "Parser.tab.cc" // lalr1.cc:847
+#line 4935 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 435:
-#line 3914 "Parser.yy" // lalr1.cc:847
+#line 3915 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJQLStmtSelectOptionListValue)->push_back(eSelectOpt_CallFoundRows);
 	}
-#line 4942 "Parser.tab.cc" // lalr1.cc:847
+#line 4943 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 436:
-#line 3921 "Parser.yy" // lalr1.cc:847
+#line 3922 "Parser.yy" // lalr1.cc:847
     { 
 		(yylhs.value.AosJqlSelectFieldListValue) = new AosJqlSelectFieldList;
 		(yylhs.value.AosJqlSelectFieldListValue)->push_back((yystack_[0].value.AosJqlSelectFieldValue));
 	}
-#line 4951 "Parser.tab.cc" // lalr1.cc:847
+#line 4952 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 437:
-#line 3927 "Parser.yy" // lalr1.cc:847
+#line 3928 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlSelectFieldListValue)->push_back((yystack_[0].value.AosJqlSelectFieldValue)); 
 	}
-#line 4959 "Parser.tab.cc" // lalr1.cc:847
+#line 4960 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 438:
-#line 3934 "Parser.yy" // lalr1.cc:847
+#line 3935 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlSelectField *field = new AosJqlSelectField; 
 		if ((yystack_[1].value.AosExprValue)->getType() == AosExprType::eGenFunc)
@@ -4992,65 +4993,65 @@ namespace yy {
 		}
 		(yylhs.value.AosJqlSelectFieldValue) = field;
 	}
-#line 4996 "Parser.tab.cc" // lalr1.cc:847
+#line 4997 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 439:
-#line 3968 "Parser.yy" // lalr1.cc:847
+#line 3969 "Parser.yy" // lalr1.cc:847
     {
 		 AosJqlSelectField *field = new AosJqlSelectField;
 		 AosExprObjPtr expr = OmnNew AosExprFieldName("*");
 		 field->setField(expr);
 		 (yylhs.value.AosJqlSelectFieldValue) = field;
 	}
-#line 5007 "Parser.tab.cc" // lalr1.cc:847
+#line 5008 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 440:
-#line 3978 "Parser.yy" // lalr1.cc:847
+#line 3979 "Parser.yy" // lalr1.cc:847
     { 
 		(yylhs.value.AosTableReferencesValue) = new AosTableReferences;
 		(yylhs.value.AosTableReferencesValue)->push_back((yystack_[0].value.AosJqlTableReferenceValue));
 	}
-#line 5016 "Parser.tab.cc" // lalr1.cc:847
+#line 5017 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 441:
-#line 3984 "Parser.yy" // lalr1.cc:847
+#line 3985 "Parser.yy" // lalr1.cc:847
     { 
 		(yylhs.value.AosTableReferencesValue)->push_back((yystack_[0].value.AosJqlTableReferenceValue)); 
 	}
-#line 5024 "Parser.tab.cc" // lalr1.cc:847
+#line 5025 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 442:
-#line 3991 "Parser.yy" // lalr1.cc:847
+#line 3992 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlTableReferenceValue) = new AosJqlTableReference;
 		(yylhs.value.AosJqlTableReferenceValue)->setTableFactor((yystack_[0].value.AosJqlTableFactorValue));
 	}
-#line 5033 "Parser.tab.cc" // lalr1.cc:847
+#line 5034 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 443:
-#line 3997 "Parser.yy" // lalr1.cc:847
+#line 3998 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlTableReferenceValue) = new AosJqlTableReference;
 		(yylhs.value.AosJqlTableReferenceValue)->setJqlJoinTable((yystack_[0].value.AosJqlJoinTableValue));
 	}
-#line 5042 "Parser.tab.cc" // lalr1.cc:847
+#line 5043 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 444:
-#line 4005 "Parser.yy" // lalr1.cc:847
+#line 4006 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlJoinTableValue) = new AosJqlJoinTable;
 	}
-#line 5050 "Parser.tab.cc" // lalr1.cc:847
+#line 5051 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 445:
-#line 4014 "Parser.yy" // lalr1.cc:847
+#line 4015 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlTableFactorValue) = new AosJqlTableFactor;
 		(yylhs.value.AosJqlTableFactorValue)->setType(eTRef_TableFactorByTable);
@@ -5058,11 +5059,11 @@ namespace yy {
 		(yylhs.value.AosJqlTableFactorValue)->setTable((yystack_[2].value.AosExprValue));
 		(yylhs.value.AosJqlTableFactorValue)->setIndexHint((yystack_[0].value.AosExprListValue));
 	}
-#line 5062 "Parser.tab.cc" // lalr1.cc:847
+#line 5063 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 446:
-#line 4023 "Parser.yy" // lalr1.cc:847
+#line 4024 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlTableFactorValue) = new AosJqlTableFactor;
 		/*$$->setVirtualTable($1);*/
@@ -5071,22 +5072,22 @@ namespace yy {
 		(yylhs.value.AosJqlTableFactorValue)->setAliasName(new AosExprFieldName((yystack_[0].value.strval)));
 
 	}
-#line 5075 "Parser.tab.cc" // lalr1.cc:847
+#line 5076 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 447:
-#line 4033 "Parser.yy" // lalr1.cc:847
+#line 4034 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlTableFactorValue) = new AosJqlTableFactor;
 		(yylhs.value.AosJqlTableFactorValue)->setTable(new AosExprMemberOpt("", (yystack_[4].value.strval), (yystack_[2].value.strval)));
 		(yylhs.value.AosJqlTableFactorValue)->setAliasName((yystack_[1].value.AosExprValue));
 		(yylhs.value.AosJqlTableFactorValue)->setIndexHint((yystack_[0].value.AosExprListValue));
 	}
-#line 5086 "Parser.tab.cc" // lalr1.cc:847
+#line 5087 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 448:
-#line 4043 "Parser.yy" // lalr1.cc:847
+#line 4044 "Parser.yy" // lalr1.cc:847
     {
 		/*
 		$$ = new AosJqlSubQueryTable;
@@ -5096,103 +5097,103 @@ namespace yy {
 		AosJqlStmtQuery *select = new AosJqlStmtQuery((yystack_[1].value.AosJqlSelectValue));
 		(yylhs.value.AosJqlStmtQueryValue) = select;
 	}
-#line 5100 "Parser.tab.cc" // lalr1.cc:847
+#line 5101 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 449:
-#line 4055 "Parser.yy" // lalr1.cc:847
+#line 4056 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosExprListValue) = NULL;
 	}
-#line 5108 "Parser.tab.cc" // lalr1.cc:847
+#line 5109 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 450:
-#line 4060 "Parser.yy" // lalr1.cc:847
+#line 4061 "Parser.yy" // lalr1.cc:847
     {
 		/* index hint */			
 		(yylhs.value.AosExprListValue) = (yystack_[1].value.AosExprListValue);
 	}
-#line 5117 "Parser.tab.cc" // lalr1.cc:847
+#line 5118 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 451:
-#line 4069 "Parser.yy" // lalr1.cc:847
+#line 4070 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlLimitValue) = 0;
 	//  $$ = new AosExprList;
 	}
-#line 5126 "Parser.tab.cc" // lalr1.cc:847
+#line 5127 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 452:
-#line 4075 "Parser.yy" // lalr1.cc:847
+#line 4076 "Parser.yy" // lalr1.cc:847
     {
 	  (yylhs.value.AosJqlLimitValue) = new AosJqlLimit;
 	  (yylhs.value.AosJqlLimitValue)->setOffset(0);
 	  (yylhs.value.AosJqlLimitValue)->setRowCount((yystack_[0].value.ll_value));
 	}
-#line 5136 "Parser.tab.cc" // lalr1.cc:847
+#line 5137 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 453:
-#line 4082 "Parser.yy" // lalr1.cc:847
+#line 4083 "Parser.yy" // lalr1.cc:847
     {
 	  (yylhs.value.AosJqlLimitValue) = new AosJqlLimit;
 	  if ((yystack_[2].value.ll_value) < 0) (yystack_[2].value.ll_value) = 0;
 	  (yylhs.value.AosJqlLimitValue)->setOffset((yystack_[2].value.ll_value));
 	  (yylhs.value.AosJqlLimitValue)->setRowCount((yystack_[0].value.ll_value));
 	}
-#line 5147 "Parser.tab.cc" // lalr1.cc:847
+#line 5148 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 454:
-#line 4092 "Parser.yy" // lalr1.cc:847
+#line 4093 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlGroupByValue) = 0;
 	}
-#line 5155 "Parser.tab.cc" // lalr1.cc:847
+#line 5156 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 455:
-#line 4097 "Parser.yy" // lalr1.cc:847
+#line 4098 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlGroupByValue) = new AosJqlGroupBy;
 		(yylhs.value.AosJqlGroupByValue)->setGroupFieldList((yystack_[0].value.AosJqlSelectFieldListValue));
 	}
-#line 5164 "Parser.tab.cc" // lalr1.cc:847
+#line 5165 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 456:
-#line 4103 "Parser.yy" // lalr1.cc:847
+#line 4104 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlGroupByValue) = new AosJqlGroupBy;
 		(yylhs.value.AosJqlGroupByValue)->setRollupLists((yystack_[1].value.AosJqlSelectFieldListVecValue));
 	}
-#line 5173 "Parser.tab.cc" // lalr1.cc:847
+#line 5174 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 457:
-#line 4109 "Parser.yy" // lalr1.cc:847
+#line 4110 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlGroupByValue) = new AosJqlGroupBy;
 		(yylhs.value.AosJqlGroupByValue)->setCubeLists((yystack_[1].value.AosJqlSelectFieldListValue));
 	}
-#line 5182 "Parser.tab.cc" // lalr1.cc:847
+#line 5183 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 458:
-#line 4115 "Parser.yy" // lalr1.cc:847
+#line 4116 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlGroupByValue) = new AosJqlGroupBy;
 		(yylhs.value.AosJqlGroupByValue)->setGroupFieldList((yystack_[5].value.AosJqlSelectFieldListValue));
 		(yylhs.value.AosJqlGroupByValue)->setCubeLists((yystack_[1].value.AosJqlSelectFieldListValue));
 	}
-#line 5192 "Parser.tab.cc" // lalr1.cc:847
+#line 5193 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 459:
-#line 4124 "Parser.yy" // lalr1.cc:847
+#line 4125 "Parser.yy" // lalr1.cc:847
     {
 		vector<AosJqlSelectFieldList*> *rollupLists;
 
@@ -5200,55 +5201,55 @@ namespace yy {
 		rollupLists->push_back((yystack_[1].value.AosJqlSelectFieldListValue));
 		(yylhs.value.AosJqlSelectFieldListVecValue) = rollupLists;
 	}
-#line 5204 "Parser.tab.cc" // lalr1.cc:847
+#line 5205 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 460:
-#line 4133 "Parser.yy" // lalr1.cc:847
+#line 4134 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlSelectFieldListVecValue) = (yystack_[4].value.AosJqlSelectFieldListVecValue);
 		(yylhs.value.AosJqlSelectFieldListVecValue)->push_back((yystack_[1].value.AosJqlSelectFieldListValue));
 	}
-#line 5213 "Parser.tab.cc" // lalr1.cc:847
+#line 5214 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 461:
-#line 4140 "Parser.yy" // lalr1.cc:847
+#line 4141 "Parser.yy" // lalr1.cc:847
     {
 		/*nil, init a expression list*/
 		AosJqlSelectFieldList *rollupList = new AosJqlSelectFieldList;
 		(yylhs.value.AosJqlSelectFieldListValue) = rollupList;
 	}
-#line 5223 "Parser.tab.cc" // lalr1.cc:847
+#line 5224 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 462:
-#line 4147 "Parser.yy" // lalr1.cc:847
+#line 4148 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlSelectFieldListValue) = (yystack_[0].value.AosJqlSelectFieldListValue);
 	}
-#line 5231 "Parser.tab.cc" // lalr1.cc:847
+#line 5232 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 463:
-#line 4153 "Parser.yy" // lalr1.cc:847
+#line 4154 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlOrderByValue) = 0;
 	}
-#line 5239 "Parser.tab.cc" // lalr1.cc:847
+#line 5240 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 464:
-#line 4158 "Parser.yy" // lalr1.cc:847
+#line 4159 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlOrderByValue) = new AosJqlOrderBy;	
 		(yylhs.value.AosJqlOrderByValue)->setOrderFieldList((yystack_[0].value.AosJqlOrderByFieldListValue));
 	}
-#line 5248 "Parser.tab.cc" // lalr1.cc:847
+#line 5249 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 465:
-#line 4166 "Parser.yy" // lalr1.cc:847
+#line 4167 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlOrderByFieldValue) =  new AosJqlOrderByField;
 		AosJqlSelectField *field = new AosJqlSelectField;
@@ -5256,117 +5257,117 @@ namespace yy {
 		(yylhs.value.AosJqlOrderByFieldValue)->mField = field;
 		(yylhs.value.AosJqlOrderByFieldValue)->mIsAsc = (yystack_[0].value.bool_val);
 	}
-#line 5260 "Parser.tab.cc" // lalr1.cc:847
+#line 5261 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 466:
-#line 4177 "Parser.yy" // lalr1.cc:847
+#line 4178 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlOrderByFieldListValue) = new AosJqlOrderByFieldList;
 		(yylhs.value.AosJqlOrderByFieldListValue)->push_back((yystack_[0].value.AosJqlOrderByFieldValue));
 	}
-#line 5269 "Parser.tab.cc" // lalr1.cc:847
+#line 5270 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 467:
-#line 4183 "Parser.yy" // lalr1.cc:847
+#line 4184 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlOrderByFieldListValue)->push_back((yystack_[0].value.AosJqlOrderByFieldValue));
 	}
-#line 5277 "Parser.tab.cc" // lalr1.cc:847
+#line 5278 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 468:
-#line 4189 "Parser.yy" // lalr1.cc:847
+#line 4190 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.bool_val) = true;
 	}
-#line 5285 "Parser.tab.cc" // lalr1.cc:847
+#line 5286 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 469:
-#line 4194 "Parser.yy" // lalr1.cc:847
+#line 4195 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.bool_val) = false;
 	}
-#line 5293 "Parser.tab.cc" // lalr1.cc:847
+#line 5294 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 470:
-#line 4199 "Parser.yy" // lalr1.cc:847
+#line 4200 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.bool_val) = true;
 	}
-#line 5301 "Parser.tab.cc" // lalr1.cc:847
+#line 5302 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 471:
-#line 4205 "Parser.yy" // lalr1.cc:847
+#line 4206 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlHavingValue) = 0;
 	}
-#line 5309 "Parser.tab.cc" // lalr1.cc:847
+#line 5310 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 472:
-#line 4210 "Parser.yy" // lalr1.cc:847
+#line 4211 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlHavingValue) = new AosJqlHaving();
 		(yylhs.value.AosJqlHavingValue)->setHavingExpr((yystack_[0].value.AosExprValue));
 	}
-#line 5318 "Parser.tab.cc" // lalr1.cc:847
+#line 5319 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 473:
-#line 4217 "Parser.yy" // lalr1.cc:847
+#line 4218 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosExprValue) = NULL;
 	}
-#line 5326 "Parser.tab.cc" // lalr1.cc:847
+#line 5327 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 474:
-#line 4222 "Parser.yy" // lalr1.cc:847
+#line 4223 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosExprValue) = (yystack_[0].value.AosExprValue);
 	}
-#line 5334 "Parser.tab.cc" // lalr1.cc:847
+#line 5335 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 475:
-#line 4227 "Parser.yy" // lalr1.cc:847
+#line 4228 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosExprValue) = NULL;
 	}
-#line 5342 "Parser.tab.cc" // lalr1.cc:847
+#line 5343 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 476:
-#line 4232 "Parser.yy" // lalr1.cc:847
+#line 4233 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosExprValue) = (yystack_[0].value.AosExprValue);
 	}
-#line 5350 "Parser.tab.cc" // lalr1.cc:847
+#line 5351 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 477:
-#line 4237 "Parser.yy" // lalr1.cc:847
+#line 4238 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosExprValue) = NULL;
 	}
-#line 5358 "Parser.tab.cc" // lalr1.cc:847
+#line 5359 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 478:
-#line 4242 "Parser.yy" // lalr1.cc:847
+#line 4243 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosExprValue) = (yystack_[0].value.AosExprValue);
 	}
-#line 5366 "Parser.tab.cc" // lalr1.cc:847
+#line 5367 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 479:
-#line 4248 "Parser.yy" // lalr1.cc:847
+#line 4249 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtSelectInto * selectinto = new AosJqlStmtSelectInto();
 		selectinto->setSelect((yystack_[6].value.AosJqlSelectValue));
@@ -5377,19 +5378,19 @@ namespace yy {
 		gAosJQLParser.appendStatement(selectinto);             
 		(yylhs.value.AosJqlSelectIntoValue) = selectinto;   
 	}
-#line 5381 "Parser.tab.cc" // lalr1.cc:847
+#line 5382 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 480:
-#line 4262 "Parser.yy" // lalr1.cc:847
+#line 4263 "Parser.yy" // lalr1.cc:847
     {	
 		(yylhs.value.AosStrListValue) = 0;
 	}
-#line 5389 "Parser.tab.cc" // lalr1.cc:847
+#line 5390 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 481:
-#line 4267 "Parser.yy" // lalr1.cc:847
+#line 4268 "Parser.yy" // lalr1.cc:847
     {
 		vector<OmnString> *v = new vector<OmnString>; 
 		v->push_back((yystack_[13].value.strval));
@@ -5399,27 +5400,27 @@ namespace yy {
 		v->push_back((yystack_[0].value.strval));
 		(yylhs.value.AosStrListValue) = v;
 	}
-#line 5403 "Parser.tab.cc" // lalr1.cc:847
+#line 5404 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 482:
-#line 4279 "Parser.yy" // lalr1.cc:847
+#line 4280 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = 0;
 	}
-#line 5411 "Parser.tab.cc" // lalr1.cc:847
+#line 5412 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 483:
-#line 4284 "Parser.yy" // lalr1.cc:847
+#line 4285 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = (yystack_[0].value.strval);
 	}
-#line 5419 "Parser.tab.cc" // lalr1.cc:847
+#line 5420 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 484:
-#line 4290 "Parser.yy" // lalr1.cc:847
+#line 4291 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtSequence* stmt = new AosJqlStmtSequence;
 		stmt->setName((yystack_[2].value.strval));
@@ -5428,11 +5429,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtSequenceValue) = stmt;
 		(yylhs.value.AosJqlStmtSequenceValue)->setOp(JQLTypes::eCreate);
 	}
-#line 5432 "Parser.tab.cc" // lalr1.cc:847
+#line 5433 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 485:
-#line 4307 "Parser.yy" // lalr1.cc:847
+#line 4308 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJQLSequenceInfoValue) = new AosJQLSequenceInfo;
 		(yylhs.value.AosJQLSequenceInfoValue)->setIncrementBy((yystack_[6].value.ll_value));
@@ -5443,163 +5444,163 @@ namespace yy {
 		(yylhs.value.AosJQLSequenceInfoValue)->setCacheNum((yystack_[1].value.ll_value));
 		(yylhs.value.AosJQLSequenceInfoValue)->setIsOrder((yystack_[0].value.bool_val));
 	}
-#line 5447 "Parser.tab.cc" // lalr1.cc:847
+#line 5448 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 486:
-#line 4319 "Parser.yy" // lalr1.cc:847
+#line 4320 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.ll_value) = 1;
 	}
-#line 5455 "Parser.tab.cc" // lalr1.cc:847
+#line 5456 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 487:
-#line 4324 "Parser.yy" // lalr1.cc:847
+#line 4325 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.ll_value) = (yystack_[0].value.ll_value); 
 	}
-#line 5463 "Parser.tab.cc" // lalr1.cc:847
+#line 5464 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 488:
-#line 4329 "Parser.yy" // lalr1.cc:847
+#line 4330 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.ll_value) = 1;
 	}
-#line 5471 "Parser.tab.cc" // lalr1.cc:847
+#line 5472 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 489:
-#line 4334 "Parser.yy" // lalr1.cc:847
+#line 4335 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.ll_value) = (yystack_[0].value.ll_value);	
 	}
-#line 5479 "Parser.tab.cc" // lalr1.cc:847
+#line 5480 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 490:
-#line 4339 "Parser.yy" // lalr1.cc:847
+#line 4340 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.ll_value) = ~(1 << 31);
 	}
-#line 5487 "Parser.tab.cc" // lalr1.cc:847
+#line 5488 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 491:
-#line 4344 "Parser.yy" // lalr1.cc:847
+#line 4345 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.ll_value) = ~(1 << 31);
 	}
-#line 5495 "Parser.tab.cc" // lalr1.cc:847
+#line 5496 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 492:
-#line 4349 "Parser.yy" // lalr1.cc:847
+#line 4350 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.ll_value) = (yystack_[0].value.ll_value);
 	}
-#line 5503 "Parser.tab.cc" // lalr1.cc:847
+#line 5504 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 493:
-#line 4354 "Parser.yy" // lalr1.cc:847
+#line 4355 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.ll_value) = 1 << 31;
 	}
-#line 5511 "Parser.tab.cc" // lalr1.cc:847
+#line 5512 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 494:
-#line 4359 "Parser.yy" // lalr1.cc:847
+#line 4360 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.ll_value) = 1 << 31;
 	}
-#line 5519 "Parser.tab.cc" // lalr1.cc:847
+#line 5520 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 495:
-#line 4364 "Parser.yy" // lalr1.cc:847
+#line 4365 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.ll_value) = (yystack_[0].value.ll_value);
 	}
-#line 5527 "Parser.tab.cc" // lalr1.cc:847
+#line 5528 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 496:
-#line 4369 "Parser.yy" // lalr1.cc:847
+#line 4370 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.bool_val) = false;
 	}
-#line 5535 "Parser.tab.cc" // lalr1.cc:847
+#line 5536 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 497:
-#line 4374 "Parser.yy" // lalr1.cc:847
+#line 4375 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.bool_val) = true;
 	}
-#line 5543 "Parser.tab.cc" // lalr1.cc:847
+#line 5544 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 498:
-#line 4379 "Parser.yy" // lalr1.cc:847
+#line 4380 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.bool_val) = false;
 	}
-#line 5551 "Parser.tab.cc" // lalr1.cc:847
+#line 5552 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 499:
-#line 4384 "Parser.yy" // lalr1.cc:847
+#line 4385 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.ll_value) = 20;
 	}
-#line 5559 "Parser.tab.cc" // lalr1.cc:847
+#line 5560 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 500:
-#line 4389 "Parser.yy" // lalr1.cc:847
+#line 4390 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.ll_value) = (yystack_[0].value.ll_value);
 	}
-#line 5567 "Parser.tab.cc" // lalr1.cc:847
+#line 5568 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 501:
-#line 4394 "Parser.yy" // lalr1.cc:847
+#line 4395 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.ll_value) = 20;
 	}
-#line 5575 "Parser.tab.cc" // lalr1.cc:847
+#line 5576 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 502:
-#line 4399 "Parser.yy" // lalr1.cc:847
+#line 4400 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.bool_val) = false;
 	}
-#line 5583 "Parser.tab.cc" // lalr1.cc:847
+#line 5584 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 503:
-#line 4404 "Parser.yy" // lalr1.cc:847
+#line 4405 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.bool_val) = true;
 	}
-#line 5591 "Parser.tab.cc" // lalr1.cc:847
+#line 5592 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 504:
-#line 4409 "Parser.yy" // lalr1.cc:847
+#line 4410 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.bool_val) = false;
 	}
-#line 5599 "Parser.tab.cc" // lalr1.cc:847
+#line 5600 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 505:
-#line 4414 "Parser.yy" // lalr1.cc:847
+#line 4415 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtService* statement = new AosJqlStmtService;
 
@@ -5610,11 +5611,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtServiceValue) = statement;
 		(yylhs.value.AosJqlStmtServiceValue)->setOp(JQLTypes::eCreate);
 	}
-#line 5614 "Parser.tab.cc" // lalr1.cc:847
+#line 5615 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 506:
-#line 4428 "Parser.yy" // lalr1.cc:847
+#line 4429 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtService* statement = new AosJqlStmtService();	
 		gAosJQLParser.appendStatement(statement);
@@ -5623,11 +5624,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtServiceValue) = statement;
 		(yylhs.value.AosJqlStmtServiceValue)->setOp(JQLTypes::eStart); 
     }
-#line 5627 "Parser.tab.cc" // lalr1.cc:847
+#line 5628 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 507:
-#line 4438 "Parser.yy" // lalr1.cc:847
+#line 4439 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtService *stmt = new AosJqlStmtService;
 		stmt->setServiceName((yystack_[4].value.strval));
@@ -5636,11 +5637,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtServiceValue) = stmt;
 		(yylhs.value.AosJqlStmtServiceValue)->setOp(JQLTypes::eStart);
 	}
-#line 5640 "Parser.tab.cc" // lalr1.cc:847
+#line 5641 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 508:
-#line 4450 "Parser.yy" // lalr1.cc:847
+#line 4451 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtService* statement = new AosJqlStmtService();	
 		gAosJQLParser.appendStatement(statement);
@@ -5649,11 +5650,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtServiceValue) = statement;
 		(yylhs.value.AosJqlStmtServiceValue)->setOp(JQLTypes::eStop); 
     }
-#line 5653 "Parser.tab.cc" // lalr1.cc:847
+#line 5654 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 509:
-#line 4462 "Parser.yy" // lalr1.cc:847
+#line 4463 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtService* statement = new AosJqlStmtService();	
 		gAosJQLParser.appendStatement(statement);
@@ -5661,11 +5662,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtServiceValue) = statement;
 		(yylhs.value.AosJqlStmtServiceValue)->setOp(JQLTypes::eShow); 
     }
-#line 5665 "Parser.tab.cc" // lalr1.cc:847
+#line 5666 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 510:
-#line 4473 "Parser.yy" // lalr1.cc:847
+#line 4474 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtService* statement = new AosJqlStmtService();	
 		gAosJQLParser.appendStatement(statement);
@@ -5674,11 +5675,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtServiceValue) = statement;
 		(yylhs.value.AosJqlStmtServiceValue)->setOp(JQLTypes::eDescribe); 
     }
-#line 5678 "Parser.tab.cc" // lalr1.cc:847
+#line 5679 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 511:
-#line 4484 "Parser.yy" // lalr1.cc:847
+#line 4485 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtService* statement = new AosJqlStmtService();	
 		gAosJQLParser.appendStatement(statement);
@@ -5687,11 +5688,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtServiceValue) = statement;
 		(yylhs.value.AosJqlStmtServiceValue)->setOp(JQLTypes::eDrop); 
     }
-#line 5691 "Parser.tab.cc" // lalr1.cc:847
+#line 5692 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 512:
-#line 4495 "Parser.yy" // lalr1.cc:847
+#line 4496 "Parser.yy" // lalr1.cc:847
     {
 		/*
 		Kttttt
@@ -5704,11 +5705,11 @@ namespace yy {
 		$$->setOp(JQLTypes::eRun);              
 		*/
 	}
-#line 5708 "Parser.tab.cc" // lalr1.cc:847
+#line 5709 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 513:
-#line 4510 "Parser.yy" // lalr1.cc:847
+#line 4511 "Parser.yy" // lalr1.cc:847
     {
 		/*
 		Kttttt
@@ -5722,11 +5723,11 @@ namespace yy {
 		$$->setOp(JQLTypes::eRun);               
 		*/
 	}
-#line 5726 "Parser.tab.cc" // lalr1.cc:847
+#line 5727 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 514:
-#line 4526 "Parser.yy" // lalr1.cc:847
+#line 4527 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtStatistics* statement = new AosJqlStmtStatistics;
 		statement->setStatName((yystack_[4].value.strval));
@@ -5735,11 +5736,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtStatisticsValue) = statement;
 		(yylhs.value.AosJqlStmtStatisticsValue)->setOp(JQLTypes::eCreate);
 	}
-#line 5739 "Parser.tab.cc" // lalr1.cc:847
+#line 5740 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 515:
-#line 4539 "Parser.yy" // lalr1.cc:847
+#line 4540 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtStatistics* statement = new AosJqlStmtStatistics;
 		statement->setStatName((yystack_[15].value.strval));
@@ -5753,11 +5754,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtStatisticsValue) = statement;
 		(yylhs.value.AosJqlStmtStatisticsValue)->setOp(JQLTypes::eCreate);
 	}
-#line 5757 "Parser.tab.cc" // lalr1.cc:847
+#line 5758 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 516:
-#line 4556 "Parser.yy" // lalr1.cc:847
+#line 4557 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtStatistics* statement = new AosJqlStmtStatistics;
 		statement->setStatName((yystack_[10].value.strval));
@@ -5771,11 +5772,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtStatisticsValue) = statement;
 		(yylhs.value.AosJqlStmtStatisticsValue)->setOp(JQLTypes::eCreate);
 	}
-#line 5775 "Parser.tab.cc" // lalr1.cc:847
+#line 5776 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 517:
-#line 4574 "Parser.yy" // lalr1.cc:847
+#line 4575 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtStatistics* statement = new AosJqlStmtStatistics;
 		statement->setStatName((yystack_[15].value.strval));
@@ -5791,11 +5792,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtStatisticsValue) = statement;
 		(yylhs.value.AosJqlStmtStatisticsValue)->setOp(JQLTypes::eCreate);
 	}
-#line 5795 "Parser.tab.cc" // lalr1.cc:847
+#line 5796 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 518:
-#line 4594 "Parser.yy" // lalr1.cc:847
+#line 4595 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtStatistics* statement = new AosJqlStmtStatistics;
 		statement->setStatName((yystack_[17].value.strval));
@@ -5812,11 +5813,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtStatisticsValue) = statement;
 		(yylhs.value.AosJqlStmtStatisticsValue)->setOp(JQLTypes::eCreate);
 	}
-#line 5816 "Parser.tab.cc" // lalr1.cc:847
+#line 5817 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 519:
-#line 4616 "Parser.yy" // lalr1.cc:847
+#line 4617 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtStatistics* statement = new AosJqlStmtStatistics;
 		statement->setStatName((yystack_[20].value.strval));
@@ -5833,11 +5834,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtStatisticsValue) = statement;
 		(yylhs.value.AosJqlStmtStatisticsValue)->setOp(JQLTypes::eCreate);
 	}
-#line 5837 "Parser.tab.cc" // lalr1.cc:847
+#line 5838 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 520:
-#line 4638 "Parser.yy" // lalr1.cc:847
+#line 4639 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtStatistics* statement = new AosJqlStmtStatistics;
 		statement->setStatName((yystack_[22].value.strval));
@@ -5855,11 +5856,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtStatisticsValue) = statement;
 		(yylhs.value.AosJqlStmtStatisticsValue)->setOp(JQLTypes::eCreate);
 	}
-#line 5859 "Parser.tab.cc" // lalr1.cc:847
+#line 5860 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 521:
-#line 4658 "Parser.yy" // lalr1.cc:847
+#line 4659 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtStatistics* statement = new AosJqlStmtStatistics;
 		statement->setStatName((yystack_[9].value.strval));
@@ -5870,11 +5871,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtStatisticsValue) = statement;
 		(yylhs.value.AosJqlStmtStatisticsValue)->setOp(JQLTypes::eUpdate);
 	}
-#line 5874 "Parser.tab.cc" // lalr1.cc:847
+#line 5875 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 522:
-#line 4670 "Parser.yy" // lalr1.cc:847
+#line 4671 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtStatistics* statement = new AosJqlStmtStatistics;
 		statement->setStatName((yystack_[1].value.strval));
@@ -5882,53 +5883,53 @@ namespace yy {
 		(yylhs.value.AosJqlStmtStatisticsValue) = statement;
 		(yylhs.value.AosJqlStmtStatisticsValue)->setOp(JQLTypes::eDrop);
 	}
-#line 5886 "Parser.tab.cc" // lalr1.cc:847
+#line 5887 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 523:
-#line 4680 "Parser.yy" // lalr1.cc:847
+#line 4681 "Parser.yy" // lalr1.cc:847
     {
 	 	(yylhs.value.AosExprListValue) = NULL;
 	 }
-#line 5894 "Parser.tab.cc" // lalr1.cc:847
+#line 5895 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 524:
-#line 4685 "Parser.yy" // lalr1.cc:847
+#line 4686 "Parser.yy" // lalr1.cc:847
     {
 	 	(yylhs.value.AosExprListValue) = new AosExprList;
 		(yylhs.value.AosExprListValue) = (yystack_[1].value.AosExprListValue);
 	 }
-#line 5903 "Parser.tab.cc" // lalr1.cc:847
+#line 5904 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 525:
-#line 4692 "Parser.yy" // lalr1.cc:847
+#line 4693 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosExprListVecValue) = new vector<AosExprList*>;
 		(yylhs.value.AosExprListVecValue)->push_back((yystack_[0].value.AosExprListValue));
 	}
-#line 5912 "Parser.tab.cc" // lalr1.cc:847
+#line 5913 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 526:
-#line 4698 "Parser.yy" // lalr1.cc:847
+#line 4699 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosExprListVecValue)->push_back((yystack_[0].value.AosExprListValue));
 	}
-#line 5920 "Parser.tab.cc" // lalr1.cc:847
+#line 5921 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 527:
-#line 4705 "Parser.yy" // lalr1.cc:847
+#line 4706 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosExprListValue) = (yystack_[0].value.AosExprListValue);
 	}
-#line 5928 "Parser.tab.cc" // lalr1.cc:847
+#line 5929 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 528:
-#line 4710 "Parser.yy" // lalr1.cc:847
+#line 4711 "Parser.yy" // lalr1.cc:847
     {
 		OmnString distName = "distinct:";
 		AosExprObj *expr;
@@ -5938,58 +5939,58 @@ namespace yy {
 		expr = new AosExprFieldName(distName.getBuffer());
 		(yylhs.value.AosExprListValue)->push_back(expr);
 	}
-#line 5942 "Parser.tab.cc" // lalr1.cc:847
+#line 5943 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 529:
-#line 4723 "Parser.yy" // lalr1.cc:847
+#line 4724 "Parser.yy" // lalr1.cc:847
     {
 			(yylhs.value.AosMeasuresValue) = new vector<AosJqlStmtStatistics::AosMeasure*>;
 			(yylhs.value.AosMeasuresValue)->push_back((yystack_[0].value.AosMeasureValue));
 		}
-#line 5951 "Parser.tab.cc" // lalr1.cc:847
+#line 5952 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 530:
-#line 4729 "Parser.yy" // lalr1.cc:847
+#line 4730 "Parser.yy" // lalr1.cc:847
     {
 			(yylhs.value.AosMeasuresValue)->push_back((yystack_[0].value.AosMeasureValue));
 		}
-#line 5959 "Parser.tab.cc" // lalr1.cc:847
+#line 5960 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 531:
-#line 4736 "Parser.yy" // lalr1.cc:847
+#line 4737 "Parser.yy" // lalr1.cc:847
     {
 			(yylhs.value.AosMeasureValue) = new AosJqlStmtStatistics::AosMeasure;
 			(yylhs.value.AosMeasureValue)->mExpr = (yystack_[0].value.AosExprValue);
 		}
-#line 5968 "Parser.tab.cc" // lalr1.cc:847
+#line 5969 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 532:
-#line 4742 "Parser.yy" // lalr1.cc:847
+#line 4743 "Parser.yy" // lalr1.cc:847
     {
 			(yylhs.value.AosMeasureValue) = new AosJqlStmtStatistics::AosMeasure;
 			(yylhs.value.AosMeasureValue)->mExpr = (yystack_[2].value.AosExprValue);
 			(yylhs.value.AosMeasureValue)->mExprList = (yystack_[0].value.AosExprListValue);
 		}
-#line 5978 "Parser.tab.cc" // lalr1.cc:847
+#line 5979 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 533:
-#line 4752 "Parser.yy" // lalr1.cc:847
+#line 4753 "Parser.yy" // lalr1.cc:847
     {
 	    AosJqlStmtStatistics *statistics = new AosJqlStmtStatistics;
 	  	gAosJQLParser.appendStatement(statistics);   
 	    (yylhs.value.AosJqlStmtStatisticsValue) = statistics;                             
 		(yylhs.value.AosJqlStmtStatisticsValue)->setOp(JQLTypes::eShow);
 	}
-#line 5989 "Parser.tab.cc" // lalr1.cc:847
+#line 5990 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 534:
-#line 4763 "Parser.yy" // lalr1.cc:847
+#line 4764 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtStatistics *statistics = new AosJqlStmtStatistics;
 		statistics->setStatName((yystack_[1].value.strval));
@@ -5997,11 +5998,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtStatisticsValue) = statistics;                             
 		(yylhs.value.AosJqlStmtStatisticsValue)->setOp(JQLTypes::eDescribe);        
 	}
-#line 6001 "Parser.tab.cc" // lalr1.cc:847
+#line 6002 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 535:
-#line 4773 "Parser.yy" // lalr1.cc:847
+#line 4774 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtCompleteIIL *statement = new AosJqlStmtCompleteIIL;
 		OmnString iilname = (yystack_[1].value.strval);
@@ -6010,11 +6011,11 @@ namespace yy {
 
 		(yylhs.value.AosJqlStmtCompleteIILValue) = statement;
 	}
-#line 6014 "Parser.tab.cc" // lalr1.cc:847
+#line 6015 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 536:
-#line 4784 "Parser.yy" // lalr1.cc:847
+#line 4785 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtSyncer * statement = new AosJqlStmtSyncer;
 		statement->setName((yystack_[5].value.AosExprValue));
@@ -6023,11 +6024,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtSyncerValue) = statement;
 		(yylhs.value.AosJqlStmtSyncerValue)->setOp(JQLTypes::eCreate);
 	}
-#line 6027 "Parser.tab.cc" // lalr1.cc:847
+#line 6028 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 537:
-#line 4797 "Parser.yy" // lalr1.cc:847
+#line 4798 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtSyncer * statement = new AosJqlStmtSyncer;
 		statement->setName((yystack_[1].value.AosExprValue));
@@ -6035,11 +6036,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtSyncerValue) = statement;
 		(yylhs.value.AosJqlStmtSyncerValue)->setOp(JQLTypes::eDrop);
 	}
-#line 6039 "Parser.tab.cc" // lalr1.cc:847
+#line 6040 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 538:
-#line 4808 "Parser.yy" // lalr1.cc:847
+#line 4809 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtTable* statement = new AosJqlStmtTable;
 		AosJqlTableOption *opt = (yystack_[2].value.AosJqlTableOptionValue);
@@ -6065,11 +6066,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtTableValue)->setOp(JQLTypes::eCreate);
 		//cout << "Create Table:" << " name " << $4 << endl;
 	}
-#line 6069 "Parser.tab.cc" // lalr1.cc:847
+#line 6070 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 539:
-#line 4835 "Parser.yy" // lalr1.cc:847
+#line 4836 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtTable* statement = new AosJqlStmtTable;
 		statement->setName((yystack_[3].value.strval));
@@ -6080,11 +6081,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtTableValue) = statement;
 		(yylhs.value.AosJqlStmtTableValue)->setOp(JQLTypes::eCreate);
 	}
-#line 6084 "Parser.tab.cc" // lalr1.cc:847
+#line 6085 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 540:
-#line 4847 "Parser.yy" // lalr1.cc:847
+#line 4848 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtTable* statement = new AosJqlStmtTable;
 
@@ -6096,11 +6097,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtTableValue)->setOp(JQLTypes::eCreate);
 		//cout << "Create Table Statement like found: " << $3 << " from " << $5 << endl;
 	}
-#line 6100 "Parser.tab.cc" // lalr1.cc:847
+#line 6101 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 541:
-#line 4861 "Parser.yy" // lalr1.cc:847
+#line 4862 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtTable* statement = new AosJqlStmtTable;
 		statement->setName((yystack_[6].value.strval));
@@ -6111,11 +6112,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtTableValue)->setOp(JQLTypes::eCreate);
 		gAosJQLParser.appendStatement(statement);
 	}
-#line 6115 "Parser.tab.cc" // lalr1.cc:847
+#line 6116 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 542:
-#line 4875 "Parser.yy" // lalr1.cc:847
+#line 4876 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlTableVirtualFieldDefListValue) = new vector<AosJqlTableVirtulFieldDefPtr>;
 		AosJqlTableVirtulFieldDefPtr vv = OmnNew AosJqlTableVirtulFieldDef();
@@ -6124,11 +6125,11 @@ namespace yy {
 		vv->mType= (yystack_[0].value.strval);
 		(yylhs.value.AosJqlTableVirtualFieldDefListValue)->push_back(vv);
 	}
-#line 6128 "Parser.tab.cc" // lalr1.cc:847
+#line 6129 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 543:
-#line 4885 "Parser.yy" // lalr1.cc:847
+#line 4886 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlTableVirtulFieldDefPtr vv = OmnNew AosJqlTableVirtulFieldDef();
 		vv->mName = (yystack_[5].value.strval);
@@ -6136,35 +6137,35 @@ namespace yy {
 		vv->mType = (yystack_[0].value.strval);
 		(yylhs.value.AosJqlTableVirtualFieldDefListValue)->push_back(vv);
 	}
-#line 6140 "Parser.tab.cc" // lalr1.cc:847
+#line 6141 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 544:
-#line 4896 "Parser.yy" // lalr1.cc:847
+#line 4897 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = 0;
 	}
-#line 6148 "Parser.tab.cc" // lalr1.cc:847
+#line 6149 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 545:
-#line 4901 "Parser.yy" // lalr1.cc:847
+#line 4902 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = (yystack_[0].value.strval);
 	}
-#line 6156 "Parser.tab.cc" // lalr1.cc:847
+#line 6157 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 546:
-#line 4907 "Parser.yy" // lalr1.cc:847
+#line 4908 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = (yystack_[0].value.strval);
 	}
-#line 6164 "Parser.tab.cc" // lalr1.cc:847
+#line 6165 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 547:
-#line 4912 "Parser.yy" // lalr1.cc:847
+#line 4913 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtDatabase* db1 = new AosJqlStmtDatabase;
 		db1->setName((yystack_[2].value.strval));
@@ -6176,19 +6177,19 @@ namespace yy {
 		gAosJQLParser.appendStatement(db2);
 		(yylhs.value.strval) = (yystack_[0].value.strval);
 	}
-#line 6180 "Parser.tab.cc" // lalr1.cc:847
+#line 6181 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 548:
-#line 4925 "Parser.yy" // lalr1.cc:847
+#line 4926 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = (yystack_[0].value.strval);
 	}
-#line 6188 "Parser.tab.cc" // lalr1.cc:847
+#line 6189 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 549:
-#line 4930 "Parser.yy" // lalr1.cc:847
+#line 4931 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtDatabase* db1 = new AosJqlStmtDatabase;
 		db1->setName((yystack_[2].value.strval));
@@ -6200,11 +6201,11 @@ namespace yy {
 		gAosJQLParser.appendStatement(db2);
 		(yylhs.value.strval) = (yystack_[0].value.strval);
 	}
-#line 6204 "Parser.tab.cc" // lalr1.cc:847
+#line 6205 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 550:
-#line 4945 "Parser.yy" // lalr1.cc:847
+#line 4946 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlCreateDefineGroup* defineGroup = new AosJqlCreateDefineGroup;
 		defineGroup->columns = new vector<AosJqlColumnPtr>;
@@ -6216,22 +6217,22 @@ namespace yy {
 		(yylhs.value.AosJqlCreateDefineGroupValue)->columns->push_back((yystack_[0].value.AosJqlColumnValue));
 		//cout << "Add a column definition to table definition group" << endl;
 	}
-#line 6220 "Parser.tab.cc" // lalr1.cc:847
+#line 6221 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 551:
-#line 4958 "Parser.yy" // lalr1.cc:847
+#line 4959 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlCreateDefineGroupValue) = (yystack_[2].value.AosJqlCreateDefineGroupValue);
 
 		(yylhs.value.AosJqlCreateDefineGroupValue)->columns->push_back((yystack_[0].value.AosJqlColumnValue));
 		//cout << "Add a column definition to table definition group" << endl;
 	}
-#line 6231 "Parser.tab.cc" // lalr1.cc:847
+#line 6232 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 552:
-#line 4967 "Parser.yy" // lalr1.cc:847
+#line 4968 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlColumn* column = new AosJqlColumn;
 
@@ -6246,11 +6247,11 @@ namespace yy {
 		delete (yystack_[0].value.AosJqlColumnValue);
 		//cout << "Create Table column found:" << $1 << endl;
 	}
-#line 6250 "Parser.tab.cc" // lalr1.cc:847
+#line 6251 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 553:
-#line 4983 "Parser.yy" // lalr1.cc:847
+#line 4984 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlColumn* column = (yystack_[2].value.AosJqlColumnValue);
 		AosValueRslt value;
@@ -6263,11 +6264,11 @@ namespace yy {
 		(yylhs.value.AosJqlColumnValue) = column;
 		//cout << "Set column default: " << str << endl;
 	}
-#line 6267 "Parser.tab.cc" // lalr1.cc:847
+#line 6268 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 554:
-#line 4997 "Parser.yy" // lalr1.cc:847
+#line 4998 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlColumn* column = (yystack_[1].value.AosJqlColumnValue);
 		AosValueRslt value;
@@ -6277,11 +6278,11 @@ namespace yy {
 		(yylhs.value.AosJqlColumnValue) = column;
 		//cout << "Set column default: " << str << endl;
 	}
-#line 6281 "Parser.tab.cc" // lalr1.cc:847
+#line 6282 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 555:
-#line 5008 "Parser.yy" // lalr1.cc:847
+#line 5009 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlColumn* column = (yystack_[2].value.AosJqlColumnValue);
 		AosValueRslt value;
@@ -6291,11 +6292,11 @@ namespace yy {
 		(yylhs.value.AosJqlColumnValue) = column;
 		//cout << "Set column default: " << str << endl;
 	}
-#line 6295 "Parser.tab.cc" // lalr1.cc:847
+#line 6296 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 556:
-#line 5019 "Parser.yy" // lalr1.cc:847
+#line 5020 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlColumn* column = (yystack_[2].value.AosJqlColumnValue);
 		AosValueRslt value;
@@ -6305,66 +6306,66 @@ namespace yy {
 		(yylhs.value.AosJqlColumnValue) = column;
 		//cout << "Set column comments: " << $$->comment << endl;
 	}
-#line 6309 "Parser.tab.cc" // lalr1.cc:847
+#line 6310 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 557:
-#line 5031 "Parser.yy" // lalr1.cc:847
+#line 5032 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlColumnValue) = new AosJqlColumn;
 		(yylhs.value.AosJqlColumnValue)->type = AosDataType::eInt32;
 		(yylhs.value.AosJqlColumnValue)->size = AosDataType::getValueSize((yylhs.value.AosJqlColumnValue)->type); 
 		//cout << "Get datatype " << AosDataType::getTypeStr($$->type) <<  endl;
 	}
-#line 6320 "Parser.tab.cc" // lalr1.cc:847
+#line 6321 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 558:
-#line 5039 "Parser.yy" // lalr1.cc:847
+#line 5040 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlColumnValue) = new AosJqlColumn;
 		(yylhs.value.AosJqlColumnValue)->type = AosDataType::eInt32;
 		(yylhs.value.AosJqlColumnValue)->size = AosDataType::getValueSize((yylhs.value.AosJqlColumnValue)->type); 
 		//cout << "Get datatype " << AosDataType::getTypeStr($$->type) <<  endl;
 	}
-#line 6331 "Parser.tab.cc" // lalr1.cc:847
+#line 6332 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 559:
-#line 5047 "Parser.yy" // lalr1.cc:847
+#line 5048 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlColumnValue) = new AosJqlColumn;
 		(yylhs.value.AosJqlColumnValue)->type = AosDataType::eInt32;
 		(yylhs.value.AosJqlColumnValue)->size = AosDataType::getValueSize((yylhs.value.AosJqlColumnValue)->type); 
 		//cout << "Get datatype " << AosDataType::getTypeStr($$->type) <<  endl;
 	}
-#line 6342 "Parser.tab.cc" // lalr1.cc:847
+#line 6343 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 560:
-#line 5055 "Parser.yy" // lalr1.cc:847
+#line 5056 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlColumnValue) = new AosJqlColumn;
 		(yylhs.value.AosJqlColumnValue)->type = AosDataType::eInt32;
 		(yylhs.value.AosJqlColumnValue)->size = AosDataType::getValueSize((yylhs.value.AosJqlColumnValue)->type); 
 		//cout << "Get datatype " << AosDataType::getTypeStr($$->type) <<  endl;
 	}
-#line 6353 "Parser.tab.cc" // lalr1.cc:847
+#line 6354 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 561:
-#line 5063 "Parser.yy" // lalr1.cc:847
+#line 5064 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlColumnValue) = new AosJqlColumn;
 		(yylhs.value.AosJqlColumnValue)->type = AosDataType::eInt32;
 		(yylhs.value.AosJqlColumnValue)->size = AosDataType::getValueSize((yylhs.value.AosJqlColumnValue)->type); 
 		//cout << "Get datatype " << AosDataType::getTypeStr($$->type) <<  endl;
 	}
-#line 6364 "Parser.tab.cc" // lalr1.cc:847
+#line 6365 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 562:
-#line 5071 "Parser.yy" // lalr1.cc:847
+#line 5072 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlColumnValue) = new AosJqlColumn;
 		(yylhs.value.AosJqlColumnValue)->type = AosDataType::eNumber;
@@ -6373,11 +6374,11 @@ namespace yy {
 		(yylhs.value.AosJqlColumnValue)->v2 = (yystack_[1].value.ll_value);
 		//cout << "Get datatype " << AosDataType::getTypeStr($$->type) <<  endl;
 	}
-#line 6377 "Parser.tab.cc" // lalr1.cc:847
+#line 6378 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 563:
-#line 5081 "Parser.yy" // lalr1.cc:847
+#line 5082 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlColumnValue) = new AosJqlColumn;
 		(yylhs.value.AosJqlColumnValue)->type = AosDataType::eNumber;
@@ -6386,209 +6387,209 @@ namespace yy {
 		(yylhs.value.AosJqlColumnValue)->v2 = 0;
 		//cout << "Get datatype " << AosDataType::getTypeStr($$->type) <<  endl;
 	}
-#line 6390 "Parser.tab.cc" // lalr1.cc:847
+#line 6391 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 564:
-#line 5091 "Parser.yy" // lalr1.cc:847
+#line 5092 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlColumnValue) = new AosJqlColumn;
 		(yylhs.value.AosJqlColumnValue)->type = AosDataType::eInt64;
 		(yylhs.value.AosJqlColumnValue)->size = AosDataType::getValueSize((yylhs.value.AosJqlColumnValue)->type); 
 		//cout << "Get datatype " << AosDataType::getTypeStr($$->type) <<  endl;
 	}
-#line 6401 "Parser.tab.cc" // lalr1.cc:847
+#line 6402 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 565:
-#line 5100 "Parser.yy" // lalr1.cc:847
+#line 5101 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlColumnValue) = new AosJqlColumn;
 		(yylhs.value.AosJqlColumnValue)->type = AosDataType::eInt64;
 		(yylhs.value.AosJqlColumnValue)->size = (yystack_[1].value.ll_value);
 		//cout << "Get datatype " << AosDataType::getTypeStr($$->type) <<  endl;
 	}
-#line 6412 "Parser.tab.cc" // lalr1.cc:847
+#line 6413 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 566:
-#line 5108 "Parser.yy" // lalr1.cc:847
+#line 5109 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlColumnValue) = new AosJqlColumn;
 		(yylhs.value.AosJqlColumnValue)->type = AosDataType::eU32;
 		(yylhs.value.AosJqlColumnValue)->size = AosDataType::getValueSize((yylhs.value.AosJqlColumnValue)->type); 
 		//cout << "Get datatype " << AosDataType::getTypeStr($$->type) <<  endl;
 	}
-#line 6423 "Parser.tab.cc" // lalr1.cc:847
+#line 6424 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 567:
-#line 5116 "Parser.yy" // lalr1.cc:847
+#line 5117 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlColumnValue) = new AosJqlColumn;
 		(yylhs.value.AosJqlColumnValue)->type = AosDataType::eU32;
 		(yylhs.value.AosJqlColumnValue)->size = AosDataType::getValueSize((yylhs.value.AosJqlColumnValue)->type); 
 		//cout << "Get datatype " << AosDataType::getTypeStr($$->type) <<  endl;
 	}
-#line 6434 "Parser.tab.cc" // lalr1.cc:847
+#line 6435 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 568:
-#line 5124 "Parser.yy" // lalr1.cc:847
+#line 5125 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlColumnValue) = new AosJqlColumn;
 		(yylhs.value.AosJqlColumnValue)->type = AosDataType::eU32;
 		(yylhs.value.AosJqlColumnValue)->size = AosDataType::getValueSize((yylhs.value.AosJqlColumnValue)->type); 
 		//cout << "Get datatype " << AosDataType::getTypeStr($$->type) <<  endl;
 	}
-#line 6445 "Parser.tab.cc" // lalr1.cc:847
+#line 6446 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 569:
-#line 5132 "Parser.yy" // lalr1.cc:847
+#line 5133 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlColumnValue) = new AosJqlColumn;
 		(yylhs.value.AosJqlColumnValue)->type = AosDataType::eU64;
 		(yylhs.value.AosJqlColumnValue)->size = AosDataType::getValueSize((yylhs.value.AosJqlColumnValue)->type); 
 		//cout << "Get datatype " << AosDataType::getTypeStr($$->type) <<  endl;
 	}
-#line 6456 "Parser.tab.cc" // lalr1.cc:847
+#line 6457 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 570:
-#line 5140 "Parser.yy" // lalr1.cc:847
+#line 5141 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlColumnValue) = new AosJqlColumn;
 	    (yylhs.value.AosJqlColumnValue)->type = AosDataType::eDouble;
 		(yylhs.value.AosJqlColumnValue)->size = AosDataType::getValueSize((yylhs.value.AosJqlColumnValue)->type); 
 		//cout << "Get datatype " << AosDataType::getTypeStr($$->type) <<  endl;
 	}
-#line 6467 "Parser.tab.cc" // lalr1.cc:847
+#line 6468 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 571:
-#line 5148 "Parser.yy" // lalr1.cc:847
+#line 5149 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlColumnValue) = new AosJqlColumn;
 	    (yylhs.value.AosJqlColumnValue)->type = AosDataType::eDouble;
 		(yylhs.value.AosJqlColumnValue)->size = AosDataType::getValueSize((yylhs.value.AosJqlColumnValue)->type); 
 		//cout << "Get datatype " << AosDataType::getTypeStr($$->type) <<  endl;
 	}
-#line 6478 "Parser.tab.cc" // lalr1.cc:847
+#line 6479 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 572:
-#line 5156 "Parser.yy" // lalr1.cc:847
+#line 5157 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlColumnValue) = new AosJqlColumn;
 	    (yylhs.value.AosJqlColumnValue)->type = AosDataType::eDate;
 		(yylhs.value.AosJqlColumnValue)->size = AosDataType::getValueSize((yylhs.value.AosJqlColumnValue)->type); 
 		//cout << "Get datatype " << AosDataType::getTypeStr($$->type) <<  endl;
 	}
-#line 6489 "Parser.tab.cc" // lalr1.cc:847
+#line 6490 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 573:
-#line 5164 "Parser.yy" // lalr1.cc:847
+#line 5165 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlColumnValue) = new AosJqlColumn;
 	    (yylhs.value.AosJqlColumnValue)->type = AosDataType::eChar;
 		(yylhs.value.AosJqlColumnValue)->size = 1;
 		//cout << "Get datatype " << AosDataType::getTypeStr($$->type) <<  endl;
 	}
-#line 6500 "Parser.tab.cc" // lalr1.cc:847
+#line 6501 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 574:
-#line 5172 "Parser.yy" // lalr1.cc:847
+#line 5173 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlColumnValue) = new AosJqlColumn;
 	    (yylhs.value.AosJqlColumnValue)->type = AosDataType::eChar;
 		(yylhs.value.AosJqlColumnValue)->size = (yystack_[1].value.ll_value);
 		//cout << "Get datatype " << AosDataType::getTypeStr($$->type) <<  endl;
 	}
-#line 6511 "Parser.tab.cc" // lalr1.cc:847
+#line 6512 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 575:
-#line 5180 "Parser.yy" // lalr1.cc:847
+#line 5181 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlColumnValue) = new AosJqlColumn;
 	    (yylhs.value.AosJqlColumnValue)->type = AosDataType::eChar;
 		(yylhs.value.AosJqlColumnValue)->size = (yystack_[2].value.ll_value);
 		//cout << "Get datatype " << AosDataType::getTypeStr($$->type) <<  endl;
 	}
-#line 6522 "Parser.tab.cc" // lalr1.cc:847
+#line 6523 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 576:
-#line 5188 "Parser.yy" // lalr1.cc:847
+#line 5189 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlColumnValue) = new AosJqlColumn;
 	    (yylhs.value.AosJqlColumnValue)->type = AosDataType::eCharStr;
 		(yylhs.value.AosJqlColumnValue)->size = (yystack_[1].value.ll_value);
 		//cout << "Get datatype " << AosDataType::getTypeStr($$->type) <<  endl;
 	}
-#line 6533 "Parser.tab.cc" // lalr1.cc:847
+#line 6534 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 577:
-#line 5196 "Parser.yy" // lalr1.cc:847
+#line 5197 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlColumnValue) = new AosJqlColumn;
 	    (yylhs.value.AosJqlColumnValue)->type = AosDataType::eCharStr;
 		(yylhs.value.AosJqlColumnValue)->size = (yystack_[2].value.ll_value);
 		//cout << "Get datatype " << AosDataType::getTypeStr($$->type) <<  endl;
 	}
-#line 6544 "Parser.tab.cc" // lalr1.cc:847
+#line 6545 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 578:
-#line 5204 "Parser.yy" // lalr1.cc:847
+#line 5205 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlColumnValue) = new AosJqlColumn;
 	    (yylhs.value.AosJqlColumnValue)->type = AosDataType::eCharStr;
 		(yylhs.value.AosJqlColumnValue)->size = (yystack_[1].value.ll_value);
 		//cout << "Get datatype " << AosDataType::getTypeStr($$->type) <<  endl;
 	}
-#line 6555 "Parser.tab.cc" // lalr1.cc:847
+#line 6556 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 579:
-#line 5212 "Parser.yy" // lalr1.cc:847
+#line 5213 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlColumnValue) = new AosJqlColumn;
 	    (yylhs.value.AosJqlColumnValue)->type = AosDataType::eCharStr;
 		(yylhs.value.AosJqlColumnValue)->size = (yystack_[2].value.ll_value);
 		//cout << "Get datatype " << AosDataType::getTypeStr($$->type) <<  endl;
 	}
-#line 6566 "Parser.tab.cc" // lalr1.cc:847
+#line 6567 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 580:
-#line 5220 "Parser.yy" // lalr1.cc:847
+#line 5221 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlColumnValue) = new AosJqlColumn;
 	    (yylhs.value.AosJqlColumnValue)->type = AosDataType::eCharStr;
 		(yylhs.value.AosJqlColumnValue)->size = 1024;
 		//cout << "Get datatype " << AosDataType::getTypeStr($$->type) <<  endl;
 	}
-#line 6577 "Parser.tab.cc" // lalr1.cc:847
+#line 6578 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 581:
-#line 5228 "Parser.yy" // lalr1.cc:847
+#line 5229 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlColumnValue) = new AosJqlColumn;
 	    (yylhs.value.AosJqlColumnValue)->type = AosDataType::eBuff;
 		(yylhs.value.AosJqlColumnValue)->size = 1024;
 		//cout << "Get datatype " << AosDataType::getTypeStr($$->type) <<  endl;
 	}
-#line 6588 "Parser.tab.cc" // lalr1.cc:847
+#line 6589 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 582:
-#line 5236 "Parser.yy" // lalr1.cc:847
+#line 5237 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlColumnValue) = new AosJqlColumn;
 	    (yylhs.value.AosJqlColumnValue)->type = AosDataType::eDate;
@@ -6596,93 +6597,93 @@ namespace yy {
 	    (yylhs.value.AosJqlColumnValue)->format = (yystack_[1].value.strval);
 		(yylhs.value.AosJqlColumnValue)->size = DATE_SIZE;
 	}
-#line 6600 "Parser.tab.cc" // lalr1.cc:847
+#line 6601 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 583:
-#line 5245 "Parser.yy" // lalr1.cc:847
+#line 5246 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlColumnValue) = new AosJqlColumn;
 	    (yylhs.value.AosJqlColumnValue)->type = AosDataType::eBuff;
 		(yylhs.value.AosJqlColumnValue)->size = (yystack_[1].value.ll_value);
 		//cout << "Get datatype " << AosDataType::getTypeStr($$->type) <<  endl;
 	}
-#line 6611 "Parser.tab.cc" // lalr1.cc:847
+#line 6612 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 584:
-#line 5254 "Parser.yy" // lalr1.cc:847
+#line 5255 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlTableOptionValue) = new AosJqlTableOption;
 		//cout << "Init a new table option struct" <<  endl;
 	}
-#line 6620 "Parser.tab.cc" // lalr1.cc:847
+#line 6621 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 585:
-#line 5260 "Parser.yy" // lalr1.cc:847
+#line 5261 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlTableOptionValue) = (yystack_[2].value.AosJqlTableOptionValue);
 		(yylhs.value.AosJqlTableOptionValue)->comment = (yystack_[0].value.strval);
 		//delete [] $2;
 		//cout << "Table comment" << $$->comment <<  endl;
 	}
-#line 6631 "Parser.tab.cc" // lalr1.cc:847
+#line 6632 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 586:
-#line 5268 "Parser.yy" // lalr1.cc:847
+#line 5269 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlTableOptionValue) = (yystack_[2].value.AosJqlTableOptionValue);
 		(yylhs.value.AosJqlTableOptionValue)->checksum = 0;
 		//delete [] $2;
 		//cout << "Table checksum" << $$->checksum <<  endl;
 	}
-#line 6642 "Parser.tab.cc" // lalr1.cc:847
+#line 6643 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 587:
-#line 5276 "Parser.yy" // lalr1.cc:847
+#line 5277 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlTableOptionValue) = (yystack_[2].value.AosJqlTableOptionValue);
 		(yylhs.value.AosJqlTableOptionValue)->checksum = 1;
 		//delete [] $2;
 		//cout << "Table checksum" << $$->checksum <<  endl;
 	}
-#line 6653 "Parser.tab.cc" // lalr1.cc:847
+#line 6654 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 588:
-#line 5284 "Parser.yy" // lalr1.cc:847
+#line 5285 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlTableOptionValue) = (yystack_[2].value.AosJqlTableOptionValue);
 		(yylhs.value.AosJqlTableOptionValue)->autoInc = (yystack_[0].value.u32_value);
 		//delete [] $2;
 		//cout << "Table auto increment" << $$->autoInc <<  endl;
 	}
-#line 6664 "Parser.tab.cc" // lalr1.cc:847
+#line 6665 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 589:
-#line 5292 "Parser.yy" // lalr1.cc:847
+#line 5293 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlTableOptionValue) = (yystack_[3].value.AosJqlTableOptionValue);
 		(yylhs.value.AosJqlTableOptionValue)->inputDataFormat = "fixed";
 	}
-#line 6673 "Parser.tab.cc" // lalr1.cc:847
+#line 6674 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 590:
-#line 5298 "Parser.yy" // lalr1.cc:847
+#line 5299 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlTableOptionValue) = (yystack_[3].value.AosJqlTableOptionValue);
 		(yylhs.value.AosJqlTableOptionValue)->inputDataFormat = "csv";
 	}
-#line 6682 "Parser.tab.cc" // lalr1.cc:847
+#line 6683 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 591:
-#line 5304 "Parser.yy" // lalr1.cc:847
+#line 5305 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlTableOptionValue) = (yystack_[15].value.AosJqlTableOptionValue);
 		(yylhs.value.AosJqlTableOptionValue)->data_source = "hbase";
@@ -6692,11 +6693,11 @@ namespace yy {
 		(yylhs.value.AosJqlTableOptionValue)->db_t_name = (yystack_[4].value.strval), 
 		(yylhs.value.AosJqlTableOptionValue)->raw_keys = (yystack_[1].value.AosExprListValue);
 	}
-#line 6696 "Parser.tab.cc" // lalr1.cc:847
+#line 6697 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 592:
-#line 5317 "Parser.yy" // lalr1.cc:847
+#line 5318 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtTable* statement = new AosJqlStmtTable;
 		statement->setName((yystack_[1].value.strval));
@@ -6705,11 +6706,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtTableValue) = statement;
 		(yylhs.value.AosJqlStmtTableValue)->setOp(JQLTypes::eDrop); 
 	}
-#line 6709 "Parser.tab.cc" // lalr1.cc:847
+#line 6710 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 593:
-#line 5329 "Parser.yy" // lalr1.cc:847
+#line 5330 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtTable* statement = new AosJqlStmtTable;
 		statement->setFullOption((yystack_[4].value.u32_value));
@@ -6720,91 +6721,91 @@ namespace yy {
 		(yylhs.value.AosJqlStmtTableValue) = statement;
 		(yylhs.value.AosJqlStmtTableValue)->setOp(JQLTypes::eShow); 
 	}
-#line 6724 "Parser.tab.cc" // lalr1.cc:847
+#line 6725 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 594:
-#line 5342 "Parser.yy" // lalr1.cc:847
+#line 5343 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.u32_value) = 0;
 	}
-#line 6732 "Parser.tab.cc" // lalr1.cc:847
+#line 6733 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 595:
-#line 5347 "Parser.yy" // lalr1.cc:847
+#line 5348 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.u32_value) = 1;
 	}
-#line 6740 "Parser.tab.cc" // lalr1.cc:847
+#line 6741 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 596:
-#line 5353 "Parser.yy" // lalr1.cc:847
+#line 5354 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = NULL;
 	}
-#line 6748 "Parser.tab.cc" // lalr1.cc:847
+#line 6749 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 597:
-#line 5358 "Parser.yy" // lalr1.cc:847
+#line 5359 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = (yystack_[0].value.strval);
 	}
-#line 6756 "Parser.tab.cc" // lalr1.cc:847
+#line 6757 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 598:
-#line 5364 "Parser.yy" // lalr1.cc:847
+#line 5365 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = NULL;
 	}
-#line 6764 "Parser.tab.cc" // lalr1.cc:847
+#line 6765 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 599:
-#line 5369 "Parser.yy" // lalr1.cc:847
+#line 5370 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = (yystack_[0].value.strval);
 	}
-#line 6772 "Parser.tab.cc" // lalr1.cc:847
+#line 6773 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 600:
-#line 5376 "Parser.yy" // lalr1.cc:847
+#line 5377 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.bool_val) = false;
 	}
-#line 6780 "Parser.tab.cc" // lalr1.cc:847
+#line 6781 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 601:
-#line 5381 "Parser.yy" // lalr1.cc:847
+#line 5382 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.bool_val) = true;
 	}
-#line 6788 "Parser.tab.cc" // lalr1.cc:847
+#line 6789 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 602:
-#line 5387 "Parser.yy" // lalr1.cc:847
+#line 5388 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.bool_val) = false;
 	}
-#line 6796 "Parser.tab.cc" // lalr1.cc:847
+#line 6797 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 603:
-#line 5392 "Parser.yy" // lalr1.cc:847
+#line 5393 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.bool_val) = true;
 	}
-#line 6804 "Parser.tab.cc" // lalr1.cc:847
+#line 6805 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 604:
-#line 5399 "Parser.yy" // lalr1.cc:847
+#line 5400 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtTable* statement = new AosJqlStmtTable;
 		statement->setName((yystack_[1].value.strval));
@@ -6812,11 +6813,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtTableValue) = statement;
 		(yylhs.value.AosJqlStmtTableValue)->setOp(JQLTypes::eDescribe); 
 	}
-#line 6816 "Parser.tab.cc" // lalr1.cc:847
+#line 6817 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 605:
-#line 5409 "Parser.yy" // lalr1.cc:847
+#line 5410 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtTask *stmt = new AosJqlStmtTask;
 		stmt->setTaskName((yystack_[4].value.strval));
@@ -6825,11 +6826,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtTaskValue) = stmt;
 		(yylhs.value.AosJqlStmtTaskValue)->setOp(JQLTypes::eCreate);
 	}
-#line 6829 "Parser.tab.cc" // lalr1.cc:847
+#line 6830 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 606:
-#line 5423 "Parser.yy" // lalr1.cc:847
+#line 5424 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtTask *task = new AosJqlStmtTask;
 		task->setTaskName((yystack_[30].value.strval));
@@ -6841,11 +6842,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtTaskValue) = task;                             
 		(yylhs.value.AosJqlStmtTaskValue)->setOp(JQLTypes::eCreate);               
 	}
-#line 6845 "Parser.tab.cc" // lalr1.cc:847
+#line 6846 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 607:
-#line 5438 "Parser.yy" // lalr1.cc:847
+#line 5439 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtTask *task = new AosJqlStmtTask;
 		task->setTaskName((yystack_[1].value.strval));
@@ -6853,22 +6854,22 @@ namespace yy {
 		(yylhs.value.AosJqlStmtTaskValue) = task;
 		(yylhs.value.AosJqlStmtTaskValue)->setOp(JQLTypes::eDrop);
 	}
-#line 6857 "Parser.tab.cc" // lalr1.cc:847
+#line 6858 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 608:
-#line 5449 "Parser.yy" // lalr1.cc:847
+#line 5450 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtTask *task = new AosJqlStmtTask;
 		task->setOp(JQLTypes::eShow);
 		gAosJQLParser.appendStatement(task);
 		(yylhs.value.AosJqlStmtTaskValue) = task;
 	}
-#line 6868 "Parser.tab.cc" // lalr1.cc:847
+#line 6869 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 609:
-#line 5459 "Parser.yy" // lalr1.cc:847
+#line 5460 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtTask *task = new AosJqlStmtTask;
 		task->setTaskName((yystack_[1].value.strval));
@@ -6876,20 +6877,20 @@ namespace yy {
 		(yylhs.value.AosJqlStmtTaskValue) = task;
 		(yylhs.value.AosJqlStmtTaskValue)->setOp(JQLTypes::eDescribe);
 	}
-#line 6880 "Parser.tab.cc" // lalr1.cc:847
+#line 6881 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 610:
-#line 5470 "Parser.yy" // lalr1.cc:847
+#line 5471 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJqlStmtQueryUnionValue) = (yystack_[1].value.AosJqlStmtQueryUnionValue);	
 		gAosJQLParser.appendStatement((yystack_[1].value.AosJqlStmtQueryUnionValue));             
 	}
-#line 6889 "Parser.tab.cc" // lalr1.cc:847
+#line 6890 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 611:
-#line 5478 "Parser.yy" // lalr1.cc:847
+#line 5479 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtQueryUnion *stmt_union = new AosJqlStmtQueryUnion();
 		AosJqlStmtQuery *query1 = new AosJqlStmtQuery((yystack_[2].value.AosJqlSelectValue));
@@ -6901,11 +6902,11 @@ namespace yy {
 
 		(yylhs.value.AosJqlStmtQueryUnionValue) = stmt_union;   
 	}
-#line 6905 "Parser.tab.cc" // lalr1.cc:847
+#line 6906 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 612:
-#line 5491 "Parser.yy" // lalr1.cc:847
+#line 5492 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtQueryUnion *stmt_union = (yystack_[2].value.AosJqlStmtQueryUnionValue);
 		AosJqlStmtQuery *query = new AosJqlStmtQuery((yystack_[0].value.AosJqlSelectValue));
@@ -6913,27 +6914,27 @@ namespace yy {
 		stmt_union->addQuery(query);
 		(yylhs.value.AosJqlStmtQueryUnionValue) = stmt_union;   
 	}
-#line 6917 "Parser.tab.cc" // lalr1.cc:847
+#line 6918 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 613:
-#line 5502 "Parser.yy" // lalr1.cc:847
+#line 5503 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.bool_val) = false;
 	}
-#line 6925 "Parser.tab.cc" // lalr1.cc:847
+#line 6926 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 614:
-#line 5507 "Parser.yy" // lalr1.cc:847
+#line 5508 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.bool_val) = true;
 	}
-#line 6933 "Parser.tab.cc" // lalr1.cc:847
+#line 6934 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 615:
-#line 5517 "Parser.yy" // lalr1.cc:847
+#line 5518 "Parser.yy" // lalr1.cc:847
     {
 		 AosJqlStmtUpdate *u1 = new AosJqlStmtUpdate;
 		 u1->table = (yystack_[4].value.AosExprValue);
@@ -6946,11 +6947,11 @@ namespace yy {
 
 		 //cout << "found UPDATA table_references SET update_asgn_list " << endl;
 	}
-#line 6950 "Parser.tab.cc" // lalr1.cc:847
+#line 6951 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 616:
-#line 5533 "Parser.yy" // lalr1.cc:847
+#line 5534 "Parser.yy" // lalr1.cc:847
     { 
 		 if ((yystack_[1].value.subtok) != AosExprComparison::eEqual) yyerror("bad update assignment to %s", (yystack_[1].value.subtok));
 
@@ -6966,11 +6967,11 @@ namespace yy {
 
 		 (yylhs.value.AosExprListValue)->push_back(pExpr2);
 	}
-#line 6970 "Parser.tab.cc" // lalr1.cc:847
+#line 6971 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 617:
-#line 5557 "Parser.yy" // lalr1.cc:847
+#line 5558 "Parser.yy" // lalr1.cc:847
     { 
 		 if ((yystack_[1].value.subtok) != AosExprComparison::eEqual) yyerror("bad update assignment to %s", (yystack_[1].value.subtok));
 
@@ -6982,11 +6983,11 @@ namespace yy {
 		 free((yystack_[2].value.strval));
 		 (yylhs.value.AosExprListValue)->push_back(pExpr2);
 	}
-#line 6986 "Parser.tab.cc" // lalr1.cc:847
+#line 6987 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 618:
-#line 5579 "Parser.yy" // lalr1.cc:847
+#line 5580 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtUserMgr *user_mgr = new AosJqlStmtUserMgr;
 		user_mgr->setUserName((yystack_[4].value.strval));
@@ -6995,11 +6996,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtUserMgrValue) = user_mgr;
 		(yylhs.value.AosJqlStmtUserMgrValue)->setOp(JQLTypes::eCreate);
 	}
-#line 6999 "Parser.tab.cc" // lalr1.cc:847
+#line 7000 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 619:
-#line 5592 "Parser.yy" // lalr1.cc:847
+#line 5593 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtUserMgr *user_mgr = new AosJqlStmtUserMgr;
 		user_mgr->setUserName((yystack_[1].value.strval));
@@ -7007,22 +7008,22 @@ namespace yy {
 		(yylhs.value.AosJqlStmtUserMgrValue) = user_mgr;
 		(yylhs.value.AosJqlStmtUserMgrValue)->setOp(JQLTypes::eDrop);
 	}
-#line 7011 "Parser.tab.cc" // lalr1.cc:847
+#line 7012 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 620:
-#line 5603 "Parser.yy" // lalr1.cc:847
+#line 5604 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtUserMgr *user_mgr = new AosJqlStmtUserMgr;
 		gAosJQLParser.appendStatement(user_mgr);
 		(yylhs.value.AosJqlStmtUserMgrValue) = user_mgr;
 		(yylhs.value.AosJqlStmtUserMgrValue)->setOp(JQLTypes::eShow);
 	}
-#line 7022 "Parser.tab.cc" // lalr1.cc:847
+#line 7023 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 621:
-#line 5613 "Parser.yy" // lalr1.cc:847
+#line 5614 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtUserMgr *user_mgr = new AosJqlStmtUserMgr;
 		user_mgr->setUserName((yystack_[1].value.strval));
@@ -7030,11 +7031,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtUserMgrValue) = user_mgr;
 		(yylhs.value.AosJqlStmtUserMgrValue)->setOp(JQLTypes::eDescribe);
 	}
-#line 7034 "Parser.tab.cc" // lalr1.cc:847
+#line 7035 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 622:
-#line 5624 "Parser.yy" // lalr1.cc:847
+#line 5625 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtUserMgr *user_mgr = new AosJqlStmtUserMgr;
 		user_mgr->setUserName((yystack_[4].value.strval));
@@ -7043,11 +7044,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtUserMgrValue) = user_mgr;
 		(yylhs.value.AosJqlStmtUserMgrValue)->setOp(JQLTypes::eAlter);	
 	}
-#line 7047 "Parser.tab.cc" // lalr1.cc:847
+#line 7048 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 623:
-#line 5644 "Parser.yy" // lalr1.cc:847
+#line 5645 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtVirtualField *virtual_field = new AosJqlStmtVirtualField;
 		virtual_field->setName((yystack_[16].value.strval));
@@ -7064,11 +7065,11 @@ namespace yy {
 		(yylhs.value.AosJqlStmtVirtualFieldValue) = virtual_field;
 		(yylhs.value.AosJqlStmtVirtualFieldValue)->setOp(JQLTypes::eCreate);
 	}
-#line 7068 "Parser.tab.cc" // lalr1.cc:847
+#line 7069 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 624:
-#line 5670 "Parser.yy" // lalr1.cc:847
+#line 5671 "Parser.yy" // lalr1.cc:847
     {
         AosJqlStmtFieldExpr *stmt = new AosJqlStmtFieldExpr;
         stmt->setName((yystack_[10].value.strval));
@@ -7082,11 +7083,11 @@ namespace yy {
         (yylhs.value.AosJqlStmtFieldExprValue) = stmt;
         (yylhs.value.AosJqlStmtFieldExprValue)->setOp(JQLTypes::eCreate);
     }
-#line 7086 "Parser.tab.cc" // lalr1.cc:847
+#line 7087 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 625:
-#line 5687 "Parser.yy" // lalr1.cc:847
+#line 5688 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtVirtualField *virtual_field = new AosJqlStmtVirtualField;
 		virtual_field->setName((yystack_[1].value.strval));
@@ -7094,22 +7095,22 @@ namespace yy {
 		(yylhs.value.AosJqlStmtVirtualFieldValue) = virtual_field;
 		(yylhs.value.AosJqlStmtVirtualFieldValue)->setOp(JQLTypes::eDrop);
 	}
-#line 7098 "Parser.tab.cc" // lalr1.cc:847
+#line 7099 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 626:
-#line 5698 "Parser.yy" // lalr1.cc:847
+#line 5699 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtVirtualField *virtual_field = new AosJqlStmtVirtualField;
 		gAosJQLParser.appendStatement(virtual_field);
 		(yylhs.value.AosJqlStmtVirtualFieldValue) = virtual_field;
 		(yylhs.value.AosJqlStmtVirtualFieldValue)->setOp(JQLTypes::eShow);
 	}
-#line 7109 "Parser.tab.cc" // lalr1.cc:847
+#line 7110 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 627:
-#line 5708 "Parser.yy" // lalr1.cc:847
+#line 5709 "Parser.yy" // lalr1.cc:847
     {
 		AosJqlStmtVirtualField *virtual_field = new AosJqlStmtVirtualField;
 		virtual_field->setName((yystack_[1].value.strval));
@@ -7117,2115 +7118,2115 @@ namespace yy {
 		(yylhs.value.AosJqlStmtVirtualFieldValue) = virtual_field;
 		(yylhs.value.AosJqlStmtVirtualFieldValue)->setOp(JQLTypes::eDescribe);
 	}
-#line 7121 "Parser.tab.cc" // lalr1.cc:847
+#line 7122 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 628:
-#line 5718 "Parser.yy" // lalr1.cc:847
+#line 5719 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJQLDataFieldTypeInfoPtr) = NULL;
 	}
-#line 7129 "Parser.tab.cc" // lalr1.cc:847
+#line 7130 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 629:
-#line 5723 "Parser.yy" // lalr1.cc:847
+#line 5724 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.AosJQLDataFieldTypeInfoPtr) = (yystack_[0].value.AosJQLDataFieldTypeInfoPtr);
 	}
-#line 7137 "Parser.tab.cc" // lalr1.cc:847
+#line 7138 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 630:
-#line 5729 "Parser.yy" // lalr1.cc:847
+#line 5730 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.bool_val) = false;
 	}
-#line 7145 "Parser.tab.cc" // lalr1.cc:847
+#line 7146 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 631:
-#line 5734 "Parser.yy" // lalr1.cc:847
+#line 5735 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.bool_val) = true;
 	}
-#line 7153 "Parser.tab.cc" // lalr1.cc:847
+#line 7154 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 632:
-#line 5739 "Parser.yy" // lalr1.cc:847
+#line 5740 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup((yystack_[0].value.strval));
 	}
-#line 7161 "Parser.tab.cc" // lalr1.cc:847
+#line 7162 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 633:
-#line 5744 "Parser.yy" // lalr1.cc:847
+#line 5745 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7169 "Parser.tab.cc" // lalr1.cc:847
+#line 7170 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 634:
-#line 5749 "Parser.yy" // lalr1.cc:847
+#line 5750 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7177 "Parser.tab.cc" // lalr1.cc:847
+#line 7178 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 635:
-#line 5754 "Parser.yy" // lalr1.cc:847
+#line 5755 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7185 "Parser.tab.cc" // lalr1.cc:847
+#line 7186 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 636:
-#line 5759 "Parser.yy" // lalr1.cc:847
+#line 5760 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7193 "Parser.tab.cc" // lalr1.cc:847
+#line 7194 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 637:
-#line 5764 "Parser.yy" // lalr1.cc:847
+#line 5765 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7201 "Parser.tab.cc" // lalr1.cc:847
+#line 7202 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 638:
-#line 5769 "Parser.yy" // lalr1.cc:847
+#line 5770 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7209 "Parser.tab.cc" // lalr1.cc:847
+#line 7210 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 639:
-#line 5774 "Parser.yy" // lalr1.cc:847
+#line 5775 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7217 "Parser.tab.cc" // lalr1.cc:847
+#line 7218 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 640:
-#line 5779 "Parser.yy" // lalr1.cc:847
+#line 5780 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7225 "Parser.tab.cc" // lalr1.cc:847
+#line 7226 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 641:
-#line 5784 "Parser.yy" // lalr1.cc:847
+#line 5785 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7233 "Parser.tab.cc" // lalr1.cc:847
+#line 7234 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 642:
-#line 5789 "Parser.yy" // lalr1.cc:847
+#line 5790 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7241 "Parser.tab.cc" // lalr1.cc:847
+#line 7242 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 643:
-#line 5794 "Parser.yy" // lalr1.cc:847
+#line 5795 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7249 "Parser.tab.cc" // lalr1.cc:847
+#line 7250 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 644:
-#line 5799 "Parser.yy" // lalr1.cc:847
+#line 5800 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7257 "Parser.tab.cc" // lalr1.cc:847
+#line 7258 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 645:
-#line 5804 "Parser.yy" // lalr1.cc:847
+#line 5805 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7265 "Parser.tab.cc" // lalr1.cc:847
+#line 7266 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 646:
-#line 5809 "Parser.yy" // lalr1.cc:847
+#line 5810 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7273 "Parser.tab.cc" // lalr1.cc:847
+#line 7274 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 647:
-#line 5814 "Parser.yy" // lalr1.cc:847
+#line 5815 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7281 "Parser.tab.cc" // lalr1.cc:847
+#line 7282 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 648:
-#line 5819 "Parser.yy" // lalr1.cc:847
+#line 5820 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7289 "Parser.tab.cc" // lalr1.cc:847
+#line 7290 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 649:
-#line 5824 "Parser.yy" // lalr1.cc:847
+#line 5825 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7297 "Parser.tab.cc" // lalr1.cc:847
+#line 7298 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 650:
-#line 5829 "Parser.yy" // lalr1.cc:847
+#line 5830 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7305 "Parser.tab.cc" // lalr1.cc:847
+#line 7306 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 651:
-#line 5834 "Parser.yy" // lalr1.cc:847
+#line 5835 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7313 "Parser.tab.cc" // lalr1.cc:847
+#line 7314 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 652:
-#line 5839 "Parser.yy" // lalr1.cc:847
+#line 5840 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7321 "Parser.tab.cc" // lalr1.cc:847
+#line 7322 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 653:
-#line 5844 "Parser.yy" // lalr1.cc:847
+#line 5845 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7329 "Parser.tab.cc" // lalr1.cc:847
+#line 7330 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 654:
-#line 5849 "Parser.yy" // lalr1.cc:847
+#line 5850 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7337 "Parser.tab.cc" // lalr1.cc:847
+#line 7338 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 655:
-#line 5854 "Parser.yy" // lalr1.cc:847
+#line 5855 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7345 "Parser.tab.cc" // lalr1.cc:847
+#line 7346 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 656:
-#line 5859 "Parser.yy" // lalr1.cc:847
+#line 5860 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7353 "Parser.tab.cc" // lalr1.cc:847
+#line 7354 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 657:
-#line 5864 "Parser.yy" // lalr1.cc:847
+#line 5865 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7361 "Parser.tab.cc" // lalr1.cc:847
+#line 7362 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 658:
-#line 5869 "Parser.yy" // lalr1.cc:847
+#line 5870 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7369 "Parser.tab.cc" // lalr1.cc:847
+#line 7370 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 659:
-#line 5874 "Parser.yy" // lalr1.cc:847
+#line 5875 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7377 "Parser.tab.cc" // lalr1.cc:847
+#line 7378 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 660:
-#line 5879 "Parser.yy" // lalr1.cc:847
+#line 5880 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7385 "Parser.tab.cc" // lalr1.cc:847
+#line 7386 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 661:
-#line 5884 "Parser.yy" // lalr1.cc:847
+#line 5885 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7393 "Parser.tab.cc" // lalr1.cc:847
+#line 7394 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 662:
-#line 5889 "Parser.yy" // lalr1.cc:847
+#line 5890 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7401 "Parser.tab.cc" // lalr1.cc:847
+#line 7402 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 663:
-#line 5894 "Parser.yy" // lalr1.cc:847
+#line 5895 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7409 "Parser.tab.cc" // lalr1.cc:847
+#line 7410 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 664:
-#line 5899 "Parser.yy" // lalr1.cc:847
+#line 5900 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7417 "Parser.tab.cc" // lalr1.cc:847
+#line 7418 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 665:
-#line 5904 "Parser.yy" // lalr1.cc:847
+#line 5905 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7425 "Parser.tab.cc" // lalr1.cc:847
+#line 7426 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 666:
-#line 5909 "Parser.yy" // lalr1.cc:847
+#line 5910 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7433 "Parser.tab.cc" // lalr1.cc:847
+#line 7434 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 667:
-#line 5914 "Parser.yy" // lalr1.cc:847
+#line 5915 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7441 "Parser.tab.cc" // lalr1.cc:847
+#line 7442 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 668:
-#line 5919 "Parser.yy" // lalr1.cc:847
+#line 5920 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7449 "Parser.tab.cc" // lalr1.cc:847
+#line 7450 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 669:
-#line 5924 "Parser.yy" // lalr1.cc:847
+#line 5925 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7457 "Parser.tab.cc" // lalr1.cc:847
+#line 7458 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 670:
-#line 5929 "Parser.yy" // lalr1.cc:847
+#line 5930 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7465 "Parser.tab.cc" // lalr1.cc:847
+#line 7466 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 671:
-#line 5934 "Parser.yy" // lalr1.cc:847
+#line 5935 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7473 "Parser.tab.cc" // lalr1.cc:847
+#line 7474 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 672:
-#line 5939 "Parser.yy" // lalr1.cc:847
+#line 5940 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7481 "Parser.tab.cc" // lalr1.cc:847
+#line 7482 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 673:
-#line 5944 "Parser.yy" // lalr1.cc:847
+#line 5945 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7489 "Parser.tab.cc" // lalr1.cc:847
+#line 7490 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 674:
-#line 5949 "Parser.yy" // lalr1.cc:847
+#line 5950 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7497 "Parser.tab.cc" // lalr1.cc:847
+#line 7498 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 675:
-#line 5954 "Parser.yy" // lalr1.cc:847
+#line 5955 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7505 "Parser.tab.cc" // lalr1.cc:847
+#line 7506 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 676:
-#line 5959 "Parser.yy" // lalr1.cc:847
+#line 5960 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7513 "Parser.tab.cc" // lalr1.cc:847
+#line 7514 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 677:
-#line 5964 "Parser.yy" // lalr1.cc:847
+#line 5965 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7521 "Parser.tab.cc" // lalr1.cc:847
+#line 7522 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 678:
-#line 5969 "Parser.yy" // lalr1.cc:847
+#line 5970 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7529 "Parser.tab.cc" // lalr1.cc:847
+#line 7530 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 679:
-#line 5974 "Parser.yy" // lalr1.cc:847
+#line 5975 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7537 "Parser.tab.cc" // lalr1.cc:847
+#line 7538 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 680:
-#line 5979 "Parser.yy" // lalr1.cc:847
+#line 5980 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7545 "Parser.tab.cc" // lalr1.cc:847
+#line 7546 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 681:
-#line 5984 "Parser.yy" // lalr1.cc:847
+#line 5985 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7553 "Parser.tab.cc" // lalr1.cc:847
+#line 7554 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 682:
-#line 5989 "Parser.yy" // lalr1.cc:847
+#line 5990 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7561 "Parser.tab.cc" // lalr1.cc:847
+#line 7562 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 683:
-#line 5994 "Parser.yy" // lalr1.cc:847
+#line 5995 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7569 "Parser.tab.cc" // lalr1.cc:847
+#line 7570 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 684:
-#line 5999 "Parser.yy" // lalr1.cc:847
+#line 6000 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7577 "Parser.tab.cc" // lalr1.cc:847
+#line 7578 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 685:
-#line 6004 "Parser.yy" // lalr1.cc:847
+#line 6005 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7585 "Parser.tab.cc" // lalr1.cc:847
+#line 7586 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 686:
-#line 6009 "Parser.yy" // lalr1.cc:847
+#line 6010 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7593 "Parser.tab.cc" // lalr1.cc:847
+#line 7594 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 687:
-#line 6014 "Parser.yy" // lalr1.cc:847
+#line 6015 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7601 "Parser.tab.cc" // lalr1.cc:847
+#line 7602 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 688:
-#line 6019 "Parser.yy" // lalr1.cc:847
+#line 6020 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7609 "Parser.tab.cc" // lalr1.cc:847
+#line 7610 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 689:
-#line 6024 "Parser.yy" // lalr1.cc:847
+#line 6025 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7617 "Parser.tab.cc" // lalr1.cc:847
+#line 7618 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 690:
-#line 6029 "Parser.yy" // lalr1.cc:847
+#line 6030 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7625 "Parser.tab.cc" // lalr1.cc:847
+#line 7626 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 691:
-#line 6034 "Parser.yy" // lalr1.cc:847
+#line 6035 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7633 "Parser.tab.cc" // lalr1.cc:847
+#line 7634 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 692:
-#line 6039 "Parser.yy" // lalr1.cc:847
+#line 6040 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7641 "Parser.tab.cc" // lalr1.cc:847
+#line 7642 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 693:
-#line 6044 "Parser.yy" // lalr1.cc:847
+#line 6045 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7649 "Parser.tab.cc" // lalr1.cc:847
+#line 7650 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 694:
-#line 6049 "Parser.yy" // lalr1.cc:847
+#line 6050 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7657 "Parser.tab.cc" // lalr1.cc:847
+#line 7658 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 695:
-#line 6054 "Parser.yy" // lalr1.cc:847
+#line 6055 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7665 "Parser.tab.cc" // lalr1.cc:847
+#line 7666 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 696:
-#line 6059 "Parser.yy" // lalr1.cc:847
+#line 6060 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7673 "Parser.tab.cc" // lalr1.cc:847
+#line 7674 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 697:
-#line 6064 "Parser.yy" // lalr1.cc:847
+#line 6065 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7681 "Parser.tab.cc" // lalr1.cc:847
+#line 7682 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 698:
-#line 6069 "Parser.yy" // lalr1.cc:847
+#line 6070 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7689 "Parser.tab.cc" // lalr1.cc:847
+#line 7690 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 699:
-#line 6074 "Parser.yy" // lalr1.cc:847
+#line 6075 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7697 "Parser.tab.cc" // lalr1.cc:847
+#line 7698 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 700:
-#line 6079 "Parser.yy" // lalr1.cc:847
+#line 6080 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7705 "Parser.tab.cc" // lalr1.cc:847
+#line 7706 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 701:
-#line 6084 "Parser.yy" // lalr1.cc:847
+#line 6085 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7713 "Parser.tab.cc" // lalr1.cc:847
+#line 7714 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 702:
-#line 6089 "Parser.yy" // lalr1.cc:847
+#line 6090 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7721 "Parser.tab.cc" // lalr1.cc:847
+#line 7722 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 703:
-#line 6094 "Parser.yy" // lalr1.cc:847
+#line 6095 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7729 "Parser.tab.cc" // lalr1.cc:847
+#line 7730 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 704:
-#line 6099 "Parser.yy" // lalr1.cc:847
+#line 6100 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7737 "Parser.tab.cc" // lalr1.cc:847
+#line 7738 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 705:
-#line 6104 "Parser.yy" // lalr1.cc:847
+#line 6105 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7745 "Parser.tab.cc" // lalr1.cc:847
+#line 7746 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 706:
-#line 6109 "Parser.yy" // lalr1.cc:847
+#line 6110 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7753 "Parser.tab.cc" // lalr1.cc:847
+#line 7754 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 707:
-#line 6114 "Parser.yy" // lalr1.cc:847
+#line 6115 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7761 "Parser.tab.cc" // lalr1.cc:847
+#line 7762 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 708:
-#line 6119 "Parser.yy" // lalr1.cc:847
+#line 6120 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7769 "Parser.tab.cc" // lalr1.cc:847
+#line 7770 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 709:
-#line 6124 "Parser.yy" // lalr1.cc:847
+#line 6125 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7777 "Parser.tab.cc" // lalr1.cc:847
+#line 7778 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 710:
-#line 6129 "Parser.yy" // lalr1.cc:847
+#line 6130 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7785 "Parser.tab.cc" // lalr1.cc:847
+#line 7786 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 711:
-#line 6134 "Parser.yy" // lalr1.cc:847
+#line 6135 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7793 "Parser.tab.cc" // lalr1.cc:847
+#line 7794 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 712:
-#line 6139 "Parser.yy" // lalr1.cc:847
+#line 6140 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7801 "Parser.tab.cc" // lalr1.cc:847
+#line 7802 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 713:
-#line 6144 "Parser.yy" // lalr1.cc:847
+#line 6145 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7809 "Parser.tab.cc" // lalr1.cc:847
+#line 7810 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 714:
-#line 6149 "Parser.yy" // lalr1.cc:847
+#line 6150 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7817 "Parser.tab.cc" // lalr1.cc:847
+#line 7818 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 715:
-#line 6154 "Parser.yy" // lalr1.cc:847
+#line 6155 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7825 "Parser.tab.cc" // lalr1.cc:847
+#line 7826 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 716:
-#line 6159 "Parser.yy" // lalr1.cc:847
+#line 6160 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7833 "Parser.tab.cc" // lalr1.cc:847
+#line 7834 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 717:
-#line 6164 "Parser.yy" // lalr1.cc:847
+#line 6165 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7841 "Parser.tab.cc" // lalr1.cc:847
+#line 7842 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 718:
-#line 6169 "Parser.yy" // lalr1.cc:847
+#line 6170 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7849 "Parser.tab.cc" // lalr1.cc:847
+#line 7850 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 719:
-#line 6174 "Parser.yy" // lalr1.cc:847
+#line 6175 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7857 "Parser.tab.cc" // lalr1.cc:847
+#line 7858 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 720:
-#line 6179 "Parser.yy" // lalr1.cc:847
+#line 6180 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7865 "Parser.tab.cc" // lalr1.cc:847
+#line 7866 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 721:
-#line 6184 "Parser.yy" // lalr1.cc:847
+#line 6185 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7873 "Parser.tab.cc" // lalr1.cc:847
+#line 7874 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 722:
-#line 6189 "Parser.yy" // lalr1.cc:847
+#line 6190 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7881 "Parser.tab.cc" // lalr1.cc:847
+#line 7882 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 723:
-#line 6194 "Parser.yy" // lalr1.cc:847
+#line 6195 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7889 "Parser.tab.cc" // lalr1.cc:847
+#line 7890 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 724:
-#line 6199 "Parser.yy" // lalr1.cc:847
+#line 6200 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7897 "Parser.tab.cc" // lalr1.cc:847
+#line 7898 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 725:
-#line 6204 "Parser.yy" // lalr1.cc:847
+#line 6205 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7905 "Parser.tab.cc" // lalr1.cc:847
+#line 7906 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 726:
-#line 6209 "Parser.yy" // lalr1.cc:847
+#line 6210 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7913 "Parser.tab.cc" // lalr1.cc:847
+#line 7914 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 727:
-#line 6214 "Parser.yy" // lalr1.cc:847
+#line 6215 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7921 "Parser.tab.cc" // lalr1.cc:847
+#line 7922 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 728:
-#line 6219 "Parser.yy" // lalr1.cc:847
+#line 6220 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7929 "Parser.tab.cc" // lalr1.cc:847
+#line 7930 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 729:
-#line 6224 "Parser.yy" // lalr1.cc:847
+#line 6225 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7937 "Parser.tab.cc" // lalr1.cc:847
+#line 7938 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 730:
-#line 6229 "Parser.yy" // lalr1.cc:847
+#line 6230 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7945 "Parser.tab.cc" // lalr1.cc:847
+#line 7946 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 731:
-#line 6234 "Parser.yy" // lalr1.cc:847
+#line 6235 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7953 "Parser.tab.cc" // lalr1.cc:847
+#line 7954 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 732:
-#line 6239 "Parser.yy" // lalr1.cc:847
+#line 6240 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7961 "Parser.tab.cc" // lalr1.cc:847
+#line 7962 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 733:
-#line 6244 "Parser.yy" // lalr1.cc:847
+#line 6245 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7969 "Parser.tab.cc" // lalr1.cc:847
+#line 7970 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 734:
-#line 6249 "Parser.yy" // lalr1.cc:847
+#line 6250 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7977 "Parser.tab.cc" // lalr1.cc:847
+#line 7978 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 735:
-#line 6254 "Parser.yy" // lalr1.cc:847
+#line 6255 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7985 "Parser.tab.cc" // lalr1.cc:847
+#line 7986 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 736:
-#line 6259 "Parser.yy" // lalr1.cc:847
+#line 6260 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 7993 "Parser.tab.cc" // lalr1.cc:847
+#line 7994 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 737:
-#line 6264 "Parser.yy" // lalr1.cc:847
+#line 6265 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8001 "Parser.tab.cc" // lalr1.cc:847
+#line 8002 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 738:
-#line 6269 "Parser.yy" // lalr1.cc:847
+#line 6270 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8009 "Parser.tab.cc" // lalr1.cc:847
+#line 8010 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 739:
-#line 6274 "Parser.yy" // lalr1.cc:847
+#line 6275 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8017 "Parser.tab.cc" // lalr1.cc:847
+#line 8018 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 740:
-#line 6279 "Parser.yy" // lalr1.cc:847
+#line 6280 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8025 "Parser.tab.cc" // lalr1.cc:847
+#line 8026 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 741:
-#line 6284 "Parser.yy" // lalr1.cc:847
+#line 6285 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8033 "Parser.tab.cc" // lalr1.cc:847
+#line 8034 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 742:
-#line 6289 "Parser.yy" // lalr1.cc:847
+#line 6290 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8041 "Parser.tab.cc" // lalr1.cc:847
+#line 8042 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 743:
-#line 6294 "Parser.yy" // lalr1.cc:847
+#line 6295 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8049 "Parser.tab.cc" // lalr1.cc:847
+#line 8050 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 744:
-#line 6299 "Parser.yy" // lalr1.cc:847
+#line 6300 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8057 "Parser.tab.cc" // lalr1.cc:847
+#line 8058 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 745:
-#line 6304 "Parser.yy" // lalr1.cc:847
+#line 6305 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8065 "Parser.tab.cc" // lalr1.cc:847
+#line 8066 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 746:
-#line 6309 "Parser.yy" // lalr1.cc:847
+#line 6310 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8073 "Parser.tab.cc" // lalr1.cc:847
+#line 8074 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 747:
-#line 6314 "Parser.yy" // lalr1.cc:847
+#line 6315 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8081 "Parser.tab.cc" // lalr1.cc:847
+#line 8082 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 748:
-#line 6319 "Parser.yy" // lalr1.cc:847
+#line 6320 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8089 "Parser.tab.cc" // lalr1.cc:847
+#line 8090 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 749:
-#line 6324 "Parser.yy" // lalr1.cc:847
+#line 6325 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8097 "Parser.tab.cc" // lalr1.cc:847
+#line 8098 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 750:
-#line 6329 "Parser.yy" // lalr1.cc:847
+#line 6330 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8105 "Parser.tab.cc" // lalr1.cc:847
+#line 8106 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 751:
-#line 6334 "Parser.yy" // lalr1.cc:847
+#line 6335 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8113 "Parser.tab.cc" // lalr1.cc:847
+#line 8114 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 752:
-#line 6339 "Parser.yy" // lalr1.cc:847
+#line 6340 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8121 "Parser.tab.cc" // lalr1.cc:847
+#line 8122 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 753:
-#line 6344 "Parser.yy" // lalr1.cc:847
+#line 6345 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8129 "Parser.tab.cc" // lalr1.cc:847
+#line 8130 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 754:
-#line 6349 "Parser.yy" // lalr1.cc:847
+#line 6350 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8137 "Parser.tab.cc" // lalr1.cc:847
+#line 8138 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 755:
-#line 6354 "Parser.yy" // lalr1.cc:847
+#line 6355 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8145 "Parser.tab.cc" // lalr1.cc:847
+#line 8146 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 756:
-#line 6359 "Parser.yy" // lalr1.cc:847
+#line 6360 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8153 "Parser.tab.cc" // lalr1.cc:847
+#line 8154 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 757:
-#line 6364 "Parser.yy" // lalr1.cc:847
+#line 6365 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8161 "Parser.tab.cc" // lalr1.cc:847
+#line 8162 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 758:
-#line 6369 "Parser.yy" // lalr1.cc:847
+#line 6370 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8169 "Parser.tab.cc" // lalr1.cc:847
+#line 8170 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 759:
-#line 6374 "Parser.yy" // lalr1.cc:847
+#line 6375 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8177 "Parser.tab.cc" // lalr1.cc:847
+#line 8178 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 760:
-#line 6379 "Parser.yy" // lalr1.cc:847
+#line 6380 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8185 "Parser.tab.cc" // lalr1.cc:847
+#line 8186 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 761:
-#line 6384 "Parser.yy" // lalr1.cc:847
+#line 6385 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8193 "Parser.tab.cc" // lalr1.cc:847
+#line 8194 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 762:
-#line 6389 "Parser.yy" // lalr1.cc:847
+#line 6390 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8201 "Parser.tab.cc" // lalr1.cc:847
+#line 8202 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 763:
-#line 6394 "Parser.yy" // lalr1.cc:847
+#line 6395 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8209 "Parser.tab.cc" // lalr1.cc:847
+#line 8210 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 764:
-#line 6399 "Parser.yy" // lalr1.cc:847
+#line 6400 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8217 "Parser.tab.cc" // lalr1.cc:847
+#line 8218 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 765:
-#line 6404 "Parser.yy" // lalr1.cc:847
+#line 6405 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8225 "Parser.tab.cc" // lalr1.cc:847
+#line 8226 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 766:
-#line 6409 "Parser.yy" // lalr1.cc:847
+#line 6410 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8233 "Parser.tab.cc" // lalr1.cc:847
+#line 8234 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 767:
-#line 6414 "Parser.yy" // lalr1.cc:847
+#line 6415 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8241 "Parser.tab.cc" // lalr1.cc:847
+#line 8242 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 768:
-#line 6419 "Parser.yy" // lalr1.cc:847
+#line 6420 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8249 "Parser.tab.cc" // lalr1.cc:847
+#line 8250 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 769:
-#line 6424 "Parser.yy" // lalr1.cc:847
+#line 6425 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8257 "Parser.tab.cc" // lalr1.cc:847
+#line 8258 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 770:
-#line 6429 "Parser.yy" // lalr1.cc:847
+#line 6430 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8265 "Parser.tab.cc" // lalr1.cc:847
+#line 8266 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 771:
-#line 6434 "Parser.yy" // lalr1.cc:847
+#line 6435 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8273 "Parser.tab.cc" // lalr1.cc:847
+#line 8274 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 772:
-#line 6439 "Parser.yy" // lalr1.cc:847
+#line 6440 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8281 "Parser.tab.cc" // lalr1.cc:847
+#line 8282 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 773:
-#line 6444 "Parser.yy" // lalr1.cc:847
+#line 6445 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8289 "Parser.tab.cc" // lalr1.cc:847
+#line 8290 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 774:
-#line 6449 "Parser.yy" // lalr1.cc:847
+#line 6450 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8297 "Parser.tab.cc" // lalr1.cc:847
+#line 8298 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 775:
-#line 6454 "Parser.yy" // lalr1.cc:847
+#line 6455 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8305 "Parser.tab.cc" // lalr1.cc:847
+#line 8306 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 776:
-#line 6459 "Parser.yy" // lalr1.cc:847
+#line 6460 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8313 "Parser.tab.cc" // lalr1.cc:847
+#line 8314 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 777:
-#line 6464 "Parser.yy" // lalr1.cc:847
+#line 6465 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8321 "Parser.tab.cc" // lalr1.cc:847
+#line 8322 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 778:
-#line 6469 "Parser.yy" // lalr1.cc:847
+#line 6470 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8329 "Parser.tab.cc" // lalr1.cc:847
+#line 8330 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 779:
-#line 6474 "Parser.yy" // lalr1.cc:847
+#line 6475 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8337 "Parser.tab.cc" // lalr1.cc:847
+#line 8338 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 780:
-#line 6479 "Parser.yy" // lalr1.cc:847
+#line 6480 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8345 "Parser.tab.cc" // lalr1.cc:847
+#line 8346 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 781:
-#line 6484 "Parser.yy" // lalr1.cc:847
+#line 6485 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8353 "Parser.tab.cc" // lalr1.cc:847
+#line 8354 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 782:
-#line 6489 "Parser.yy" // lalr1.cc:847
+#line 6490 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8361 "Parser.tab.cc" // lalr1.cc:847
+#line 8362 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 783:
-#line 6494 "Parser.yy" // lalr1.cc:847
+#line 6495 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8369 "Parser.tab.cc" // lalr1.cc:847
+#line 8370 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 784:
-#line 6499 "Parser.yy" // lalr1.cc:847
+#line 6500 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8377 "Parser.tab.cc" // lalr1.cc:847
+#line 8378 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 785:
-#line 6504 "Parser.yy" // lalr1.cc:847
+#line 6505 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8385 "Parser.tab.cc" // lalr1.cc:847
+#line 8386 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 786:
-#line 6509 "Parser.yy" // lalr1.cc:847
+#line 6510 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8393 "Parser.tab.cc" // lalr1.cc:847
+#line 8394 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 787:
-#line 6514 "Parser.yy" // lalr1.cc:847
+#line 6515 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8401 "Parser.tab.cc" // lalr1.cc:847
+#line 8402 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 788:
-#line 6519 "Parser.yy" // lalr1.cc:847
+#line 6520 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8409 "Parser.tab.cc" // lalr1.cc:847
+#line 8410 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 789:
-#line 6524 "Parser.yy" // lalr1.cc:847
+#line 6525 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8417 "Parser.tab.cc" // lalr1.cc:847
+#line 8418 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 790:
-#line 6529 "Parser.yy" // lalr1.cc:847
+#line 6530 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8425 "Parser.tab.cc" // lalr1.cc:847
+#line 8426 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 791:
-#line 6534 "Parser.yy" // lalr1.cc:847
+#line 6535 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8433 "Parser.tab.cc" // lalr1.cc:847
+#line 8434 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 792:
-#line 6539 "Parser.yy" // lalr1.cc:847
+#line 6540 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8441 "Parser.tab.cc" // lalr1.cc:847
+#line 8442 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 793:
-#line 6544 "Parser.yy" // lalr1.cc:847
+#line 6545 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8449 "Parser.tab.cc" // lalr1.cc:847
+#line 8450 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 794:
-#line 6549 "Parser.yy" // lalr1.cc:847
+#line 6550 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8457 "Parser.tab.cc" // lalr1.cc:847
+#line 8458 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 795:
-#line 6554 "Parser.yy" // lalr1.cc:847
+#line 6555 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8465 "Parser.tab.cc" // lalr1.cc:847
+#line 8466 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 796:
-#line 6559 "Parser.yy" // lalr1.cc:847
+#line 6560 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8473 "Parser.tab.cc" // lalr1.cc:847
+#line 8474 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 797:
-#line 6564 "Parser.yy" // lalr1.cc:847
+#line 6565 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8481 "Parser.tab.cc" // lalr1.cc:847
+#line 8482 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 798:
-#line 6569 "Parser.yy" // lalr1.cc:847
+#line 6570 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8489 "Parser.tab.cc" // lalr1.cc:847
+#line 8490 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 799:
-#line 6574 "Parser.yy" // lalr1.cc:847
+#line 6575 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8497 "Parser.tab.cc" // lalr1.cc:847
+#line 8498 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 800:
-#line 6579 "Parser.yy" // lalr1.cc:847
+#line 6580 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8505 "Parser.tab.cc" // lalr1.cc:847
+#line 8506 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 801:
-#line 6584 "Parser.yy" // lalr1.cc:847
+#line 6585 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8513 "Parser.tab.cc" // lalr1.cc:847
+#line 8514 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 802:
-#line 6589 "Parser.yy" // lalr1.cc:847
+#line 6590 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8521 "Parser.tab.cc" // lalr1.cc:847
+#line 8522 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 803:
-#line 6594 "Parser.yy" // lalr1.cc:847
+#line 6595 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8529 "Parser.tab.cc" // lalr1.cc:847
+#line 8530 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 804:
-#line 6599 "Parser.yy" // lalr1.cc:847
+#line 6600 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8537 "Parser.tab.cc" // lalr1.cc:847
+#line 8538 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 805:
-#line 6604 "Parser.yy" // lalr1.cc:847
+#line 6605 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8545 "Parser.tab.cc" // lalr1.cc:847
+#line 8546 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 806:
-#line 6609 "Parser.yy" // lalr1.cc:847
+#line 6610 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8553 "Parser.tab.cc" // lalr1.cc:847
+#line 8554 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 807:
-#line 6614 "Parser.yy" // lalr1.cc:847
+#line 6615 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8561 "Parser.tab.cc" // lalr1.cc:847
+#line 8562 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 808:
-#line 6619 "Parser.yy" // lalr1.cc:847
+#line 6620 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8569 "Parser.tab.cc" // lalr1.cc:847
+#line 8570 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 809:
-#line 6624 "Parser.yy" // lalr1.cc:847
+#line 6625 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8577 "Parser.tab.cc" // lalr1.cc:847
+#line 8578 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 810:
-#line 6629 "Parser.yy" // lalr1.cc:847
+#line 6630 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8585 "Parser.tab.cc" // lalr1.cc:847
+#line 8586 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 811:
-#line 6634 "Parser.yy" // lalr1.cc:847
+#line 6635 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8593 "Parser.tab.cc" // lalr1.cc:847
+#line 8594 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 812:
-#line 6639 "Parser.yy" // lalr1.cc:847
+#line 6640 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8601 "Parser.tab.cc" // lalr1.cc:847
+#line 8602 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 813:
-#line 6644 "Parser.yy" // lalr1.cc:847
+#line 6645 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8609 "Parser.tab.cc" // lalr1.cc:847
+#line 8610 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 814:
-#line 6649 "Parser.yy" // lalr1.cc:847
+#line 6650 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8617 "Parser.tab.cc" // lalr1.cc:847
+#line 8618 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 815:
-#line 6654 "Parser.yy" // lalr1.cc:847
+#line 6655 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8625 "Parser.tab.cc" // lalr1.cc:847
+#line 8626 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 816:
-#line 6659 "Parser.yy" // lalr1.cc:847
+#line 6660 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8633 "Parser.tab.cc" // lalr1.cc:847
+#line 8634 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 817:
-#line 6664 "Parser.yy" // lalr1.cc:847
+#line 6665 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8641 "Parser.tab.cc" // lalr1.cc:847
+#line 8642 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 818:
-#line 6669 "Parser.yy" // lalr1.cc:847
+#line 6670 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8649 "Parser.tab.cc" // lalr1.cc:847
+#line 8650 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 819:
-#line 6674 "Parser.yy" // lalr1.cc:847
+#line 6675 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8657 "Parser.tab.cc" // lalr1.cc:847
+#line 8658 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 820:
-#line 6679 "Parser.yy" // lalr1.cc:847
+#line 6680 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8665 "Parser.tab.cc" // lalr1.cc:847
+#line 8666 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 821:
-#line 6684 "Parser.yy" // lalr1.cc:847
+#line 6685 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8673 "Parser.tab.cc" // lalr1.cc:847
+#line 8674 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 822:
-#line 6689 "Parser.yy" // lalr1.cc:847
+#line 6690 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8681 "Parser.tab.cc" // lalr1.cc:847
+#line 8682 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 823:
-#line 6694 "Parser.yy" // lalr1.cc:847
+#line 6695 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8689 "Parser.tab.cc" // lalr1.cc:847
+#line 8690 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 824:
-#line 6699 "Parser.yy" // lalr1.cc:847
+#line 6700 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8697 "Parser.tab.cc" // lalr1.cc:847
+#line 8698 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 825:
-#line 6704 "Parser.yy" // lalr1.cc:847
+#line 6705 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8705 "Parser.tab.cc" // lalr1.cc:847
+#line 8706 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 826:
-#line 6709 "Parser.yy" // lalr1.cc:847
+#line 6710 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8713 "Parser.tab.cc" // lalr1.cc:847
+#line 8714 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 827:
-#line 6714 "Parser.yy" // lalr1.cc:847
+#line 6715 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8721 "Parser.tab.cc" // lalr1.cc:847
+#line 8722 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 828:
-#line 6719 "Parser.yy" // lalr1.cc:847
+#line 6720 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8729 "Parser.tab.cc" // lalr1.cc:847
+#line 8730 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 829:
-#line 6724 "Parser.yy" // lalr1.cc:847
+#line 6725 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8737 "Parser.tab.cc" // lalr1.cc:847
+#line 8738 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 830:
-#line 6729 "Parser.yy" // lalr1.cc:847
+#line 6730 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8745 "Parser.tab.cc" // lalr1.cc:847
+#line 8746 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 831:
-#line 6734 "Parser.yy" // lalr1.cc:847
+#line 6735 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8753 "Parser.tab.cc" // lalr1.cc:847
+#line 8754 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 832:
-#line 6739 "Parser.yy" // lalr1.cc:847
+#line 6740 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8761 "Parser.tab.cc" // lalr1.cc:847
+#line 8762 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 833:
-#line 6744 "Parser.yy" // lalr1.cc:847
+#line 6745 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8769 "Parser.tab.cc" // lalr1.cc:847
+#line 8770 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 834:
-#line 6749 "Parser.yy" // lalr1.cc:847
+#line 6750 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8777 "Parser.tab.cc" // lalr1.cc:847
+#line 8778 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 835:
-#line 6754 "Parser.yy" // lalr1.cc:847
+#line 6755 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8785 "Parser.tab.cc" // lalr1.cc:847
+#line 8786 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 836:
-#line 6759 "Parser.yy" // lalr1.cc:847
+#line 6760 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8793 "Parser.tab.cc" // lalr1.cc:847
+#line 8794 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 837:
-#line 6764 "Parser.yy" // lalr1.cc:847
+#line 6765 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8801 "Parser.tab.cc" // lalr1.cc:847
+#line 8802 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 838:
-#line 6769 "Parser.yy" // lalr1.cc:847
+#line 6770 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8809 "Parser.tab.cc" // lalr1.cc:847
+#line 8810 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 839:
-#line 6774 "Parser.yy" // lalr1.cc:847
+#line 6775 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8817 "Parser.tab.cc" // lalr1.cc:847
+#line 8818 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 840:
-#line 6779 "Parser.yy" // lalr1.cc:847
+#line 6780 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8825 "Parser.tab.cc" // lalr1.cc:847
+#line 8826 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 841:
-#line 6784 "Parser.yy" // lalr1.cc:847
+#line 6785 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8833 "Parser.tab.cc" // lalr1.cc:847
+#line 8834 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 842:
-#line 6789 "Parser.yy" // lalr1.cc:847
+#line 6790 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8841 "Parser.tab.cc" // lalr1.cc:847
+#line 8842 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 843:
-#line 6794 "Parser.yy" // lalr1.cc:847
+#line 6795 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8849 "Parser.tab.cc" // lalr1.cc:847
+#line 8850 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 844:
-#line 6799 "Parser.yy" // lalr1.cc:847
+#line 6800 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8857 "Parser.tab.cc" // lalr1.cc:847
+#line 8858 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 845:
-#line 6804 "Parser.yy" // lalr1.cc:847
+#line 6805 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8865 "Parser.tab.cc" // lalr1.cc:847
+#line 8866 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 846:
-#line 6809 "Parser.yy" // lalr1.cc:847
+#line 6810 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8873 "Parser.tab.cc" // lalr1.cc:847
+#line 8874 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 847:
-#line 6814 "Parser.yy" // lalr1.cc:847
+#line 6815 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8881 "Parser.tab.cc" // lalr1.cc:847
+#line 8882 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 848:
-#line 6819 "Parser.yy" // lalr1.cc:847
+#line 6820 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8889 "Parser.tab.cc" // lalr1.cc:847
+#line 8890 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 849:
-#line 6824 "Parser.yy" // lalr1.cc:847
+#line 6825 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8897 "Parser.tab.cc" // lalr1.cc:847
+#line 8898 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 850:
-#line 6829 "Parser.yy" // lalr1.cc:847
+#line 6830 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8905 "Parser.tab.cc" // lalr1.cc:847
+#line 8906 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 851:
-#line 6834 "Parser.yy" // lalr1.cc:847
+#line 6835 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8913 "Parser.tab.cc" // lalr1.cc:847
+#line 8914 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 852:
-#line 6839 "Parser.yy" // lalr1.cc:847
+#line 6840 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8921 "Parser.tab.cc" // lalr1.cc:847
+#line 8922 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 853:
-#line 6844 "Parser.yy" // lalr1.cc:847
+#line 6845 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8929 "Parser.tab.cc" // lalr1.cc:847
+#line 8930 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 854:
-#line 6849 "Parser.yy" // lalr1.cc:847
+#line 6850 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8937 "Parser.tab.cc" // lalr1.cc:847
+#line 8938 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 855:
-#line 6854 "Parser.yy" // lalr1.cc:847
+#line 6855 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8945 "Parser.tab.cc" // lalr1.cc:847
+#line 8946 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 856:
-#line 6859 "Parser.yy" // lalr1.cc:847
+#line 6860 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8953 "Parser.tab.cc" // lalr1.cc:847
+#line 8954 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 857:
-#line 6864 "Parser.yy" // lalr1.cc:847
+#line 6865 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8961 "Parser.tab.cc" // lalr1.cc:847
+#line 8962 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 858:
-#line 6869 "Parser.yy" // lalr1.cc:847
+#line 6870 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8969 "Parser.tab.cc" // lalr1.cc:847
+#line 8970 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 859:
-#line 6874 "Parser.yy" // lalr1.cc:847
+#line 6875 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8977 "Parser.tab.cc" // lalr1.cc:847
+#line 8978 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 860:
-#line 6879 "Parser.yy" // lalr1.cc:847
+#line 6880 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8985 "Parser.tab.cc" // lalr1.cc:847
+#line 8986 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 861:
-#line 6884 "Parser.yy" // lalr1.cc:847
+#line 6885 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 8993 "Parser.tab.cc" // lalr1.cc:847
+#line 8994 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 862:
-#line 6889 "Parser.yy" // lalr1.cc:847
+#line 6890 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 9001 "Parser.tab.cc" // lalr1.cc:847
+#line 9002 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 863:
-#line 6894 "Parser.yy" // lalr1.cc:847
+#line 6895 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 9009 "Parser.tab.cc" // lalr1.cc:847
+#line 9010 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 864:
-#line 6899 "Parser.yy" // lalr1.cc:847
+#line 6900 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 9017 "Parser.tab.cc" // lalr1.cc:847
+#line 9018 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 865:
-#line 6904 "Parser.yy" // lalr1.cc:847
+#line 6905 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 9025 "Parser.tab.cc" // lalr1.cc:847
+#line 9026 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 866:
-#line 6909 "Parser.yy" // lalr1.cc:847
+#line 6910 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 9033 "Parser.tab.cc" // lalr1.cc:847
+#line 9034 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 867:
-#line 6914 "Parser.yy" // lalr1.cc:847
+#line 6915 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 9041 "Parser.tab.cc" // lalr1.cc:847
+#line 9042 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 868:
-#line 6919 "Parser.yy" // lalr1.cc:847
+#line 6920 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 9049 "Parser.tab.cc" // lalr1.cc:847
+#line 9050 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 869:
-#line 6924 "Parser.yy" // lalr1.cc:847
+#line 6925 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 9057 "Parser.tab.cc" // lalr1.cc:847
+#line 9058 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 870:
-#line 6929 "Parser.yy" // lalr1.cc:847
+#line 6930 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 9065 "Parser.tab.cc" // lalr1.cc:847
+#line 9066 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 871:
-#line 6934 "Parser.yy" // lalr1.cc:847
+#line 6935 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 9073 "Parser.tab.cc" // lalr1.cc:847
+#line 9074 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 872:
-#line 6939 "Parser.yy" // lalr1.cc:847
+#line 6940 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 9081 "Parser.tab.cc" // lalr1.cc:847
+#line 9082 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 873:
-#line 6944 "Parser.yy" // lalr1.cc:847
+#line 6945 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 9089 "Parser.tab.cc" // lalr1.cc:847
+#line 9090 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 874:
-#line 6949 "Parser.yy" // lalr1.cc:847
+#line 6950 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 9097 "Parser.tab.cc" // lalr1.cc:847
+#line 9098 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 875:
-#line 6954 "Parser.yy" // lalr1.cc:847
+#line 6955 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 9105 "Parser.tab.cc" // lalr1.cc:847
+#line 9106 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 876:
-#line 6959 "Parser.yy" // lalr1.cc:847
+#line 6960 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 9113 "Parser.tab.cc" // lalr1.cc:847
+#line 9114 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 877:
-#line 6964 "Parser.yy" // lalr1.cc:847
+#line 6965 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 9121 "Parser.tab.cc" // lalr1.cc:847
+#line 9122 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 878:
-#line 6969 "Parser.yy" // lalr1.cc:847
+#line 6970 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 9129 "Parser.tab.cc" // lalr1.cc:847
+#line 9130 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 879:
-#line 6974 "Parser.yy" // lalr1.cc:847
+#line 6975 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 9137 "Parser.tab.cc" // lalr1.cc:847
+#line 9138 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 880:
-#line 6979 "Parser.yy" // lalr1.cc:847
+#line 6980 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 9145 "Parser.tab.cc" // lalr1.cc:847
+#line 9146 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 881:
-#line 6984 "Parser.yy" // lalr1.cc:847
+#line 6985 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 9153 "Parser.tab.cc" // lalr1.cc:847
+#line 9154 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 882:
-#line 6989 "Parser.yy" // lalr1.cc:847
+#line 6990 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 9161 "Parser.tab.cc" // lalr1.cc:847
+#line 9162 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 883:
-#line 6994 "Parser.yy" // lalr1.cc:847
+#line 6995 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 9169 "Parser.tab.cc" // lalr1.cc:847
+#line 9170 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 884:
-#line 6999 "Parser.yy" // lalr1.cc:847
+#line 7000 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 9177 "Parser.tab.cc" // lalr1.cc:847
+#line 9178 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 885:
-#line 7004 "Parser.yy" // lalr1.cc:847
+#line 7005 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 9185 "Parser.tab.cc" // lalr1.cc:847
+#line 9186 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 886:
-#line 7009 "Parser.yy" // lalr1.cc:847
+#line 7010 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 9193 "Parser.tab.cc" // lalr1.cc:847
+#line 9194 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 887:
-#line 7014 "Parser.yy" // lalr1.cc:847
+#line 7015 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 9201 "Parser.tab.cc" // lalr1.cc:847
+#line 9202 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 888:
-#line 7019 "Parser.yy" // lalr1.cc:847
+#line 7020 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 9209 "Parser.tab.cc" // lalr1.cc:847
+#line 9210 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 889:
-#line 7024 "Parser.yy" // lalr1.cc:847
+#line 7025 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 9217 "Parser.tab.cc" // lalr1.cc:847
+#line 9218 "Parser.tab.cc" // lalr1.cc:847
     break;
 
   case 890:
-#line 7029 "Parser.yy" // lalr1.cc:847
+#line 7030 "Parser.yy" // lalr1.cc:847
     {
 		(yylhs.value.strval) = strdup(yytext);
 	}
-#line 9225 "Parser.tab.cc" // lalr1.cc:847
+#line 9226 "Parser.tab.cc" // lalr1.cc:847
     break;
 
 
-#line 9229 "Parser.tab.cc" // lalr1.cc:847
+#line 9230 "Parser.tab.cc" // lalr1.cc:847
             default:
               break;
             }
@@ -13894,67 +13895,67 @@ namespace yy {
     2219,  2239,  2246,  2251,  2266,  2283,  2300,  2317,  2334,  2351,
     2356,  2373,  2380,  2387,  2392,  2397,  2402,  2424,  2431,  2448,
     2465,  2482,  2487,  2495,  2502,  2509,  2517,  2522,  2527,  2532,
-    2538,  2545,  2560,  2584,  2601,  2618,  2626,  2632,  2637,  2642,
-    2648,  2654,  2660,  2668,  2678,  2682,  2690,  2697,  2701,  2707,
-    2713,  2721,  2726,  2734,  2743,  2749,  2755,  2761,  2768,  2775,
-    2779,  2786,  2800,  2804,  2810,  2818,  2822,  2828,  2838,  2855,
-    2859,  2865,  2873,  2882,  2886,  2894,  2903,  2926,  2940,  2952,
-    2965,  2979,  2983,  2990,  3000,  3012,  3018,  3026,  3039,  3042,
-    3046,  3050,  3054,  3060,  3065,  3071,  3075,  3082,  3088,  3095,
-    3102,  3108,  3112,  3117,  3122,  3142,  3166,  3177,  3187,  3197,
-    3207,  3231,  3243,  3254,  3265,  3275,  3286,  3297,  3310,  3320,
-    3332,  3346,  3356,  3371,  3389,  3399,  3413,  3433,  3445,  3449,
-    3456,  3460,  3467,  3471,  3477,  3499,  3510,  3520,  3532,  3543,
-    3553,  3569,  3581,  3585,  3592,  3597,  3602,  3608,  3619,  3638,
-    3657,  3675,  3679,  3686,  3697,  3708,  3719,  3733,  3749,  3772,
-    3784,  3798,  3810,  3821,  3832,  3840,  3850,  3874,  3878,  3883,
-    3888,  3893,  3898,  3903,  3908,  3913,  3920,  3926,  3933,  3967,
-    3977,  3983,  3990,  3996,  4005,  4013,  4022,  4032,  4042,  4055,
-    4059,  4069,  4074,  4081,  4092,  4096,  4102,  4108,  4114,  4123,
-    4132,  4140,  4146,  4153,  4157,  4165,  4176,  4182,  4189,  4193,
-    4198,  4205,  4209,  4217,  4221,  4227,  4231,  4237,  4241,  4247,
-    4262,  4266,  4279,  4283,  4289,  4300,  4319,  4323,  4329,  4333,
-    4339,  4343,  4348,  4354,  4358,  4363,  4369,  4373,  4378,  4384,
-    4388,  4393,  4399,  4403,  4408,  4413,  4427,  4437,  4449,  4461,
-    4472,  4483,  4494,  4508,  4525,  4535,  4553,  4570,  4590,  4611,
-    4633,  4656,  4669,  4680,  4684,  4691,  4697,  4704,  4709,  4722,
-    4728,  4735,  4741,  4751,  4762,  4772,  4782,  4796,  4807,  4834,
-    4846,  4859,  4874,  4884,  4896,  4900,  4906,  4911,  4924,  4929,
-    4944,  4957,  4966,  4982,  4996,  5007,  5018,  5030,  5038,  5046,
-    5054,  5062,  5070,  5080,  5090,  5099,  5107,  5115,  5123,  5131,
-    5139,  5147,  5155,  5163,  5171,  5179,  5187,  5195,  5203,  5211,
-    5219,  5227,  5235,  5244,  5254,  5259,  5267,  5275,  5283,  5291,
-    5297,  5303,  5316,  5328,  5342,  5346,  5353,  5357,  5364,  5368,
-    5376,  5380,  5387,  5391,  5398,  5408,  5418,  5437,  5448,  5458,
-    5469,  5477,  5490,  5501,  5506,  5513,  5532,  5556,  5578,  5591,
-    5602,  5612,  5623,  5635,  5663,  5686,  5697,  5707,  5718,  5722,
-    5729,  5733,  5738,  5743,  5748,  5753,  5758,  5763,  5768,  5773,
-    5778,  5783,  5788,  5793,  5798,  5803,  5808,  5813,  5818,  5823,
-    5828,  5833,  5838,  5843,  5848,  5853,  5858,  5863,  5868,  5873,
-    5878,  5883,  5888,  5893,  5898,  5903,  5908,  5913,  5918,  5923,
-    5928,  5933,  5938,  5943,  5948,  5953,  5958,  5963,  5968,  5973,
-    5978,  5983,  5988,  5993,  5998,  6003,  6008,  6013,  6018,  6023,
-    6028,  6033,  6038,  6043,  6048,  6053,  6058,  6063,  6068,  6073,
-    6078,  6083,  6088,  6093,  6098,  6103,  6108,  6113,  6118,  6123,
-    6128,  6133,  6138,  6143,  6148,  6153,  6158,  6163,  6168,  6173,
-    6178,  6183,  6188,  6193,  6198,  6203,  6208,  6213,  6218,  6223,
-    6228,  6233,  6238,  6243,  6248,  6253,  6258,  6263,  6268,  6273,
-    6278,  6283,  6288,  6293,  6298,  6303,  6308,  6313,  6318,  6323,
-    6328,  6333,  6338,  6343,  6348,  6353,  6358,  6363,  6368,  6373,
-    6378,  6383,  6388,  6393,  6398,  6403,  6408,  6413,  6418,  6423,
-    6428,  6433,  6438,  6443,  6448,  6453,  6458,  6463,  6468,  6473,
-    6478,  6483,  6488,  6493,  6498,  6503,  6508,  6513,  6518,  6523,
-    6528,  6533,  6538,  6543,  6548,  6553,  6558,  6563,  6568,  6573,
-    6578,  6583,  6588,  6593,  6598,  6603,  6608,  6613,  6618,  6623,
-    6628,  6633,  6638,  6643,  6648,  6653,  6658,  6663,  6668,  6673,
-    6678,  6683,  6688,  6693,  6698,  6703,  6708,  6713,  6718,  6723,
-    6728,  6733,  6738,  6743,  6748,  6753,  6758,  6763,  6768,  6773,
-    6778,  6783,  6788,  6793,  6798,  6803,  6808,  6813,  6818,  6823,
-    6828,  6833,  6838,  6843,  6848,  6853,  6858,  6863,  6868,  6873,
-    6878,  6883,  6888,  6893,  6898,  6903,  6908,  6913,  6918,  6923,
-    6928,  6933,  6938,  6943,  6948,  6953,  6958,  6963,  6968,  6973,
-    6978,  6983,  6988,  6993,  6998,  7003,  7008,  7013,  7018,  7023,
-    7028
+    2538,  2545,  2561,  2585,  2602,  2619,  2627,  2633,  2638,  2643,
+    2649,  2655,  2661,  2669,  2679,  2683,  2691,  2698,  2702,  2708,
+    2714,  2722,  2727,  2735,  2744,  2750,  2756,  2762,  2769,  2776,
+    2780,  2787,  2801,  2805,  2811,  2819,  2823,  2829,  2839,  2856,
+    2860,  2866,  2874,  2883,  2887,  2895,  2904,  2927,  2941,  2953,
+    2966,  2980,  2984,  2991,  3001,  3013,  3019,  3027,  3040,  3043,
+    3047,  3051,  3055,  3061,  3066,  3072,  3076,  3083,  3089,  3096,
+    3103,  3109,  3113,  3118,  3123,  3143,  3167,  3178,  3188,  3198,
+    3208,  3232,  3244,  3255,  3266,  3276,  3287,  3298,  3311,  3321,
+    3333,  3347,  3357,  3372,  3390,  3400,  3414,  3434,  3446,  3450,
+    3457,  3461,  3468,  3472,  3478,  3500,  3511,  3521,  3533,  3544,
+    3554,  3570,  3582,  3586,  3593,  3598,  3603,  3609,  3620,  3639,
+    3658,  3676,  3680,  3687,  3698,  3709,  3720,  3734,  3750,  3773,
+    3785,  3799,  3811,  3822,  3833,  3841,  3851,  3875,  3879,  3884,
+    3889,  3894,  3899,  3904,  3909,  3914,  3921,  3927,  3934,  3968,
+    3978,  3984,  3991,  3997,  4006,  4014,  4023,  4033,  4043,  4056,
+    4060,  4070,  4075,  4082,  4093,  4097,  4103,  4109,  4115,  4124,
+    4133,  4141,  4147,  4154,  4158,  4166,  4177,  4183,  4190,  4194,
+    4199,  4206,  4210,  4218,  4222,  4228,  4232,  4238,  4242,  4248,
+    4263,  4267,  4280,  4284,  4290,  4301,  4320,  4324,  4330,  4334,
+    4340,  4344,  4349,  4355,  4359,  4364,  4370,  4374,  4379,  4385,
+    4389,  4394,  4400,  4404,  4409,  4414,  4428,  4438,  4450,  4462,
+    4473,  4484,  4495,  4509,  4526,  4536,  4554,  4571,  4591,  4612,
+    4634,  4657,  4670,  4681,  4685,  4692,  4698,  4705,  4710,  4723,
+    4729,  4736,  4742,  4752,  4763,  4773,  4783,  4797,  4808,  4835,
+    4847,  4860,  4875,  4885,  4897,  4901,  4907,  4912,  4925,  4930,
+    4945,  4958,  4967,  4983,  4997,  5008,  5019,  5031,  5039,  5047,
+    5055,  5063,  5071,  5081,  5091,  5100,  5108,  5116,  5124,  5132,
+    5140,  5148,  5156,  5164,  5172,  5180,  5188,  5196,  5204,  5212,
+    5220,  5228,  5236,  5245,  5255,  5260,  5268,  5276,  5284,  5292,
+    5298,  5304,  5317,  5329,  5343,  5347,  5354,  5358,  5365,  5369,
+    5377,  5381,  5388,  5392,  5399,  5409,  5419,  5438,  5449,  5459,
+    5470,  5478,  5491,  5502,  5507,  5514,  5533,  5557,  5579,  5592,
+    5603,  5613,  5624,  5636,  5664,  5687,  5698,  5708,  5719,  5723,
+    5730,  5734,  5739,  5744,  5749,  5754,  5759,  5764,  5769,  5774,
+    5779,  5784,  5789,  5794,  5799,  5804,  5809,  5814,  5819,  5824,
+    5829,  5834,  5839,  5844,  5849,  5854,  5859,  5864,  5869,  5874,
+    5879,  5884,  5889,  5894,  5899,  5904,  5909,  5914,  5919,  5924,
+    5929,  5934,  5939,  5944,  5949,  5954,  5959,  5964,  5969,  5974,
+    5979,  5984,  5989,  5994,  5999,  6004,  6009,  6014,  6019,  6024,
+    6029,  6034,  6039,  6044,  6049,  6054,  6059,  6064,  6069,  6074,
+    6079,  6084,  6089,  6094,  6099,  6104,  6109,  6114,  6119,  6124,
+    6129,  6134,  6139,  6144,  6149,  6154,  6159,  6164,  6169,  6174,
+    6179,  6184,  6189,  6194,  6199,  6204,  6209,  6214,  6219,  6224,
+    6229,  6234,  6239,  6244,  6249,  6254,  6259,  6264,  6269,  6274,
+    6279,  6284,  6289,  6294,  6299,  6304,  6309,  6314,  6319,  6324,
+    6329,  6334,  6339,  6344,  6349,  6354,  6359,  6364,  6369,  6374,
+    6379,  6384,  6389,  6394,  6399,  6404,  6409,  6414,  6419,  6424,
+    6429,  6434,  6439,  6444,  6449,  6454,  6459,  6464,  6469,  6474,
+    6479,  6484,  6489,  6494,  6499,  6504,  6509,  6514,  6519,  6524,
+    6529,  6534,  6539,  6544,  6549,  6554,  6559,  6564,  6569,  6574,
+    6579,  6584,  6589,  6594,  6599,  6604,  6609,  6614,  6619,  6624,
+    6629,  6634,  6639,  6644,  6649,  6654,  6659,  6664,  6669,  6674,
+    6679,  6684,  6689,  6694,  6699,  6704,  6709,  6714,  6719,  6724,
+    6729,  6734,  6739,  6744,  6749,  6754,  6759,  6764,  6769,  6774,
+    6779,  6784,  6789,  6794,  6799,  6804,  6809,  6814,  6819,  6824,
+    6829,  6834,  6839,  6844,  6849,  6854,  6859,  6864,  6869,  6874,
+    6879,  6884,  6889,  6894,  6899,  6904,  6909,  6914,  6919,  6924,
+    6929,  6934,  6939,  6944,  6949,  6954,  6959,  6964,  6969,  6974,
+    6979,  6984,  6989,  6994,  6999,  7004,  7009,  7014,  7019,  7024,
+    7029
   };
 
   // Print the state stack on the debug stream.
@@ -14067,8 +14068,8 @@ namespace yy {
 
 
 } // yy
-#line 14071 "Parser.tab.cc" // lalr1.cc:1155
-#line 7033 "Parser.yy" // lalr1.cc:1156
+#line 14072 "Parser.tab.cc" // lalr1.cc:1155
+#line 7034 "Parser.yy" // lalr1.cc:1156
 
 //*****************************************************************************************
 /*

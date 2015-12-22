@@ -1,1 +1,1 @@
-#define AOS_JIMO_VERSION "Sun Dec 13 14:24:58 CST 2015"
+#define AOS_JIMO_VERSION "2015年 12月 21日 星期一 09:18:40 CST"

@@ -13,6 +13,7 @@
 // Modification History:
 // 03/29/2012 Created by Chen Ding
 ////////////////////////////////////////////////////////////////////////////
+#include "Util/BuffArrayVar.h"
 #include "Util/CompareFun.h"
 
 #include "XmlUtil/XmlTag.h"
@@ -195,8 +196,9 @@ AosCompareFun(_size, reserve)
 		}
 	}
 	//mRcdFdsNum = mFieldsType.size();
-mFieldsType.push_back(AosDataFieldType::eStr);
 mFieldsType.push_back(AosDataFieldType::eBinU64);
+mFieldsType.push_back(AosDataFieldType::eBinU64);
+mFieldsType.push_back(AosDataFieldType::eStr);
 mRcdFdsNum = config->getAttrInt("record_fields_num", 0);	//for test barry
 	if (mRcdFdsNum != 0)
 	{
@@ -498,7 +500,7 @@ AosFunCustom::cmpPriv(const char* lhs, const char* rhs)
 
 
 bool
-AosCompareFun::mergeData(char *v1, char *v2, char *data, int &len)
+AosCompareFun::mergeData(char *v1, char *v2, AosBuff * header_buff, const i64 &body_addr, char *&data)
 {
 	if (strncmp("manuf_name", v1,10) ==0 )
 	{
@@ -567,7 +569,7 @@ AosCompareFun::mergeData(char *v1, char *v2, char *data, int &len)
 					break;
 				}
 				case eAgrStr:
-					rslt = agrStr(v1_rcd, v2_rcd, v1_offset+sizeof(u32), v2_offset+sizeof(u32), data, len);
+					rslt = agrStr(v1, v2, field_offset, header_buff, body_addr, data);
 					aos_assert_r(rslt, false);
 					break;
 				default:
@@ -679,13 +681,18 @@ AosCompareFun::agrDouble(char *v1, char *v2, AosDataColOpr::E agr_fun, u32 agr_p
 
 
 bool
-AosCompareFun::agrStr(char *r1, 
-				char *r2, 
-				const int f1_offset, 
-				const int f2_offset, 
-				char *data, 
-				int &len)
+AosCompareFun::agrStr(char *v1, 
+				char *v2, 
+				const i64 &field_offset, 
+				AosBuff *header_buff,
+				const i64 &body_addr,
+				char *&data)
 {
+	char* r1 = (char*)(*(i64*)(v1+sizeof(int))) + (*(int*)v1);
+	char* r2 = (char*)(*(i64*)(v2+sizeof(int))) + (*(int*)v2);
+	int f1_offset = *((u16*)(v1+field_offset)) + sizeof(u32);
+	int f2_offset = *((u16*)(v2+field_offset)) + sizeof(u32);
+
 	int offset = f1_offset-sizeof(u32)-sizeof(i8);
 	memcpy(data, r1, offset);
 	data[offset] = 0; 
@@ -716,11 +723,31 @@ AosCompareFun::agrStr(char *r1,
 
 	int remaining_len = decode_len + sizeof(u32) - f1_offset - f1_len;
 	memcpy(data+offset, r1+f1_offset+f1_len, remaining_len);
-	len = offset + remaining_len - sizeof(u32);
+	int len = offset + remaining_len - sizeof(u32);
 	int encode_len = len;
 	rslt = AosBuff::encodeRecordBuffLength(encode_len);
 	aos_assert_r(rslt, false);
 	*(u32*)data = encode_len;
+
+	if (data - (char*)body_addr > 0)
+	{
+		memmove(data-decode_len-sizeof(u32), data, len+sizeof(u32));
+		data = data-decode_len-sizeof(u32);
+		header_buff->setCrtIdx(header_buff->getCrtIdx() - size);
+
+		header_buff->setCrtIdx(header_buff->getCrtIdx() + sizeof(int) + sizeof(i64));
+	}
+	else
+	{
+		header_buff->setInt(0);
+		header_buff->setI64(body_addr);
+	}
+
+	vector<AosDataFieldType::E> types;
+	getDataFieldsType(types);
+	rslt = AosBuffArrayVar::buildHeaderBuff(types, header_buff, data+sizeof(int));
+	aos_assert_r(rslt, false);
+	data = data+len+sizeof(u32);
 	return true;
 }
 

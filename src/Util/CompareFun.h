@@ -125,7 +125,9 @@ public:
 
 	virtual void setReverse(const bool flag){mReverse = flag;}
 
-	bool mergeData(char *v1, char *v2, char *data, int &len);
+	bool mergeData(char *v1, char *v2, 
+			AosBuff *header_buff, const i64 &body_addr, 
+			char *&data);
 	bool hasMerge() {return !mAosAgrs.empty();}
 	bool hasAgrStr() {return mHasAgrStr;}
 
@@ -134,7 +136,9 @@ private:
 	bool agrU64(char *v1, char *v2, AosDataColOpr::E agr_fun, u32 agr_pos);
 	bool agrInt64(char *v1, char *v2, AosDataColOpr::E agr_fun, u32 agr_pos);
 	bool agrDouble(char *v1, char *v2, AosDataColOpr::E agr_fun, u32 agr_pos);
-	bool agrStr(char *r1, char *r2, const int f1_offset, const int f2_offset, char *data, int &len);
+	bool agrStr(char *v1, char *v2, const i64 &field_offset, 
+			AosBuff *header_buff, const i64 &body_addr, 
+			char *&data);
 
 public:
 	virtual void setSize(const int &sz)

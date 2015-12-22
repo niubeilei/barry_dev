@@ -46,7 +46,7 @@ using namespace std;
 AosBuffArrayVarTester::AosBuffArrayVarTester()
 {
 	mName = "AosBuffArrayVarTester";
-	mTries = 1;
+	mTries = 5;
 }
 
 struct u64comp
@@ -88,6 +88,7 @@ AosBuffArrayVarTester::basicTest()
 	int i ;
 	while (mTries--)
 	{
+OmnScreen << "------------------tries------------------" << mTries << endl;
 		//rslt = addEntries();
 		//checkSort();
 		/* for (i = 0 ; i < mTries; i++)
@@ -133,7 +134,6 @@ AosBuffArrayVarTester::basicTest()
 		//	 break;
 
 		}
-		
 		aos_assert_r(rslt, false);
 	}
 	return true;
@@ -440,28 +440,57 @@ bool
 AosBuffArrayVarTester::addRecordEntry2()
 {
 	AosRundata* rdata = OmnApp::getRundata().getPtr();
-	OmnString config = "<datarecord type=\"buff\" zky_name=\"t1_schm_zt4g_idxmgr_idx_t1_key_field1__new_idx\"><datafields><datafield type=\"str\" zky_name=\"value\"></datafield><datafield type=\"bin_u64\" zky_name=\"key\" ></datafield></datafields></datarecord>";
+	//str u64 u64
+	//OmnString config = "<datarecord type=\"buff\" zky_name=\"t1_schm_zt4g_idxmgr_idx_t1_key_field1__new_idx\"><datafields><datafield type=\"str\" zky_name=\"value1\"></datafield><datafield type=\"bin_u64\" zky_name=\"value2\"></datafield><datafield type=\"bin_u64\" zky_name=\"key\" ></datafield></datafields></datarecord>";
+	
+	//u64 u64 str
+	OmnString config = "<datarecord type=\"buff\" zky_name=\"t1_schm_zt4g_idxmgr_idx_t1_key_field1__new_idx\"><datafields><datafield type=\"bin_u64\" zky_name=\"key\"></datafield><datafield type=\"bin_u64\" zky_name=\"value2\"></datafield><datafield type=\"str\" zky_name=\"value1\" ></datafield></datafields></datarecord>";
+	
+	//u64 str str
+	//OmnString config = "<datarecord type=\"buff\" zky_name=\"t1_schm_zt4g_idxmgr_idx_t1_key_field1__new_idx\"><datafields><datafield type=\"bin_u64\" zky_name=\"key\"></datafield><datafield type=\"str\" zky_name=\"value2\"></datafield><datafield type=\"str\" zky_name=\"value1\" ></datafield></datafields></datarecord>";
 	AosXmlParser parser; 
 	AosXmlTagPtr rcd_xml = parser.parse(config, "" AosMemoryCheckerArgs);;
 
 	OmnString str;
+	//str u64 u64
+	//str << "<zky_buffarray zky_stable = \"false\" >"
+	//	<< "<CompareFun record_fields_num=\"3\" cmpfun_reserve=\"false\" cmpfun_size=\"108\" cmpfun_type=\"custom\" record_type=\"buff\"><cmp_fields><field cmp_size=\"-1\" cmp_datatype=\"record\" cmp_pos=\"2\" field_type=\"u64\"/></cmp_fields><aggregations><aggregation agr_pos=\"0\" agr_type=\"record\" field_type=\"agrstr\" agr_fun=\"sum\"/><aggregation agr_pos=\"1\" agr_type=\"record\" field_type=\"u64\" agr_fun=\"sum\"/></aggregations></CompareFun>"
+	//	<< 	"</zky_buffarray>";
+	
+	//u64 u64 str
 	str << "<zky_buffarray zky_stable = \"false\" >"
-		<< "<CompareFun record_fields_num=\"2\" cmpfun_reserve=\"false\" cmpfun_size=\"108\" cmpfun_type=\"custom\" record_type=\"buff\"><cmp_fields><field cmp_size=\"-1\" cmp_datatype=\"record\" cmp_pos=\"1\" field_type=\"u64\"/></cmp_fields><aggregations><aggregation agr_pos=\"0\" agr_type=\"record\" field_type=\"agrstr\" agr_fun=\"sum\"/></aggregations></CompareFun>"
+		<< "<CompareFun record_fields_num=\"3\" cmpfun_reserve=\"false\" cmpfun_size=\"108\" cmpfun_type=\"custom\" record_type=\"buff\"><cmp_fields><field cmp_size=\"-1\" cmp_datatype=\"record\" cmp_pos=\"0\" field_type=\"u64\"/></cmp_fields><aggregations><aggregation agr_pos=\"1\" agr_type=\"record\" field_type=\"u64\" agr_fun=\"sum\"/><aggregation agr_pos=\"2\" agr_type=\"record\" field_type=\"agrstr\" agr_fun=\"sum\"/></aggregations></CompareFun>"
 		<< 	"</zky_buffarray>";
+	
+	//u64 str str
+	//str << "<zky_buffarray zky_stable = \"false\" >"
+	//	<< "<CompareFun record_fields_num=\"3\" cmpfun_reserve=\"false\" cmpfun_size=\"108\" cmpfun_type=\"custom\" record_type=\"buff\"><cmp_fields><field cmp_size=\"-1\" cmp_datatype=\"record\" cmp_pos=\"0\" field_type=\"u64\"/></cmp_fields><aggregations><aggregation agr_pos=\"1\" agr_type=\"record\" field_type=\"agrstr\" agr_fun=\"sum\"/><aggregation agr_pos=\"2\" agr_type=\"record\" field_type=\"agrstr\" agr_fun=\"sum\"/></aggregations></CompareFun>"
+	//	<< 	"</zky_buffarray>";
 
 	AosXmlTagPtr cmp_tag = AosXmlParser::parse(str AosMemoryCheckerArgs);
 	aos_assert_r(cmp_tag, false);
 
 	mBuffArrayVar = AosBuffArrayVar::create(cmp_tag, rdata);
 
-	map<u64, vector<OmnString> >  maps;
-	map<u64, vector<OmnString> >::iterator itr;
-	vector<OmnString> v;
+	map<u64, vector<OmnString> >  keyValue1Map;
+	map<u64, vector<u64> >  keyValue2Map;
+	//map<u64, vector<OmnString> >  keyValue2Map;
+	
+	map<u64, vector<OmnString> >::iterator itr1;
+	map<u64, vector<u64> >::iterator itr2;
+	//map<u64, vector<OmnString> >::iterator itr2;
+
+	vector<OmnString> vc_value1;
+	vector<u64> vc_value2;
+	//vector<OmnString> vc_value2;
 	u64 key;
-	OmnString value;
-	int num = 5000;
+	OmnString value1;
+	u64 value2;
+	//OmnString value2;
+	int num = 500000;
 	vector<u64> keys;
 	keys.push_back(OmnRandom::nextU64());
+OmnScreen << OmnGetTime(AosLocale::eChina) << ", appendEntry started " << endl;
 	for(int i=0; i<num; i++)
 	{
 		switch (rand() %2)
@@ -477,25 +506,37 @@ AosBuffArrayVarTester::addRecordEntry2()
 			}
 			break;
 		}
-		value = OmnRandom::digitStr(0, 20);
+		value1 = OmnRandom::digitStr(0, 20);
+		//value2 = OmnRandom::digitStr(0, 20);
+		value2 = OmnRandom::nextU64();
 		/*
-		key = i%10;
-		value = "";
-		value << "aaa" << i;
+		key = i;
+		value1 = "";
+		value1 << "aaa" << i;
+
+		value2 = "";
+		value2 << i;
 		*/
 
-OmnScreen << "appendEntry: key = " << key << ", value = " << value << endl;
+//OmnScreen << "appendEntry: key = " << key << ", value1 = " << value1 << ", value2 = " << value2 << endl;
 
-		itr = maps.find(key);
-		if (itr == maps.end())
+		itr1 = keyValue1Map.find(key);
+		itr2 = keyValue2Map.find(key);
+		if (itr1 == keyValue1Map.end())
 		{
-			v.clear();
-			v.push_back(value);
-			maps[key] = v;
+			aos_assert_r(itr2 == keyValue2Map.end(), false);
+			vc_value1.clear();
+			vc_value2.clear();
+			vc_value1.push_back(value1);
+			vc_value2.push_back(value2);
+			keyValue1Map[key] = vc_value1;
+			keyValue2Map[key] = vc_value2;
 		}
 		else
 		{
-			itr->second.push_back(value);
+			aos_assert_r(itr2 != keyValue2Map.end(), false);
+			itr1->second.push_back(value1);
+			itr2->second.push_back(value2);
 		}
 
 		AosDataRecordObjPtr recordobj = AosDataRecordObj::createDataRecordStatic(rcd_xml, 0, rdata AosMemoryCheckerArgs);
@@ -508,21 +549,46 @@ OmnScreen << "appendEntry: key = " << key << ", value = " << value << endl;
 		recordobj->setData(data+4, length-4, 0, status);
 		AosValueRslt valuerslt1;
 		AosValueRslt valuerslt2;
-		if (value == "")
+		AosValueRslt valuerslt3;
+		if (value1 == "")
 			valuerslt1.setNull();
 		else
 		{
-			valuerslt1.setStr(value);
+			valuerslt1.setStr(value1);
 		}
-		valuerslt2.setU64(key);
+		valuerslt2.setU64(value2);
+		/*
+		if (value2 == "")
+			valuerslt2.setNull();
+		else
+		{
+			valuerslt2.setStr(value2);
+		}
+		*/
+
+		valuerslt3.setU64(key);
 		bool outofmem = false;
-		recordobj->setFieldValue(0,valuerslt1, outofmem, rdata);
+		//str u64 u64
+		//recordobj->setFieldValue(0,valuerslt1, outofmem, rdata);
+		//recordobj->setFieldValue(1,valuerslt2, outofmem, rdata);
+		//recordobj->setFieldValue(2,valuerslt3, outofmem, rdata);
+
+		//u64 u64 str
+		recordobj->setFieldValue(0,valuerslt3, outofmem, rdata);
 		recordobj->setFieldValue(1,valuerslt2, outofmem, rdata);
+		recordobj->setFieldValue(2,valuerslt1, outofmem, rdata);
 		mBuffArrayVar->appendEntry(recordobj.getPtr(), rdata);
 	}
+OmnScreen << OmnGetTime(AosLocale::eChina) << ", appendEntry finished" << endl;
 
 	mBuffArrayVar->sort();
+
+	int t1 = OmnGetSecond();
+OmnScreen << OmnGetTime(AosLocale::eChina) << ", mergedata started" << endl;
 	mBuffArrayVar->mergeData();
+	int t2 = OmnGetSecond();
+OmnScreen << OmnGetTime(AosLocale::eChina) << ", mergedata finished" << endl;
+OmnScreen << "mergeData:" << num << ", take time:" << t2-t1 << endl;
 
 	//check
 	AosBuffPtr buff = mBuffArrayVar->getHeadBuff();
@@ -531,58 +597,92 @@ OmnScreen << "appendEntry: key = " << key << ", value = " << value << endl;
 	i64 field_offset;
 	const char * data = NULL;
 	int len = 0;
-	//OmnString result;
 
 	i64 numRcds = mBuffArrayVar->getNumEntries();
 	i64 cmpSize = mBuffArrayVar->getCompareFunc()->size;
-OmnScreen << "check..............." << endl;
+OmnScreen << "check started" << endl;
 OmnScreen << "append entry num:" << num << ", after merge numRcds:" << numRcds << endl;
 	for (int i=0; i<numRcds; i++)
 	{
 		record = (const char *)(*(i64*)(entry+sizeof(int))) + (*(int*)entry);
 
+		//str u64 u64
+		/*
 		field_offset = sizeof(int) + sizeof(i64) + sizeof(u16) * 0;
 		data = (record + *(u16*)(entry+field_offset) + sizeof(u32));
 		len = *(int*)(record + *(u16*)(entry+field_offset) + sizeof(u32) - sizeof(int));
-		OmnString value(data, len);
+		OmnString value1(data, len);
 
 		field_offset = sizeof(int) + sizeof(i64) + sizeof(u16) * 1;
 		data = (record + *(u16*)(entry+field_offset) + sizeof(u32));
-		key = *(u64*)data;
+		u64 value2 = *(u64*)data;
+
+		field_offset = sizeof(int) + sizeof(i64) + sizeof(u16) * 2;
+		data = (record + *(u16*)(entry+field_offset) + sizeof(u32));
+		u64 key = *(u64*)data;
+		*/
+		//u64 u64 str 
+		field_offset = sizeof(int) + sizeof(i64) + sizeof(u16) * 0;
+		data = (record + *(u16*)(entry+field_offset) + sizeof(u32));
+		u64 key = *(u64*)data;
+
+		field_offset = sizeof(int) + sizeof(i64) + sizeof(u16) * 1;
+		data = (record + *(u16*)(entry+field_offset) + sizeof(u32));
+		u64 value2 = *(u64*)data;
+
+		field_offset = sizeof(int) + sizeof(i64) + sizeof(u16) * 2;
+		data = (record + *(u16*)(entry+field_offset) + sizeof(u32));
+		len = *(int*)(record + *(u16*)(entry+field_offset) + sizeof(u32) - sizeof(int));
+		OmnString value1(data, len);
+
+		//u64 str str 
+		/*
+		field_offset = sizeof(int) + sizeof(i64) + sizeof(u16) * 0;
+		data = (record + *(u16*)(entry+field_offset) + sizeof(u32));
+		u64 key = *(u64*)data;
+
+		field_offset = sizeof(int) + sizeof(i64) + sizeof(u16) * 1;
+		data = (record + *(u16*)(entry+field_offset) + sizeof(u32));
+		len = *(int*)(record + *(u16*)(entry+field_offset) + sizeof(u32) - sizeof(int));
+		OmnString value2(data, len);
+
+		field_offset = sizeof(int) + sizeof(i64) + sizeof(u16) * 2;
+		data = (record + *(u16*)(entry+field_offset) + sizeof(u32));
+		len = *(int*)(record + *(u16*)(entry+field_offset) + sizeof(u32) - sizeof(int));
+		OmnString value1(data, len);
+		*/
+
 		entry = &entry[cmpSize];
 
-OmnScreen << "key:" << key << ", value:" << value << endl;
-		itr = maps.find(key);
-		aos_assert_r(itr != maps.end(), false);
-		if (value == "")
+//OmnScreen << "key:" << key << ", value1:" << value1 << ", value2:" << value2 << endl;
+		itr1 = keyValue1Map.find(key);
+		itr2 = keyValue2Map.find(key);
+		aos_assert_r(itr1 != keyValue1Map.end() && itr2 != keyValue2Map.end(), false);
+		if (value1 == "")
 		{
-			aos_assert_r(itr->second.size() == 1, false);
-			aos_assert_r(itr->second[0] == "", false);
+			aos_assert_r(itr1->second.size() == 1 && itr2->second.size() == 1, false);
+			aos_assert_r(itr1->second[0] == value1, false);
+			aos_assert_r(itr2->second[0] == value2, false);
 		}
 		else
 		{
-
 			OmnString split;
 			split <<  '\001';
 			vector<OmnString> values;
-			AosSplitStr(value, split.data(), values, 1000);
-			aos_assert_r(values.size() == itr->second.size(), false);
-		}
+			AosSplitStr(value1, split.data(), values, 1000);
+			aos_assert_r(values.size() == itr1->second.size(), false);
 
-		/*
-		result = "";
-		for (size_t i = 0; i < itr->second.size(); i++)
-		{
-			if(i>0)
-				result << char(0x01);
-			result << itr->second[i];
+			//AosSplitStr(value2, split.data(), values, 1000);
+			//aos_assert_r(values.size() == itr2->second.size(), false);
+			u64 sum_v2 = 0;
+			for (size_t i = 0; i<itr2->second.size(); i++)
+			{
+				sum_v2 += itr2->second[i];
+			}
+			aos_assert_r(value2 == sum_v2, false);
 		}
-		*/
-//OmnScreen << "value:" << value << ", result:" << result << endl;
-		//aos_assert_r(value == result, false);
 	}
-
+OmnScreen << "check finished" << endl;
 	return true;
 }
 
-//#endif
